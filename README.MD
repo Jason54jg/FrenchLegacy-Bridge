@@ -134,8 +134,8 @@ L'option `requirements` a des sous-options, qui sont des exigences.
 |--------------| ------------------------------------------------ |-----------------------------|-------------------------------------| ---------------------------------- |
 | blacklist    | Bloque l'utilisateur spécifié contre l'utilisation du bot. | `/blacklist [arg] [joueur]` | `/blacklist ajouter DuckySoSkilled` | ![](https://imgur.com/Ybaj9wj.png) |
 | demote       | Rétrograde l'utilisateur donné d'un rang de guilde. | `/demote [joueur]`          | `/demote DuckySoSkilled`            | ![](https://imgur.com/liHDaOW.png) |
-| guildtop     | Top 10 des membres avec le plus d'xp de guilde. | `/guildtop [entier]`        | `/guildtop 5`                       | ![](https://imgur.com/7oV77ey.png) |
-| help         | Affiche le menu d'aide. | `/aide`                     | `/aide`                             | ![](https://imgur.com/CLka3pQ.png) |
+| guildtop     | Top 10 des membres avec le plus d'xp de guilde. | `/guildtop [Nombre]`        | `/guildtop 5`                       | ![](https://imgur.com/7oV77ey.png) |
+| help         | Affiche le menu d'aide. | `/help`                     | `/help`                             | ![](https://imgur.com/CLka3pQ.png) |
 | infos        | Affiche des informations sur le bot. | `/info`                     | `/info`                             | ![](https://imgur.com/pRONsiE.png) |
 | invite       | Invite l'utilisateur spécifié dans la guilde. | `/invite [joueur]`          | `/invite DuckySoSkilled`            | ![](https://imgur.com/DIfzSS7.png) |
 | kick         | Expulse l'utilisateur spécifié de la guilde. | `/kick [joueur] [raison]`   | `/kick DuckySoSkilled`              | ![](https://imgur.com/auMbSD9.png) |
