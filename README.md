@@ -187,6 +187,7 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 - [ ] Bug
     - Lors de l'envoi de message dans le salon discord par un utilisateur qu'un seul bot r'envoi le message dans le tchat
     - Commande utiliser sur discord doit fonctionner pour chaque bot (exemple pour l'invite d'un joueur) faire une sélection de quelle guilde on veut l'invité
+    - Faire en sorte que les deux tchat en jeu se renvoi le message
 - [ ] Envoi de Message entre deux guildes
     - Faire en sorte que le bot de la première guilde envoi dans la deuxième guilde ainsi que la deuxième guilde.
 - [ ] Channel avec le nombre de membres
