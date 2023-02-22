@@ -184,8 +184,9 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 
 ### To-Do List
 
-- [ ] Liste blanche des Fragbots
-    - Possibilité de faire en sorte que le bot frag ne soit utilisé que par des utilisateurs spécifiés ou par des membres de la guilde uniquement.
+- [ ] Bug
+    - Lors de l'envoi de message dans le salon discord par un utilisateur qu'un seul bot r'envoi le message dans le tchat
+    - Commande utiliser sur discord doit fonctionner pour chaque bot (exemple pour l'invite d'un joueur) faire une sélection de quelle guilde on veut l'invité
 - [ ] Envoi de Message entre deux guildes
     - Faire en sorte que le bot de la première guilde envoi dans la deuxième guilde ainsi que la deuxième guilde.
 - [ ] Channel avec le nombre de membres
