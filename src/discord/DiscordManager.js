@@ -169,7 +169,7 @@ class DiscordManager extends CommunicationBridge {
         );
         this.app.discord.webhook.send({
           content: message,
-          username: `${username} [${guildRank}] - [French Legacy 1]`,
+          username: `${username} [${guildRank}]`,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
         });
         break;
@@ -252,7 +252,7 @@ class DiscordManager extends CommunicationBridge {
           channel
         );
         this.app.discord.webhook.send({
-          username: `${username} [${guildRank}] - [French Legacy 1]`,
+          username: `${username} [${guildRank}]`,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
           embeds: [
             {
