@@ -29,7 +29,7 @@ class StateHandler extends eventHandler {
 
   async onMessage(event) {
     const message = event.toString().trim();
-    const colouredMessage = event.toMotd();
+    let colouredMessage = event.toMotd();
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -187,16 +187,16 @@ class StateHandler extends eventHandler {
         ])
         let meetRequirements = false;
 
-        const weight = (await getWeight(profile.profile, profile.uuid))?.weight?.senither?.total || 0;
+        const weight = getWeight(profile.profile, profile.uuid)?.weight?.senither?.total || 0;
         const skyblockLevel = ((profile.profile?.leveling?.experience || 0) / 100) ?? 0;
 
         if (weight > config.minecraft.guildRequirement.requirements.senitherWeight) meetRequirements = true;
 
         if (skyblockLevel > config.minecraft.guildRequirement.requirements.skyblockLevel) meetRequirements = true;
 
-        bot.chat(`/oc ${username} ${meetRequirements ? 'Does' : 'Doesn\'t'} Se conforme aux exigences. SB Weight: ${weight.toFixed(0)} | SB Level: ${skyblockLevel.toFixed(0)}}`)
+        bot.chat(`/oc ${username} ${meetRequirements ? 'meets' : 'Doesn\'t meet'} Se conforme aux exigences. SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`)
 
-        if (meetRequirements) {
+        if (meetRequirements === true) {
           if (config.minecraft.guildRequirement.autoAccept === true) {
             bot.chat(`/guild accept ${username}`)
           }
@@ -523,12 +523,13 @@ class StateHandler extends eventHandler {
       if (config.minecraft.bot.messageRepeatBypass === true) {
         const lastString = playerMessage.slice(-config.minecraft.bot.messageRepeatBypassLength)
         if (lastString.includes(" ") === false) {
-          playerMessage = playerMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
+          colouredMessage = colouredMessage.slice(0, -config.minecraft.bot.messageRepeatBypassLength - 2)
         }
       }
     }
 
-    if (this.isMessageFromBot(username) && message.split(": ")[1].split(config.minecraft.bot.messageFormat).length === 1) return
+    const betweenMessage = message.split(": ")[1].split(config.minecraft.bot.messageFormat)
+    if (this.isMessageFromBot(username) && betweenMessage.length == 2) return
 
     this.command.handle(username, playerMessage)
 
