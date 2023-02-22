@@ -1,6 +1,6 @@
 # FrenchLegacy Bridge
 
-Un BridgeChat entre le chat de guilde [Hypixel](https://hypixel.net/) et un canal [Discord](https://discord.com/). L'application utilise [discord.js v13](https://github.com/discordjs/discord.js) pour communiquer avec Discord, et [Mineflayer](https://github.com/PrismarineJS/mineflayer) pour communiquer avec Hypixel .
+Un BridgeChat entre le chat de la guilde [FrenchLegacy](https://hypixel.net/threads/french-legacy-fl-1-guilde-fran%C3%A7aise-skyblock-10-guilde-skyblock-leaderbord-200-membres-requirements-ouvert.5278673/) et un [Discord](https://discord.gg/Fpm9qvKbbV). L'application utilise [discord.js v13](https://github.com/discordjs/discord.js) pour communiquer avec Discord, et [Mineflayer](https://github.com/PrismarineJS/mineflayer) pour communiquer avec Hypixel .
 
 > ⚠️ Cette application se connectera à Hypixel en utilisant Mineflayer qui n'est pas un client Minecraft normal, cela pourrait entraîner l'interdiction de votre compte Minecraft d'Hypixel, alors utilisez cette application à vos risques et périls. Je ne suis pas responsable des interdictions qui pourraient survenir. ⚠️
 
