@@ -50,6 +50,8 @@ class MinecraftManager extends CommunicationBridge {
     bridgeChat = channel;
     if (!this.bot.player) return;
 
+    username = username.split(' | ')[1]
+
     if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
       return this.bot.chat(message);
     }
