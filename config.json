@@ -1,0 +1,58 @@
+{
+  "minecraft": {
+    "prefix": "!",
+    "guildID": "",
+    "guildExp": 0,
+    "messageRepeatBypass": true,
+    "messageRepeatBypassLength": 24,
+    "messageFormat": " »"
+  },
+  "discord": {
+    "token": "",
+    "clientID": "",
+    "serverID": "",
+    "guildChatChannel": "",
+    "officerChannel": "",
+    "loggingChannel": "",
+    "commandRole": "",
+    "fragbotWebhookId": "",
+    "fragbotWebhookToken": "",
+    "CartoucheWebhookId": "",
+    "CartoucheWebhookToken": "",
+    "Bot1WebhookId": "",
+    "Bot1WebhookToken": "",
+    "usernameBot1": "",
+    "passwordBot1": "",
+    "Bot2WebhookId": "",
+    "Bot2WebhookToken": "",
+    "usernameBot2": "",
+    "passwordBot2": "",
+    "messageMode": "webhook",
+    "filterMessages": true,
+    "joinMessage": false
+  },
+  "console": {
+    "maxEventSize": 50,
+    "debug": false,
+    "debugChannel": ""
+  },
+  "api": {
+    "hypixelAPI": "https://api.hypixel.net",
+    "hypixelAPIkey": "",
+    "antiSniperAPI": "https://api.antisniper.net",
+    "antiSniperKey": "",
+    "playerDBAPI": "https://playerdb.co/api/player/minecraft",
+    "imgurAPIkey": "",
+    "pixelicAPI": "https://api.pixelic.de",
+    "pixelicAPIkey": ""
+  },
+  "guildRequirement": {
+    "enabled": false,
+    "autoAccept": false,
+    "requirements": {
+      "hypixelNetworkLevel": 0,
+      "senitherWeight": 0,
+      "lilyWeight": 0
+    }
+  }
+}
