@@ -7,7 +7,7 @@ class FetchurCommand extends minecraftCommand {
 
     this.name = "fetchur";
     this.aliases = [];
-    this.description = "Information about an item for Fetchur.";
+    this.description = "Informations sur un article pour Fetchur.";
     this.options = [];
   }
 
@@ -15,7 +15,7 @@ class FetchurCommand extends minecraftCommand {
     try {
       const fetchur = getFetchur();
 
-      this.send(`/gc Fetchur du jour » ${fetchur.text} | Description: ${fetchur.description}`);
+      this.send(`/gc Fetchur du jour: ${fetchur.text} | Description: ${fetchur.description}`);
 
     } catch (error) {
       

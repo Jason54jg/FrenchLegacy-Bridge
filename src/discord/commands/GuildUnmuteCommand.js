@@ -1,8 +1,8 @@
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "unmute",
-  description: "Unmutes the given user.",
+  name: "gunmute",
+  description: "Rétablit le son de l'utilisateur donné.",
   options: [
     {
       name: "name",
@@ -14,7 +14,11 @@ module.exports = {
 
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
+    if (
+      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
+        config.discord.roles.commandRole
+      )
+    ) {
       bot.chat(`/g unmute ${name}`);
       await interaction.followUp({
         content: "La commande a été exécutée avec succès.",

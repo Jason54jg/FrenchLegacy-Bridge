@@ -19,8 +19,7 @@ class StateHandler {
       ],
     });
     const channel = await getChannel("Logger");
-    global.bridgeChat = config.discord.guildChatChannel;
-    global.uptime = new Date().getTime();
+    global.bridgeChat = config.discord.channels.guildChatChannel;
 
     channel.send({
       embeds: [
@@ -48,13 +47,13 @@ class StateHandler {
 
 async function getChannel(type) {
   if (type == "Officer") {
-    return client.channels.fetch(config.discord.officerChannel);
+    return client.channels.fetch(config.discord.channels.officerChannel);
   } else if (type == "Logger") {
-    return client.channels.fetch(config.discord.loggingChannel);
+    return client.channels.fetch(config.discord.channels.loggingChannel);
   } else if (type == "debugChannel") {
-    return client.channels.fetch(config.console.debugChannel);
+    return client.channels.fetch(config.console.channels.debugChannel);
   } else {
-    return client.channels.fetch(config.discord.guildChatChannel);
+    return client.channels.fetch(config.discord.channels.guildChatChannel);
   }
 }
 

@@ -1,6 +1,6 @@
 module.exports = {
   name: "guildtop",
-  description: "Top 10 members with the most guild experience.",
+  description: "Top 10 des membres avec le plus d'expérience de guilde.",
   options: [
     {
       name: "time",

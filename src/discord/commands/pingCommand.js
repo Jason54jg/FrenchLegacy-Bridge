@@ -12,7 +12,7 @@ module.exports = {
       .setDescription(`Latency: ${client.ws.ping}ms`)
       .setFooter({
         text: `/help [command] pour plus d'informations`,
-        iconURL: "https://media.discordapp.net/attachments/242779914330177536/1074676859788328992/fl_orange.png",
+        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     interaction.followUp({ embeds: [embed] });

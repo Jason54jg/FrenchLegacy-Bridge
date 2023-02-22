@@ -1,11 +1,11 @@
 {
-  "name": "hypixel-discord-chat-bridge",
+  "name": "frenchlegacy-bridge",
   "version": "3.1.12",
-  "description": "A Hypixel guild chat and Discord chat bridge",
+  "description": "Un chat de guilde Hypixel et un bridgechat Discord",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Erreur : aucun test spécifié\" && exit 1",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
     "lint:ejs": "ejslint **/*.ejs",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DuckySoLucky/hypixel-discord-chat-bridge.git"
+    "url": "git+https://github.com/Jason54jg/FrenchLegacy-Bridge.git"
   },
   "keywords": [
     "hypixel",
@@ -23,12 +23,12 @@
     "chat",
     "bridge"
   ],
-  "author": "DuckySoLucky",
+  "author": "Jason54",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/issues"
+    "url": "https://github.com/Jason54jg/FrenchLegacy-Bridge/issues"
   },
-  "homepage": "https://github.com/DuckySoLucky/hypixel-discord-chat-bridge#readme",
+  "homepage": "https://github.com/Jason54jg/FrenchLegacy-Bridge#readme",
   "dependencies": {
     "@discordjs/rest": "^1.5.0",
     "axios": "0.27.2",

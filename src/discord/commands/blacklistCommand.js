@@ -2,11 +2,11 @@ const config = require("../../../config.json");
 
 module.exports = {
   name: "blacklist",
-  description: "Demotes the given user by one guild rank.",
+  description: "Blacklist un utilisateur",
   options: [
     {
       name: "arg",
-      description: "Add or Remove",
+      description: "Ajouter ou retirer",
       type: 3,
       required: true,
     },
@@ -19,7 +19,7 @@ module.exports = {
   ],
 
   execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
+    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
       const name = interaction.options.getString("name");
       const arg = interaction.options.getString("arg");
 

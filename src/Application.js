@@ -1,6 +1,6 @@
 const DiscordManager = require("./discord/DiscordManager.js");
 const MinecraftManager = require("./minecraft/MinecraftManager.js");
-const Bot2 = require("./Bot2/Bot2.js");
+const Bot2 = require("./minecraft/Bot2.js");
 
 class Application {
   async register() {
@@ -10,7 +10,7 @@ class Application {
 
     this.discord.setBridge(this.minecraft);
     this.minecraft.setBridge(this.discord);
-    this.discord.setBridge(this.Bot2);
+    this.discord.setBridge(this.Bot2); //Problème a corrigé le Bot de discord n'envoie que dans une seule guilde et réecri c'est propre message
     this.Bot2.setBridge(this.discord);
   }
 

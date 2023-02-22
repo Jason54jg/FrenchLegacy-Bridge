@@ -1,8 +1,8 @@
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "invite",
-  description: "Invite l'utilisateur dans la guilde.",
+  name: "gpromote",
+  description: "Promeut l'utilisateur donné d'un rang de guilde.",
   options: [
     {
       name: "name",
@@ -14,8 +14,12 @@ module.exports = {
 
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
-      bot.chat(`/g invite ${name}`);
+    if (
+      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
+        config.discord.roles.commandRole
+      )
+    ) {
+      bot.chat(`/g promote ${name}`);
       await interaction.followUp({
         content: "La commande a été exécutée avec succès.",
         ephemeral: true,

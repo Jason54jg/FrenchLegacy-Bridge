@@ -4,8 +4,13 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const config = require("../../../config.json");
-const imgurClient = new ImgurClient({ clientId: config.api.imgurAPIkey });
-const { decodeData, formatUsername } = require("../../contracts/helperFunctions.js");
+const imgurClient = new ImgurClient({
+  clientId: config.minecraft.API.imgurAPIkey,
+});
+const {
+  decodeData,
+  formatUsername,
+} = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 
@@ -13,11 +18,21 @@ class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "inventory";
-    this.aliases = ["inv", "i", "render", "i"];
-    this.description = "Renders item of specified user.";
-    this.options = ["name", "slot"];
-    this.optionsDescription = ["Minecraft Username", "Number between 1 and 36"];
+    this.name = "render";
+    this.aliases = ["inv", "i", "inventory", "i"];
+    this.description = "Aperçu de l'élément de l'utilisateur spécifié.";
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+      {
+        name: "slot",
+        description: "Numéro d'emplacement de l'élément à rendre (1-36)",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -41,17 +56,23 @@ class RenderCommand extends minecraftCommand {
       }
 
       const profile = await getLatestProfile(username);
-      
-      username = formatUsername(username, profile.profileData?.game_mode)
+
+      username = formatUsername(username, profile.profileData?.game_mode);
 
       if (!profile.profile.inv_contents?.data) {
         return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
       }
 
+      const inventoryData = (
+        await decodeData(
+          Buffer.from(profile.profile.inv_contents.data, "base64")
+        )
+      ).i;
 
-      const inventoryData = (await decodeData(Buffer.from(profile.profile.inv_contents.data, "base64"))).i;
-
-      if (!inventoryData[itemNumber - 1] || !Object.keys(inventoryData[itemNumber - 1] || {}).length) {
+      if (
+        !inventoryData[itemNumber - 1] ||
+        !Object.keys(inventoryData[itemNumber - 1] || {}).length
+      ) {
         this.send(`/gc Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`);
       }
 
@@ -60,11 +81,18 @@ class RenderCommand extends minecraftCommand {
         inventoryData[itemNumber - 1]?.tag?.display?.Lore
       );
 
-      const upload = await imgurClient.upload({ image: renderedItem, type: "stream",});
+      const upload = await imgurClient.upload({
+        image: renderedItem,
+        type: "stream",
+      });
 
-      this.send(`/gc Objet de ${username} à l'emplacement ${itemNumber} » ${upload.data.link ?? "Quelque chose s'est mal passé.."}`);
+      this.send(
+        `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${
+          upload.data.link ?? "Quelque chose s'est mal passé..."
+        }`
+      );
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`)
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

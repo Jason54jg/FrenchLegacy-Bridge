@@ -12,9 +12,14 @@ class AccessoriesCommand extends minecraftCommand {
 
     this.name = "accessories";
     this.aliases = ["talismans", "talisman"];
-    this.description = "Accessories of specified user.";
-    this.options = ["name"];
-    this.optionsDescription = ["Minecraft Username"];
+    this.description = "Accessoires de l'utilisateur spécifié.";
+    this.options = [
+      {
+        name: "username",
+        description: "Minecraft username",
+        required: false,
+      },
+    ];
   }
 
   async onCommand(username, message) {
@@ -32,19 +37,32 @@ class AccessoriesCommand extends minecraftCommand {
         .reduce((a, b) => a + b, 0);
 
       const recombobulatedCount = Object.keys(talismans.talismans)
-        .map((rarity) =>talismans.talismans[rarity].filter((talisman) => talisman.recombobulated).length)
+        .map(
+          (rarity) =>
+            talismans.talismans[rarity].filter(
+              (talisman) => talisman.recombobulated
+            ).length
+        )
         .reduce((a, b) => a + b, 0);
 
       const enrichmentCount = Object.keys(talismans.talismans)
-        .map((rarity) =>talismans.talismans[rarity].filter((talisman) => talisman.enrichment !== undefined).length)
+        .map(
+          (rarity) =>
+            talismans.talismans[rarity].filter(
+              (talisman) => talisman.enrichment !== undefined
+            ).length
+        )
         .reduce((a, b) => a + b, 0);
 
-      this.send(`/gc Accessoires de ${username} » ${talismanCount} | Recombobulated » ${recombobulatedCount} | Enriched » ${enrichmentCount}`);
+      this.send(
+        `/gc Accessoires de ${username}: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
+      );
 
       await delay(690);
 
-      this.send(`/gc Accessoires de ${username} » Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`);
-
+      this.send(
+        `/gc Accessoires de ${username}: Common - ${talismans.talismans["common"].length} | Uncommon - ${talismans.talismans["uncommon"].length} | Rare - ${talismans.talismans["rare"].length} | Epic - ${talismans.talismans["epic"].length} |  Legendary - ${talismans.talismans["legendary"].length} | Special - ${talismans.talismans["special"].length} | Very Special - ${talismans.talismans["very"].length}`
+      );
     } catch (error) {
       this.send(`/gc Erreur: ${error}`);
     }

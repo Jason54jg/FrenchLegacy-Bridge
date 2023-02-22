@@ -1,19 +1,28 @@
-const { addCommas, addNotation } = require("../../contracts/helperFunctions.js");
-const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const {
+  addCommas,
+  addNotation,
+} = require("../../contracts/helperFunctions.js");const minecraftCommand = require("../../contracts/minecraftCommand.js");
 class CalculateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
 
-    this.name = "math";
-    this.aliases = ["calc", "calculate"];
+    this.name = "calculate";
+    this.aliases = ["calc", "math"];
     this.description = "Calculate.";
-    this.options = ["calculation"];
-    this.optionsDescription = ["Any kind of math equation"];
+    this.options = [
+      {
+        name: "calculation",
+        description: "Tout type d'équation mathématique",
+        required: true,
+      },
+    ];
   }
 
   onCommand(username, message) {
     try {
-      const calculation = this.getArgs(message).join(" ").replace(/[^-()\d/*+.]/g, "");
+      const calculation = this.getArgs(message)
+        .join(" ")
+        .replace(/[^-()\d/*+.]/g, "");
       const answer = eval(calculation);
 
       if (answer === Infinity) {
@@ -24,9 +33,15 @@ class CalculateCommand extends minecraftCommand {
         return this.send(`/gc ${calculation} = ${addCommas(answer)}`);
       } 
       
-      this.send(`/gc ${calculation} = ${addNotation("oneLetters", answer)} (${addCommas(answer)})`);
+      }
+
+      this.send(
+        `/gc ${calculation} = ${addNotation("oneLetters", answer)} (${addCommas(
+          answer
+        )})`
+      );
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

@@ -1,5 +1,4 @@
 const config = require("../../../config.json");
-// eslint-disable-next-line
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
   description: "Exécute les commandes en tant que bot minecraft.",
   options: [
     {
-      name: "command",
+      name: "commande",
       description: "Minecraft Command",
       type: 3,
       required: true,
@@ -15,15 +14,19 @@ module.exports = {
   ],
 
   execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
-      const command = interaction.options.getString("command");
+    if (
+      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
+        config.discord.roles.commandRole
+      )
+    ) {
+      const command = interaction.options.getString("commande");
       bot.chat(`/${command}`);
       const commandMessage = new EmbedBuilder()
         .setColor(2067276)
         .setTitle("La commande a été exécutée avec succès")
         .setDescription(`\`/${command}\`\n`)
         .setFooter({
-          iconURL: "https://media.discordapp.net/attachments/242779914330177536/1074676859788328992/fl_orange.png",
+          iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
         });
       await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
     } else {

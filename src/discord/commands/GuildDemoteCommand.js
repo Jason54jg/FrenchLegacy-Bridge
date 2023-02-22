@@ -1,8 +1,8 @@
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "mute",
-  description: "Mutes the given user for a given amount of time.",
+  name: "gdemote",
+  description: "Rétrograde l'utilisateur donné d'un rang de guilde.",
   options: [
     {
       name: "name",
@@ -10,19 +10,16 @@ module.exports = {
       type: 3,
       required: true,
     },
-    {
-      name: "time",
-      description: "Time",
-      type: 3,
-      required: true,
-    },
   ],
 
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
-    const time = interaction.options.getString("time");
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
-      bot.chat(`/g mute ${name} ${time}`);
+    if (
+      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
+        config.discord.roles.commandRole
+      )
+    ) {
+      bot.chat(`/g demote ${name}`);
       await interaction.followUp({
         content: "La commande a été exécutée avec succès.",
         ephemeral: true,

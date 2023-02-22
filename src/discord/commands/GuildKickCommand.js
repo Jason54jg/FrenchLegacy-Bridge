@@ -1,8 +1,8 @@
 const config = require("../../../config.json");
 
 module.exports = {
-  name: "demote",
-  description: "Demotes the given user by one guild rank.",
+  name: "gkick",
+  description: "Expulsez l'utilisateur donné de la guilde.",
   options: [
     {
       name: "name",
@@ -10,12 +10,23 @@ module.exports = {
       type: 3,
       required: true,
     },
+    {
+      name: "raison",
+      description: "Raison",
+      type: 3,
+      required: true,
+    },
   ],
 
   execute: async (interaction, client) => {
     const name = interaction.options.getString("name");
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commandRole)) {
-      bot.chat(`/g demote ${name}`);
+    const reason = interaction.options.getString("raison");
+    if (
+      (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(
+        config.discord.roles.commandRole
+      )
+    ) {
+      bot.chat(`/g kick ${name} ${reason}`);
       await interaction.followUp({
         content: "La commande a été exécutée avec succès.",
         ephemeral: true,
