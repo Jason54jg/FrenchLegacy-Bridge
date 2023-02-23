@@ -29,14 +29,6 @@ module.exports = {
       const messages = await promise;
       const trimmedMessages = messages.map(message => message.trim());
 
-      let offlineMembers = messages.find((message) =>
-        message.startsWith("Membres hors ligne: ")
-      );
-      offlineMembers =
-        offlineMembers.split(": ")[0] +
-        ": " +
-        `\`${offlineMembers.split(": ")[1]}\``;
-
       const onlineMembersMessage = trimmedMessages.find(message => message.startsWith("Membres en ligne: "));
       const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${onlineMembersMessage.split(": ")[1]}\``;
 

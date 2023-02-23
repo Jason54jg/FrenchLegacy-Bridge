@@ -6,7 +6,7 @@ const { getUUID } = require('../../contracts/API/PlayerDBAPI.js');
 const eventHandler = require('../../contracts/EventHandler.js');
 const getWeight = require('../../../API/stats/weight.js');
 const messages = require('../../../messages.json');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, WebhookClient } = require('discord.js');
 const config = require('../../../config.json');
 const Logger = require('../../Logger.js');
 let guildTop = [];
@@ -554,7 +554,7 @@ class StateHandler extends eventHandler {
   }
 
   isMessageFromBot(username) {
-    return bot.username === username
+    return bot.username === username || bot.username == "Kykyrito" || bot.username == "DayTheCloud"
   }
 
   isAlreadyBlacklistedMessage(message) {

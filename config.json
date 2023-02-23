@@ -1,5 +1,6 @@
 {
   "minecraft": {
+    "bot": {
       "prefix": "!",
       "messageFormat": " »",
       "messageRepeatBypass": true,
@@ -7,20 +8,16 @@
     },
     "guild": {
       "guildExp": 50000
-  },
+    },
     "API": {
       "hypixelAPI": "https://api.hypixel.net",
-      "hypixelAPIkey": "HYPIXEL_API_KEY",
-
+      "hypixelAPIkey": "",
       "antiSniperAPI": "https://api.antisniper.net",
-      "antiSniperKey": "ANTISNIPER_API_KEY",
-
+      "antiSniperKey": "",
       "playerDBAPI": "https://playerdb.co/api/player/minecraft",
-
       "pixelicAPI": "https://api.pixelic.de",
-      "pixelicAPIkey": "PIXELIC_API_KEY",
-
-      "imgurAPIkey": "IMGUR_API_KEY"
+      "pixelicAPIkey": "",
+      "imgurAPIkey": ""
     },
     "guildRequirement": {
       "enabled": false,
@@ -30,12 +27,13 @@
         "lilyWeight": 0,
         "skyblockLevel": 0
       }
-    },
+    }
+  },
     "discord": {
       "bot": {
-        "token": "DISCORD_BOT_TOKEN",
-        "clientID": "DISCORD_BOT_CLIENT_ID",
-        "serverID": "DISCORD_SERVER_ID",
+        "token": "",
+        "clientID": "",
+        "serverID": "",
         "usernameBot1": "",
         "passwordBot1": "",
         "usernameBot2": "",
@@ -44,19 +42,19 @@
         "WebhookToken": ""
       },
       "channels": {
-        "guildChatChannel": "GUILD_CHAT_CHANNEL_ID",
-        "officerChannel": "OFFICER_CHANNEL_ID",
-        "loggingChannel": "LOGGING_CHANNEL_ID",
-        "debugMode": true,
-        "debugChannel": "DEBUG_CHANNEL_ID"
+        "guildChatChannel": "",
+        "officerChannel": "",
+        "loggingChannel": "",
+        "debugMode": false,
+        "debugChannel": ""
       },
       "roles": {
-        "commandRole": "COMMAND_ROLE_ID"
+        "commandRole": ""
       },
       "other": {
         "messageMode": "webhook",
         "filterMessages": true,
         "joinMessage": false
-    }
+      }
   }
 }

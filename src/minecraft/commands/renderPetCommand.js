@@ -66,6 +66,8 @@ class RenderCommand extends minecraftCommand {
             `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${
               pet.display_name
             }`,
+            newLore
+          );
 
           const upload = await imgurClient.upload({
             image: renderedItem,

@@ -1,7 +1,7 @@
 process.on('uncaughtException', function (error) {console.log(error)})
 const app = require('./src/Application.js')
 
-("use strict");
+'use strict';
 
 app
   .register()

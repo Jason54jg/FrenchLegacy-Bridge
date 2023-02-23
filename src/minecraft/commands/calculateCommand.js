@@ -31,8 +31,6 @@ class CalculateCommand extends minecraftCommand {
 
       if (answer < 100000) {
         return this.send(`/gc ${calculation} = ${addCommas(answer)}`);
-      } 
-      
       }
 
       this.send(
