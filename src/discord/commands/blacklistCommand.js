@@ -37,7 +37,7 @@ module.exports = {
         });
       } else {
         await interaction.followUp({
-          content: "Utilisation invalide: `/ignore [add/remove] [name]`.",
+          content: "Utilisation invalide: `/blacklist [add/remove] [name]`.",
           ephemeral: true,
         });
       }
