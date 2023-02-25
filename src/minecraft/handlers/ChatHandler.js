@@ -554,7 +554,7 @@ class StateHandler extends eventHandler {
   }
 
   isMessageFromBot(username) {
-    return bot.username === username || bot.username == "Kykyrito" || bot.username == "DayTheCloud"
+    return bot.username === username
   }
 
   isAlreadyBlacklistedMessage(message) {
