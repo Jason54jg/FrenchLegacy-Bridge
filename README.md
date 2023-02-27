@@ -193,8 +193,6 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
-- [ ] Roster de la guilde
-    - Un embed qui est envoyé dans un salon et qui s'actualise avec tous les membres de la guilde
 - [ ] Système de ticket
     - Création de plusieur categorise de ticket avec plusieur bouton et quand on crée un ticket il y est affiché deux boutons sous une embed (Fermer et Claim) lors de la selection claim le bot affichera seulement le salon pour la personne qui a claim et le créateur du ticket et lors de la fermeture du ticket ça envoi des logs dans un salon
 - [ ] Système de points avec les tickets
