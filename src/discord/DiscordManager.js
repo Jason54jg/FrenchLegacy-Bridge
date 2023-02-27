@@ -52,12 +52,12 @@ class DiscordManager extends CommunicationBridge {
     });
 
     this.client = client;
-/*
-    this.client.on("ready", () => this.stateHandler.onReady());
+
+    //this.client.on("ready", () => this.stateHandler.onReady()); => commande déplacée plus bas
     this.client.on("messageCreate", (message) =>
       this.messageHandler.onMessage(message)
     );
-*/ 
+
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
@@ -89,6 +89,7 @@ class DiscordManager extends CommunicationBridge {
     
     //envoie automatiquement des messages grâce à ça (j'espère)
     this.client.on("ready",()=>{
+      () => this.stateHandler.onReady());
       const channel_envoie=this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
       console.log(channel_envoie)
       this.envoyer(channel_envoie)
