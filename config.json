@@ -46,7 +46,8 @@
         "officerChannel": "",
         "loggingChannel": "",
         "debugMode": false,
-        "debugChannel": ""
+        "debugChannel": "",
+        "guildOnlineChannel":""
       },
       "roles": {
         "commandRole": ""
