@@ -29,7 +29,6 @@ async function guild_online(guild){
     */
       embed.setColor(0x0099ff)
       embed.setTitle("Membres de la guild")
-    console.log(liste_rank_sanstag)
     for (let i=0;i<liste_rank_sanstag.length;i++){
         let rank_affich=liste_rank_sanstag[i]
         let a_afficher=""
@@ -55,9 +54,6 @@ async function guild_online(guild){
               }
          }}}
         //embed.addFields()
-        console.log(a_afficher)
-        console.log("a afficher")
-        console.log(liste_ranks_affichage[i]+" >> "+b.toString())
         //try{
         if (c==0){
         embed.addFields({
