@@ -91,7 +91,6 @@ class DiscordManager extends CommunicationBridge {
     this.client.on("ready",()=>{
       this.stateHandler.onReady());
       const channel_envoie=this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
-      console.log(channel_envoie)
       this.envoyer(channel_envoie)
     })
 
