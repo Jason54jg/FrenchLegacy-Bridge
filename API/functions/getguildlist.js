@@ -25,12 +25,10 @@ function get_pagedeux(page){
     
       // The whole response has been received. Print out the result.
       resp.on('end', () => {
-        console.log(data)
         return(data);
       });
     
     }).on("error", (err) => {
-      console.log("Error: " + err.message);
     });
 }
 
@@ -41,8 +39,6 @@ async function guild_list(guild){
     const success=rep.success;
     const guildeee=rep.guild;
     //const {success,guildeee}=rep;
-    console.log(guildeee);
-    console.log("sucess")
     if (success==false){
         return("L'interaction avec l'api à échoué");
     }
@@ -74,7 +70,6 @@ async function guild_list(guild){
       let nom_rank=nom_rank_provi+" ["+tag_rank+"]"
       let a=0
       for (let j=0;j<num.length;j++){
-        console.log(num,j,i)
         if (num[j]<numero){
           if (a==0){
           num.splice(j,0,numero)
@@ -89,15 +84,9 @@ async function guild_list(guild){
         rankssanstag.push(nom_rank_provi)
       }
     }
-    console.log(num)
-    console.log("num")
     rankss.splice(0,0,'Guild Master [GM]')
     rankssanstag.splice(0,0,"Guild Master")
-    console.log(liste_uuid);
-    console.log("c'est la liste des uuid")
     let guild_liste=await uuid_username.uuid_username(liste_uuid)
-    console.log(guild_liste);
-    console.log("C la guild liste")
     return([guild_liste,liste_member_rank,rankssanstag,rankss,onlines]);
   }
 module.exports={guild_list};
