@@ -89,7 +89,7 @@ class DiscordManager extends CommunicationBridge {
     
     //envoie automatiquement des messages grâce à ça (j'espère)
     this.client.on("ready",()=>{
-      () => this.stateHandler.onReady());
+      this.stateHandler.onReady());
       const channel_envoie=this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
       console.log(channel_envoie)
       this.envoyer(channel_envoie)
