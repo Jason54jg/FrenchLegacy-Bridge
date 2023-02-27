@@ -47,7 +47,7 @@
         "loggingChannel": "",
         "debugMode": false,
         "debugChannel": "",
-        "guildOnlineChannel":""
+        "guildOnlineChannel": ""
       },
       "roles": {
         "commandRole": ""
