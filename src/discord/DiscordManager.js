@@ -17,7 +17,7 @@ const path = require("node:path");
 const fs = require("fs");
 const { kill } = require("node:process");
 let channel;
-const guild_online=require("./fonction_pour_bot/guild_online")
+const guild_online = require("./fonction_pour_bot/guild_online")
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -30,14 +30,14 @@ class DiscordManager extends CommunicationBridge {
     this.commandHandler = new CommandHandler(this);
   }
   async delay(ms){
-    return await new Promise(resolve=>setTimeout(resolve,ms));
+    return await new Promise(resolve => setTimeout(resolve,ms));
   }
   async envoyer(channelee){
-    for (let i=0;i<1;i){
-      let embed=await guild_online.guild_online("FrenchLegacy");
+    for (let i = 0;i<1;i){
+      let embed = await guild_online.guild_online("FrenchLegacy");
       channelee.send({ embeds: [embed] });
       this.delay(60000);
-      let embed2=await guild_online.guild_online("FrenchLegacyII");
+      let embed2 = await guild_online.guild_online("FrenchLegacyII");
       channelee.send({ embeds: [embed2] });
       this.delay(900000)
   };}
@@ -88,9 +88,9 @@ class DiscordManager extends CommunicationBridge {
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
     
     //envoie automatiquement des messages grâce à ça (j'espère)
-    this.client.on("ready",()=>{
+    this.client.on("ready", () => {
       this.stateHandler.onReady());
-      const channel_envoie=this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
+      const channel_envoie = this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
       this.envoyer(channel_envoie)
     })
 
