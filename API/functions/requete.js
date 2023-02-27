@@ -4,7 +4,7 @@ const https = require('https');
 
 function get_page(page){
     return new Promise((resolve,rejects)=>{
-    setTimeout(()=>{https.get(page, (resp) => {
+    setTimeout(() => {https.get(page, (resp) => {
         let data = '';
       
         // A chunk of data has been received.
