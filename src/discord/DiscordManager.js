@@ -7,7 +7,7 @@ const {
 } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
-const MessageHandler = require("./handlers/MessageHandler.js");
+//const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
@@ -17,6 +17,7 @@ const path = require("node:path");
 const fs = require("fs");
 const { kill } = require("node:process");
 let channel;
+const guild_online=require("./fonction_pour_bot/guild_online")
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -25,9 +26,24 @@ class DiscordManager extends CommunicationBridge {
     this.app = app;
 
     this.stateHandler = new StateHandler(this);
-    this.messageHandler = new MessageHandler(this);
+    //this.messageHandler = new MessageHandler(this);
     this.commandHandler = new CommandHandler(this);
   }
+  async delay(ms){
+    return await new Promise(resolve=>setTimeout(resolve,ms));
+  }
+  async envoyer(channelee){
+    for (let i=0;i<1;i){
+      console.log("start")
+      let embed=await guild_online.guild_online("FrenchLegacy");
+      console.log(embed)
+      console.log("recu")
+      channelee.send({ embeds: [embed] });
+      this.delay(60000);
+      let embed2=await guild_online.guild_online("FrenchLegacyII");
+      channelee.send({ embeds: [embed2] });
+      this.delay(900000)
+  };}
 
   async connect() {
     global.client = new Client({
@@ -39,12 +55,12 @@ class DiscordManager extends CommunicationBridge {
     });
 
     this.client = client;
-
+/*
     this.client.on("ready", () => this.stateHandler.onReady());
     this.client.on("messageCreate", (message) =>
       this.messageHandler.onMessage(message)
     );
-
+*/ 
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
@@ -73,6 +89,13 @@ class DiscordManager extends CommunicationBridge {
     }
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    
+    //envoie automatiquement des messages grâce à ça (j'espère)
+    this.client.on("ready",()=>{
+      const channel_envoie=this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
+      console.log(channel_envoie)
+      this.envoyer(channel_envoie)
+    })
 
     process.on("SIGINT", () => {
       this.stateHandler.onClose().then(() => {
@@ -96,6 +119,10 @@ class DiscordManager extends CommunicationBridge {
         return this.app.discord.client.channels.cache.get(
           config.discord.channels.debugChannel
         );
+      case "guildonline":
+        return(this.app.discord.client.channels.cache.get(
+          config.discord.channels.guildOnlineChannel
+        ))
       default:
         return this.app.discord.client.channels.cache.get(
           config.discord.channels.guildChatChannel
