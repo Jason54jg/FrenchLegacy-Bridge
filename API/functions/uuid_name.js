@@ -6,33 +6,25 @@ let data = require("./uuid_name_stocké.json");
 const Mojang = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
 async function uuid_username(liste_uuid) {
-    return new Promise((resolve,rejects) => {
+    return new Promise((resolve, rejects) => {
         setTimeout(async () => {
             /*
-            fs.readFileSync('./uuid_name_stocké.txt',function(error,data){
-                const fichier=data;
-                console.log(data);
-                console.log("aller")
+            fs.readFileSync('./uuid_name_stocké.txt', function(error, data){
+                const fichier = data;
         })
-            console.log(fichier)
-            console.log("fichier")
             let data = JSON.parse(fichier)
-            console.log(data)
-            console.log("le fichier")
             */
             let liste_membre = [];
-            for (let i = 0;i<liste_uuid.length;i++){//5 pour test, mettre liste_uuid.length
+            for (let i = 0;i<liste_uuid.length;i++) {//5 pour test, mettre liste_uuid.length
                 let uuid = liste_uuid[i];
                 if (data[uuid] == undefined){
                     let page_web = await requete.get_page(Mojang+uuid);
-                    let {id,name,properties} = page_web;
-                    console.log(name)
-                    let a_ecrire = {uuid:name}
+                    let {id, name, properties} = page_web;
+                    let a_ecrire = {uuid: name}
                     /*
-                    fs.appendFileSync("./uuid_name_stocké.json",JSON.stringify(a_ecrire),function(erreur) {
+                    fs.appendFileSync("./uuid_name_stocké.json", JSON.stringify(a_ecrire), function(erreur) {
                         if (erreur){
-                            console.log(erreur);
-                            rejects("erreur lors de l'ouverture de la base de données"+erreur);
+                            rejects("erreur lors de l'ouverture de la base de données" + erreur);
                         }
                     });
                     */
@@ -43,27 +35,24 @@ async function uuid_username(liste_uuid) {
                     liste_membre.push(data[uuid]);
                 }
             }
-        console.log(JSON.stringify(data));
-        console.log("c'est les data")
             /*
-            fs.writeFileSync("uuid_name_stocké.json",data,function(erreur) {
+            fs.writeFileSync("uuid_name_stocké.json", data, function(erreur) {
                 if (erreur){
-                    console.log(erreur);
-                    rejects("erreur lors de l'ouverture de la base de données"+erreur);
+                    rejects("erreur lors de l'ouverture de la base de données" + erreur);
                 }
-        });
-       await fs.writeFile("./uuid_name_stocké.json",JSON.stringify(data), { flag: 'wq' },function(err) {
-        if (err) 
-            return console.error(err); 
-        const data2 = await fs.readFile('./uuid_name_stocké.json', 'utf-8', function (err, data2) {
+       });
+       await fs.writeFile("./uuid_name_stocké.json", JSON.stringify(data), { flag: 'wq' }, function(err) {
+       if (err)
+            return console.error(err);
+       const data2 = await fs.readFile('./uuid_name_stocké.json', 'utf-8', function (err, data2) {
             if (err)
                 return console.error(err);
-        })})
-        */
-       await fs.writeFile("./API/functions/uuid_name_stocké.json",JSON.stringify(data))
+       })})
+       */
+       await fs.writeFile("./API/functions/uuid_name_stocké.json", JSON.stringify(data))
        const data2 = await fs.readFile("./API/functions/uuid_name_stocké.json")
-        resolve(liste_membre);
-        },0)
+       resolve(liste_membre);
+       },0)
     })
 }
 

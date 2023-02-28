@@ -30,9 +30,11 @@ module.exports = {
           name: "**Minecraft Information**:",
           value: `Bot Username: \`${bot.username}\`\nPrefix: \`${
             config.minecraft.bot.prefix
+          }\`\nSkyBlock Events: \`${
+            config.minecraft.skyblockEventsNotifications.enabled ? "enabled" : "disabled"
           }\`\nAcceptation automatique: \`${
             config.minecraft.guildRequirement.autoAccept ? "enabled" : "disabled"
-          }\`\nExigence d'expérience de guilde: \`${config.minecraft.guildExp.toLocaleString()}\`\nDisponibilité : En ligne depuis <t:${Math.floor(
+          }\`\nExigence d'expérience de guilde: \`${config.minecraft.guild.guildExp.toLocaleString()}\`\nDisponibilité : En ligne depuis <t:${Math.floor(
             (Date.now() - client.uptime) / 1000
           )}:R>\nVersion: \`${require("../../../package.json").version}\`\n`,
           inline: true,

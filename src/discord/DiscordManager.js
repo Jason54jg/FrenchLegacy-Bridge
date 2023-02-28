@@ -1,4 +1,3 @@
-/*eslint-disable */
 const {
   Client,
   Collection,
@@ -7,12 +6,11 @@ const {
 } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
-//const MessageHandler = require("./handlers/MessageHandler.js");
+const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
-/*eslint-enable */
 const path = require("node:path");
 const fs = require("fs");
 const { kill } = require("node:process");
@@ -26,7 +24,7 @@ class DiscordManager extends CommunicationBridge {
     this.app = app;
 
     this.stateHandler = new StateHandler(this);
-    //this.messageHandler = new MessageHandler(this);
+    this.messageHandler = new MessageHandler(this);
     this.commandHandler = new CommandHandler(this);
   }
   async delay(ms){
@@ -53,7 +51,12 @@ class DiscordManager extends CommunicationBridge {
 
     this.client = client;
 
-    //this.client.on("ready", () => this.stateHandler.onReady()); => commande déplacée plus bas
+    this.client.on("ready", () => {
+      this.stateHandler.onReady();
+      const channel_envoie = this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
+      this.envoyer(channel_envoie)
+    });
+
     this.client.on("messageCreate", (message) =>
       this.messageHandler.onMessage(message)
     );
@@ -86,13 +89,6 @@ class DiscordManager extends CommunicationBridge {
     }
 
     global.guild = await client.guilds.fetch(config.discord.bot.serverID);
-    
-    //envoie automatiquement des messages grâce à ça (j'espère)
-    this.client.on("ready", () => {
-      this.stateHandler.onReady());
-      const channel_envoie = this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
-      this.envoyer(channel_envoie)
-    })
 
     process.on("SIGINT", () => {
       this.stateHandler.onClose().then(() => {
