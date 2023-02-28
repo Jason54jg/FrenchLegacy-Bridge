@@ -27,6 +27,23 @@
         "lilyWeight": 0,
         "skyblockLevel": 0
       }
+    },
+    "skyblockEventsNotifications": {
+      "enabled": true,
+      "notifiers": {
+        "BANK_INTEREST": true,
+        "DARK_AUCTION": true,
+        "ELECTION_BOOTH_OPENS": true,
+        "ELECTION_OVER": true,
+        "FALLEN_STAR_CULT": true,
+        "FEAR_MONGERER": true,
+        "JACOBS_CONTEST": true,
+        "JERRYS_WORKSHOP": true,
+        "NEW_YEAR_CELEBRATION": true,
+        "SEASON_OF_JERRY": true,
+        "SPOOKY_FESTIVAL": true,
+        "TRAVELING_ZOO": true
+      }
     }
   },
     "discord": {
@@ -47,10 +64,41 @@
         "loggingChannel": "",
         "debugMode": false,
         "debugChannel": "",
-        "guildOnlineChannel": ""
+        "guildOnlineChannel": "",
+        "fragbotChannelId": ""
       },
       "roles": {
-        "commandRole": ""
+        "commandRole": "",
+        "logChannelCarrier": "",
+        "logChannelTicket": "",
+        "logChannelService": "",
+        "catégorieslayer": "",
+        "catégoriefloor": "",
+        "catégoriemaster": "",
+        "catégoriecarry": "",
+        "catégorieticket": "",
+        "catégoriekuudra": "",
+        "rolef7Id": "",
+        "rolef6Id": "",
+        "rolef5Id": "",
+        "rolef4Id": "",
+        "rolem7Id": "",
+        "rolem6Id": "",
+        "rolem5Id": "",
+        "rolem4Id": "",
+        "rolem3Id": "",
+        "rolem2Id": "",
+        "rolem1Id": "",
+        "roleREVId": "",
+        "roleT3emanId": "",
+        "roleT4emanId": "",
+        "roleT2blazeId": "",
+        "roleT3blazeId": "",
+        "roleT4blazeId": "",
+        "roleT1kuudraId": "",
+        "roleT2kuudraId": "",
+        "roleT3kuudraId": "",
+        "roleT4kuudraId": ""
       },
       "other": {
         "messageMode": "webhook",

@@ -53,6 +53,7 @@
     "prismarine-nbt": "^2.2.1",
     "request": "^2.88.2",
     "skyhelper-networth": "1.11.5",
+    "sourcebin_js": "^0.0.3-ignore",
     "util": "^0.12.5"
   },
   "devDependencies": {

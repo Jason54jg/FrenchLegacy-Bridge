@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 const Logger = require("../.././Logger");
 
 module.exports = {
@@ -20,7 +19,7 @@ module.exports = {
         console.log(error);
         
         await interaction.reply({
-          content: "Une erreur s'est produite lors de l'exécution de cette commande!",
+          content: `\`[⌛]\` ${interaction.member}, une erreur est survenue.`,
           ephemeral: true,
         });
       }

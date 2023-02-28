@@ -9,7 +9,7 @@ async function uuid_username(liste_uuid) {
     return new Promise((resolve, rejects) => {
         setTimeout(async () => {
             /*
-            fs.readFileSync('./uuid_name_stocké.txt', function(error, data){
+            fs.readFileSync('./uuid_name_stocké.txt', function(error, data) {
                 const fichier = data;
         })
             let data = JSON.parse(fichier)
@@ -17,7 +17,7 @@ async function uuid_username(liste_uuid) {
             let liste_membre = [];
             for (let i = 0;i<liste_uuid.length;i++) {//5 pour test, mettre liste_uuid.length
                 let uuid = liste_uuid[i];
-                if (data[uuid] == undefined){
+                if (data[uuid] == undefined) {
                     let page_web = await requete.get_page(Mojang+uuid);
                     let {id, name, properties} = page_web;
                     let a_ecrire = {uuid: name}

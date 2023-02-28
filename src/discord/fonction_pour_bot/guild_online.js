@@ -4,11 +4,11 @@ const { cp } = require("fs");
 
 
 
-module.exports = {guild_online}
+module.exports = { guild_online }
 
 async function guild_online(guild) {
     let embed = new EmbedBuilder()
-    if (guild == undefined){
+    if (guild == undefined) {
         embed.setColor(0x099FF)
         embed.setTitle("Erreur")
         embed.setDescription("vous devez spécifiez une guild avec l'options guild")
@@ -22,22 +22,22 @@ async function guild_online(guild) {
     const en_ligne = transition[4];
       embed.setColor(0x0099ff)
       embed.setTitle("Membres de la guild")
-    for (let i = 0;i<liste_rank_sanstag.length;i++){
+    for (let i = 0;i<liste_rank_sanstag.length;i++) {
         let rank_affich = liste_rank_sanstag[i]
         let a_afficher = ""
         let a_afficher1 = ""
         let b = 0
         let c = 0;
-        for (let j = 0;j<liste_member_rank.length;j++){
+        for (let j = 0;j<liste_member_rank.length;j++) {
             let member_rank = liste_member_rank[j]
-            if (member_rank == rank_affich){
-                if (en_ligne[j] == false){
-                a_afficher += "``"+guild_liste[j]+"❌`` "}
-                else {
-                  if (en_ligne[j] == "?"){
-                    a_afficher += "``"+guild_liste[j]+"❓`` "}
-                  else {
-                  a_afficher += "``"+guild_liste[j]+"✔️`` "}}
+            if (member_rank == rank_affich) {
+                if (en_ligne[j] == false) {
+                a_afficher += "``" + guild_liste[j] + "❌`` "
+                } else {
+                  if (en_ligne[j] == "?") {
+                    a_afficher += "``" + guild_liste[j] + "❓`` "
+                    } else {
+                  a_afficher += "``" + guild_liste[j] + "✔️`` "}}
                 b += 1
                 if (b > 50) {
                   if (c == 0) {
@@ -45,18 +45,18 @@ async function guild_online(guild) {
                     a_afficher1 = a_afficher
                 a_afficher = ""
               }
-         }
+            }
         }
-       }
+    }
         if (c == 0){
         embed.addFields({
-            name: liste_ranks_affichage[i]+" » "+b.toString(),
+            name: liste_ranks_affichage[i] + " » " + b.toString(),
             value: a_afficher,
         })
        }
         else {
           embed.addFields({
-            name: liste_ranks_affichage[i]+" » "+b.toString(),
+            name: liste_ranks_affichage[i] + " » " + b.toString(),
             value: a_afficher1,
             inline: false
         })
@@ -67,7 +67,7 @@ async function guild_online(guild) {
           })
         }
     }
-    embed.setDescription("Nombre de membres de la guilde : **"+k.toString()+"/125**")
+    embed.setDescription("Nombre de membres de la guilde : **" + k.toString() + "/125**")
     }
 
     return(embed)

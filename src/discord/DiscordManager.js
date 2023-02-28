@@ -3,6 +3,10 @@ const {
   Collection,
   AttachmentBuilder,
   GatewayIntentBits,
+  Partials,
+  ActivityType,
+  EmbedBuilder,
+  Discord
 } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const messageToImage = require("../contracts/messageToImage.js");
@@ -27,11 +31,11 @@ class DiscordManager extends CommunicationBridge {
     this.messageHandler = new MessageHandler(this);
     this.commandHandler = new CommandHandler(this);
   }
-  async delay(ms){
+  async delay(ms) {
     return await new Promise(resolve => setTimeout(resolve,ms));
   }
-  async envoyer(channelee){
-    for (let i = 0;i<1;i){
+  async envoyer(channelee) {
+    for (let i = 0;i<1;i) {
       let embed = await guild_online.guild_online("FrenchLegacy");
       channelee.send({ embeds: [embed] });
       this.delay(60000);
@@ -42,16 +46,69 @@ class DiscordManager extends CommunicationBridge {
 
   async connect() {
     global.client = new Client({
-      intents: [
+    intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-      ],
-    });
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildIntegrations,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.DirectMessageTyping,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.GuildWebhooks
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Channel,
+        Partials.GuildMember,
+        Partials.Reaction,
+        Partials.GuildScheduledEvent,
+        Partials.User,
+        Partials.ThreadMember,
+    ]
+});
 
     this.client = client;
 
     this.client.on("ready", () => {
+        const err_fragbotChannelId = config.discord.channels.fragbotChannelId
+        const err_logchan = client.channels.cache.get(err_fragbotChannelId);
+
+        const activities = [
+            { name: `Hypixel`, type: ActivityType.Playing },
+            { name: `Les Recrutement`, type: ActivityType.Watching },
+            { name: `Vos ticket`, type: ActivityType.Watching }
+        ];
+
+        let i = 0;
+        setInterval(() => {
+            if(i >= activities.length) i = 0
+		    client.user.setActivity(activities[i]);
+		    i++;
+        }, 5000);
+
+        const information = new EmbedBuilder()
+        .addFields(
+            { name: "Comment obtenir le pseudo d'un bot ?", value: "Pour trouver le pseudo d'un bot, il suffit de regarder dans ce channel."},
+            { name: "Comment invité le fragbot ?", value: "Étape 1 : Crée une partie avec le bot, vous pouvez le faire en utilisant /p <nom du bot>.\nÉtape 2 : Entrez dans un donjon pendant que le bot est dans votre groupe.\nÉtape 3 : Profiter\nÉtape 4 : Répéter"},
+        )
+        .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
+
+        const Cartouche = new EmbedBuilder()
+        .setTitle('2Cartouche Logs')
+        .addFields({ name: 'Connecté : ✅', value: '\u200B'})
+        .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
+
+        const FrenchBot = new EmbedBuilder()
+        .setTitle('FrenchBot Logs')
+        .addFields({ name: 'Connecté : ✅', value: '\u200B'})
+        .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
+
+        err_logchan.send({embeds: [information, Cartouche, FrenchBot] });
+
       this.stateHandler.onReady();
       const channel_envoie = this.app.discord.client.channels.cache.get(config.discord.channels.guildOnlineChannel)
       this.envoyer(channel_envoie)
