@@ -178,7 +178,7 @@ L'option `requirements` a des sous-options, qui sont des exigences.
 |
 ### Chat Triggers Module
 
-Si vous pensez que ce format de message est ennuyeux, vous pouvez consulter mon référentiel pour le module ChatTriggers qui modifie l'apparence des messages de Bot. [Cliquez ici] (https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
+Si vous pensez que ce format de message est ennuyeux, vous pouvez consulter mon référentiel pour le module ChatTriggers qui modifie l'apparence des messages de Bot. [Cliquez ici](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
 
 #### Frag Bot
 
@@ -225,8 +225,6 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Création d'un fil d'actualité quand une personne envoi un message dans un salon.
 - [ ] Auto rôle
     - Ajout automatique de certain rôle.
-- [ ] Sélection rôle
-    - Embed avec une selon de rôles.
 - [ ] Notifications Twitch
     - Envoi un message dans un salon quand une personne de la liste est en live.
       
