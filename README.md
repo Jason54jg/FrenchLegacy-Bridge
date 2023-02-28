@@ -193,8 +193,8 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
-- [ ] Système de ticket
-    - Création de plusieur categorise de ticket avec plusieur bouton et quand on crée un ticket il y est affiché deux boutons sous une embed (Fermer et Claim) lors de la selection claim le bot affichera seulement le salon pour la personne qui a claim et le créateur du ticket et lors de la fermeture du ticket ça envoi des logs dans un salon
+- [ ] Problème Roles Hypixel
+    - Modification du système d'attribution des rôles hypixel il envoie toujours le même message a voir ligne 1449
 - [ ] Système de points avec les tickets
     - Lors du claim du ticket la personne reçoit un certain nombre de points tout depends de la difficulté du ticket (ne doit pas pouvoir glitch le système)
 - [ ] Système de perte de points
