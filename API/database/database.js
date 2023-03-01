@@ -24,18 +24,50 @@ class DB {
         return await this.clientDb.db("dev").collection("users").findOne({ uuid: uuid });
     }
 
+    async getUserByUsername(username) {
+        return await this.clientDb.db("dev").collection("users").findOne({ mc_username: username });
+    }
+
     // Créer un utilisateur dans la db
     createUser(uuid, name) {
         const db = this.clientDb.db("dev");
         const newUser = {
             uuid: uuid,
             mc_username: name,
-            score: 0
+            score: 0,
+            warn: 0
         }
         db.collection("users").insertOne(newUser, function (err, res) {
             if (err) throw err;
             console.log(`user ${name} (${uuid}) has been registered !`);
         })
+    }
+
+    // Avertir un utilisateur
+    async warnUser(uuid) {
+        let user = await this.getUserByUuid(uuid);
+        if (user == null) { return; }
+
+        let updatedUser = {
+            $set: {
+                warn: user.warn++,
+                score: user.score--
+            }
+        }
+        await this.clientDb.db("dev").collection("users").updateOne({ uuid: uuid }, updatedUser);
+    }
+
+    // Ajouter un nombre de point à l'utilisateur
+    async addScoreToUser(uuid, score) {
+        const user = await this.getUserByUuid(uuid);
+        if (user == null) { return; }
+
+        let updatedUser = {
+            $set: {
+                score: user.score + score
+            }
+        }
+        await this.clientDb.db("dev").collection("users").updateOne({ uuid: uuid }, updatedUser);
     }
 }
 
