@@ -105,5 +105,8 @@
         "filterMessages": true,
         "joinMessage": false
       }
+  },
+  "database": {
+	"uri": ""
   }
 }
