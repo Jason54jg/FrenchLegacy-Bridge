@@ -195,14 +195,10 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
+- [ ] Menu déroulant carry
+    - Modification des demandes de carry en menu déroulant
 - [ ] Problème Roles Hypixel
     - Modification du système d'attribution des rôles hypixel il envoie toujours le même message a voir ligne 1449 SysteamTicket.js
-- [ ] Système de points avec les tickets
-    - Lors du claim du ticket la personne reçoit un certain nombre de points tout depends de la difficulté du ticket (ne doit pas pouvoir glitch le système)
-- [ ] Système de perte de points
-    - Faire une commande pour voir l'historique des warns apres 5 warns blacklist des ticket.
-- [ ] Commandes de warns
-    - Commande qui permet de mettre un avertissement qui lui ajoute un rôle avec une perte de points.
 - [ ] Leaderboard de points
     - Permet de voir qui a le plus de points et aussi de voir qui a le moins de points.
 - [ ] Système de giveaway
