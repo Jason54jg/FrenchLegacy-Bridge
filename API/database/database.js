@@ -14,12 +14,12 @@ class DB {
         this.clientDb = clientDb;
     }
 
-    // RÈcuperer tout les utilisateurs
+    // R√©cup√©rer tout les utilisateurs
     async getUsers() {
         return await this.clientDb.db("dev").collection("users").find().toArray();
     }
 
-    // RÈcuperer un utilisateur de la db
+    // R√©cup√©rer un utilisateur de la db
     async getUserByUuid(uuid) {
         return await this.clientDb.db("dev").collection("users").findOne({ uuid: uuid });
     }
@@ -28,7 +28,7 @@ class DB {
         return await this.clientDb.db("dev").collection("users").findOne({ mc_username: username });
     }
 
-    // CrÈer un utilisateur dans la db
+    // Cr√©er un utilisateur dans la db
     createUser(uuid, name) {
         const db = this.clientDb.db("dev");
         const newUser = {
@@ -50,14 +50,14 @@ class DB {
 
         let updatedUser = {
             $set: {
-                warn: user.warn++,
-                score: user.score--
+                warn: (user.warn+10),
+                score: (user.score-10)
             }
         }
         await this.clientDb.db("dev").collection("users").updateOne({ uuid: uuid }, updatedUser);
     }
 
-    // Ajouter un nombre de point ‡ l'utilisateur
+    // Ajouter un nombre de point √† l'utilisateur
     async addScoreToUser(uuid, score) {
         const user = await this.getUserByUuid(uuid);
         if (user == null) { return; }

@@ -1,7 +1,24 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, PermissionFlagsBits, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const config = require("../../../config.json");
 const Logger = require("../.././Logger.js");
 const sourcebin = require("sourcebin_js");
+const DB = require("../../../API/database/database.js");
+
+const buttonCloseTicket = new ButtonBuilder()
+    .setCustomId('ticket-close')
+    .setLabel(' | fermer le ticket')
+    .setEmoji("🔒")
+    .setStyle(ButtonStyle.Danger);
+const buttonDeleteTicket = new ButtonBuilder()
+    .setStyle(ButtonStyle.Danger)
+    .setEmoji("🗑️")
+    .setDisabled(true)
+    .setCustomId("ticket-delete")
+const buttonClaimTicket = new ButtonBuilder()
+    .setCustomId('claim')
+    .setLabel(' | Claim')
+    .setEmoji('📩')
+    .setStyle(ButtonStyle.Secondary);
 
 module.exports = {
     name: 'interactionCreate',
@@ -47,44 +64,46 @@ module.exports = {
 
         let DejaUnChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
 
-        const buttonCloseTicket = new ButtonBuilder()
-            .setCustomId('ticket-close')
-            .setLabel(' | Fermé le ticket')
-            .setEmoji("🔒")
-            .setStyle(ButtonStyle.Danger);
-        const buttonDeleteTicket = new ButtonBuilder()
-            .setStyle(ButtonStyle.Danger)
-            .setEmoji("🗑️")
-            .setDisabled(true)
-            .setCustomId("ticket-delete")
-        const buttonClaimTicket = new ButtonBuilder()
-            .setCustomId('claim')
-            .setLabel(' | Claim')
-            .setEmoji('📩')
-            .setStyle(ButtonStyle.Secondary);
-
         if (interaction.customId === "ticket-close") {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
 
-            const rowPanel = new ActionRowBuilder().addComponents(buttonCloseTicket);
+            const rowPanel = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                  .setStyle(ButtonStyle.Danger)
+                  .setEmoji("🔒")
+                  .setDisabled(true)
+                  .setCustomId("ticket-close")
+              );
 
             await interaction.message.edit({ components: [rowPanel] });
 
-            const rowDeleteFalse = new ActionRowBuilder().addComponents(buttonDeleteTicket);
+            const rowDeleteFalse = new ActionRowBuilder().addComponents(
+              new ButtonBuilder()
+                .setStyle(ButtonStyle.Danger)
+                .setEmoji("🗑️")
+                .setDisabled(true)
+                .setCustomId("ticket-delete")
+            );
 
-            const rowDeleteTrue = new ActionRowBuilder().addComponents(buttonCloseTicket);
+            const rowDeleteTrue = new ActionRowBuilder().addComponents(
+              new ButtonBuilder()
+                .setStyle(ButtonStyle.Danger)
+                .setEmoji("🗑️")
+                .setDisabled(false)
+                .setCustomId("ticket-delete")
+            );
 
             const embed = new EmbedBuilder()
                 .setTitle("Fermer le ticket!")
                 .setDescription(
-                    `ticket fermé par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+                    `ticket fermer par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
                 )
 
             interaction.reply({ embeds: [embed], components: [rowDeleteFalse] })
                 .then(() =>
                     setTimeout(() => {
-                        interaction.channel.edit({ name: `fermé-${member.user.username}` });
+                        interaction.channel.edit({ name: `fermer-${member.user.username}` });
                         interaction.editReply({ components: [rowDeleteTrue] });
                     }, 2000)
                 );
@@ -141,14 +160,18 @@ module.exports = {
             }
         }
 
-        else if (interaction.customId === "ticket-delete" && interaction.channel.name.includes("fermé")) {
+        else if (interaction.customId === "ticket-delete" && interaction.channel.name.includes("fermer")) {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
             const transcriptsChannel = interaction.guild.channels.cache.get(logChannelService);
 
-            const rowCloseFalse = new ActionRowBuilder().addComponents();
+            const rowCloseFalse = new ButtonBuilder()
+                .setStyle(ButtonStyle.Danger)
+                .setEmoji("🗑️")
+                .setDisabled(true)
+                .setCustomId("ticket-delete")
 
-            interaction.message.edit({ components: [rowCloseFalse] });
+            interaction.message.edit({ components: [new ActionRowBuilder().addComponents(rowCloseFalse)] });
 
             interaction.deferUpdate();
 
@@ -559,19 +582,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -705,19 +717,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -986,19 +987,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1302,7 +1292,7 @@ async function manageModalInteraction(interaction, client) {
         const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
         const points = parseInt(interaction.message.content.split('|')[2].split('p')[0].trim(), 10);
         // Si la valeur renseigné n'est pas un nombre
-        if (isNan(carryAmount)) {
+        if (isNaN(carryAmount)) {
             return interaction.reply({
                 embeds: [{
                     description: `Vous devez renseigner un nombre afin de pouvoir prendre ce ticket en charge`,
@@ -1316,7 +1306,7 @@ async function manageModalInteraction(interaction, client) {
 
         // Ajout de points et feedback
         // note: la façon dont on récupère le joueur est pas hallal, mais ca marche !
-        const potentialUserName = interaction.user.username.split('|')[1].trim();
+        const potentialUserName = interaction.member.nickname.split('|')[1].trim();
         const user = await DB.getUserByUsername(potentialUserName);
         if (user == null) {
             return interaction.reply({
@@ -1331,8 +1321,12 @@ async function manageModalInteraction(interaction, client) {
         }
 
         DB.addScoreToUser(user.uuid, carryAmount * points);
-
-        interaction.update({ components: [buttonCloseTicket] });
+        await interaction.message.edit({
+                    components: [
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket)
+                    ]
+                });
         interaction.reply({
             embeds: [{
                 description: `Votre salon a été pris en charge par ${interaction.user} pour ${carryAmount} carry`,
