@@ -1,4 +1,4 @@
-const {ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const config = require("../../../config.json");
 const Logger = require("../.././Logger.js");
 const sourcebin = require("sourcebin_js");
@@ -7,6 +7,10 @@ module.exports = {
     name: 'interactionCreate',
     once: false,
     execute: async (interaction, client) => {
+        if (interaction.isModalSubmit()) {
+            manageModalInteraction(interaction, client);
+            return;
+        }
         if (!interaction.isButton()) return;
 
         let logChannelService = config.discord.roles.logChannelService;
@@ -43,166 +47,194 @@ module.exports = {
 
         let DejaUnChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
 
+        const buttonCloseTicket = new ButtonBuilder()
+            .setCustomId('ticket-close')
+            .setLabel(' | Fermé le ticket')
+            .setEmoji("🔒")
+            .setStyle(ButtonStyle.Danger);
+        const buttonDeleteTicket = new ButtonBuilder()
+            .setStyle(ButtonStyle.Danger)
+            .setEmoji("🗑️")
+            .setDisabled(true)
+            .setCustomId("ticket-delete")
+        const buttonClaimTicket = new ButtonBuilder()
+            .setCustomId('claim')
+            .setLabel(' | Claim')
+            .setEmoji('📩')
+            .setStyle(ButtonStyle.Secondary);
 
         if (interaction.customId === "ticket-close") {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
 
-            const rowPanel = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                  .setStyle(ButtonStyle.Danger)
-                  .setEmoji("🔒")
-                  .setDisabled(true)
-                  .setCustomId("ticket-close")
-              );
+            const rowPanel = new ActionRowBuilder().addComponents(buttonCloseTicket);
 
-              await interaction.message.edit({ components: [rowPanel] });
+            await interaction.message.edit({ components: [rowPanel] });
 
-            const rowDeleteFalse = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Danger)
-                .setEmoji("🗑️")
-                .setDisabled(true)
-                .setCustomId("ticket-delete")
-            );
+            const rowDeleteFalse = new ActionRowBuilder().addComponents(buttonDeleteTicket);
 
-            const rowDeleteTrue = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Danger)
-                .setEmoji("🗑️")
-                .setDisabled(false)
-                .setCustomId("ticket-delete")
-            );
+            const rowDeleteTrue = new ActionRowBuilder().addComponents(buttonCloseTicket);
 
             const embed = new EmbedBuilder()
-              .setTitle("Fermer le ticket!")
-              .setDescription(
-                `ticket fermé par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
-              )
+                .setTitle("Fermer le ticket!")
+                .setDescription(
+                    `ticket fermé par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+                )
 
             interaction.reply({ embeds: [embed], components: [rowDeleteFalse] })
-              .then(() =>
-                setTimeout(() => {
-                  interaction.channel.edit({ name: `fermé-${member.user.username}` });
-                  interaction.editReply({ components: [rowDeleteTrue] });
-                }, 2000)
-              );
+                .then(() =>
+                    setTimeout(() => {
+                        interaction.channel.edit({ name: `fermé-${member.user.username}` });
+                        interaction.editReply({ components: [rowDeleteTrue] });
+                    }, 2000)
+                );
 
             interaction.channel.permissionOverwrites.edit(member, { ViewChannel: false });
-          }
-          else if (interaction.customId === "claim") {
-            interaction.reply({
-                embeds: [{
-                    description: `Votre salon a été pris en charge par ${interaction.user}`,
-                    footer: {
-                        text: "FrenchLegacy"
-                    },
-                }]
-            })
+        }
+        else if (interaction.customId === "claim") {
+            // Verifie que ce n'est pas la personne à l'origine du ticket qui claim
+            if (interaction.message.mentions.users.keys().next().value == interaction.user.id) {
+                return interaction.reply({
+                    embeds: [{
+                        description: `Vous ne pouvez pas claim votre propre ticket !`,
+                        footer: {
+                            text: "FrenchLegacy"
+                        },
+                    }],
+                    ephemeral: true
+                })
+            }
+
+            // Vérifie que la personne qui claim possède le role
+            if (! interaction.member._roles.includes(interaction.message.content.split('&')[1].split('>')[0])) {
+                return interaction.reply({
+                    embeds: [{
+                        description: `Vous ne possedez pas le rôle pour claim ce ticket !`,
+                        footer: {
+                            text: "FrenchLegacy"
+                        },
+                    }],
+                    ephemeral: true
+                })
+            }
+
+            // S'il s'agit bien d'un ticket lié a un carry (qui rapporte des points)
+            // note: pas la meilleur facon de vérifier, mais fonctionnelle pour le moment
+            if (interaction.message.content.split('|')[2] != null) {
+                // Création d'un formulaire pour renseigner le nombre de carry a effectuer
+                const modal = new ModalBuilder()
+                    .setCustomId('carry-amount')
+                    .setTitle('Combien de carry devez-vous effectuer ?')
+
+                const nbCarryInput = new TextInputBuilder()
+                    .setCustomId('numberOfCarry')
+                    .setLabel("Entrez le nombre de carry a effectuer")
+                    .setStyle(TextInputStyle.Short)
+                    .setMaxLength(4)
+                    .setMinLength(1)
+                    .setPlaceholder('Exemple: 1, 2, 5, ...')
+                    .setValue('1');
+
+                const nbCarryRow = new ActionRowBuilder().addComponents(nbCarryInput);
+                modal.addComponents(nbCarryRow);
+                await interaction.showModal(modal);
+            }
         }
 
         else if (interaction.customId === "ticket-delete" && interaction.channel.name.includes("fermé")) {
-          const channel = interaction.channel;
-          const member = interaction.guild.members.cache.get(channel.topic);
-          const transcriptsChannel = interaction.guild.channels.cache.get(logChannelService);
+            const channel = interaction.channel;
+            const member = interaction.guild.members.cache.get(channel.topic);
+            const transcriptsChannel = interaction.guild.channels.cache.get(logChannelService);
 
-          const rowCloseFalse = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-            .setStyle(ButtonStyle.Danger)
-              .setEmoji("🗑️")
-              .setDisabled(true)
-              .setCustomId("ticket-delete")
-          );
+            const rowCloseFalse = new ActionRowBuilder().addComponents();
 
-          interaction.message.edit({ components: [rowCloseFalse] });
+            interaction.message.edit({ components: [rowCloseFalse] });
 
-          interaction.deferUpdate();
+            interaction.deferUpdate();
 
-          let msg = await channel.send({ content: "Enregistrement du transcript..." });
-          channel.messages.fetch().then(async (messages) => {
-            const content = messages
-              .reverse()
-              .map(
-                (m) =>
-                  `${new Date(m.createdAt).toLocaleString("en-US")} - ${
-                    m.author.tag
-                  }: ${
-                    m.attachments.size > 0
-                      ? m.attachments.first().proxyURL
-                      : m.content
-                  }`
-              )
-              .join("\n");
+            let msg = await channel.send({ content: "Enregistrement du transcript..." });
+            channel.messages.fetch().then(async (messages) => {
+                const content = messages
+                    .reverse()
+                    .map(
+                        (m) =>
+                            `${new Date(m.createdAt).toLocaleString("en-US")} - ${m.author.tag
+                            }: ${m.attachments.size > 0
+                                ? m.attachments.first().proxyURL
+                                : m.content
+                            }`
+                    )
+                    .join("\n");
 
-            let transcript = await sourcebin.create(
-              [{ name: `${channel.name}`, content: content, languageId: "text" }],
-              {
-                title: `Transcript: ${channel.name}`,
-                description: " ",
-              }
-            );
+                let transcript = await sourcebin.create(
+                    [{ name: `${channel.name}`, content: content, languageId: "text" }],
+                    {
+                        title: `Transcript: ${channel.name}`,
+                        description: " ",
+                    }
+                );
 
-            const row = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Link)
-                .setEmoji("📑")
-                .setURL(`${transcript.url}`)
-            );
+                const row = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Link)
+                        .setEmoji("📑")
+                        .setURL(`${transcript.url}`)
+                );
 
-            const embed = new EmbedBuilder()
-              .setTitle("Ticket Transcript")
-              .addFields(
-                { name: "Channel", value: `${interaction.channel.name}`, inline: true},
-                { name: "Propriétaire du ticket", value: `<@!${member.id}>`, inline: true},
-                { name: "Supprimé par", value: `<@!${interaction.user.id}>`, inline: true},
-                {
-                  name: "Direct Transcript",
-                  value: `[Direct Transcript](${transcript.url})`,
-                  inline: true,
-                }
-              )
+                const embed = new EmbedBuilder()
+                    .setTitle("Ticket Transcript")
+                    .addFields(
+                        { name: "Channel", value: `${interaction.channel.name}`, inline: true },
+                        { name: "Propriétaire du ticket", value: `<@!${member.id}>`, inline: true },
+                        { name: "Supprimé par", value: `<@!${interaction.user.id}>`, inline: true },
+                        {
+                            name: "Direct Transcript",
+                            value: `[Direct Transcript](${transcript.url})`,
+                            inline: true,
+                        }
+                    )
 
-            await transcriptsChannel.send({ embeds: [embed], components: [row] });
-          });
+                await transcriptsChannel.send({ embeds: [embed], components: [row] });
+            });
 
-          await msg.edit({
-            content: `Transcript enregistrée dans <#${transcriptsChannel.id}>`,
-          });
+            await msg.edit({
+                content: `Transcript enregistrée dans <#${transcriptsChannel.id}>`,
+            });
 
-          await channel.send({ content: "Le ticket sera supprimé dans 5 secondes!" });
+            await channel.send({ content: "Le ticket sera supprimé dans 5 secondes!" });
 
-          setTimeout(async function () {
-            channel.delete();
-          }, 5000);
+            setTimeout(async function () {
+                channel.delete();
+            }, 5000);
         }
         else if (interaction.customId == "f4") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `f4 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriefloor}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: f4,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f4 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f4,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${f4} | ${interaction.user}`,
+                    content: `${f4} | ${interaction.user} | 2 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 300k\n- 5 ou plus: 220k unité\n\n**S Runs**\n- 1 Run: 400k\n- 5 ou plus: 350k unité",
                         footer: {
@@ -211,19 +243,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -233,33 +254,33 @@ module.exports = {
             })
         }
         else if (interaction.customId == "f5") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `f5 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriefloor}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: f5,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f5 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f5,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${f5} | ${interaction.user}`,
+                    content: `${f5} | ${interaction.user} | 1 point`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 275k\n- 5 ou plus: 250k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S+ Runs**\n- 1 Run: 600k\n- 5 ou plus: 540k unité",
                         footer: {
@@ -268,19 +289,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -289,33 +299,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "f6") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `f6 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriefloor}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: f6,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f6 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f6,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${f6} | ${interaction.user}`,
+                    content: `${f6} | ${interaction.user} | 3 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 400k\n- 5 ou plus: 350k unité\n\n**S Runs**\n- 1 Run: +25k\n- 5 ou plus: 550k unité\n\n**S+ Runs**\n- 1 Run: 850k\n- 5 ou plus: 775k unité",
                         footer: {
@@ -324,19 +334,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -345,33 +344,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "f7") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `f7 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriefloor}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: f7,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f7 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f7,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${f7} | ${interaction.user}`,
+                    content: `${f7} | ${interaction.user} | 5 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 3m\n- 5 ou plus: 2.5m unité\n\n**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.4m unité\n\n**S+ Runs**\n- 1 Run: 8m\n- 5 ou plus: 7.2m unité",
                         footer: {
@@ -380,19 +379,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -401,33 +389,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "m1") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m1 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m1,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `m1 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriemaster}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: m1,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${m1} | ${interaction.user}`,
+                    content: `${m1} | ${interaction.user} | 4 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 700k\n- 5 ou plus: 525k unité",
                         footer: {
@@ -436,19 +424,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -457,33 +434,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "m2") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m2 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m2,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `m2 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriemaster}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: m2,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${m2} | ${interaction.user}`,
+                    content: `${m2} | ${interaction.user} | 8 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 1.5m\n- 5 ou plus: 1.2m unité",
                         footer: {
@@ -492,19 +469,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -513,33 +479,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "m3") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m3 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m3,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `m3 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriemaster}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: m3,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${m3} | ${interaction.user}`,
+                    content: `${m3} | ${interaction.user} | 7 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.8m unité",
                         footer: {
@@ -548,19 +514,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -595,7 +550,7 @@ module.exports = {
                     ]
                 }).then((c)=>{
                 c.send({
-                    content: `${m4} | ${interaction.user}`,
+                    content: `${m4} | ${interaction.user} | 15 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: ",
                         footer: {
@@ -625,33 +580,33 @@ module.exports = {
                 })
             })
         }*/else if (interaction.customId == "m5") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m5 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m5,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `m5 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriemaster}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: m5,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${m5} | ${interaction.user}`,
+                    content: `${m5} | ${interaction.user} | 10 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2.8m unité",
                         footer: {
@@ -660,19 +615,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -681,33 +625,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "m6") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m6 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m6,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `m6 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriemaster}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: m6,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${m6} | ${interaction.user}`,
+                    content: `${m6} | ${interaction.user} | 13 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 4.5m unité",
                         footer: {
@@ -716,19 +660,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -763,7 +696,7 @@ module.exports = {
                     ]
                 }).then((c)=>{
                 c.send({
-                    content: `${m7} | ${interaction.user}`,
+                    content: `${m7} | ${interaction.user} | 20 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 22m\n- 5 ou plus: 19m unité",
                         footer: {
@@ -793,33 +726,33 @@ module.exports = {
                 })
             })
         }*/else if (interaction.customId == "REV") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `Revenant ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: REV,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `Revenant ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: REV,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${REV} | ${interaction.user}`,
+                    content: `${REV} | ${interaction.user} | 1 point`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 200k/unité\nPrix pour (5 ou plus) : 150k/unité",
                         footer: {
@@ -828,19 +761,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -849,33 +771,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "T3eman") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T3Voidgloom ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T3eman,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T3Voidgloom ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T3eman,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T3eman} | ${interaction.user}`,
+                    content: `${T3eman} | ${interaction.user} | 6 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 3: 800k/unité\nPrix T3 pour (10 ou plus) : 600k/unité",
                         footer: {
@@ -884,19 +806,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -905,33 +816,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "T4eman") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T4Voidgloom ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T4eman,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T4Voidgloom ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T4eman,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T4eman} | ${interaction.user}`,
+                    content: `${T4eman} | ${interaction.user} | 10 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 4: 2m/unité\nPrix T4 pour (10 ou plus) : 1.5m/unité",
                         footer: {
@@ -940,19 +851,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -961,33 +861,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "T2blaze") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T2Inferno ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T2blaze,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T2Inferno ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T2blaze,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T2blaze} | ${interaction.user}`,
+                    content: `${T2blaze} | ${interaction.user} | 7 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 2: 800k / pour (10+) 650k/unité",
                         footer: {
@@ -996,19 +896,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1017,33 +906,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "T3blaze") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T3Inferno ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T3blaze,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T3Inferno ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T3blaze,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T3blaze} | ${interaction.user}`,
+                    content: `${T3blaze} | ${interaction.user} | 15 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 3: 2.2m / pour (10+) 2m/unité",
                         footer: {
@@ -1052,19 +941,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1099,7 +977,7 @@ module.exports = {
                     ]
                 }).then((c)=>{
                 c.send({
-                    content: `${T4blaze} | ${interaction.user}`,
+                    content: `${T4blaze} | ${interaction.user} | 18 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 4: 4m / pour (10+) 3m/unité",
                         footer: {
@@ -1129,27 +1007,27 @@ module.exports = {
                 })
             })
         }*/else if (interaction.customId == "ticket") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `ticket ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieticket}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `ticket ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieticket}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
                     content: `${roleStaff} | ${interaction.user}`,
                     embeds: [{
@@ -1160,14 +1038,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket)
                     ]
                 })
                 interaction.reply({
@@ -1176,27 +1048,27 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "carrier") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `carrier ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriecarry}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `carrier ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriecarry}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
                     content: `${roleStaff} | ${interaction.user}`,
                     embeds: [{
@@ -1207,14 +1079,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket)
                     ]
                 })
                 interaction.reply({
@@ -1223,33 +1089,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "k1") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T1Kuudra ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriekuudra}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T1kuudra,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T1Kuudra ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriekuudra}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T1kuudra,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T1kuudra} | ${interaction.user}`,
+                    content: `${T1kuudra} | ${interaction.user} | 5 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 4m\n- 5 ou plus: 3m unité",
                         footer: {
@@ -1258,19 +1124,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1279,33 +1134,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "k2") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T2Kuudra ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriekuudra}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T2kuudra,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T2Kuudra ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriekuudra}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T2kuudra,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T2kuudra} | ${interaction.user}`,
+                    content: `${T2kuudra} | ${interaction.user} | 8 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
                         footer: {
@@ -1314,19 +1169,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1335,33 +1179,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "k3") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T3Kuudra ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriekuudra}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T3kuudra,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T3Kuudra ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriekuudra}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T3kuudra,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T3kuudra} | ${interaction.user}`,
+                    content: `${T3kuudra} | ${interaction.user} | 15 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 13m\n- 5 ou plus: 12m unité",
                         footer: {
@@ -1370,19 +1214,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1391,33 +1224,33 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "k4") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T4Kuudra ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriekuudra}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T4kuudra,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `T4Kuudra ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriekuudra}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T4kuudra,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
                 c.send({
-                    content: `${T4kuudra} | ${interaction.user}`,
+                    content: `${T4kuudra} | ${interaction.user} | 20 points`,
                     embeds: [{
                         description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 18m\n- 5 ou plus: 17m unité",
                         footer: {
@@ -1426,19 +1259,8 @@ module.exports = {
                         },
                     }],
                     components: [
-            new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('ticket-close')
-                        .setLabel(' | Fermé le ticket')
-                        .setEmoji("🔒")
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId('claim')
-                        .setLabel(' | Claim')
-                        .setEmoji('📩')
-                        .setStyle(ButtonStyle.Secondary)
-                        )
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
                     ]
                 })
                 interaction.reply({
@@ -1449,28 +1271,76 @@ module.exports = {
         } else if (interaction.customId == "roles_vip") {
             if (interaction.member.roles.cache.has('999026248590315661')) interaction.member.roles.remove('999026248590315661');
             else interaction.member.roles.add('999026248590315661');
-            interaction.reply({content: `Votre rôle VIP vous a été attribué avec succès.`, ephemeral: true});
+            interaction.reply({ content: `Votre rôle VIP vous a été attribué avec succès.`, ephemeral: true });
             Logger.discordMessage(`[Grade] VIP` + ` a été donner` + ` à ${interaction.user.username}`)
         } else if (interaction.customId == "roles_vip+") {
             if (interaction.member.roles.cache.has('999026425644470293')) interaction.member.roles.remove('999026425644470293');
             else interaction.member.roles.add('999026425644470293');
-            interaction.reply({content: `Votre rôle VIP+ vous a été attribué avec succès.`, ephemeral: true});
+            interaction.reply({ content: `Votre rôle VIP+ vous a été attribué avec succès.`, ephemeral: true });
             Logger.discordMessage(`[Grade] VIP+` + ` a été donner` + ` à ${interaction.user.username}`)
         } else if (interaction.customId == "roles_mvp") {
             if (interaction.member.roles.cache.has('999026463569367142')) interaction.member.roles.remove('999026463569367142');
             else interaction.member.roles.add('999026463569367142');
-            interaction.reply({content: `Votre rôle MVP vous a été attribué avec succès.`, ephemeral: true});
+            interaction.reply({ content: `Votre rôle MVP vous a été attribué avec succès.`, ephemeral: true });
             Logger.discordMessage(`[Grade] MVP` + ` a été donner` + ` à ${interaction.user.username}`)
         } else if (interaction.customId == "roles_mvp+") {
             if (interaction.member.roles.cache.has('999026519252930660')) interaction.member.roles.remove('999026519252930660');
             else interaction.member.roles.add('999026519252930660');
-            interaction.reply({content: `Votre rôle MVP+ vous a été attribué avec succès.`, ephemeral: true});
+            interaction.reply({ content: `Votre rôle MVP+ vous a été attribué avec succès.`, ephemeral: true });
             Logger.discordMessage(`[Grade] MVP+` + ` a été donner` + ` à ${interaction.user.username}`)
         } else if (interaction.customId == "roles_mvp++") {
             if (interaction.member.roles.cache.has('999026564018753626')) interaction.member.roles.remove('999026564018753626');
             else interaction.member.roles.add('999026564018753626');
-            interaction.reply({content: `Votre rôle MVP++ vous a été attribué avec succès.`, ephemeral: true});
+            interaction.reply({ content: `Votre rôle MVP++ vous a été attribué avec succès.`, ephemeral: true });
             Logger.discordMessage(`[Grade] MVP++` + ` a été donner` + ` à ${interaction.user.username}`)
         }
     }
+}
+
+async function manageModalInteraction(interaction, client) {
+    if (interaction.customId === 'carry-amount') {
+        const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
+        const points = parseInt(interaction.message.content.split('|')[2].split('p')[0].trim(), 10);
+        // Si la valeur renseigné n'est pas un nombre
+        if (isNan(carryAmount)) {
+            return interaction.reply({
+                embeds: [{
+                    description: `Vous devez renseigner un nombre afin de pouvoir prendre ce ticket en charge`,
+                    footer: {
+                        text: "FrenchLegacy"
+                    },
+                }],
+                ephemeral: true
+            })
+        }
+
+        // Ajout de points et feedback
+        // note: la façon dont on récupère le joueur est pas hallal, mais ca marche !
+        const potentialUserName = interaction.user.username.split('|')[1].trim();
+        const user = await DB.getUserByUsername(potentialUserName);
+        if (user == null) {
+            return interaction.reply({
+                embeds: [{
+                    description: `Une erreur est survenue lors de la récupération de vos informations`,
+                    footer: {
+                        text: "FrenchLegacy"
+                    },
+                }],
+                ephemeral: true
+            })
+        }
+
+        DB.addScoreToUser(user.uuid, carryAmount * points);
+
+        interaction.update({ components: [buttonCloseTicket] });
+        interaction.reply({
+            embeds: [{
+                description: `Votre salon a été pris en charge par ${interaction.user} pour ${carryAmount} carry`,
+                footer: {
+                    text: "FrenchLegacy"
+                },
+            }]
+        })
+    }
+    
 }
