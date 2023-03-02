@@ -1259,30 +1259,59 @@ module.exports = {
                 })
             })
         } else if (interaction.customId == "roles_vip") {
-            if (interaction.member.roles.cache.has('999026248590315661')) interaction.member.roles.remove('999026248590315661');
-            else interaction.member.roles.add('999026248590315661');
-            interaction.reply({ content: `Votre rôle VIP vous a été attribué avec succès.`, ephemeral: true });
-            Logger.discordMessage(`[Grade] VIP` + ` a été donner` + ` à ${interaction.user.username}`)
+            if (interaction.member.roles.cache.has('999026248590315661')) {
+                interaction.member.roles.remove('999026248590315661');
+                interaction.reply({ content: `Votre rôle VIP vous a été retiré avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] VIP a été retiré à ${interaction.user.username}`)
+            } else {
+                interaction.member.roles.add('999026248590315661');
+                interaction.reply({ content: `Votre rôle VIP vous a été attribué avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] VIP a été donné à ${interaction.user.username}`)
+            }
+
         } else if (interaction.customId == "roles_vip+") {
-            if (interaction.member.roles.cache.has('999026425644470293')) interaction.member.roles.remove('999026425644470293');
-            else interaction.member.roles.add('999026425644470293');
-            interaction.reply({ content: `Votre rôle VIP+ vous a été attribué avec succès.`, ephemeral: true });
-            Logger.discordMessage(`[Grade] VIP+` + ` a été donner` + ` à ${interaction.user.username}`)
+            if (interaction.member.roles.cache.has('999026425644470293')) {
+                interaction.member.roles.remove('999026425644470293');
+                interaction.reply({ content: `Votre rôle VIP+ vous a été retiré avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] VIP+ a été retiré à ${interaction.user.username}`)
+            } else {
+                interaction.member.roles.add('999026425644470293');
+                interaction.reply({ content: `Votre rôle VIP+ vous a été attribué avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] VIP+ a été donné à ${interaction.user.username}`)
+            }
+            
         } else if (interaction.customId == "roles_mvp") {
-            if (interaction.member.roles.cache.has('999026463569367142')) interaction.member.roles.remove('999026463569367142');
-            else interaction.member.roles.add('999026463569367142');
-            interaction.reply({ content: `Votre rôle MVP vous a été attribué avec succès.`, ephemeral: true });
-            Logger.discordMessage(`[Grade] MVP` + ` a été donner` + ` à ${interaction.user.username}`)
+            if (interaction.member.roles.cache.has('999026463569367142')) {
+                interaction.member.roles.remove('999026463569367142');
+                interaction.reply({ content: `Votre rôle MVP vous a été retiré avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP a été retiré à ${interaction.user.username}`)
+            } else {
+                interaction.member.roles.add('999026463569367142');
+                interaction.reply({ content: `Votre rôle MVP vous a été attribué avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP a été donné à ${interaction.user.username}`)
+            }   
+
         } else if (interaction.customId == "roles_mvp+") {
-            if (interaction.member.roles.cache.has('999026519252930660')) interaction.member.roles.remove('999026519252930660');
-            else interaction.member.roles.add('999026519252930660');
-            interaction.reply({ content: `Votre rôle MVP+ vous a été attribué avec succès.`, ephemeral: true });
-            Logger.discordMessage(`[Grade] MVP+` + ` a été donner` + ` à ${interaction.user.username}`)
+            if (interaction.member.roles.cache.has('999026519252930660')) {
+                interaction.member.roles.remove('999026519252930660');
+                interaction.reply({ content: `Votre rôle MVP+ vous a été retiré avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP+ a été retiré à ${interaction.user.username}`)
+            } else {
+                interaction.member.roles.add('999026519252930660');
+                interaction.reply({ content: `Votre rôle MVP+ vous a été attribué avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP+ a été donné à ${interaction.user.username}`)
+            }
+
         } else if (interaction.customId == "roles_mvp++") {
-            if (interaction.member.roles.cache.has('999026564018753626')) interaction.member.roles.remove('999026564018753626');
-            else interaction.member.roles.add('999026564018753626');
-            interaction.reply({ content: `Votre rôle MVP++ vous a été attribué avec succès.`, ephemeral: true });
-            Logger.discordMessage(`[Grade] MVP++` + ` a été donner` + ` à ${interaction.user.username}`)
+            if (interaction.member.roles.cache.has('999026564018753626')) {
+                interaction.member.roles.remove('999026564018753626');
+                interaction.reply({ content: `Votre rôle MVP++ vous a été retiré avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP a été retiré à ${interaction.user.username}`)
+            } else {
+                interaction.member.roles.add('999026564018753626');
+                interaction.reply({ content: `Votre rôle MVP++ vous a été attribué avec succès.`, ephemeral: true });
+                Logger.discordMessage(`[Grade] MVP a été donné à ${interaction.user.username}`)
+            }
         }
     }
 }
