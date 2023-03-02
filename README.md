@@ -195,8 +195,7 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
-- [ ] Leaderboard de points
-    - Permet de voir qui a le plus de points et aussi de voir qui a le moins de points.
+- [ ] Ajout d'une commande pour supprimer des points et mettre à 0 les points
 - [ ] Système de points / Base de donnée
 	- Actuellement, seul les membres de la guilde sont enregistrés sur la base de donnée. Ca signifie que seul ces membres ont accès au système de points 
 	- L'idée est donc de lier tout les membres du serveur au bot. Pour lier un utilisateur, il faut un UUID ainsi qu'un pseudo minecraft
