@@ -14,7 +14,7 @@ module.exports = {
 
                 if (lbres == null) {
                     return await interaction.followUp({
-                        content: "Une erreur est survenue lors de l'éxecution de la requéte vers la base de donnée.",
+                        content: "Une erreur est survenue lors de l'exécution de la requête vers la base de données.",
                         ephemeral: true,
                     });
                 }

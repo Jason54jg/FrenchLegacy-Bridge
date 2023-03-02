@@ -80,6 +80,7 @@ module.exports = {
                         .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
                 ),
+                // Créer une nouvelle ligne tout les 5 boutons !
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()

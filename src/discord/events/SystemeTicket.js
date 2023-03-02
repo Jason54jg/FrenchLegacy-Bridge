@@ -576,7 +576,7 @@ module.exports = {
                 c.send({
                     content: `${m4} | ${interaction.user} | 15 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 3m",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 8m",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
