@@ -6,7 +6,14 @@ module.exports = {
     description: `Commande pour les embeds des ticket`,
 
   execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+        // Si l'utilisateur n'a pas la permission d'utiliser la commande
+        if (! (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+            return await interaction.followUp({
+                content: "Vous n'êtes pas autorisé à exécuter cette commande.",
+                ephemeral: true,
+            });
+        }
+
         interaction.channel.send({
             embeds: [{
                 title: 'Crée un ticket',
@@ -23,11 +30,5 @@ module.exports = {
                 )
             ]
         })
-    } else {
-      await interaction.followUp({
-        content: "Vous n'êtes pas autorisé à exécuter cette commande.",
-        ephemeral: true,
-      });
-    }
-  },
+    },
 };

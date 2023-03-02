@@ -8,13 +8,13 @@ module.exports = {
         if (interaction.isButton()) {
             if (interaction.customId.includes("lb-points-")) {
 
-                // Un bouton de l'interaction a été cliqué: on change de page du leaderboard
+                // Un bouton de l'interaction a Ã©tÃ© cliquÃ©: on change de page du leaderboard
                 const pageSelected = interaction.customId.split('-')[2];
-                const lbres = await pointLb.sendLeaderboardEmbed(pageSelected);
+                const lbres = await pointLb.createPointLeaderboardPage(pageSelected);
 
                 if (lbres == null) {
                     return await interaction.followUp({
-                        content: "Une erreur est survenue lors de l'éxecution de la requète vers la base de donnée.",
+                        content: "Une erreur est survenue lors de l'Ã©xecution de la requÃ©te vers la base de donnÃ©e.",
                         ephemeral: true,
                     });
                 }

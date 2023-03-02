@@ -6,7 +6,14 @@ module.exports = {
     description: `Commande pour les embeds des kuudra`,
 
   execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+        // Si l'utilisateur n'a pas la permission d'utiliser la commande
+        if (! (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+            return await interaction.followUp({
+                content: "Vous n'êtes pas autorisé à exécuter cette commande.",
+                ephemeral: true,
+            });
+        }
+
         const terms = new EmbedBuilder()
         .addFields(
             { name: 'Termes et conditions', value: "**1)** Dans les 30 minutes suivant l'ouverture d'un ticket, veuillez indiquer votre IGN et le nombre de runs que vous souhaitez.\n**2)** Ne faites pas de ticket de service si vous n'êtes pas prêt à le recevoir.\n**3)** Le paiement est effectué d'avance, sans exception.\n**4)** Une fois que vous entrez dans le kuudra, la classe que vous choisissez dépend du carrier afin qu'il puisse vous proposer un carry plus efficace.\n**5)** Votre carry est considéré comme terminé lorsque le carry se termine et que vous obtenez le score que vous avez commandé.\n**6)** Tout le butin que vous recevez est entièrement à vous."},
@@ -86,11 +93,5 @@ module.exports = {
                     )
                 ]
         })
-    } else {
-      await interaction.followUp({
-        content: "Vous n'êtes pas autorisé à exécuter cette commande.",
-        ephemeral: true,
-      });
-    }
-  },
+    },
 };

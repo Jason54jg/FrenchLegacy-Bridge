@@ -69,8 +69,6 @@ module.exports = {
                         .setLabel('T4')
                         .setEmoji('1039706047214014464')
                         .setStyle(ButtonStyle.Primary),
-                new ActionRowBuilder()
-                .addComponents(
                     new ButtonBuilder()
                         .setCustomId('T2blaze')
                         .setLabel('T2')
@@ -82,7 +80,6 @@ module.exports = {
                         .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
                 ),
-                // Créer une nouvelle ligne tout les 5 boutons !
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -90,7 +87,7 @@ module.exports = {
                         .setLabel('T4')
                         .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
-                )
+                ),
             ]
         });
     },

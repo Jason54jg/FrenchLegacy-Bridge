@@ -1,5 +1,4 @@
-﻿
-module.exports = { sendLeaderboardEmbed }
+﻿module.exports = { createPointLeaderboardPage }
 
 const userPerPage = 20;
 
@@ -52,5 +51,4 @@ async function createPointLeaderboardPage(currentPage) {
 		// Component
 		[components]
 	]
-	}
 }

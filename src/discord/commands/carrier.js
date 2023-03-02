@@ -6,7 +6,14 @@ module.exports = {
     description: `Commande pour les embeds des carrier`,
 
   execute: async (interaction, client) => {
-    if ((await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+        // Si l'utilisateur n'a pas la permission d'utiliser la commande
+        if (! (await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+            return await interaction.followUp({
+                content: "Vous n'êtes pas autorisé à exécuter cette commande.",
+                ephemeral: true,
+            });
+        }
+
         const terms = new EmbedBuilder()
         .addFields({ name: 'Demandes de service', value: "Pour postuler à un rôle de service, réagissez avec 'Créer votre ticket' Veuillez noter que vous DEVEZ être vérifié pour postuler aux rôles de service. Suivez les étapes de <#1017785843458506822> si vous ne l'avez pas déjà fait avant de postuler."})
         .setFooter({text: "BlackPast", iconURL: "https://media.discordapp.net/attachments/242779914330177536/1074676859788328992/fl_orange.png"});
@@ -34,11 +41,5 @@ module.exports = {
                 )
             ]
         });
-    } else {
-      await interaction.followUp({
-        content: "Vous n'êtes pas autorisé à exécuter cette commande.",
-        ephemeral: true,
-      });
-    }
-  },
+    },
 };
