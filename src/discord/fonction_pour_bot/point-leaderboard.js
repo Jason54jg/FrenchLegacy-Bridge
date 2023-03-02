@@ -1,21 +1,24 @@
-﻿module.exports = { createPointLeaderboardPage }
+﻿const DB = require('../../../API/database/database.js')
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+
+module.exports = { createPointLeaderboardPage }
 
 const userPerPage = 20;
 
 async function createPointLeaderboardPage(currentPage) {
 	let description = "";
 
-	const res = await DB.getUserByScoreOrder();
+	const res = await DB.getUserByScoreOrder(currentPage, userPerPage);
 	if (res == null) {
 		return;
 	}
 
 	// Affichage en pagination car les embeds ne supportent que 4080 caracteres / descriptions
-	const userPageIndex = userPerPage * page;
+	const userPageIndex = userPerPage * currentPage;
 	const components = new ActionRowBuilder();
 
 	// Ajout de la page previous si ce n'est pas la première page
-	if (userPageIndex - 20 > 0) {
+	if (currentPage != 1) {
 		components.addComponents(
 			new ButtonBuilder()
 				.setCustomId(`lb-points-${currentPage - 1}`)
@@ -25,7 +28,7 @@ async function createPointLeaderboardPage(currentPage) {
 	}
 
 	// Ajout de la page next si il reste des utilisateurs a afficher
-	if (userPageIndex < res.length) {
+	if (res.length == userPerPage) {
 		components.addComponents(
 			new ButtonBuilder()
 				.setCustomId(`lb-points-${currentPage + 1}`)
@@ -35,10 +38,10 @@ async function createPointLeaderboardPage(currentPage) {
 	}
 
 	// Mise en place de la description
-	for (let i = userPageIndex - 20; i < userPageIndex; i++) {
-		description += `${i}. ${user.mc_username}: ${user.score} points\n`;
+	for (let i = 0; i < res.length; i++) {
+		description += `${i + userPageIndex - userPerPage + 1}. \`\`${res[i].mc_username}\`\`: ${res[i].score} points\n`;
 	}
-	description = description.substring(0, description.length - 2);
+	description = description.substring(0, description.length - 1);
 
 	// Envoie du leaderboard
 	return [

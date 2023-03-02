@@ -20,8 +20,11 @@ class DB {
     }
 
     // Récupère tout les utilisateurs par ordre décroissant de points
-    async getUserByScoreOrder() {
-        return await this.clientDb.db("dev").collection("users").find({ $orderby: { score: -1 } }).toArray();
+    async getUserByScoreOrder(currentPage, userPerPage) {
+        if((currentPage-1)*userPerPage == 0){
+            return await this.clientDb.db("dev").collection("users").find().sort({ score: -1, _id: 1 }).limit(userPerPage).toArray();
+        }
+        return await this.clientDb.db("dev").collection("users").find().sort({ score: -1, _id: 1 }).skip((currentPage-1)*userPerPage).limit(userPerPage).toArray();
     }
 
     // Récupérer un utilisateur de la db

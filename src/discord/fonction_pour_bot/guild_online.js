@@ -2,8 +2,6 @@ const guild_list = require("../../../API/functions/getguildlist")
 const { EmbedBuilder } = require("discord.js");
 const { cp } = require("fs");
 
-
-
 module.exports = { guild_online }
 
 async function guild_online(guild) {

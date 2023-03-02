@@ -9,7 +9,7 @@ module.exports = {
             if (interaction.customId.includes("lb-points-")) {
 
                 // Un bouton de l'interaction a été cliqué: on change de page du leaderboard
-                const pageSelected = interaction.customId.split('-')[2];
+                const pageSelected = parseInt(interaction.customId.split('-')[2], 10);
                 const lbres = await pointLb.createPointLeaderboardPage(pageSelected);
 
                 if (lbres == null) {
@@ -19,7 +19,7 @@ module.exports = {
                     });
                 }
 
-                interaction.message.edit({ embeds: lbres[0], components: lbres[1] });
+                return interaction.update({ embeds: lbres[0], components: lbres[1] });
 
             }
         }

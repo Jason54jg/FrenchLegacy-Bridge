@@ -61,6 +61,7 @@ module.exports = {
         let T2kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT2kuudraId);
         let T3kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT3kuudraId);
         let T4kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT4kuudraId);
+        let T5kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT5kuudraId);
 
         let DejaUnChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
 
@@ -103,7 +104,7 @@ module.exports = {
             interaction.reply({ embeds: [embed], components: [rowDeleteFalse] })
                 .then(() =>
                     setTimeout(() => {
-                        interaction.channel.edit({ name: `fermer-${member.user.username}` });
+                        interaction.channel.edit({ name: `fermer-${member == undefined ? channel.topic : member.user.username}` });
                         interaction.editReply({ components: [rowDeleteTrue] });
                     }, 2000)
                 );
@@ -209,7 +210,7 @@ module.exports = {
                     .setTitle("Ticket Transcript")
                     .addFields(
                         { name: "Channel", value: `${interaction.channel.name}`, inline: true },
-                        { name: "Propriétaire du ticket", value: `<@!${member.id}>`, inline: true },
+                        { name: "Propriétaire du ticket", value: `<@!${channel.topic}>`, inline: true },
                         { name: "Supprimé par", value: `<@!${interaction.user.id}>`, inline: true },
                         {
                             name: "Direct Transcript",
@@ -1259,6 +1260,51 @@ module.exports = {
                     ephemeral: true
                 })
             })
+        } else if (interaction.customId == "k5") {
+              if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+              interaction.guild.channels.create({
+                  name: `T5Kuudra ${interaction.user.username}`,
+                  type: ChannelType.GuildText,
+                  topic: `${interaction.user.id}`,
+                  parent: `${catégoriekuudra}`,
+                  permissionOverwrites: [
+                      {
+                          id: interaction.guild.id,
+                          deny: [PermissionFlagsBits.ViewChannel]
+                      },
+                      {
+                          id: interaction.user.id,
+                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                      },
+                      {
+                          id: roleStaff,
+                          allow: [PermissionFlagsBits.ViewChannel]
+                      },
+                      {
+                          id: T5kuudra,
+                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                      }
+                  ]
+              }).then((c) => {
+                  c.send({
+                      content: `${T5kuudra} | ${interaction.user} | 40 points`,
+                      embeds: [{
+                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 60m\n- 5 ou plus: 50m unité",
+                          footer: {
+                              text: "FrenchLegacy",
+                              iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                          },
+                      }],
+                      components: [
+                          new ActionRowBuilder()
+                              .addComponents(buttonCloseTicket, buttonClaimTicket)
+                      ]
+                  })
+                  interaction.reply({
+                      content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                      ephemeral: true
+                  })
+              })
         } else if (interaction.customId == "roles_vip") {
             if (interaction.member.roles.cache.has('999026248590315661')) {
                 interaction.member.roles.remove('999026248590315661');
