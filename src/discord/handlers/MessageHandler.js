@@ -19,7 +19,7 @@ class MessageHandler {
       return;
     }
 
-    const content = this.stripDiscordContent(message.content).trim();
+    const content = this.stripDiscordContent(message).trim();
     if (content.length === 0) return;
 
   
@@ -84,7 +84,7 @@ class MessageHandler {
   }
 
   stripDiscordContent(message) {
-    message = message
+    let output = message.content
       .split("\n")
       .map((part) => {
         part = part.trim();
@@ -102,7 +102,7 @@ class MessageHandler {
 
         return `@${mentionedUser.displayName}`;
       };
-      message = message.replace(userMentionPattern, replaceUserMention);
+      output = output.replace(userMentionPattern, replaceUserMention);
 
       const channelMentionPattern = /<#(\d+)>/g;
       const replaceChannelMention = (match, mentionedChannelId) => {
@@ -111,13 +111,18 @@ class MessageHandler {
 
         return `#${mentionedChannel.name}`;
       };
-      message = message.replace(channelMentionPattern, replaceChannelMention);
+      output = output.replace(channelMentionPattern, replaceChannelMention);
 
       const emojiMentionPattern = /<a?:(\w+):\d+>/g;
-      message = message.replace(emojiMentionPattern, ":$1:");
+      output = output.replace(emojiMentionPattern, ":$1:");
     }
 
-    return demojify(message);
+    // ? La fonction demojify() a un bogue. Il génère une erreur lorsqu'il rencontre un canal avec emoji dans son nom. Exemple: #💬・chat-de-guilde
+    try {
+      return demojify(output);
+    } catch(e) {
+      return output
+    }
   }
 
   shouldBroadcastMessage(message) {

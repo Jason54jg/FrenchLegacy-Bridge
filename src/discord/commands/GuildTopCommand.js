@@ -1,10 +1,12 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
   name: "guildtop",
   description: "Top 10 des membres avec le plus d'expérience de guilde.",
   options: [
     {
       name: "time",
-      description: "Days Ago",
+      description: "Combien de jours à afficher",
       type: 3,
       required: false,
     },
@@ -12,10 +14,68 @@ module.exports = {
 
   execute: async (interaction, client) => {
     const time = interaction.options.getString("time");
-    bot.chat(`/g top ${time ? time : ""}`);
-    await interaction.followUp({
-      content: "La commande a été exécutée avec succès.",
-      ephemeral: true,
+
+    const cachedMessages = [];
+    const promise = new Promise((resolve, reject) => {
+      const listener = (message) => {
+        cachedMessages.push(message.toString());
+        console.log(message.toString());
+
+        if (
+          message.toString().startsWith("10.") &&
+          message.toString().endsWith("Guild Experience")
+        ) {
+          bot.removeListener("message", listener);
+          resolve(cachedMessages);
+        }
+      };
+
+      bot.on("message", listener);
+      bot.chat(`/g top ${time || ""}`);
+
+      setTimeout(() => {
+        bot.removeListener("message", listener);
+        reject("La commande a expiré. Veuillez réessayer.");
+      }, 5000);
     });
+
+    try {
+      const messages = await promise;
+      const trimmedMessages = messages
+        .map((message) => message.trim())
+        .filter((message) => message.includes("Guild Experience"));
+
+      const description = trimmedMessages.map(
+        (message) => {
+          if (trimmedMessages.indexOf(message) === 0) return;
+
+          const [position, , name, guildExperience] = message.split(" ");
+          return `\`${position}\` **${name}** - \`${guildExperience}\` Expérience de guilde\n`
+        }
+      ).join("");
+
+      const embed = new EmbedBuilder()
+        .setColor("#2ECC71")
+        .setTitle("Top 10 des membres de la guilde")
+        .setDescription(description)
+        .setFooter({
+          text: "/help [commande] pour plus d'informations",
+          iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        });
+
+      return await interaction.followUp({ embeds: [embed] });
+    } catch (error) {
+      console.log(error);
+      const errorEmbed = new EmbedBuilder()
+        .setColor("#E74C3C")
+        .setTitle("Erreur")
+        .setDescription(`\`\`\`${error}\`\`\``)
+        .setFooter({
+          text: "/help [commande] pour plus d'informations",
+          iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        });
+
+      return await interaction.followUp({ embeds: [errorEmbed] });
+    }
   },
 };
