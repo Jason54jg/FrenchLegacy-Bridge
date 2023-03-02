@@ -67,7 +67,7 @@ module.exports = {
         if (interaction.customId === "ticket-close") {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
-
+          
             const rowPanel = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
                   .setStyle(ButtonStyle.Danger)
@@ -108,6 +108,7 @@ module.exports = {
                     }, 2000)
                 );
 
+            if (member == undefined) { return };
             interaction.channel.permissionOverwrites.edit(member, { ViewChannel: false });
         }
         else if (interaction.customId === "claim") {
@@ -546,7 +547,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }/*else if (interaction.customId == "m4") {
+        } else if (interaction.customId == "m4") {
             if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
                 interaction.guild.channels.create({
                     name: `m4 ${interaction.user.username}`,
@@ -591,7 +592,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }*/else if (interaction.customId == "m5") {
+        } else if (interaction.customId == "m5") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
                 name: `m5 ${interaction.user.username}`,
@@ -681,7 +682,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }/*else if (interaction.customId == "m7") {
+        } else if (interaction.customId == "m7") {
             if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
                 interaction.guild.channels.create({
                     name: `m7 ${interaction.user.username}`,
@@ -726,7 +727,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }*/else if (interaction.customId == "REV") {
+        } else if (interaction.customId == "REV") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
                 name: `Revenant ${interaction.user.username}`,
@@ -951,7 +952,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }/*else if (interaction.customId == "T4blaze") {
+        } else if (interaction.customId == "T4blaze") {
             if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
                 interaction.guild.channels.create({
                     name: `T4Inferno ${interaction.user.username}`,
@@ -996,7 +997,7 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        }*/else if (interaction.customId == "ticket") {
+        } else if (interaction.customId == "ticket") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
                 name: `ticket ${interaction.user.username}`,

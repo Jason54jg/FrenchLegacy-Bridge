@@ -19,6 +19,11 @@ class DB {
         return await this.clientDb.db("dev").collection("users").find().toArray();
     }
 
+    // Récupère tout les utilisateurs par ordre décroissant de points
+    async getUserByScoreOrder() {
+        return await this.clientDb.db("dev").collection("users").find({ $orderby: { score: -1 } }).toArray();
+    }
+
     // Récupérer un utilisateur de la db
     async getUserByUuid(uuid) {
         return await this.clientDb.db("dev").collection("users").findOne({ uuid: uuid });

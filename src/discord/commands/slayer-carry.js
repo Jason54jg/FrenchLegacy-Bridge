@@ -58,12 +58,7 @@ module.exports = {
                         .setCustomId('REV')
                         .setLabel('T5')
                         .setEmoji('1039706422465794158')
-                        .setStyle(ButtonStyle.Primary)
-                ),
-
-                // Ligne 2: Eman
-                new ActionRowBuilder()
-                .addComponents(
+                        .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('T3eman')
                         .setLabel('T3')
@@ -73,10 +68,7 @@ module.exports = {
                         .setCustomId('T4eman')
                         .setLabel('T4')
                         .setEmoji('1039706047214014464')
-                        .setStyle(ButtonStyle.Primary)
-                ),
-
-                // Ligne 3: Blaze
+                        .setStyle(ButtonStyle.Primary),
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -87,6 +79,15 @@ module.exports = {
                     new ButtonBuilder()
                         .setCustomId('T3blaze')
                         .setLabel('T3')
+                        .setEmoji('1039705790501617745')
+                        .setStyle(ButtonStyle.Primary)
+                ),
+                // Créer une nouvelle ligne tout les 5 boutons !
+                new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('T4blaze')
+                        .setLabel('T4')
                         .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
                 )

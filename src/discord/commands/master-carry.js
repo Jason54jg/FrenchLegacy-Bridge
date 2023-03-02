@@ -68,7 +68,7 @@ module.exports = {
 
 		interaction.channel.send({embeds: [terms, master1, master2, master3, master5, master6, conditions, service],
             components: [
-            new ActionRowBuilder()
+                new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('m1')
@@ -85,28 +85,31 @@ module.exports = {
                         .setLabel('M3')
                         .setEmoji('1039705994768425050')
                         .setStyle(ButtonStyle.Primary),
-                    /*new ButtonBuilder()
+                    new ButtonBuilder()
                         .setCustomId('m4')
                         .setLabel('M4')
                         .setEmoji('1039692699625865276')
-                        .setStyle(ButtonStyle.Primary),*/
+                        .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('m5')
                         .setLabel('M5')
                         .setEmoji('1039692626665934900')
-                        .setStyle(ButtonStyle.Primary),
+                        .setStyle(ButtonStyle.Primary)
+                ),
+                new ActionRowBuilder()
+                .addComponents(
                     new ButtonBuilder()
                         .setCustomId('m6')
                         .setLabel('M6')
                         .setEmoji('1039692739488534580')
                         .setStyle(ButtonStyle.Primary),
-                    /*new ButtonBuilder()
+                    new ButtonBuilder()
                         .setCustomId('m7')
                         .setLabel('M7')
                         .setEmoji('1040832502417338458')
-                        .setStyle(ButtonStyle.Primary),*/
-                    )
-                ]
+                        .setStyle(ButtonStyle.Primary)
+                )
+            ]
         })
     } else {
       await interaction.followUp({
