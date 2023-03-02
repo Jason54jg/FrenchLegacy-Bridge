@@ -195,12 +195,16 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
-- [ ] Menu déroulant carry
+- [x] Menu déroulant carry (A confirmer)
     - Modification des demandes de carry en menu déroulant
-- [ ] Problème Roles Hypixel
+- [x] Problème Roles Hypixel (A confirmer)
     - Modification du système d'attribution des rôles hypixel il envoie toujours le même message a voir ligne 1449 SysteamTicket.js
 - [ ] Leaderboard de points
     - Permet de voir qui a le plus de points et aussi de voir qui a le moins de points.
+- [ ] Système de points / Base de donnée
+	- Actuellement, seul les membres de la guilde sont enregistrés sur la base de donnée. Ca signifie que seul ces membres ont accès au système de points 
+	- L'idée est donc de lier tout les membres du serveur au bot. Pour lier un utilisateur, il faut un UUID ainsi qu'un pseudo minecraft
+	- Il faut donc trouver un moyen de forcer les utilisateur a lier leur compte minecraft au bot, sans pour autant que l'utilisateur ai a devoir se link manuellement sur tout les bots avec des commandes
 - [ ] Système de giveaway
     - Permet de créer, annuler, reroll ou de stop des giveaway avec une commande.
 - [ ] Auto channel vocal
