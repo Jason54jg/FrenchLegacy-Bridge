@@ -65,6 +65,7 @@ module.exports = {
 
 		interaction.channel.send({embeds: [terms, floor1, floor2, floor3, floor4, floor5, service],
             components: [
+                // 1ere ligne de buttons (5 max)
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -87,7 +88,18 @@ module.exports = {
                         .setLabel('F7')
                         .setEmoji('1040832502417338458')
                         .setStyle(ButtonStyle.Primary),
+                )
+                // 2eme ligne de buttons (5 max)
+                /*new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('f8')
+                        .setLabel('F8')
+                        .setEmoji('1040832502417338458')
+                        .setStyle(ButtonStyle.Primary),
                     )
+                // etc
+                */
                 ]
         })
     } else {
