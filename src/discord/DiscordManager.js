@@ -122,6 +122,12 @@ class DiscordManager extends CommunicationBridge {
       Logger.errorMessage(error);
     });
 
+    // Lorsque la session du bot devient invalide, tente de se reconnecter toutes les 30 secondes
+    this.client.on("invalidated", () => {
+      const retrier = setInterval(function() {retryConnect(retrier, this)}, 30*1000)
+      this.client.destroy();
+    })
+
     client.commands = new Collection();
     const commandFiles = fs
       .readdirSync("src/discord/commands")
@@ -153,6 +159,7 @@ class DiscordManager extends CommunicationBridge {
         kill(process.pid);
       });
     });
+    return true;
   }
 
   async getChannel(type) {
@@ -358,6 +365,13 @@ class DiscordManager extends CommunicationBridge {
 
   hexToDec(hex) {
     return parseInt(hex.replace("#", ""), 16);
+  }
+}
+
+
+async function retryConnect(origin, manager) {
+  if(await manager.connect() == true) {
+    clearInterval(origin);
   }
 }
 
