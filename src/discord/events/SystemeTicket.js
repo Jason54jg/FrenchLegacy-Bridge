@@ -734,7 +734,7 @@ module.exports = {
         } else if (interaction.customId == "T3Spider") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
-                name: `Spider T3 ${interaction.user.username}`,
+                name: `T3Spider ${interaction.user.username}`,
                 type: ChannelType.GuildText,
                 topic: `${interaction.user.id}`,
                 parent: `${catégorieslayer}`,
@@ -779,7 +779,7 @@ module.exports = {
         } else if (interaction.customId == "T4Spider") {
               if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
               interaction.guild.channels.create({
-                  name: `Spider T4 ${interaction.user.username}`,
+                  name: `T4Spider ${interaction.user.username}`,
                   type: ChannelType.GuildText,
                   topic: `${interaction.user.id}`,
                   parent: `${catégorieslayer}`,
@@ -824,7 +824,7 @@ module.exports = {
           } else if (interaction.customId == "T4REV") {
           if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
           interaction.guild.channels.create({
-              name: `Revenant T4 ${interaction.user.username}`,
+              name: `T4Revenant ${interaction.user.username}`,
               type: ChannelType.GuildText,
               topic: `${interaction.user.id}`,
               parent: `${catégorieslayer}`,
@@ -869,7 +869,7 @@ module.exports = {
       } else if (interaction.customId == "T5REV") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
-                name: `Revenant T5 ${interaction.user.username}`,
+                name: `T5Revenant ${interaction.user.username}`,
                 type: ChannelType.GuildText,
                 topic: `${interaction.user.id}`,
                 parent: `${catégorieslayer}`,

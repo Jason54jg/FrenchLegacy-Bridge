@@ -49,7 +49,7 @@ async function guild_list(guild) {
     let num = []
     let liste_member_rank = [];
     let onlines = []
-    for (let i=0;i<membre.length;i++) {
+    for (let i = 0; i < membre.length; i++) {
       liste_uuid.push(membre[i].uuid);
       let p = await requete.get_page(hypixel_api + "/status" + "?key=" + api_key + "&uuid=" + membre[i].uuid)
       try {
@@ -63,14 +63,14 @@ async function guild_list(guild) {
       }
     }
     let_ranks_non_tries = guildeee["ranks"];
-    for (let i = 0;i<let_ranks_non_tries.length;i++) {
+    for (let i = 0; i < let_ranks_non_tries.length; i++) {
       let numero = let_ranks_non_tries[i].priority
       let nom_rank_provi = let_ranks_non_tries[i].name
       let tag_rank = let_ranks_non_tries[i].tag
       let nom_rank = nom_rank_provi + " [" + tag_rank + "]"
       let a = 0
-      for (let j = 0;j<num.length;j++) {
-        if (num[j]<numero) {
+      for (let j = 0; j < num.length; j++) {
+        if (num[j] < numero) {
           if (a == 0) {
           num.splice(j, 0, numero)
           rankss.splice(j, 0, nom_rank)

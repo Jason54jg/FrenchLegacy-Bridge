@@ -20,13 +20,13 @@ async function guild_online(guild) {
     const en_ligne = transition[4];
       embed.setColor(0x0099ff)
       embed.setTitle("Membres de la guild")
-    for (let i = 0;i<liste_rank_sanstag.length;i++) {
+    for (let i = 0; i < liste_rank_sanstag.length; i++) {
         let rank_affich = liste_rank_sanstag[i]
         let a_afficher = ""
         let a_afficher1 = ""
         let b = 0
         let c = 0;
-        for (let j = 0;j<liste_member_rank.length;j++) {
+        for (let j = 0; j < liste_member_rank.length; j++) {
             let member_rank = liste_member_rank[j]
             if (member_rank == rank_affich) {
                 if (en_ligne[j] == false) {

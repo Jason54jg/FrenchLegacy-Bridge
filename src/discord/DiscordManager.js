@@ -35,7 +35,7 @@ class DiscordManager extends CommunicationBridge {
     return await new Promise(resolve => setTimeout(resolve,ms));
   }
   async envoyer(channelee) {
-    for (let i = 0;i<1;i) {
+    for (let i = 0; i < 1; i) {
       let embed = await guild_online.guild_online("FrenchLegacy");
       channelee.send({ embeds: [embed] });
       this.delay(60000);
