@@ -28,7 +28,7 @@ class StateHandler extends eventHandler {
 
   onEnd() {
     const loginDelay =
-      this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 500000;
+      this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 5000;
 
     Logger.warnMessage(
       `Le bot Minecraft s'est déconnecté! Tentative de reconnexion dans ${

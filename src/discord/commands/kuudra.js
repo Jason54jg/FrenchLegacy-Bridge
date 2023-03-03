@@ -61,7 +61,7 @@ module.exports = {
         .addFields({ name: 'Services de carry kuudra', value: "<:Kuudra:1049723395740274709>: Kuudra Basic Tier\n<:Kuudra:1049723395740274709>: Kuudra Hot Tier\n<:Kuudra:1049723395740274709>: Kuudra Burning Tier\n<:Kuudra:1049723395740274709>: Kuudra Fiery Tier\n<:Kuudra:1049723395740274709>: Kuudra Infernal Tier\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        interaction.channel.send({embeds: [terms, kuudra1, kuudra2, kuudra3, kuudra4, kuudra5, conditions, service],
+        interaction.channel.send({embeds: [conditions, terms, kuudra1, kuudra2, kuudra3, kuudra4, kuudra5, service],
             components: [
                 new ActionRowBuilder()
                 .addComponents(

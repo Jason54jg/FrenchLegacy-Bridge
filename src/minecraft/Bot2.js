@@ -1,5 +1,5 @@
 /*eslint-disable */
-const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const CommunicationBridge2 = require("../contracts/CommunicationBridge2.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
@@ -11,7 +11,7 @@ const Logger = require("../Logger");
 /*eslint-enable */
 const filter = new Filter();
 
-class Bot2 extends CommunicationBridge {
+class Bot2 extends CommunicationBridge2 {
   constructor(app) {
     super();
 

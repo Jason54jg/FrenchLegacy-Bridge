@@ -28,7 +28,7 @@ class minecraftCommand {
   }
 
   onCommand(player, message) {
-    throw new Error("La méthode Command onCommand n'est pas encore implémentée !");
+    throw new Error("La méthode de commande n'est pas encore implémentée!");
   }
 }
 

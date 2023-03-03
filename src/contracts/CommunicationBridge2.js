@@ -1,4 +1,4 @@
-class CommunicationBridge {
+class CommunicationBridge2 {
   constructor() {
     this.bridge = null;
   }
@@ -38,4 +38,4 @@ class CommunicationBridge {
   }
 }
 
-module.exports = CommunicationBridge;
+module.exports = CommunicationBridge2;

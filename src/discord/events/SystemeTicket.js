@@ -51,7 +51,10 @@ module.exports = {
         let m3 = interaction.guild.roles.cache.get(config.discord.roles.rolem3Id);
         let m2 = interaction.guild.roles.cache.get(config.discord.roles.rolem2Id);
         let m1 = interaction.guild.roles.cache.get(config.discord.roles.rolem1Id);
-        let REV = interaction.guild.roles.cache.get(config.discord.roles.roleREVId);
+        let T3Spider = interaction.guild.roles.cache.get(config.discord.roles.roleT3SpiderId);
+        let T4Spider = interaction.guild.roles.cache.get(config.discord.roles.roleT4SpiderId);
+        let T4REV = interaction.guild.roles.cache.get(config.discord.roles.roleT4REVId);
+        let T5REV = interaction.guild.roles.cache.get(config.discord.roles.roleT5REVId);
         let T3eman = interaction.guild.roles.cache.get(config.discord.roles.roleT3emanId);
         let T4eman = interaction.guild.roles.cache.get(config.discord.roles.roleT4emanId);
         let T2blaze = interaction.guild.roles.cache.get(config.discord.roles.roleT2blazeId);
@@ -728,10 +731,10 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        } else if (interaction.customId == "REV") {
+        } else if (interaction.customId == "T3Spider") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
-                name: `Revenant ${interaction.user.username}`,
+                name: `Spider T3 ${interaction.user.username}`,
                 type: ChannelType.GuildText,
                 topic: `${interaction.user.id}`,
                 parent: `${catégorieslayer}`,
@@ -749,15 +752,150 @@ module.exports = {
                         allow: [PermissionFlagsBits.ViewChannel]
                     },
                     {
-                        id: REV,
+                        id: T3Spider,
                         allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
                     }
                 ]
             }).then((c) => {
                 c.send({
-                    content: `${REV} | ${interaction.user} | 1 point`,
+                    content: `${T3Spider} | ${interaction.user} | 1 point`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 200k/unité\nPrix pour (5 ou plus) : 150k/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider: 150k/unité\nPrix pour (10 ou plus) : 100k/unité",
+                        footer: {
+                            text: "FrenchLegacy",
+                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                        },
+                    }],
+                    components: [
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
+                    ]
+                })
+                interaction.reply({
+                    content: `<:Spider:1081243964755157012> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                    ephemeral: true
+                })
+            })
+        } else if (interaction.customId == "T4Spider") {
+              if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+              interaction.guild.channels.create({
+                  name: `Spider T4 ${interaction.user.username}`,
+                  type: ChannelType.GuildText,
+                  topic: `${interaction.user.id}`,
+                  parent: `${catégorieslayer}`,
+                  permissionOverwrites: [
+                      {
+                          id: interaction.guild.id,
+                          deny: [PermissionFlagsBits.ViewChannel]
+                      },
+                      {
+                          id: interaction.user.id,
+                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                      },
+                      {
+                          id: roleStaff,
+                          allow: [PermissionFlagsBits.ViewChannel]
+                      },
+                      {
+                          id: T4Spider,
+                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                      }
+                  ]
+              }).then((c) => {
+                  c.send({
+                      content: `${T4Spider} | ${interaction.user} | 3 point`,
+                      embeds: [{
+                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 250k/unité\nPrix pour (10 ou plus) : 200k/unité",
+                          footer: {
+                              text: "FrenchLegacy",
+                              iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                          },
+                      }],
+                      components: [
+                          new ActionRowBuilder()
+                              .addComponents(buttonCloseTicket, buttonClaimTicket)
+                      ]
+                  })
+                  interaction.reply({
+                      content: `<:Spider:1081243964755157012> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                      ephemeral: true
+                  })
+              })
+          } else if (interaction.customId == "T4REV") {
+          if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+          interaction.guild.channels.create({
+              name: `Revenant T4 ${interaction.user.username}`,
+              type: ChannelType.GuildText,
+              topic: `${interaction.user.id}`,
+              parent: `${catégorieslayer}`,
+              permissionOverwrites: [
+                  {
+                      id: interaction.guild.id,
+                      deny: [PermissionFlagsBits.ViewChannel]
+                  },
+                  {
+                      id: interaction.user.id,
+                      allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                  },
+                  {
+                      id: roleStaff,
+                      allow: [PermissionFlagsBits.ViewChannel]
+                  },
+                  {
+                      id: T4REV,
+                      allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                  }
+              ]
+          }).then((c) => {
+              c.send({
+                  content: `${T4REV} | ${interaction.user} | 1 point`,
+                  embeds: [{
+                      description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 100k/unité\nPrix pour (10 ou plus) : 70k/unité",
+                      footer: {
+                          text: "FrenchLegacy",
+                          iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                      },
+                  }],
+                  components: [
+                      new ActionRowBuilder()
+                          .addComponents(buttonCloseTicket, buttonClaimTicket)
+                  ]
+              })
+              interaction.reply({
+                  content: `<:Revenant:1039706422465794158> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                  ephemeral: true
+              })
+          })
+      } else if (interaction.customId == "T5REV") {
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `Revenant T5 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégorieslayer}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: T5REV,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
+                c.send({
+                    content: `${T5REV} | ${interaction.user} | 2 point`,
+                    embeds: [{
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 200k/unité\nPrix pour (10 ou plus) : 150k/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"

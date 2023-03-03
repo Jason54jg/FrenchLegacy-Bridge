@@ -16,17 +16,22 @@ module.exports = {
 
         const rev = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/884973282615500870.png')
-            .addFields({ name: 'Informations sur les prix des T5 Rev', value: 'Atoned Horror: 200k/unité\nPrix pour (5 ou plus) : 150k/unité' })
+            .addFields({ name: 'Informations sur les prix des T5 Rev', value: 'Zombie T4: 100k/unité\nPrix pour (10 ou plus) : 70k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 150k/unité' })
+            .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
+
+        const spider = new EmbedBuilder()
+            .setThumbnail('https://cdn.discordapp.com/emojis/1081243964755157012.png')
+            .addFields({ name: 'Informations sur les prix des Spider', value: 'Spider T3: 150k/unité\nPrix T3 pour (10 ou plus) : 100k/unité\n\nSpider T4: 250k/unité\nPrix T4 pour (10 ou plus) : 200k/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const enderman = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/862880360529395752.png')
-            .addFields({ name: 'Informations sur les prix du Slayer Enderman', value: 'Voidgloom Seraph 3: 800k/unité\nPrix T3 pour (10 ou plus) : 600k/unité\nVoidgloom Seraph 4: 2m/unité\nPrix T4 pour (10 ou plus) : 1.5m/unité' })
+            .addFields({ name: 'Informations sur les prix du Slayer Enderman', value: 'Voidgloom Seraph 3: 800k/unité\nPrix T3 pour (10 ou plus) : 600k/unité\n\nVoidgloom Seraph 4: 2m/unité\nPrix T4 pour (10 ou plus) : 1.5m/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const inferno = new EmbedBuilder()
-            .setThumbnail('https://cdn.discordapp.com/attachments/822369588204929024/966770068119781466/unknown.png')
-            .addFields({ name: 'Informations sur les prix des Inferno', value: 'Inferno Demonlord 2: 800k / pour (10+) 650k/unité\nInferno Demonlord 3: 2.2m / pour (10+) 2m/unité' })
+            .setThumbnail('https://cdn.discordapp.com/emojis/1039705790501617745.png')
+            .addFields({ name: 'Informations sur les prix des Inferno', value: 'Inferno Demonlord 2: 800k/unité\nPrix T3 pour (10 ou plus) : 650k/unité\n\nInferno Demonlord 3: 2.2m/unité\nPrix T3 pour (10 ou plus) : 2m/unité\n\nInferno Demonlord 4: 6m/unité\nPrix T4 pour (10 ou plus) : 5.5m/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const important = new EmbedBuilder()
@@ -45,47 +50,62 @@ module.exports = {
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const carry = new EmbedBuilder()
-            .addFields({ name: 'Service de carry Slayer', value: "<:Blaze:1039705790501617745>: Service de carry Inferno Demonlord\n<:Enderman:1039706047214014464>: Service de carry des void seraph\n<:Revenant:1039706422465794158>: Service de carry revenant horror\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)" })
+            .addFields({ name: 'Service de carry Slayer', value: "<:Blaze:1039705790501617745>: Service de carry Inferno Demonlord\n<:Enderman:1039706047214014464>: Service de carry des void seraph\n<:Revenant:1039706422465794158>: Service de carry revenant horror\n<:Spider:1081243964755157012>: Service de carry Spider\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)" })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         interaction.channel.send({
-            embeds: [terms, conditions, rev, enderman, inferno, carry, important],
+            embeds: [terms, conditions, rev, spider, enderman, inferno, carry, important],
             components: [
-                // Ligne 1: Rev
+                // Ligne 1
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('REV')
-                        .setLabel('T5')
+                        .setCustomId('T3Spider')
+                        .setLabel('T3 Spider')
+                        .setEmoji('1081243964755157012')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('T4Spider')
+                        .setLabel('T4 Spider')
+                        .setEmoji('1081243964755157012')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('T4REV')
+                        .setLabel('T4 Revenant')
+                        .setEmoji('1039706422465794158')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('T5REV')
+                        .setLabel('T5 Revenant')
                         .setEmoji('1039706422465794158')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('T3eman')
-                        .setLabel('T3')
+                        .setLabel('T3 Enderman')
                         .setEmoji('1039706047214014464')
-                        .setStyle(ButtonStyle.Primary),
-                    new ButtonBuilder()
-                        .setCustomId('T4eman')
-                        .setLabel('T4')
-                        .setEmoji('1039706047214014464')
-                        .setStyle(ButtonStyle.Primary),
-                    new ButtonBuilder()
-                        .setCustomId('T2blaze')
-                        .setLabel('T2')
-                        .setEmoji('1039705790501617745')
-                        .setStyle(ButtonStyle.Primary),
-                    new ButtonBuilder()
-                        .setCustomId('T3blaze')
-                        .setLabel('T3')
-                        .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
                 ),
                 // Créer une nouvelle ligne tout les 5 boutons !
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
+                        .setCustomId('T4eman')
+                        .setLabel('T4 Enderman')
+                        .setEmoji('1039706047214014464')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('T2blaze')
+                        .setLabel('T2 Blaze')
+                        .setEmoji('1039705790501617745')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('T3blaze')
+                        .setLabel('T3 Blaze')
+                        .setEmoji('1039705790501617745')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
                         .setCustomId('T4blaze')
-                        .setLabel('T4')
+                        .setLabel('T4 Blaze')
                         .setEmoji('1039705790501617745')
                         .setStyle(ButtonStyle.Primary)
                 ),

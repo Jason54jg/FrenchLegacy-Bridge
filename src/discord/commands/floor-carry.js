@@ -21,7 +21,7 @@ module.exports = {
         )
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        const floor1 = new EmbedBuilder()
+        const floor4 = new EmbedBuilder()
 		.setAuthor({ name: 'Floor 4', iconURL: 'https://cdn.discordapp.com/emojis/759298333608378388.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/759298333608378388.png')
         .addFields(
@@ -30,7 +30,7 @@ module.exports = {
         )
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        const floor2 = new EmbedBuilder()
+        const floor5 = new EmbedBuilder()
 		.setAuthor({ name: 'Floor 5', iconURL: 'https://cdn.discordapp.com/emojis/759298251068801044.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/759298251068801044.png')
         .addFields(
@@ -40,7 +40,7 @@ module.exports = {
         )
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        const floor3 = new EmbedBuilder()
+        const floor6 = new EmbedBuilder()
 		.setAuthor({ name: 'Floor 6', iconURL: 'https://cdn.discordapp.com/emojis/761951536829825035.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/761951536829825035.png')
         .addFields(
@@ -50,7 +50,7 @@ module.exports = {
         )
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        const floor4 = new EmbedBuilder()
+        const floor7 = new EmbedBuilder()
 		.setAuthor({ name: 'Floor 7', iconURL: 'https://cdn.discordapp.com/emojis/833916984886427678.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/833916984886427678.png')
         .addFields(
@@ -60,7 +60,7 @@ module.exports = {
         )
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        const floor5 = new EmbedBuilder()
+        const conditions = new EmbedBuilder()
         .setTitle("Conditions d'entrée")
         .setDescription("Veuillez vous assurer que vous remplissez les conditions d'entrée lors de la création d'un ticket. Les conditions d'entrée sont les suivantes:")
         .addFields({ name: '▬▬▬▬▬▬▬▬', value: "L'étage 4 nécessite Catacombes niveau 9\nL'étage 5 nécessite Catacombes niveau 14\nL'étage 6 nécessite Catacombes niveau 19\nL'étage 7 nécessite Catacombes niveau 24", inline: true })
@@ -70,7 +70,7 @@ module.exports = {
         .addFields({ name: 'Services de carry donjon', value: "<:Thorn:1039692699625865276>: Floor 4\n<:Livid:1039692626665934900>: Floor 5\n<:Sadan:1039692739488534580>: Floor 6\n<:Necron:1040832502417338458>: Floor 7\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-		interaction.channel.send({embeds: [terms, floor1, floor2, floor3, floor4, floor5, service],
+		interaction.channel.send({embeds: [conditions, terms, floor4, floor5, floor6, floor7, service],
             components: [
                 // 1ere ligne de buttons (5 max)
                 new ActionRowBuilder()

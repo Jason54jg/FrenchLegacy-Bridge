@@ -46,7 +46,7 @@
     "imgur": "^2.2.0",
     "lilyweight": "^2.7.0",
     "mineflayer": "^4.8.0",
-    "mkdirp": "^2.1.3",
+    "mkdirp": "^2.1.4",
     "moment": "^2.29.4",
     "mongodb": "^5.1.0",
     "node-fetch": "^3.3.0",

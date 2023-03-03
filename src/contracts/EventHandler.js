@@ -1,6 +1,6 @@
 class EventHandler {
   registerEvents(bot) {
-    throw new Error("Event Handler registerEvents is not implemented yet!");
+    throw new Error("Le gestionnaire d'événements n'est pas encore implémenté!");
   }
   send(message) {
     if (this.minecraft.bot.player !== undefined) {
