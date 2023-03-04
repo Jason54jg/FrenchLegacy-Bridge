@@ -16,17 +16,6 @@ module.exports = {
             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
         });
 
-        const Cartouche = new EmbedBuilder()
-        .setTitle('2Cartouche Logs')
-        .addFields({
-            name: 'Connecté : ✅',
-            value: '\u200B'
-        })
-        .setFooter({
-            text: "FrenchLegacy",
-            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-        });
-
         const FrenchBot = new EmbedBuilder()
         .setTitle('FrenchBot Logs')
         .addFields({
