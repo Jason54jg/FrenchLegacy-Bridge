@@ -66,6 +66,10 @@
         "debugChannel": "1070413465992310864",
         "guildOnlineChannel": "1070413465992310864",
         "fragbotChannelId": "1070413465992310864"
+	 "AutoreactChannel":{
+          "channel":["channel_name","channel_name2"],
+          "emojis":[["liste_emojis_chan1"],["liste_emojis_chan2"]]
+        }
       },
       "roles": {
         "commandRole": "1045162489089896549",
