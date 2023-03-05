@@ -45,6 +45,7 @@
     "hypixel-api-reborn": "^10.0.0",
     "imgur": "^2.2.0",
     "lilyweight": "^2.7.0",
+    "lodash": "^4.17.21",
     "mineflayer": "^4.8.0",
     "mkdirp": "^2.1.4",
     "moment": "^2.29.4",
@@ -67,7 +68,8 @@
     "globals": {
       "bot": true,
       "client": true,
-      "bridgeChat": true
+      "bridgeChat": true,
+      "bot2": true
     }
   }
 }
