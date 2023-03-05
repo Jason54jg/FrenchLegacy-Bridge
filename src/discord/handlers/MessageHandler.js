@@ -34,7 +34,7 @@ class MessageHandler {
     const content = this.stripDiscordContent(message).trim();
     if (content.length === 0) return;
 
-  
+    
     const messageData = {
       member: message.member.user,
       channel: message.channel.id,
@@ -42,6 +42,8 @@ class MessageHandler {
       message: content,
       replyingTo: await this.fetchReply(message),
     };
+    
+    console.log(messageData)
 
     this.discord.broadcastMessage(messageData);
 

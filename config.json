@@ -4,7 +4,9 @@
       "prefix": "!",
       "messageFormat": " »",
       "messageRepeatBypass": true,
-      "messageRepeatBypassLength": 24
+      "messageRepeatBypassLength": 24,
+      "username": "BotN1",
+      "username2": "BotN2"
     },
     "guild": {
       "guildExp": 50000
@@ -49,30 +51,26 @@
     "discord": {
       "bot": {
         "token": "",
-        "clientID": "983062456312168458",
-        "serverID": "1045162397557608498",
-        "usernameBot1": "",
-        "passwordBot1": "",
-        "usernameBot2": "",
-        "passwordBot2": "",
+        "clientID": "1006880367199916084",
+        "serverID": "970344769131778108",
         "WebhookId": "1069032552989458452",
         "WebhookToken": ""
       },
       "channels": {
-        "guildChatChannel": "1070413465992310864",
-        "officerChannel": "1070413465992310864",
-        "loggingChannel": "1070413465992310864",
+        "guildChatChannel": "996413834917052517",
+        "officerChannel": "996413849286746142",
+        "loggingChannel": "996413863929053184",
         "debugMode": false,
-        "debugChannel": "1070413465992310864",
-        "guildOnlineChannel": "1070413465992310864",
-        "fragbotChannelId": "1070413465992310864"
+        "debugChannel": "999264163220172901",
+        "guildOnlineChannel": "996413863929053184",
+        "fragbotChannelId": "996413863929053184"
       },
       "AutoreactChannel": {
          "channel": ["1070413465992310864", "1045162398379679806"],
          "emojis": [["1081825002048987216"], ["1081824920264265738"]]
       },
       "roles": {
-        "commandRole": "1045162489089896549",
+        "commandRole": "996413890445463633",
         "logChannelCarrier": "1070413465992310864",
         "logChannelTicket": "1070413465992310864",
         "logChannelService": "1070413465992310864",
@@ -115,6 +113,6 @@
       }
   },
   "database": {
-	"uri": ""
+	  "uri": "mongodb://localhost:27017"
   }
 }
