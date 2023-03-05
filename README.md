@@ -233,3 +233,4 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
+- [DuckySoLucky](https://github.com/DuckySoLucky)
