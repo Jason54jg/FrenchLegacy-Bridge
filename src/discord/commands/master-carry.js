@@ -42,7 +42,7 @@ module.exports = {
         const master4 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 4', iconURL: 'https://cdn.discordapp.com/emojis/759298333608378388.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/759298333608378388.png')
-        .addFields({ name: 'Completion', value: '- 1 Run: 8m'})
+        .addFields({ name: 'Completion', value: '- 1 Run: 10m'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master5 = new EmbedBuilder()
@@ -60,7 +60,7 @@ module.exports = {
         const master7 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 7', iconURL: 'https://cdn.discordapp.com/emojis/833916984886427678.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/833916984886427678.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 22m\n- 5 ou plus: 19m unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 25m\n- 5 ou plus: 21m unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const conditions = new EmbedBuilder()

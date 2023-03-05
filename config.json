@@ -68,8 +68,8 @@
         "fragbotChannelId": "1070413465992310864"
       },
       "AutoreactChannel": {
-         "channel": ["channel_name", "channel_name2"],
-         "emojis": [["liste_emojis_chan1"], ["liste_emojis_chan2"]]
+         "channel": ["1070413465992310864", "1045162398379679806"],
+         "emojis": [["1081825002048987216"], ["1081824920264265738"]]
       },
       "roles": {
         "commandRole": "1045162489089896549",
