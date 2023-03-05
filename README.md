@@ -175,7 +175,6 @@ L'option `requirements` a des sous-options, qui sont des exigences.
 | weight         | Statistiques Skyblock de l'utilisateur spécifié.           | `!weight [joueur]`               | `!weight CherchePas`         | `Senither de Refraction » 27721.82 Compétences : 12991.95 Donjons : 11353.90` & `Poids Lily de Refraction » 28342.24 Compétences » 12310.84 slayer » 4476.85 Donjons » 11554.55`                                                       |
 | warpout         | Permet de faire partire quelqu'un de votre lobby si il accepte.           | `!warpout [joueur]`               | `!warpout CherchePas`         | 
 
-|
 ### Chat Triggers Module
 
 Si vous pensez que ce format de message est ennuyeux, vous pouvez consulter mon référentiel pour le module ChatTriggers qui modifie l'apparence des messages de Bot. [Cliquez ici](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
@@ -204,10 +203,9 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Permet de créer, annuler, reroll ou de stop des giveaway avec une commande.
 - [ ] Auto channel vocal
     - Fonction qui permet de créer des salons quand quelqu'un rejoint un salon définit et de pouvoir gérer son propre salon avec des commandes.
+    - Avec un système de commandes possible de faire les test sur le discord actuel avec /tempchannel
 - [ ] Message de bienvenue et au revoir
     - Envoi d'une embed avec quelque info par qui il a été invité et combien il y a de membres sur le discord en lui indiquant d'aller dans le salon links.
-- [ ] Auto réaction pour un salon
-    - Le bot mettra une réaction à chaque fois qu'un message est envoyé dans un salon.
 - [ ] Système de level avec des rôles
     - Permet d'attribuer des rôles avec un certain nombre d'xp possible d'en avec l'activité écrit et vocal commande pour le leaderboard.
 - [ ] Sauvegarde de rôles
