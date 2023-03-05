@@ -42,8 +42,6 @@ class MessageHandler {
       message: content,
       replyingTo: await this.fetchReply(message),
     };
-    
-    console.log(messageData)
 
     this.discord.broadcastMessage(messageData);
 
