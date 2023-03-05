@@ -1,5 +1,5 @@
 /*eslint-disable */
-const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const CommunicationBridge2 = require("../contracts/CommunicationBridge2.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
 const ChatHandler = require("./handlers/ChatHandler.js");
@@ -11,7 +11,7 @@ const Logger = require("../Logger");
 /*eslint-enable */
 const filter = new Filter();
 
-class MinecraftManager extends CommunicationBridge {
+class Bot2 extends CommunicationBridge2 {
   constructor(app) {
     super();
 
@@ -20,6 +20,7 @@ class MinecraftManager extends CommunicationBridge {
     this.stateHandler = new StateHandler(this);
     this.errorHandler = new ErrorHandler(this);
     this.chatHandler = new ChatHandler(this, new CommandHandler(this));
+
   }
 
   connect() {
@@ -35,7 +36,7 @@ class MinecraftManager extends CommunicationBridge {
     return mineflayer.createBot({
       host: "mc.hypixel.net",
       port: 25565,
-      username: config.discord.bot.usernameBot1,
+      username: config.discord.bot.usernameBot2,
       auth: "microsoft",
       version: "1.8.9",
       viewDistance: "tiny",
@@ -98,4 +99,4 @@ class MinecraftManager extends CommunicationBridge {
   }
 }
 
-module.exports = MinecraftManager;
+module.exports = Bot2;

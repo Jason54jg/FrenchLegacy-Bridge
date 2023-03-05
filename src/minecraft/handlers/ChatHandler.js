@@ -1,23 +1,16 @@
-const {
-  getLatestProfile,
-} = require("../../../API/functions/getLatestProfile.js");
-const { replaceAllRanks } = require("../../contracts/helperFunctions.js");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
-const eventHandler = require("../../contracts/EventHandler.js");
-const getWeight = require("../../../API/stats/weight.js");
-const messages = require("../../../messages.json");
-const { EmbedBuilder, WebhookClient } = require("discord.js");
-const config = require("../../../config.json");
-const Logger = require("../../Logger.js");
-const motds = require("../constants/motd.json");
-const cachedMessages = {};
+const { getLatestProfile } = require('../../../API/functions/getLatestProfile.js');
+const { replaceAllRanks } = require('../../contracts/helperFunctions.js');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const hypixel = require('../../contracts/API/HypixelRebornAPI.js');
+const { getUUID } = require('../../contracts/API/PlayerDBAPI.js');
+const eventHandler = require('../../contracts/EventHandler.js');
+const getWeight = require('../../../API/stats/weight.js');
+const messages = require('../../../messages.json');
+const { EmbedBuilder, WebhookClient } = require('discord.js');
+const config = require('../../../config.json');
+const Logger = require('../../Logger.js');
+const motds = require('../constants/motd.json')
 
-const Joueur = new WebhookClient({
-  id: config.discord.bot.WebhookId,
-  token: config.discord.bot.WebhookToken,
-});
 
 class StateHandler extends eventHandler {
   constructor(minecraft, command, discord) {
@@ -35,8 +28,6 @@ class StateHandler extends eventHandler {
   async onMessage(event) {
     const message = event.toString().trim();
     let colouredMessage = event.toMotd();
-    cachedMessages[this.bot.username] ??= [];
-    cachedMessages[this.bot.username].push(message);
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -55,11 +46,6 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isBugServerMessage(message)) {
-      Joueur.send({
-        content: `Problème de connexion au serveur (${bot.username})`,
-        avatarURL: `https://minotar.net/helm/${bot.username}/100.png`,
-        username: `${bot.username}`,
-      });
       await delay(70000);
       this.send(`/skyblock`);
       await delay(80000);
@@ -67,11 +53,6 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isRestartServerMessage(message)) {
-      Joueur.send({
-        content: `[Important] Ce serveur va bientôt redémarrer: Redémarrage planifié (${bot.username})`,
-        avatarURL: `https://minotar.net/helm/${bot.username}/100.png`,
-        username: `${bot.username}`,
-      });
       await delay(70000);
       this.send(`/skyblock`);
       await delay(80000);
@@ -79,11 +60,6 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isGameUpdateMessage(message)) {
-      Joueur.send({
-        content: `Ce serveur va bientôt redémarrer: mise à jour du jeu (${bot.username})`,
-        avatarURL: `https://minotar.net/helm/${bot.username}/100.png`,
-        username: `${bot.username}`,
-      });
       await delay(40000);
       this.send(`/skyblock`);
       await delay(42000);
@@ -91,11 +67,6 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isKickServerMessage(message)) {
-      Joueur.send({
-        content: `Évacuation vers le hub (${bot.username})`,
-        avatarURL: `https://minotar.net/helm/${bot.username}/100.png`,
-        username: `${bot.username}`,
-      });
       await delay(10000);
       this.send(`/is`);
     }
@@ -643,16 +614,6 @@ class StateHandler extends eventHandler {
       this.command.handle(username, playerMessage);
     }
 
-    if ([bot2.username, bot.username].includes(username) === false) {
-      if (!cachedMessages[bot.username]?.includes(message)) {
-        bot.chat(message);
-      }
-
-      if (!cachedMessages[bot2.username]?.includes(message)) {
-        bot2.chat(message);
-      }
-    }
-
     const betweenMessage = message
       .split(": ")[1]
       .split(config.minecraft.bot.messageFormat);
@@ -675,9 +636,8 @@ class StateHandler extends eventHandler {
       !message.includes(":")
     );
   }
-
-  isMessageFromBot(username) {
-    return bot.username === username;
+    isMessageFromBot(username) {
+    return bot.username === username  || bot.username == "FrenchBot2" || bot2.username == "FrenchBot4";
   }
 
   isAlreadyBlacklistedMessage(message) {

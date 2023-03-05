@@ -46,11 +46,11 @@ async function guild_online(guild) {
             }
         }
     }
-        if (c == 0){
+        if (c == 0) {
         embed.addFields({
             name: liste_ranks_affichage[i] + " » " + b.toString(),
-            value: a_afficher,
-        })
+            value: a_afficher + " ",
+          })
        }
         else {
           embed.addFields({

@@ -38,10 +38,10 @@ class DiscordManager extends CommunicationBridge {
     for (let i = 0; i < 1; i) {
       let embed = await guild_online.guild_online("FrenchLegacy");
       channelee.send({ embeds: [embed] });
-      this.delay(60000);
+      await this.delay(600000);
       let embed2 = await guild_online.guild_online("FrenchLegacyII");
       channelee.send({ embeds: [embed2] });
-      this.delay(900000)
+      await this.delay(900000)
   };}
 
   async connect() {

@@ -4,9 +4,7 @@
       "prefix": "!",
       "messageFormat": " »",
       "messageRepeatBypass": true,
-      "messageRepeatBypassLength": 24,
-      "username": "BotN1",
-      "username2": "BotN2"
+      "messageRepeatBypassLength": 24
     },
     "guild": {
       "guildExp": 50000
@@ -51,60 +49,60 @@
     "discord": {
       "bot": {
         "token": "",
-        "clientID": "1006880367199916084",
-        "serverID": "970344769131778108",
-        "WebhookId": "1069032552989458452",
-        "WebhookToken": ""
+        "usernameBot1": "",
+        "usernameBot2": "",
+        "clientID": "846461538013282314",
+        "serverID": "238809855090098189"
       },
       "channels": {
-        "guildChatChannel": "996413834917052517",
-        "officerChannel": "996413849286746142",
-        "loggingChannel": "996413863929053184",
+        "guildChatChannel": "1074340308994760704",
+        "officerChannel": "920442582142693378",
+        "loggingChannel": "1014148236132483112",
         "debugMode": false,
-        "debugChannel": "999264163220172901",
-        "guildOnlineChannel": "996413863929053184",
-        "fragbotChannelId": "996413863929053184"
+        "debugChannel": "1014128623755731064",
+        "guildOnlineChannel": "1012161134935150592",
+        "fragbotChannelId": "1037543673434488832"
       },
       "AutoreactChannel": {
-         "channel": ["1070413465992310864", "1045162398379679806"],
-         "emojis": [["1081825002048987216"], ["1081824920264265738"]]
+         "channel": ["999010677907783782", "999011574037631036"],
+         "emojis": [["1037683345758376007"], ["1057733768300994631"]]
       },
       "roles": {
-        "commandRole": "996413890445463633",
-        "logChannelCarrier": "1070413465992310864",
-        "logChannelTicket": "1070413465992310864",
-        "logChannelService": "1070413465992310864",
-        "catégorieslayer": "1045162398379679805",
-        "catégoriefloor": "1045162398379679805",
-        "catégoriemaster": "1045162398379679805",
-        "catégoriecarry": "1045162398379679805",
-        "catégorieticket": "1045162398379679805",
-        "catégoriekuudra": "1045162398379679805",
-        "rolef7Id": "1045162489089896549",
-        "rolef6Id": "1045162489089896549",
-        "rolef5Id": "1045162489089896549",
-        "rolef4Id": "1045162489089896549",
-        "rolem7Id": "1045162489089896549",
-        "rolem6Id": "1045162489089896549",
-        "rolem5Id": "1045162489089896549",
-        "rolem4Id": "1045162489089896549",
-        "rolem3Id": "1045162489089896549",
-        "rolem2Id": "1045162489089896549",
-        "rolem1Id": "1045162489089896549",
-        "roleT3SpiderId": "1045162489089896549",
-        "roleT4SpiderId": "1045162489089896549",
-        "roleT4REVId": "1045162489089896549",
-        "roleT5REVId": "1045162489089896549",
-        "roleT3emanId": "1045162489089896549",
-        "roleT4emanId": "1045162489089896549",
-        "roleT2blazeId": "1045162489089896549",
-        "roleT3blazeId": "1045162489089896549",
-        "roleT4blazeId": "1045162489089896549",
-        "roleT1kuudraId": "1045162489089896549",
-        "roleT2kuudraId": "1045162489089896549",
-        "roleT3kuudraId": "1045162489089896549",
-        "roleT4kuudraId": "1080564198364434432",
-        "roleT5kuudraId": "1080564198364434432"
+        "commandRole": "1074255251672146012",
+        "logChannelCarrier": "1014131502503710800",
+        "logChannelTicket": "1039673163149221990",
+        "logChannelService": "1039673163149221990",
+        "catégorieslayer": "1039707149724569600",
+        "catégoriefloor": "1039707029960396830",
+        "catégoriemaster": "1039707097107021825",
+        "catégoriecarry": "1003641109785890856",
+        "catégorieticket": "999022377449046046",
+        "catégoriekuudra": "1049667631449395200",
+        "rolef7Id": "1040220987733581855",
+        "rolef6Id": "1040221012832309300",
+        "rolef5Id": "1040221014774251561",
+        "rolef4Id": "1040221014866546718",
+        "rolem7Id": "1040221015369850890",
+        "rolem6Id": "1040221309474447381",
+        "rolem5Id": "1040221311739383808",
+        "rolem4Id": "1040221312234307624",
+        "rolem3Id": "1040221313681326102",
+        "rolem2Id": "1040221314801213452",
+        "rolem1Id": "1040221325228265573",
+        "roleT3SpiderId": "1081249558962634902",
+        "roleT4SpiderId": "1081249592894554143",
+        "roleT4REVId": "1081249593808928869",
+        "roleT5REVId": "1040221924497821706",
+        "roleT3emanId": "1040221652333625374",
+        "roleT4emanId": "1040221650349719622",
+        "roleT2blazeId": "1040221647543734342",
+        "roleT3blazeId": "1040221642539929664",
+        "roleT4blazeId": "1040221640941912104",
+        "roleT1kuudraId": "1049720607161450546",
+        "roleT2kuudraId": "1049720621635997770",
+        "roleT3kuudraId": "1049720624890773514",
+        "roleT4kuudraId": "1049720642745925762",
+        "roleT5kuudraId": "1081301217386446889"
       },
       "other": {
         "messageMode": "webhook",
@@ -113,6 +111,6 @@
       }
   },
   "database": {
-	  "uri": "mongodb://localhost:27017"
+	  "uri": ""
   }
 }
