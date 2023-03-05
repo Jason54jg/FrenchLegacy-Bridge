@@ -10,18 +10,18 @@ class MessageHandler {
     this.discord = discord;
     this.command = command;
   }
-  async react_to_msg(msg,emojis){
-    for (let i=0;i<emojis.length;i++){
+  async react_to_msg(msg, emojis){
+    for (let i = 0; i < emojis.length; i++){
       await msg.react(emojis[i])
     }
   }
   async onMessage(message) {
-    const autochannel=config.discord.channels.AutoreactChannel.channel;
-    const emoji=config.discord.channels.AutoreactChannel.emojis;
-    let id=message.channel.id
-    for (let i=0;i<autochannel.length;i++){
-          if (autochannel[i]==id){
-            this.react_to_msg(message,emoji[i])
+    const autochannel = config.discord.channels.AutoreactChannel.channel;
+    const emoji = config.discord.channels.AutoreactChannel.emojis;
+    let id = message.channel.id
+    for (let i = 0; i < autochannel.length; i++){
+          if (autochannel[i] == id){
+            this.react_to_msg(message, emoji[i])
           }
         }
     if (
