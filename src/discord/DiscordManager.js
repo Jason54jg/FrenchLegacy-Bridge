@@ -13,6 +13,7 @@ const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const CommandHandler = require("./CommandHandler.js");
+const DB = require('../../API/database/database.js');
 const config = require("../../config.json");
 const Logger = require(".././Logger.js");
 const path = require("node:path");
@@ -113,6 +114,17 @@ class DiscordManager extends CommunicationBridge {
       this.messageHandler.onMessage(message)
     );
 
+    // Ajouter l'utilisateur qui a rejoint le serveur dans la DB
+    this.client.on("guildMemberAdd", (member) => {
+      DB.createUser(member.user.id);
+    });
+
+    // Supprimer l'utilisateur qui a quitté le serveur de la DB
+    // Non souhaité pour le moment
+    /*this.client.on("guildMemberRemove", (member) => {
+      DB.removeUser(member.user.id);
+    });*/
+
     this.client.login(config.discord.bot.token).catch((error) => {
       Logger.errorMessage(error);
     });
@@ -154,6 +166,7 @@ class DiscordManager extends CommunicationBridge {
         kill(process.pid);
       });
     });
+
     return true;
   }
 

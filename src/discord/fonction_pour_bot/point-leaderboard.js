@@ -9,7 +9,7 @@ async function createPointLeaderboardPage(currentPage) {
 	let description = "";
 
 	const res = await DB.getUserByScoreOrder(currentPage, userPerPage);
-	if (res == null) {
+	if (res == null || res.length === 0) {
 		return;
 	}
 
@@ -39,7 +39,7 @@ async function createPointLeaderboardPage(currentPage) {
 
 	// Mise en place de la description
 	for (let i = 0; i < res.length; i++) {
-		description += `${i + userPageIndex - userPerPage + 1}. \`\`${res[i].mc_username}\`\`: ${res[i].score} points\n`;
+		description += `${i + userPageIndex - userPerPage + 1}. <@${res[i].discordId}>: ${res[i].score} points\n`;
 	}
 	description = description.substring(0, description.length - 1);
 

@@ -1519,9 +1519,7 @@ async function manageModalInteraction(interaction, client) {
         }
 
         // Ajout de points et feedback
-        // note: la façon dont on récupère le joueur est pas hallal, mais ca marche !
-        const potentialUserName = interaction.member.nickname.split('|')[1].trim();
-        const user = await DB.getUserByUsername(potentialUserName);
+        const user = await DB.getUserById(interaction.user.id);
         if (user == null) {
             return interaction.reply({
                 embeds: [{
@@ -1534,7 +1532,7 @@ async function manageModalInteraction(interaction, client) {
             })
         }
 
-        DB.addScoreToUser(user.uuid, carryAmount * points);
+        DB.addScoreToUser(user.discordId, carryAmount * points);
         await interaction.message.edit({
                     components: [
                         new ActionRowBuilder()
