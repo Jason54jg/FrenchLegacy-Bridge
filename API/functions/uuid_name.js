@@ -18,7 +18,7 @@ async function uuid_username(liste_uuid) {
 
             if (page_web.name != null) {
                 // Création du joueur en db
-                DB.createUser(uuid, page_web.name);
+                //DB.createUser(uuid, page_web.name);
                 liste_membre.push(page_web.name);
             }
         } else {
