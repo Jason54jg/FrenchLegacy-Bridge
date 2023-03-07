@@ -66,14 +66,14 @@ module.exports = {
         const conditions = new EmbedBuilder()
         .setTitle("Conditions d'entrée")
         .setDescription("Veuillez vous assurer que vous remplissez les conditions d'entrée lors de la création d'un ticket. Les conditions d'entrée sont les suivantes:")
-        .addFields({ name: '▬▬▬▬▬▬▬▬', value: "Master 1 nécessite Catacombes niveau 24\nMaster 2 nécessite Catacombes niveau 26\nMaster 3 nécessite Catacombes niveau 28\nMaster 5 nécessite Catacombes niveau 32\nMaster 6 nécessite Catacombes niveau 34\n\nRemarque : l'achèvement des étages précédents est requis pour entrer dans l'étage pour lequel vous achetez un carry.", inline: true })
+        .addFields({ name: '▬▬▬▬▬▬▬▬', value: "Master 1 nécessite Catacombes niveau 24\nMaster 2 nécessite Catacombes niveau 26\nMaster 3 nécessite Catacombes niveau 28\nMaster 4 nécessite Catacombes niveau 30\nMaster 5 nécessite Catacombes niveau 32\nMaster 6 nécessite Catacombes niveau 34\nMaster 7 nécessite Catacombes niveau 36\n\nRemarque : l'achèvement des étages précédents est requis pour entrer dans l'étage pour lequel vous achetez un carry.", inline: true })
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const service = new EmbedBuilder()
-        .addFields({ name: 'Services de carry donjon (Master Mode)', value: "<:Bonzo:1039705817252909147>: Master 1\n<:Scarf:1039705859518910634>: Master 2\n<:Professor:1039705994768425050>: Master 3\n<:Livid:1039692626665934900>: Master 5\n<:Sadan:1039692739488534580>: Master 6\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
+        .addFields({ name: 'Services de carry donjon (Master Mode)', value: "<:Bonzo:1039705817252909147>: Master 1\n<:Scarf:1039705859518910634>: Master 2\n<:Professor:1039705994768425050>: Master 3\n<:Bonzo:1039692699625865276>: Master 4\n<:Livid:1039692626665934900>: Master 5\n<:Sadan:1039692739488534580>: Master 6\n<:Necron:1040832502417338458>: Master 7\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-		interaction.channel.send({embeds: [terms, master1, master2, master3, master4, master5, master6, master7, conditions, service],
+		interaction.channel.send({embeds: [conditions, terms, master1, master2, master3, master4, master5, master6, master7, service],
             components: [
                 new ActionRowBuilder()
                 .addComponents(

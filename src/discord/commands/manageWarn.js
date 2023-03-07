@@ -64,13 +64,13 @@ module.exports = {
 		// Effectuer l'action
 		switch(choice){
 			case "add":
-				user == null ? DB.addWarnToAll(warn) : DB.addWarnToUser(user.uuid, warn);
+				user == null ? DB.addWarnToAll(warn) : DB.addWarnToUser(user.discordId, warn);
 				break;
 			case "rm":
-				user == null ? DB.addWarnToAll(-warn) : DB.addWarnToUser(user.uuid, -warn);
+				user == null ? DB.addWarnToAll(-warn) : DB.addWarnToUser(user.discordId, -warn);
 				break;
 			case "set":
-				user == null ? DB.setWarnToAll(warn) : DB.setWarnToUser(user.uuid, warn);
+				user == null ? DB.setWarnToAll(warn) : DB.setWarnToUser(user.discordId, warn);
 				break;
 		}
 	

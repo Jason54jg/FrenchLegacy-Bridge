@@ -40,7 +40,6 @@ module.exports = {
 		const choice = interaction.options.get("action").value;
 		let score = interaction.options.get("nombre").value;
 		let user = interaction.options.get("joueur");
-		console.log(user)
 		
 		// Vérifie si le score est un nombre
 		if(isNaN(score)){
@@ -65,13 +64,13 @@ module.exports = {
 		// Effectuer l'action
 		switch(choice){
 			case "add":
-				user == null ? DB.addScoreToAll(score) : DB.addScoreToUser(user.uuid, score);
+				user == null ? DB.addScoreToAll(score) : DB.addScoreToUser(user.discordId, score);
 				break;
 			case "rm":
-				user == null ? DB.addScoreToAll(-score) : DB.addScoreToUser(user.uuid, -score);
+				user == null ? DB.addScoreToAll(-score) : DB.addScoreToUser(user.discordId, -score);
 				break;
 			case "set":
-				user == null ? DB.setScoreToAll(score) : DB.setScoreToUser(user.uuid, score);
+				user == null ? DB.setScoreToAll(score) : DB.setScoreToUser(user.discordId, score);
 				break;
 		}
 	
