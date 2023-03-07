@@ -194,11 +194,6 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
     - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
-- [ ] Ajout d'une commande pour supprimer des points et mettre à 0 les points
-- [ ] Système de points / Base de donnée
-	- Actuellement, seul les membres de la guilde sont enregistrés sur la base de donnée. Ca signifie que seul ces membres ont accès au système de points 
-	- L'idée est donc de lier tout les membres du serveur au bot. Pour lier un utilisateur, il faut un UUID ainsi qu'un pseudo minecraft
-	- Il faut donc trouver un moyen de forcer les utilisateur a lier leur compte minecraft au bot, sans pour autant que l'utilisateur ai a devoir se link manuellement sur tout les bots avec des commandes
 - [ ] Système de giveaway
     - Permet de créer, annuler, reroll ou de stop des giveaway avec une commande.
 - [ ] Auto channel vocal
@@ -210,8 +205,13 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
     - Permet d'attribuer des rôles avec un certain nombre d'xp possible d'en avec l'activité écrit et vocal commande pour le leaderboard.
 - [ ] Sauvegarde de rôles
     - Permet d'enregistrer tous les rôles d'une personne quand il quitte le discord et qu'il revient.
-- [ ] Système de mute
-    - Permet de mute une personne avec un temps lui attribut un rôle mute.
+- [ ] Système de tempmute
+    - Permet de mute une personne temporairement en lui attribut un rôle tempmute.
+    - Commande pour voir la list des mute.
+- [ ] Système de tempban
+    - Permet de ban une personne temporairement.
+    - Commande pour voir la list des ban.
+- [ ] Commande de clear
 - [ ] Logs
     - Des logs exemple changement de nom, mise à jour des rôles, suppression du salon ....
 - [ ] Fil d'actualité auto
