@@ -24,19 +24,19 @@ module.exports = {
         const master1 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 1', iconURL: 'https://cdn.discordapp.com/emojis/839241812672512021.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/839241812672512021.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 700k\n- 5 ou plus: 525k/unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 1m\n- 5 ou plus: 850k/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master2 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 2', iconURL: 'https://cdn.discordapp.com/emojis/839242380066291772.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/839242380066291772.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 1.5m\n- 5 ou plus: 1.2m/unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 2m\n- 5 ou plus: 1.7m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master3 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 3', iconURL: 'https://cdn.discordapp.com/emojis/839242407614087240.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/839242407614087240.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 2m\n- 5 ou plus: 1.8m/unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 3m\n- 5 ou plus: 2m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master4 = new EmbedBuilder()
@@ -48,13 +48,13 @@ module.exports = {
         const master5 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 5', iconURL: 'https://cdn.discordapp.com/emojis/759298251068801044.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/759298251068801044.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 3m\n- 5 ou plus: 2.8m/unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 4m\n- 5 ou plus: 3.6m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master6 = new EmbedBuilder()
 		.setAuthor({ name: 'Master 6', iconURL: 'https://cdn.discordapp.com/emojis/761951536829825035.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/761951536829825035.png')
-        .addFields({ name: 'S Runs', value: '- 1 Run: 5m\n- 5 ou plus: 4.5m/unité'})
+        .addFields({ name: 'S Runs', value: '- 1 Run: 6m\n- 5 ou plus: 5.1m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const master7 = new EmbedBuilder()
@@ -73,7 +73,7 @@ module.exports = {
         .addFields({ name: 'Services de carry donjon (Master Mode)', value: "<:Bonzo:1039705817252909147>: Master 1\n<:Scarf:1039705859518910634>: Master 2\n<:Professor:1039705994768425050>: Master 3\n<:Bonzo:1039692699625865276>: Master 4\n<:Livid:1039692626665934900>: Master 5\n<:Sadan:1039692739488534580>: Master 6\n<:Necron:1040832502417338458>: Master 7\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-		interaction.channel.send({embeds: [conditions, terms, master1, master2, master3, master4, master5, master6, master7, service],
+		interaction.channel.send({embeds: [terms, conditions, master1, master2, master3, master4, master5, master6, master7, service],
             components: [
                 new ActionRowBuilder()
                 .addComponents(

@@ -44,6 +44,9 @@ module.exports = {
         let f6 = interaction.guild.roles.cache.get(config.discord.roles.rolef6Id);
         let f5 = interaction.guild.roles.cache.get(config.discord.roles.rolef5Id);
         let f4 = interaction.guild.roles.cache.get(config.discord.roles.rolef4Id);
+        let f3 = interaction.guild.roles.cache.get(config.discord.roles.rolef3Id);
+        let f2 = interaction.guild.roles.cache.get(config.discord.roles.rolef2Id);
+        let f1 = interaction.guild.roles.cache.get(config.discord.roles.rolef1Id);
         let m7 = interaction.guild.roles.cache.get(config.discord.roles.rolem7Id);
         let m6 = interaction.guild.roles.cache.get(config.discord.roles.rolem6Id);
         let m5 = interaction.guild.roles.cache.get(config.discord.roles.rolem5Id);
@@ -235,6 +238,144 @@ module.exports = {
                 channel.delete();
             }, 5000);
         }
+        else if (interaction.customId == "f1") {
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f1 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f1,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
+                c.send({
+                    content: `${f2} | ${interaction.user} | 1 points`,
+                    embeds: [{
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
+                        footer: {
+                            text: "FrenchLegacy",
+                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                        },
+                    }],
+                    components: [
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
+                    ]
+                })
+                interaction.reply({
+                    content: `<:Professor:1039705994768425050> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                    ephemeral: true
+                })
+            })
+        }
+        else if (interaction.customId == "f2") {
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f2 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f2,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
+                c.send({
+                    content: `${f2} | ${interaction.user} | 1 points`,
+                    embeds: [{
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité",
+                        footer: {
+                            text: "FrenchLegacy",
+                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                        },
+                    }],
+                    components: [
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
+                    ]
+                })
+                interaction.reply({
+                    content: `<:Scarf:1039705859518910634> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                    ephemeral: true
+                })
+            })
+        }
+        else if (interaction.customId == "f3") {
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+            interaction.guild.channels.create({
+                name: `f3 ${interaction.user.username}`,
+                type: ChannelType.GuildText,
+                topic: `${interaction.user.id}`,
+                parent: `${catégoriefloor}`,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    },
+                    {
+                        id: roleStaff,
+                        allow: [PermissionFlagsBits.ViewChannel]
+                    },
+                    {
+                        id: f3,
+                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+                    }
+                ]
+            }).then((c) => {
+                c.send({
+                    content: `${f3} | ${interaction.user} | 1 points`,
+                    embeds: [{
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité",
+                        footer: {
+                            text: "FrenchLegacy",
+                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                        },
+                    }],
+                    components: [
+                        new ActionRowBuilder()
+                            .addComponents(buttonCloseTicket, buttonClaimTicket)
+                    ]
+                })
+                interaction.reply({
+                    content: `<:Professor:1039705994768425050> Votre ticket à été ouvert avec succès. <#${c.id}>`,
+                    ephemeral: true
+                })
+            })
+        }
         else if (interaction.customId == "f4") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
@@ -264,7 +405,7 @@ module.exports = {
                 c.send({
                     content: `${f4} | ${interaction.user} | 2 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 300k\n- 5 ou plus: 220k unité\n\n**S Runs**\n- 1 Run: 400k\n- 5 ou plus: 350k unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -310,7 +451,7 @@ module.exports = {
                 c.send({
                     content: `${f5} | ${interaction.user} | 1 point`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 275k\n- 5 ou plus: 250k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S+ Runs**\n- 1 Run: 600k\n- 5 ou plus: 540k unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -355,7 +496,7 @@ module.exports = {
                 c.send({
                     content: `${f6} | ${interaction.user} | 3 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 400k\n- 5 ou plus: 350k unité\n\n**S Runs**\n- 1 Run: +25k\n- 5 ou plus: 550k unité\n\n**S+ Runs**\n- 1 Run: 850k\n- 5 ou plus: 775k unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -400,7 +541,7 @@ module.exports = {
                 c.send({
                     content: `${f7} | ${interaction.user} | 5 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 3m\n- 5 ou plus: 2.5m unité\n\n**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.4m unité\n\n**S+ Runs**\n- 1 Run: 8m\n- 5 ou plus: 7.2m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -445,7 +586,7 @@ module.exports = {
                 c.send({
                     content: `${m1} | ${interaction.user} | 4 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 700k\n- 5 ou plus: 525k unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -490,7 +631,7 @@ module.exports = {
                 c.send({
                     content: `${m2} | ${interaction.user} | 8 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 1.5m\n- 5 ou plus: 1.2m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -535,7 +676,7 @@ module.exports = {
                 c.send({
                     content: `${m3} | ${interaction.user} | 7 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.8m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -625,7 +766,7 @@ module.exports = {
                 c.send({
                     content: `${m5} | ${interaction.user} | 10 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2.8m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -670,7 +811,7 @@ module.exports = {
                 c.send({
                     content: `${m6} | ${interaction.user} | 13 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 4.5m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -715,7 +856,7 @@ module.exports = {
                 c.send({
                     content: `${m7} | ${interaction.user} | 20 points`,
                     embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 22m\n- 5 ou plus: 21m unité",
+                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -760,7 +901,7 @@ module.exports = {
                 c.send({
                     content: `${T3Spider} | ${interaction.user} | 1 point`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider: 150k/unité\nPrix pour (10 ou plus) : 100k/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider: 70k/unité\nPrix pour (10 ou plus) : 50k/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -805,7 +946,7 @@ module.exports = {
                   c.send({
                       content: `${T4Spider} | ${interaction.user} | 3 point`,
                       embeds: [{
-                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 250k/unité\nPrix pour (10 ou plus) : 200k/unité",
+                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider T4: 100k/unité\nPrix pour (10 ou plus) : 90k/unité",
                           footer: {
                               text: "FrenchLegacy",
                               iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -850,7 +991,7 @@ module.exports = {
               c.send({
                   content: `${T4REV} | ${interaction.user} | 1 point`,
                   embeds: [{
-                      description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 100k/unité\nPrix pour (10 ou plus) : 70k/unité",
+                      description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nZombie T4: 150k/unité\nPrix pour (10 ou plus) : 80k/unité",
                       footer: {
                           text: "FrenchLegacy",
                           iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -985,7 +1126,7 @@ module.exports = {
                 c.send({
                     content: `${T4eman} | ${interaction.user} | 10 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 4: 2m/unité\nPrix T4 pour (10 ou plus) : 1.5m/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 4: 2.5m/unité\nPrix T4 pour (10 ou plus) : 2m/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1030,7 +1171,7 @@ module.exports = {
                 c.send({
                     content: `${T2blaze} | ${interaction.user} | 7 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 2: 800k / pour (10+) 650k/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 2: 1m/ pour (10+) 850k/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1075,7 +1216,7 @@ module.exports = {
                 c.send({
                     content: `${T3blaze} | ${interaction.user} | 15 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 3: 2.2m / pour (10+) 2m/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 3: 2.5m/ pour (10+) 2m/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1120,7 +1261,7 @@ module.exports = {
                 c.send({
                     content: `${T4blaze} | ${interaction.user} | 18 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 4: 4m / pour (10+) 3m/unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 4: 6.5m /pour (10+) 6m/unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1247,7 +1388,7 @@ module.exports = {
                 c.send({
                     content: `${T1kuudra} | ${interaction.user} | 5 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 4m\n- 5 ou plus: 3m unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1292,7 +1433,7 @@ module.exports = {
                 c.send({
                     content: `${T2kuudra} | ${interaction.user} | 8 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 10m\n- 5 ou plus: 8m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1337,7 +1478,7 @@ module.exports = {
                 c.send({
                     content: `${T3kuudra} | ${interaction.user} | 15 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 13m\n- 5 ou plus: 12m unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.5m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
@@ -1382,7 +1523,7 @@ module.exports = {
                 c.send({
                     content: `${T4kuudra} | ${interaction.user} | 20 points`,
                     embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 18m\n- 5 ou plus: 17m unité",
+                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 20m\n- 5 ou plus: 17m unité",
                         footer: {
                             text: "FrenchLegacy",
                             iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"

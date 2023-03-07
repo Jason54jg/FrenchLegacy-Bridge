@@ -16,22 +16,22 @@ module.exports = {
 
         const rev = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/884973282615500870.png')
-            .addFields({ name: 'Informations sur les prix des T5 Rev', value: 'Zombie T4: 100k/unité\nPrix pour (10 ou plus) : 70k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 150k/unité' })
+            .addFields({ name: 'Informations sur les prix des T5 Rev', value: 'Zombie T4: 150k/unité\nPrix pour (10 ou plus) : 80k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 150k/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const spider = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/1081243964755157012.png')
-            .addFields({ name: 'Informations sur les prix des Spider', value: 'Spider T3: 150k/unité\nPrix T3 pour (10 ou plus) : 100k/unité\n\nSpider T4: 250k/unité\nPrix T4 pour (10 ou plus) : 200k/unité' })
+            .addFields({ name: 'Informations sur les prix des Spider', value: 'Spider T3: 70k/unité\nPrix pour (10 ou plus) : 50k/unité\n\nSpider T4: 100k/unité\nPrix pour (10 ou plus) : 90k/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const enderman = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/862880360529395752.png')
-            .addFields({ name: 'Informations sur les prix du Slayer Enderman', value: 'Voidgloom Seraph 3: 800k/unité\nPrix T3 pour (10 ou plus) : 600k/unité\n\nVoidgloom Seraph 4: 2m/unité\nPrix T4 pour (10 ou plus) : 1.5m/unité' })
+            .addFields({ name: 'Informations sur les prix du Slayer Enderman', value: 'Voidgloom Seraph 3: 800k/unité\nPrix pour (10 ou plus) : 600k/unité\n\nVoidgloom Seraph 4: 2.5m/unité\nPrix pour (10 ou plus) : 2m/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const inferno = new EmbedBuilder()
             .setThumbnail('https://cdn.discordapp.com/emojis/1039705790501617745.png')
-            .addFields({ name: 'Informations sur les prix des Inferno', value: 'Inferno Demonlord 2: 800k/unité\nPrix T3 pour (10 ou plus) : 650k/unité\n\nInferno Demonlord 3: 2.2m/unité\nPrix T3 pour (10 ou plus) : 2m/unité\n\nInferno Demonlord 4: 6m/unité\nPrix T4 pour (10 ou plus) : 5.5m/unité' })
+            .addFields({ name: 'Informations sur les prix des Inferno', value: 'Inferno Demonlord 2: 1m/unité\nPrix pour (10 ou plus) : 850k/unité\n\nInferno Demonlord 3: 2.5m/unité\nPrix pour (10 ou plus) : 2m/unité\n\nInferno Demonlord 4: 6.5m/unité\nPrix pour (10 ou plus) : 6m/unité' })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const important = new EmbedBuilder()

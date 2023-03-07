@@ -24,25 +24,25 @@ module.exports = {
         const kuudra1 = new EmbedBuilder()
         .setAuthor({ name: 'Kuudra Basic Tier', iconURL: 'https://cdn.discordapp.com/emojis/1049723395740274709.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/1049723395740274709.png')
-        .addFields({ name: 'Runs', value: '- 1 Run: 4m\n- 5 ou plus: 3m/unité'})
+        .addFields({ name: 'Runs', value: '- 1 Run: 6m\n- 5 ou plus: 5m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const kuudra2 = new EmbedBuilder()
         .setAuthor({ name: 'Kuudra Hot Tier', iconURL: 'https://cdn.discordapp.com/emojis/1049723395740274709.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/1049723395740274709.png')
-        .addFields({ name: 'Runs', value: '- 1 Run: 6m\n- 5 ou plus: 5m/unité'})
+        .addFields({ name: 'Runs', value: '- 1 Run: 10m\n- 5 ou plus: 8m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const kuudra3 = new EmbedBuilder()
         .setAuthor({ name: 'Kuudra Burning Tier', iconURL: 'https://cdn.discordapp.com/emojis/1049723395740274709.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/1049723395740274709.png')
-        .addFields({ name: 'Runs', value: '- 1 Run: 13m\n- 5 ou plus: 12m/unité'})
+        .addFields({ name: 'Runs', value: '- 1 Run: 15m\n- 5 ou plus: 12.5m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const kuudra4 = new EmbedBuilder()
         .setAuthor({ name: 'Kuudra Fiery Tier', iconURL: 'https://cdn.discordapp.com/emojis/1049723395740274709.png'})
         .setThumbnail('https://cdn.discordapp.com/emojis/1049723395740274709.png')
-        .addFields({ name: 'Runs', value: '- 1 Run: 18m\n- 5 ou plus: 17m/unité'})
+        .addFields({ name: 'Runs', value: '- 1 Run: 20m\n- 5 ou plus: 17m/unité'})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const kuudra5 = new EmbedBuilder()
@@ -61,7 +61,7 @@ module.exports = {
         .addFields({ name: 'Services de carry kuudra', value: "<:Kuudra:1049723395740274709>: Kuudra Basic Tier\n<:Kuudra:1049723395740274709>: Kuudra Hot Tier\n<:Kuudra:1049723395740274709>: Kuudra Burning Tier\n<:Kuudra:1049723395740274709>: Kuudra Fiery Tier\n<:Kuudra:1049723395740274709>: Kuudra Infernal Tier\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
-        interaction.channel.send({embeds: [conditions, terms, kuudra1, kuudra2, kuudra3, kuudra4, kuudra5, service],
+        interaction.channel.send({embeds: [terms, conditions, kuudra1, kuudra2, kuudra3, kuudra4, kuudra5, service],
             components: [
                 new ActionRowBuilder()
                 .addComponents(
