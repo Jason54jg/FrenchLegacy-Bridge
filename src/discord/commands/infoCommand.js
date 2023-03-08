@@ -71,7 +71,7 @@ module.exports = {
         text: "/help [commande] pour plus d'informations",
         iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
-    await interaction.followUp({ embeds: [infoEmbed] });
+    await interaction.reply({ embeds: [infoEmbed] });
   },
 };
 

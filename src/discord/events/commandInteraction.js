@@ -13,7 +13,7 @@ module.exports = {
                 const lbres = await pointLb.createPointLeaderboardPage(pageSelected);
 
                 if (lbres == null) {
-                    return await interaction.followUp({
+                    return await interaction.reply({
                         content: "Une erreur est survenue lors de l'exécution de la requête vers la base de données.",
                         ephemeral: true,
                     });
