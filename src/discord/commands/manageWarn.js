@@ -30,8 +30,9 @@ module.exports = {
         }
     ],
     execute: async (interaction) => {
+		// Si l'utilisateur n'a pas la permission d'utiliser la commande
 		if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-			return await interaction.followUp({
+			return await interaction.reply({
 				content: "Vous n'êtes pas autorisé à exécuter cette commande.",
 				ephemeral: true,
 			});
@@ -43,7 +44,7 @@ module.exports = {
 		
 		// Vérifie si le numéro renseigné est bien un nombre
 		if(isNaN(warn)){
-			return await interaction.followUp({
+			return await interaction.reply({
 				content: "Le nombre renseigné n'est pas valide",
 				ephemeral: true,
 			});
@@ -54,7 +55,7 @@ module.exports = {
 		if(user != null) {
 			user = await DB.getUserById(user.value);
 			if(user == null) {
-				return await interaction.followUp({
+				return await interaction.reply({
 					content: "L'utilisateur que vous avez renseigné n'a pas été trouvé.",
 					ephemeral: true,
 				});
@@ -75,7 +76,7 @@ module.exports = {
 		}
 	
 	
-		return interaction.followUp({ 
+		return interaction.reply({ 
 			content: "L'action a été effectué.", 
 			ephemeral: true 
 		});

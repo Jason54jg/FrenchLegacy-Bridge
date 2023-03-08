@@ -2,20 +2,21 @@ const config = require("../../../config.json");
 const DB = require("../../../API/database/database.js");
 
 module.exports = {
-    name: 'warn',
+	name: 'warn',
 	description: `Commande pour avertir un joueur (lui fait également perdre 1 point).`,
-    options: [
-        {
-            name: "name",
-            description: "Le joueur a avertir",
-            type: 6,
-            required: true,
-        },
-    ],
+	options: [
+		{
+			name: "name",
+			description: "Le joueur a avertir",
+			type: 6,
+			required: true,
+		},
+	],
 
 	execute: async (interaction, client) => {
+		// Si l'utilisateur n'a pas la permission d'utiliser la commande
 		if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-			return await interaction.followUp({
+			return await interaction.reply({
 				content: "Vous n'êtes pas autorisé à exécuter cette commande.",
 				ephemeral: true,
 			});
@@ -24,7 +25,7 @@ module.exports = {
 		const name = interaction.options.getString("name").value;
 		const user = await DB.getUserById(name);
 		if (user == null) {
-			return await interaction.followUp({
+			return await interaction.reply({
 				content: "Le joueur que vous avez tenté d'avertir n'a pas été trouvé",
 				ephemeral: true,
 			});
