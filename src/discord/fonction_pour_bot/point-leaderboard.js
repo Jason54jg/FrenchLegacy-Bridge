@@ -44,14 +44,18 @@ async function createPointLeaderboardPage(currentPage) {
 	description = description.substring(0, description.length - 1);
 
 	// Envoie du leaderboard
-	return [
+	let msg = [
 		// Embed
 		[{
 			title: `Leaderboard de points`,
 			description: description,
 			footer: { text: 'FrenchLegacy', icon_url: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" },
-		}],
-		// Component
-		[components]
+		}]
 	]
+	// Button
+	if(components.components.length !== 0) {
+		msg.push([components]);
+	}
+
+	return msg;
 }
