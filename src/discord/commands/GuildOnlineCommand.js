@@ -5,6 +5,7 @@ module.exports = {
     description: "Liste des membres en ligne.",
 
     execute: async (interaction, client) => {
+        interaction.deferReply();
         const cachedMessages = [];
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
@@ -74,7 +75,7 @@ module.exports = {
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
                 });
 
-            return await interaction.reply({ embeds: [embed] });
+            return await interaction.followUp({ embeds: [embed] });
         } catch (error) {
             console.log(error);
             const errorEmbed = new EmbedBuilder()
@@ -86,7 +87,7 @@ module.exports = {
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
                 });
 
-            return await interaction.reply({ embeds: [errorEmbed] });
+            return await interaction.followUp({ embeds: [errorEmbed] });
         }
     },
 };
