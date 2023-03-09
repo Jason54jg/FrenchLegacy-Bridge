@@ -5,7 +5,8 @@ module.exports = {
     description: "Liste des membres en ligne.",
 
     execute: async (interaction, client) => {
-        interaction.deferReply();
+        await interaction.deferReply();
+
         const cachedMessages = [];
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
