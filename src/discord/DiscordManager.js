@@ -79,6 +79,10 @@ class DiscordManager extends CommunicationBridge {
                 i++;
             }, 5000);
 
+            const roster = client.channels.cache.get(config.discord.channels.guildOnlineChannel);
+            await roster.send({ embeds: [await util.updateRosterEmbed("FrenchLegacy")] })
+            await roster.send({ embeds: [await util.updateRosterEmbed("FrenchLegacyII")] })
+
             // Update le roster toutes les 15 minutes
             setInterval(async () => {
                 const rosterChannel = client.channels.cache.get(config.discord.channels.guildOnlineChannel);
@@ -87,7 +91,7 @@ class DiscordManager extends CommunicationBridge {
                 await msgIterator.next().value[1].edit({ embed: [await util.updateRosterEmbed("FrenchLegacyII")] });
                 await msgIterator.next().value[1].edit({ embed: [await util.updateRosterEmbed("FrenchLegacy")] });
 
-            }, 1000 * 60 * 5)
+            }, 1000 * 60 * 30)
 
             const information = new EmbedBuilder()
                 .addFields(

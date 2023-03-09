@@ -58,7 +58,7 @@ module.exports = {
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         const service = new EmbedBuilder()
-        .addFields({ name: 'Services de carry kuudra', value: "<:Kuudra:1049723395740274709>: Kuudra Basic Tier\n<:Kuudra:1049723395740274709>: Kuudra Hot Tier\n<:Kuudra:1049723395740274709>: Kuudra Burning Tier\n<:Kuudra:1049723395740274709>: Kuudra Fiery Tier\n<:Kuudra:1049723395740274709>: Kuudra Infernal Tier\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)"})
+        .addFields({ name: 'Services de carry kuudra', value: "<:Kuudra:1049723395740274709>: Kuudra Basic Tier\n<:Kuudra:1049723395740274709>: Kuudra Hot Tier\n<:Kuudra:1049723395740274709>: Kuudra Burning Tier\n<:Kuudra:1049723395740274709>: Kuudra Fiery Tier\n<:Kuudra:1049723395740274709>: Kuudra Infernal Tier\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)\nInfo: les prix du T5 et T4 ne seront pas touché par la réduction."})
         .setFooter({text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"});
 
         interaction.channel.send({embeds: [terms, conditions, kuudra1, kuudra2, kuudra3, kuudra4, kuudra5, service],

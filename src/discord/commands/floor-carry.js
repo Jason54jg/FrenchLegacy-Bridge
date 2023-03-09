@@ -94,7 +94,7 @@ module.exports = {
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const service = new EmbedBuilder()
-            .addFields({ name: 'Services de carry donjon', value: "<:Bonzo:1039705817252909147>: Floor 1\n<:Scarf:1039705859518910634>: Floor 2\n<:Professor:1039705994768425050>: Floor 3\n<:Thorn:1039692699625865276>: Floor 4\n<:Livid:1039692626665934900>: Floor 5\n<:Sadan:1039692739488534580>: Floor 6\n<:Necron:1040832502417338458>: Floor 7\n\n(Ce sont les prix des carry publique, les membres de la guilde auront une réduction de prix)" })
+            .addFields({ name: 'Services de carry donjon', value: "<:Bonzo:1039705817252909147>: Floor 1\n<:Scarf:1039705859518910634>: Floor 2\n<:Professor:1039705994768425050>: Floor 3\n<:Thorn:1039692699625865276>: Floor 4\n<:Livid:1039692626665934900>: Floor 5\n<:Sadan:1039692739488534580>: Floor 6\n<:Necron:1040832502417338458>: Floor 7\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)" })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         interaction.channel.send({
