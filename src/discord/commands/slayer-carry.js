@@ -50,7 +50,7 @@ module.exports = {
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const carry = new EmbedBuilder()
-            .addFields({ name: 'Service de carry Slayer', value: "<:Blaze:1039705790501617745>: Service de carry Inferno Demonlord\n<:Enderman:1039706047214014464>: Service de carry des void seraph\n<:Revenant:1039706422465794158>: Service de carry revenant horror\n<:Spider:1081243964755157012>: Service de carry Spider\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)\nInfo: les prix du T4 Blaze ne seront pas touché par la réduction." })
+            .addFields({ name: 'Service de carry Slayer', value: "<:Blaze:1039705790501617745>: Service de carry Inferno Demonlord\n<:Enderman:1039706047214014464>: Service de carry des void seraph\n<:Revenant:1039706422465794158>: Service de carry revenant horror\n<:Spider:1081243964755157012>: Service de carry Spider\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)" })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         interaction.channel.send({

@@ -70,7 +70,7 @@ module.exports = {
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         const service = new EmbedBuilder()
-            .addFields({ name: 'Services de carry donjon (Master Mode)', value: "<:Bonzo:1039705817252909147>: Master 1\n<:Scarf:1039705859518910634>: Master 2\n<:Professor:1039705994768425050>: Master 3\n<:Bonzo:1039692699625865276>: Master 4\n<:Livid:1039692626665934900>: Master 5\n<:Sadan:1039692739488534580>: Master 6\n<:Necron:1040832502417338458>: Master 7\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)\nInfo: les prix du M7 et M4 ne seront pas touché par la réduction." })
+            .addFields({ name: 'Services de carry donjon (Master Mode)', value: "<:Bonzo:1039705817252909147>: Master 1\n<:Scarf:1039705859518910634>: Master 2\n<:Professor:1039705994768425050>: Master 3\n<:Bonzo:1039692699625865276>: Master 4\n<:Livid:1039692626665934900>: Master 5\n<:Sadan:1039692739488534580>: Master 6\n<:Necron:1040832502417338458>: Master 7\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)" })
             .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
         interaction.channel.send({

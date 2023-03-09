@@ -41,7 +41,7 @@ class warpoutCommand extends minecraftCommand {
         }
 
         if (message.includes("You cannot invite that player.")) {
-          this.send(`/gc ${user} a désactivé les demandes de groupe!`);
+          this.send(`/gc ${user} a désactivé les demandes de partie!`);
           this.isOnCooldown = false;
         }
 
@@ -54,7 +54,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes(" joined the party.")) {
           this.send(
-            `/gc ${user} rejoint la partie ! Le sortir du jeu..`
+            `/gc ${user} rejoint la partie ! Je le fait quitter le lobby..`
           );
           await delay(1100);
 
@@ -92,7 +92,7 @@ class warpoutCommand extends minecraftCommand {
         bot.removeListener("message", warpoutListener);
 
         if (this.isOnCooldown === true) {
-          this.send("/gc Délai d'expiration de la partie");
+          this.send("/gc Délai de l'invitation à la partie à expiré.");
           await delay(1000);
           bot.chat("/p disband");
 
