@@ -5,14 +5,12 @@ module.exports = {
     description: "Liste des membres en ligne.",
 
     execute: async (interaction, client) => {
-        await interaction.deferReply();
-
         const cachedMessages = [];
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
                 cachedMessages.push(message.toString());
 
-                if (message.toString().startsWith("Membres hors ligne")) {
+                if (message.toString().startsWith("Offline Members")) {
                     bot.removeListener("message", listener);
                     resolve(cachedMessages);
                 }
@@ -31,12 +29,12 @@ module.exports = {
             const messages = await promise;
             const trimmedMessages = messages.map(message => message.trim());
             const onlineMembersMessage = trimmedMessages.find(message =>
-                message.startsWith("Membres en ligne: ")
+                message.startsWith("Online Members: ")
             );
             const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${onlineMembersMessage.split(": ")[1]}\``;
 
             const totalMembersMessage = trimmedMessages.find(message =>
-                message.startsWith("Nombre total de membres: ")
+                message.startsWith("Total Members: ")
             );
             const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${totalMembersMessage.split(": ")[1]}\``;
 
@@ -76,7 +74,7 @@ module.exports = {
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
                 });
 
-            return await interaction.followUp({ embeds: [embed] });
+            return await interaction.reply({ embeds: [embed] });
         } catch (error) {
             console.log(error);
             const errorEmbed = new EmbedBuilder()
@@ -88,7 +86,7 @@ module.exports = {
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
                 });
 
-            return await interaction.followUp({ embeds: [errorEmbed] });
+            return await interaction.reply({ embeds: [errorEmbed] });
         }
     },
 };
