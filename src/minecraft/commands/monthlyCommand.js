@@ -63,7 +63,7 @@ class MonthlyStatsCommand extends minecraftCommand {
     } catch (error) {
       if (error === "Joueur pas dans la base de données") {
         this.send(
-          `/gc ${username} n'est pas enregistré dans la base de données! Les ajouter maintenant..`
+          `/msg ${username} ${username} n'est pas enregistré dans la base de données! Les ajouter maintenant..`
         );
 
         const uuid = await getUUID(username);
@@ -72,20 +72,20 @@ class MonthlyStatsCommand extends minecraftCommand {
         );
 
         if (res.status == 201) {
-          this.send(`/gc ${username} a été enregistré avec succès dans la base de données!`);
+          this.send(`/msg ${username} ${username} a été enregistré avec succès dans la base de données!`);
         } else if (res.status == 400) {
           this.send(
-            `/gc Oh oh, en quelque sorte ce joueur est déjà enregistré dans la base de données! Veuillez réessayer dans quelques secondes..`
+            `/msg ${username} Oh oh, en quelque sorte ce joueur est déjà enregistré dans la base de données! Veuillez réessayer dans quelques secondes..`
           );
         } else {
           this.send(
-            `/gc Error: ${res.status} ${
+            `/msg ${username} Error: ${res.status} ${
               res?.statusText || "Quelque chose s'est mal passé.."
             }`
           );
         }
       } else {
-        this.send(`/gc Erreur: ${error}`);
+        this.send(`/msg ${username} Erreur: ${error}`);
       }
     }
   }

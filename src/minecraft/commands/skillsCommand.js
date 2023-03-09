@@ -32,7 +32,7 @@ class SkillsCommand extends minecraftCommand {
       const profile = getSkills(data.profile);
 
       this.send(
-        `/gc Moyenne de compétence: ${
+        `/msg ${username} Moyenne de compétence: ${
           (
             Object.keys(profile)
               .filter((skill) => !["runecrafting", "social"].includes(skill))
@@ -59,7 +59,7 @@ class SkillsCommand extends minecraftCommand {
         } | Carpentry - ${Math.floor(profile.carpentry.levelWithProgress || 0)}`
       );
     } catch (error) {
-      this.send(`Erreur: ${error}}`);
+      this.send(`/msg ${username} Erreur: ${error}}`);
     }
   }
 }

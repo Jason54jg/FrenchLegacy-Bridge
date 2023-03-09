@@ -41,12 +41,12 @@ class NetWorthCommand extends minecraftCommand {
 
       if (profile.noInventory === true) {
         return this.send(
-          `/gc ${capitalize(username)} a une API d'inventaire désactivée!`
+          `/msg ${username} ${capitalize(username)} a une API d'inventaire désactivée!`
         );
       }
 
       this.send(
-        `/gc Le Networth de ${capitalize(username)} est de ${
+        `/msg ${username} Le Networth de ${capitalize(username)} est de ${
           addNotation("oneLetters", profile.networth) ?? 0
         } | Unsoulbound Networth: ${
           addNotation("oneLetters", profile.unsoulboundNetworth) ?? 0
@@ -56,7 +56,7 @@ class NetWorthCommand extends minecraftCommand {
         )} | Bank: ${addNotation("oneLetters", Math.round(profile.bank || 0))}`
       );
     } catch (error) {
-      this.send(`/gc ERREUR: ${error}`);
+      this.send(`/msg ${username} ERREUR: ${error}`);
     }
   }
 }

@@ -27,18 +27,18 @@ class DenickerCommand extends minecraftCommand {
       );
 
       if (data.player?.ign == null) {
-        return this.send("/gc Désolé, je n'ai pas pu trouvé le vrai nom de cette personne.");
+        return this.send(`/msg ${username} Désolé, je n'ai pas pu trouvé le vrai nom de cette personne.`);
       }
 
       const player = await hypixel.getPlayer(data.player?.ign);
 
       this.send(
-        `/gc ${player.rank ? `[${player.rank}] ` : ``}${
+        `/msg ${username} ${player.rank ? `[${player.rank}] ` : ``}${
           data.player?.ign
         } a caché son nom en ${data.player.queried_nick}`
       );
     } catch (error) {
-      this.send(`/gc Erreur: ${error?.response?.data?.error || error}`);
+      this.send(`/msg ${username} Erreur: ${error?.response?.data?.error || error}`);
     }
   }
 }

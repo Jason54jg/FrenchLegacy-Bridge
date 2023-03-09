@@ -37,7 +37,7 @@ class SkyblockCommand extends minecraftCommand {
 
       if (data.status == 404) {
         return this.send(
-          "/gc Il n'y a pas de joueur avec l'UUID ou le nom donné ou le joueur n'a pas de profil Skyblock"
+          "/msg ${username} Il n'y a pas de joueur avec l'UUID ou le nom donné ou le joueur n'a pas de profil Skyblock"
         );
       }
 
@@ -98,14 +98,14 @@ class SkyblockCommand extends minecraftCommand {
         .reduce((a, b) => a + b, 0);
 
       this.send(
-        `/gc Niveau de ${username}: ${
+        `/msg ${username} Niveau de ${username}: ${
           data.profile.leveling.experience / 100
         } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
       );
     } catch (error) {
       console.log(error);
       this.send(
-        "/gc Il n'y a pas de joueur avec l'UUID ou le nom donné ou le joueur n'a pas de profil Skyblock"
+        "/msg ${username} Il n'y a pas de joueur avec l'UUID ou le nom donné ou le joueur n'a pas de profil Skyblock"
       );
     }
   }

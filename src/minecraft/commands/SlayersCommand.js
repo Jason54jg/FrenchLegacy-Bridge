@@ -57,7 +57,7 @@ class SlayersCommand extends minecraftCommand {
 
       if (slayerType) {
         this.send(
-          `/gc ${username} de ${capitalize(slayerType)} - ${
+          `/msg ${username} ${username} de ${capitalize(slayerType)} - ${
             profile[slayerType].level
           } Niveaux | Experience: ${addCommas(profile[slayerType].xp)}`
         );
@@ -69,11 +69,11 @@ class SlayersCommand extends minecraftCommand {
             } | Experience: ${addCommas(profile[slayer].xp)}`,
           ""
         );
-        this.send(`/gc Slayer de ${username} - ${slayer}`);
+        this.send(`/msg ${username} Slayer de ${username} - ${slayer}`);
       }
       
     } catch (error) {
-      this.send(`/gc Error: ${error}`);
+      this.send(`/msg ${username} Error: ${error}`);
     }
   }
 }

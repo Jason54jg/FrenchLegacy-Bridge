@@ -39,7 +39,7 @@ class ArmorCommand extends minecraftCommand {
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (!profile.profile.inv_armor?.data) {
-        return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
+        return this.send(`/msg ${username} Ce joueur a une API d'inventaire désactivée.`);
       }
 
       const inventoryData = (
@@ -66,11 +66,11 @@ class ArmorCommand extends minecraftCommand {
       }
 
       response == ""
-        ? this.send(`/gc ${username} n'a pas d'armure équipée.`)
-        : this.send(`/gc L'armure de ${username}: ${response}`);
+        ? this.send(`/msg ${username} ${username} n'a pas d'armure équipée.`)
+        : this.send(`/msg ${username} L'armure de ${username}: ${response}`);
 
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

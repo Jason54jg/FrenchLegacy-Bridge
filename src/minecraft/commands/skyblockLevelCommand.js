@@ -29,14 +29,14 @@ class CatacombsCommand extends minecraftCommand {
       username = formatUsername(username, data.profileData?.game_mode);
 
       this.send(
-        `/gc Niveau Skyblock de${username}: ${
+        `/msg ${username} Niveau Skyblock de${username}: ${
           data.profile.leveling.experience / 100
         }`
       );
     } catch (error) {
       console.log(error);
 
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

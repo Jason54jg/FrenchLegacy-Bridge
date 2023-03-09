@@ -40,7 +40,7 @@ class RenderCommand extends minecraftCommand {
       let itemNumber = 0;
       const arg = this.getArgs(message);
       if (!arg[0]) {
-        this.send("/gc Mauvaise utilisation: !render [name] [slot] | !render [slot]");
+        this.send("/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]");
       }
       if (!isNaN(Number(arg[0]))) {
         itemNumber = arg[0];
@@ -50,7 +50,7 @@ class RenderCommand extends minecraftCommand {
         if (!isNaN(Number(arg[1]))) {
           itemNumber = arg[1];
         } else {
-          this.send("/gc Mauvaise utilisation: !render [name] [slot] | !render [slot]");
+          this.send("/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]");
           return;
         }
       }
@@ -73,7 +73,7 @@ class RenderCommand extends minecraftCommand {
         !inventoryData[itemNumber - 1] ||
         !Object.keys(inventoryData[itemNumber - 1] || {}).length
       ) {
-        this.send(`/gc Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`);
+        this.send(`/msg ${username} Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`);
       }
 
       const renderedItem = await renderLore(
@@ -87,12 +87,12 @@ class RenderCommand extends minecraftCommand {
       });
 
       this.send(
-        `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${
+        `/msg ${username} Objet de ${username} à l'emplacement ${itemNumber}: ${
           upload.data.link ?? "Quelque chose s'est mal passé..."
         }`
       );
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

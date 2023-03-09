@@ -30,7 +30,7 @@ class FairySoulsCommand extends minecraftCommand {
       const total = data.profileData.game_mode === "island" ? 5 : 238;
 
       this.send(
-        `/gc Les Fairy Souls de${username}: ${
+        `/msg ${username} Les Fairy Souls de${username}: ${
           data.profile.fairy_souls_collected
         }/${total} | Progress: ${(
           (data.profile.fairy_souls_collected / total) *
@@ -38,7 +38,7 @@ class FairySoulsCommand extends minecraftCommand {
         ).toFixed(2)}%`
       );
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
 
     }
   }
