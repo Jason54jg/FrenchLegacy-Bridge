@@ -47,7 +47,7 @@
     "lilyweight": "^2.7.0",
     "lodash": "^4.17.21",
     "mineflayer": "^4.8.0",
-    "mkdirp": "^2.1.4",
+    "mkdirp": "^2.1.5",
     "moment": "^2.29.4",
     "mongodb": "^5.1.0",
     "node-fetch": "^3.3.0",
