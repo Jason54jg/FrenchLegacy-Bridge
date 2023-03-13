@@ -41,7 +41,7 @@
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "fs-promise": "^2.0.3",
-    "got": "^12.5.3",
+    "got": "^12.6.0",
     "hypixel-api-reborn": "^10.0.0",
     "imgur": "^2.2.0",
     "lilyweight": "^2.7.0",
