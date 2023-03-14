@@ -2,6 +2,7 @@
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+const messages = require('../../../messages.json');
 
 module.exports = {
     name: "help",
@@ -73,8 +74,8 @@ module.exports = {
                     }
                 )
                 .setFooter({
-                    text: "/help [command] pour plus d'informations",
-                    iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+                    text: `${messages.footerhelp}`,
+                    iconURL: `${messages.iconurl}`,
                 });
             await interaction.reply({ embeds: [helpMenu] });
         } else {
@@ -89,7 +90,7 @@ module.exports = {
                     .setDescription(`Command \`${commandName}\` was not found`)
                     .setFooter({
                         text: "() = obligatoire, [] = facultatif",
-                        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+                        iconURL: `${messages.iconurl}`,
                     });
 
                 return await interaction.reply({ embeds: [errorEmbed] });
@@ -114,7 +115,7 @@ module.exports = {
                 .setDescription(description + "\n")
                 .setFooter({
                     text: "() = obligatoire, [] = facultatif",
-                    iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+                    iconURL: `${messages.iconurl}`,
                 });
 
             await interaction.reply({ embeds: [embed] });

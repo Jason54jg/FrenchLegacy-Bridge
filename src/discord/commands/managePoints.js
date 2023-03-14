@@ -33,7 +33,7 @@ module.exports = {
 		// Si l'utilisateur n'a pas la permission d'utiliser la commande
 		if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
 			return await interaction.reply({
-				content: "Vous n'êtes pas autorisé à exécuter cette commande.",
+				content: `${messages.permissionInsuffisante}`,
 				ephemeral: true,
 			});
 		}
@@ -77,7 +77,7 @@ module.exports = {
 
 
 		return interaction.reply({
-			content: "L'action a été effectué.",
+			content: `${messages.commandeRéussi}`,
 			ephemeral: true
 		});
 	}

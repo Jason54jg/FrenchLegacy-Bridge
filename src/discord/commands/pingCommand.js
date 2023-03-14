@@ -1,20 +1,22 @@
-// eslint-disable-next-line
+const config = require('../../../config.json')
+const ms = require('ms');
+const { toFixed } = require("../../contracts/helperFunctions.js");
 const { EmbedBuilder } = require("discord.js");
+const messages = require('../../../messages.json');
 
 module.exports = {
   name: "ping",
   description: "Affiche la latence du bot.",
 
   execute: async (interaction, client) => {
-    const embed = new EmbedBuilder()
-      .setColor(0x0099ff)
-      .setTitle("🏓 Pong!")
-      .setDescription(`Latency: ${client.ws.ping}ms`)
-      .setFooter({
-        text: `/help [command] pour plus d'informations`,
-        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
-      });
-
-    interaction.reply({ embeds: [embed] });
+        const stats = {
+            title: `Affichage des statistiques pour ${interaction.guild.name}`,
+            description: (
+                `**Nom du bot principal**: <@${config.discord.bot.clientID}>\n**Latence du bot**: \`${client.ws.ping}\` ms\n**En ligne depuis** <t:${+ toFixed((Date.now() + client.uptime) / 1000, 0)}:R>\n**Votre tag**: ${interaction.user}\n**Votre ID** ${interaction.user.id}
+                `),
+            timestamp: new Date().toISOString(),
+            footer: {text: `${messages.footerhelp}`, iconURL: `${messages.iconurl}`},
+                };
+    await interaction.reply({ embeds: [stats] });
   },
 };

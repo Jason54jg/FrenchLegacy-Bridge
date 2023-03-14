@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const messages = require('../../../messages.json');
 
 module.exports = {
     name: "gonline",
@@ -70,8 +71,8 @@ module.exports = {
                 .setTitle("Membres en ligne")
                 .setDescription(description)
                 .setFooter({
-                    text: "/help [commande] pour plus d'informations",
-                    iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+                    text: `${messages.footerhelp}`,
+                    iconURL: `${messages.iconurl}`,
                 });
 
             return await interaction.reply({ embeds: [embed] });
@@ -82,8 +83,8 @@ module.exports = {
                 .setTitle("Erreur")
                 .setDescription(`\`\`\`${error}\`\`\``)
                 .setFooter({
-                    text: "/help [commande] pour plus d'informations",
-                    iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+                    text: `${messages.footerhelp}`,
+                    iconURL: `${messages.iconurl}`,
                 });
 
             return await interaction.reply({ embeds: [errorEmbed] });

@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
+const messages = require('../../../messages.json');
 
 module.exports = {
   name: "info",
@@ -12,16 +13,15 @@ module.exports = {
     const { discordCommands, minecraftCommands } = getCommands(commands);
 
     const infoEmbed = new EmbedBuilder()
-      .setColor(0x0099ff)
-      .setTitle("Commandes du bot Hypixel Bridge")
+      .setTitle("Commandes du bot French Legacy")
       .addFields(
         {
-          name: "**Minecraft Commands**: ",
+          name: "**Minecraft Commandes**: ",
           value: `${minecraftCommands}`,
           inline: true,
         },
         {
-          name: "**Discord Commands**: ",
+          name: "**Discord Commandes**: ",
           value: `${discordCommands}`,
           inline: true,
         },
@@ -68,8 +68,8 @@ module.exports = {
         }
       )
       .setFooter({
-        text: "/help [commande] pour plus d'informations",
-        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        text: `${messages.footerhelp}`,
+        iconURL: `${messages.iconurl}`,
       });
     await interaction.reply({ embeds: [infoEmbed] });
   },
