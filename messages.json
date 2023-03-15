@@ -30,7 +30,6 @@
   "cannotMuteMoreThanOneMonthMessage": "Vous ne pouvez pas mettre quelqu'un en sourdine pendant plus d'un mois",
   "guildLevelUpMessage": "La guilde a atteint le niveau",
   "footerhelp": "/help [command] pour plus d'informations",
-  "iconurl": "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
   "permissionInsuffisante": "Vous n'êtes pas autorisé à exécuter cette commande.",
   "commandeRéussi": "La commande a été exécutée avec succès.",
   "erreur400": "Le calcul des données a échoué à l'API SkyCrypt, ne pas signaler aux développeurs de SkyCrypt **(CODE 400)**"

@@ -19,7 +19,7 @@ module.exports = {
 			embeds: [{
 				title: 'Choississez le rôles qu vous avez sur hypixel',
 				description: 'VIP\nVIP+\nMVP\nMVP+\nMVP++',
-				footer: { text: 'FrenchLegacy', icon_url: `${messages.iconurl}` },
+				footer: { text: 'FrenchLegacy', icon_url: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` },
 			}],
 			components: [
 				new ActionRowBuilder()

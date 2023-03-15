@@ -12,7 +12,7 @@ module.exports = {
             .setDescription(`En ligne depuis <t:${+ toFixed((Date.now() + client.uptime) / 1000, 0)}:R>`)
             .setFooter({
                 text: `${messages.footerhelp}`,
-                iconURL: `${messages.iconurl}`,
+                iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
             });
         interaction.reply({ embeds: [uptimeEmbed] });
     },

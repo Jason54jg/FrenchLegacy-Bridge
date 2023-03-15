@@ -29,6 +29,7 @@ module.exports = {
         try {
             const messages = await promise;
             const trimmedMessages = messages.map(message => message.trim());
+
             const onlineMembersMessage = trimmedMessages.find(message =>
                 message.startsWith("Online Members: ")
             );
@@ -72,7 +73,7 @@ module.exports = {
                 .setDescription(description)
                 .setFooter({
                     text: `${messages.footerhelp}`,
-                    iconURL: `${messages.iconurl}`,
+                    iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
                 });
 
             return await interaction.reply({ embeds: [embed] });
@@ -84,7 +85,7 @@ module.exports = {
                 .setDescription(`\`\`\`${error}\`\`\``)
                 .setFooter({
                     text: `${messages.footerhelp}`,
-                    iconURL: `${messages.iconurl}`,
+                    iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
                 });
 
             return await interaction.reply({ embeds: [errorEmbed] });

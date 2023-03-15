@@ -14,7 +14,7 @@ module.exports = {
             )
             .setFooter({
                 text: "FrenchLegacy",
-                iconURL: `${messages.iconurl}`
+                iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`
             });
 
         const FrenchBot = new EmbedBuilder()
@@ -25,7 +25,7 @@ module.exports = {
             })
             .setFooter({
                 text: "FrenchLegacy",
-                iconURL: `${messages.iconurl}`
+                iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`
             });
 
         interaction.reply({ embeds: [information, Cartouche, FrenchBot] });

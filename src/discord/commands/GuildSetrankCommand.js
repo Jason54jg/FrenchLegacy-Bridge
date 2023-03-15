@@ -38,7 +38,7 @@ module.exports = {
           .setTimestamp()
           .setFooter({
             text: `${messages.footerhelp}`,
-            iconURL: `${messages.iconurl}`,
+            iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
           });
         await interaction.reply({ embeds: [embed] });
   },

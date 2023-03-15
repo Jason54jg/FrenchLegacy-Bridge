@@ -37,7 +37,7 @@ module.exports = {
 			embeds: [{
 				title: `Le joueur <@${name}> a été avertit !`,
 				description: `<@${name}> a maintenant ${user.warn} avertissements`,
-				footer: { text: 'FrenchLegacy', icon_url: `${messages.iconurl}` },
+				footer: { text: 'FrenchLegacy', icon_url: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` },
 			}],
 		})
 	},

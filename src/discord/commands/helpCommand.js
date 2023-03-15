@@ -75,7 +75,7 @@ module.exports = {
                 )
                 .setFooter({
                     text: `${messages.footerhelp}`,
-                    iconURL: `${messages.iconurl}`,
+                    iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
                 });
             await interaction.reply({ embeds: [helpMenu] });
         } else {
@@ -90,7 +90,7 @@ module.exports = {
                     .setDescription(`Command \`${commandName}\` was not found`)
                     .setFooter({
                         text: "() = obligatoire, [] = facultatif",
-                        iconURL: `${messages.iconurl}`,
+                        iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
                     });
 
                 return await interaction.reply({ embeds: [errorEmbed] });
@@ -115,7 +115,7 @@ module.exports = {
                 .setDescription(description + "\n")
                 .setFooter({
                     text: "() = obligatoire, [] = facultatif",
-                    iconURL: `${messages.iconurl}`,
+                    iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
                 });
 
             await interaction.reply({ embeds: [embed] });

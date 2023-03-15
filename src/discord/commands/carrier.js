@@ -16,7 +16,7 @@ module.exports = {
         }
         const terms = new EmbedBuilder()
             .addFields({ name: 'Demandes de service', value: "Pour postuler à un rôle de service, réagissez avec 'Créer votre ticket' Veuillez noter que vous DEVEZ être vérifié pour postuler aux rôles de service. Suivez les étapes de <#1017785843458506822> si vous ne l'avez pas déjà fait avant de postuler." })
-            .setFooter({ text: "FrenchLegacy", iconURL: `${messages.iconurl}` });
+            .setFooter({ text: "FrenchLegacy", iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` });
 
         const floor = new EmbedBuilder()
             .addFields({ name: 'Exigences du carry Floor', value: "<@&1040220987733581855> : Cata 39\n<@&1040221012832309300> : Cata 34\n<@&1040221014774251561> : Cata 30\n<@&1040221014866546718> : Cata 29\n<@&1082664044202299443> : Cata 24\n<@&1082664061197631589> : Cata 20\n<@&1082664063298965544> : Cata 15" });

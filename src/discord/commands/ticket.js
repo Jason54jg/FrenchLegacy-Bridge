@@ -19,7 +19,7 @@ module.exports = {
             embeds: [{
                 title: 'Crée un ticket',
                 description: 'Réagissez avec <:PencilOof:1040865260267122759> pour créer un ticket\n\nTicket support (à utiliser seulement en cas de problème)',
-                footer: { text: 'FrenchLegacy', icon_url: `${messages.iconurl}` },
+                footer: { text: 'FrenchLegacy', icon_url: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` },
             }],
             components: [
                 new ActionRowBuilder()

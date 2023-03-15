@@ -41,14 +41,14 @@ module.exports = {
         const successfullyLinked = new EmbedBuilder()
             .setAuthor({ name: 'Lié avec succès!'})
             .setDescription(`\`${username}\` a été lié avec succès à \`${(await interaction.guild.members.fetch(id)).user.username}#${(await interaction.guild.members.fetch(id)).user.discriminator}\``)
-            .setFooter({ text: `${messages.footerhelp}`, iconURL: `${messages.iconurl}` });
+            .setFooter({ text: `${messages.footerhelp}`, iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` });
         await interaction.reply({ embeds: [successfullyLinked] });
 
         } catch(error) {
             const errorEmbed = new EmbedBuilder()
                 .setAuthor({ name: `Une erreur s'est produite`})
                 .setDescription(error)
-                .setFooter({ text: `${messages.footerhelp}`, iconURL: `${messages.iconurl}` });
+                .setFooter({ text: `${messages.footerhelp}`, iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` });
             interaction.reply({ embeds: [errorEmbed] });
         }
     }

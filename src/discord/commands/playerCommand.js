@@ -83,7 +83,7 @@ module.exports = {
             ],
             timestamp: new Date().toISOString(),
             footer: {
-                text: `${messages.footerhelp}`, iconURL: `${messages.iconurl}`,
+                text: `${messages.footerhelp}`, iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
             },
         };
 
