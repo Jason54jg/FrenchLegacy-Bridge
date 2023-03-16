@@ -47,17 +47,17 @@ module.exports = {
                     value: `${Math.round((profileweight.senither.total) * 100) / 100}`,
                 },
                 {
-                    name: '<:MasterMode:1059665473379246091> Dungeon Weight',
+                    name: 'Dungeon Weight',
                     value: `${Math.round((profileweight.senither.dungeons.total) * 100) / 100}`,
                     inline: true,
                 },
                 {
-                    name: '<:sword:1060045450897539122> Skill Weight',
+                    name: 'Skill Weight',
                     value: `${Math.round((profileweight.senither.skills.alchemy.total + profileweight.senither.skills.combat.total + profileweight.senither.skills.enchanting.total + profileweight.senither.skills.farming.total + profileweight.senither.skills.fishing.total + profileweight.senither.skills.foraging.total + profileweight.senither.skills.mining.total + profileweight.senither.skills.taming.total) * 100) / 100}`,
                     inline: true,
                 },
                 {
-                    name: '<:Slayer:1060045486712696872> Slayer Weight',
+                    name: 'Slayer Weight',
                     value: `${Math.round((profileweight.senither.slayer.total) * 100) / 100}`,
                     inline: true,
                 },

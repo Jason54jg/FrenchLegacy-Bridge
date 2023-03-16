@@ -46,7 +46,7 @@ module.exports = {
                 },
                 {
                     name: 'Guilde',
-                    value: `{guild}`, //Pas encore fonctionnel
+                    value: `${guild}`, //Pas encore fonctionnel
                     inline: true,
                 },
                 {

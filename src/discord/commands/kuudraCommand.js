@@ -53,27 +53,27 @@ module.exports = {
             },
             fields: [
                 {
-                    name: "<:kuudra_t1:1070821104727367761> Kuudra Tier 1",
+                    name: "Kuudra Tier 1",
                     value: `Completion terminées: \`${t1comp}\`\nVague la plus haute: \`${t1wave}\``,
                     inline: false
                 },
                 {
-                    name: "<:kuudra_t2:1070821070497648660> Kuudra Tier 2",
+                    name: "Kuudra Tier 2",
                     value: `Completion terminées: \`${t2comp}\`\nVague la plus haute: \`${t2wave}\``,
                     inline: true
                 },
                 {
-                    name: "<:kuudra_t3:1070821045088551003> Kuudra Tier 3",
+                    name: "Kuudra Tier 3",
                     value: `Completion terminées: \`${t3comp}\`\nVague la plus haute: \`${t3wave}\``,
                     inline: false
                 },
                 {
-                    name: "<:kuudra_t4:1070821020296028181> Kuudra Tier 4",
+                    name: "Kuudra Tier 4",
                     value: `Completion terminées: \`${t4comp}\`\nVague la plus haute: \`${t4wave}\``,
                     inline: true
                 },
                 {
-                    name: "<:kuudra_t5:1070820991330160761> Kuudra Tier 5",
+                    name: "Kuudra Tier 5",
                     value: `Completion terminées: \`${t5comp}\`\nVague la plus haute: \`${t5wave}\``,
                     inline: false
                 },

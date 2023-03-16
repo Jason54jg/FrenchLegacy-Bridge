@@ -1,10 +1,5 @@
-/*eslint-disable */
-const { ActivityType } = require("discord.js");
 const config = require("../../../config.json");
 const Logger = require("../../Logger.js");
-const res = require("express/lib/response");
-
-/*eslint-enable */
 
 class StateHandler {
   constructor(discord) {
@@ -13,30 +8,7 @@ class StateHandler {
 
   async onReady() {
     Logger.discordMessage("Client prêt, connecté en tant que " + this.discord.client.user.tag);
-    const channel = await getChannel("Logger");
     global.bridgeChat = config.discord.channels.guildChatChannel;
-
-    channel.send({
-      embeds: [
-        {
-          author: { name: `Le BridgeChat est en ligne` },
-          color: 2067276,
-        },
-      ],
-    });
-
-  }
-
-  async onClose() {
-    const channel = await getChannel("Logger");
-    channel.send({
-      embeds: [
-        {
-          author: { name: `Le BridgeChat est hors ligne` },
-          color: 15548997,
-        },
-      ],
-    });
   }
 }
 

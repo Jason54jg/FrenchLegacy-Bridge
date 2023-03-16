@@ -57,32 +57,32 @@ module.exports = {
             timestamp: new Date().toISOString(),
             fields: [
                 {
-                    name: "<:HeartOfTheMountain:1061814218598391818> HotM Level",
+                    name: "HotM Level",
                     value: `${hotmlvl}`,
                     inline: true
                 },
                 {
-                    name: `<:iron_nugget:1061814731905716254> HotM Exp`,
+                    name: `HotM Exp`,
                     value: `${xp}`,
                     inline: true
                 },
                 {
-                    name: `<:CrystalHollows:1061815055403974657> Progrès du niveau suivant`,
+                    name: `Progrès du niveau suivant`,
                     value: `${hotmprogress}%`, //Pas fini !! !!
                     inline: true
                 },
                 {
-                    name: "<:Iron_Pickaxe:1061814368196628561> Commission Milestone",
+                    name: "Commission Milestone",
                     value: `${milestone}`,
                     inline: true
                 },
                 {
-                    name: `<:ROYAL_PIGEON:1061815676282617896> Commissions totales`,
+                    name: `Commissions totales`,
                     value: `${completionscomma}`,
                     inline: true
                 },
                 {
-                    name: `<:diamond_pickaxe:1061817609177288824> Capacité de pioche`,
+                    name: `Capacité de pioche`,
                     value: `**${pickaxe_ability}**`,
                     inline: true
                 },

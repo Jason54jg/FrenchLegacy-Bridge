@@ -23,10 +23,6 @@ class warpoutCommand extends minecraftCommand {
 
       const user = this.getArgs(message)[0];
       if (user === undefined) throw "Veuillez fournir un nom d'utilisateur!";
-      bot.chat("/hub");
-
-      await delay(10000);
-      bot.chat("/is");
 
       const warpoutListener = async (message) => {
         message = message.toString();
@@ -69,8 +65,6 @@ class warpoutCommand extends minecraftCommand {
 
           await delay(1000);
           bot.chat("/p disband");
-          await delay(690);
-          bot.chat("\u00a7");
         }
 
         if (message.includes("warped to your server")) {
@@ -80,8 +74,6 @@ class warpoutCommand extends minecraftCommand {
 
           await delay(1000);
           bot.chat("/p disband");
-          await delay(690);
-          bot.chat("\u00a7");
         }
       };
 
