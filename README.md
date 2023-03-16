@@ -234,3 +234,5 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 - [Senither](https://github.com/Senither)
 - [LilyWeight](https://github.com/Antonio32A/lilyweight)
 - [DuckySoLucky](https://github.com/DuckySoLucky)
+- [AxleCat284](https://github.com/AxleCat284)
+- [SkyStats](https://github.com/SkyStats-Development/SkyStats)
