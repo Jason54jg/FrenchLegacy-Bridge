@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const messages = require('../../../messages.json');
 
@@ -32,9 +33,14 @@ module.exports = {
         const reason = interaction.options.getString("raison");
 
         bot.chat(`/g kick ${name} ${reason}`);
-        await interaction.reply({
-            content: `${messages.commandeRéussi}`,
-            ephemeral: true,
-        });
+        const embed = new EmbedBuilder()
+          .setTitle(`${messages.commandeRéussi}`)
+          .setDescription("Regarde dans <#1014148236132483112>")
+          .setTimestamp()
+          .setFooter({
+            text: `${messages.footerhelp}`,
+            iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+          });
+        await interaction.reply({ embeds: [embed] });
     },
 };
