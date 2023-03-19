@@ -3,6 +3,7 @@ const config = require ('../../../config.json');
 const { EmbedBuilder } = require("discord.js");
 const { writeAt } = require('../../contracts/helperFunctions');
 const messages = require('../../../messages.json');
+const DB = require("../../../API/database/database.js");
 
 module.exports = {
     name: 'link',
@@ -20,8 +21,7 @@ module.exports = {
                 let found = false;
                 player.socialMedia.forEach(media => {if (media.link === interaction.user.tag) {found = true}})
                 if (found) {
-                    await writeAt('data/discordLinked.json', `${interaction.user.id}.data`, [`${player.uuid}`])
-                    await writeAt('data/minecraftLinked.json', `${player.uuid}.data`, [`${interaction.user.id}`])
+                    await DB.addLinkedAccounts(interaction.user.id, player.uuid, player.nickname);
 
                     const successfullyLinked = new EmbedBuilder()
                         .setAuthor({ name: 'Lié avec succès!'})

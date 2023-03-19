@@ -3,6 +3,7 @@ const getWeight = require('../../../API/stats/weight');
 const messages = require('../../../messages.json');
 const wait = require('node:timers/promises').setTimeout;
 const axios = require('axios');
+const DB = require("../../../API/database/database.js");
 
 module.exports = {
     name: 'weight',
@@ -19,10 +20,8 @@ module.exports = {
 
     execute: async (interaction, client) => {
         await interaction.deferReply();
-		await wait(100);
-        const linked = require('../../../data/discordLinked.json')
-        const uuid = linked?.[interaction?.user?.id]?.data[0]
-        let name = interaction.options.getString("name") || uuid
+        const mc_username = await DB.getLinkedAccounts(interaction.user.id) || ``
+        const name = interaction.options.getString("name") || mc_username;
         const username = (
             await axios.get(`https://playerdb.co/api/player/minecraft/${name}`)
           ).data.data.player.username;
@@ -30,7 +29,6 @@ module.exports = {
             await axios.get(`https://playerdb.co/api/player/minecraft/${name}`)
           ).data.data.player.raw_id;
         const data = await getLatestProfile(name)
-        name = data.profileData?.game_mode ? `♲ ${name}` : name
         const profileweight = await getWeight(data.profile, data.uuid)
         const profilename = (data.profileData.cute_name)
 
@@ -45,6 +43,7 @@ module.exports = {
                 {
                     name: 'Senither Weight',
                     value: `${Math.round((profileweight.senither.total) * 100) / 100}`,
+                    inline: true,
                 },
                 {
                     name: 'Dungeon Weight',

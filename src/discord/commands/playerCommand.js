@@ -3,6 +3,7 @@ const hypixel = require('../../contracts/API/HypixelRebornAPI');
 const { lowerCase } = require('lodash');
 const messages = require('../../../messages.json')
 const axios = require('axios');
+const DB = require("../../../API/database/database.js");
 
 module.exports = {
     name: 'player',
@@ -15,15 +16,18 @@ module.exports = {
     }],
 
 	execute: async (interaction, client) => {
-        const linked = require('../../../data/discordLinked.json')
-        const uuid = linked?.[interaction?.user?.id]?.data[0]
-        let name = interaction.options.getString("name") || uuid
-        const username = (await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}/`)).data.name || name
+        const mc_username = await DB.getLinkedAccounts(interaction.user.id) || ``
+        const name = interaction.options.getString("name") || mc_username;
+        const { data: { data: { player } } } = await axios.get(`https://playerdb.co/api/player/minecraft/${name}`);
+        const uuid2 = player.raw_id;
+        const Hypixel = (await hypixel.getPlayer(uuid2))
+        const username = (await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${name}/`)).data.name || name
 		const rank = (await hypixel.getPlayer(name)).rank
-		const guild = (await hypixel.getPlayer(name)).guild || `? ? ?`
+        const guild = await hypixel.getGuild("player", uuid2)
 		const mcversion = (await hypixel.getPlayer(name)).mcVersion || `1.8x`
-		const status = (await hypixel.getPlayer(name)).isOnline
-		const level = (await hypixel.getPlayer(name)).level
+        const statusm = Hypixel.isOnline
+        const networkLevel = Hypixel.level
+        const ap = Hypixel.achievementPoints
 		const expall = (await hypixel.getPlayer(name)).totalExperience
 		const karma = (await hypixel.getPlayer(name)).karma
 		const nickname = (await hypixel.getPlayer(name)).nickname
@@ -46,17 +50,23 @@ module.exports = {
                 },
                 {
                     name: 'Guilde',
-                    value: `${guild}`, //Pas encore fonctionnel
+                    value: `[\`${guild}\`](https://plancke.io/hypixel/guild/player/${name})`, //Pas encore d'affiche juste un lien cliquable
                     inline: true,
                 },
                 {
                     name: 'Statut',
-                    value: `${status}`,
+                    value: `${statusm}`,
                     inline: true,
                 },
                 {
                     name: 'Niveau',
-                    value: `${level}`,
+                    value: `${networkLevel}`,
+                    inline: true,
+                },
+                {
+                    name: `Nombre de points`,
+                    value: `${ap}`,
+                    inline: true,
                 },
                 {
                     name: `Total d'experience`,
@@ -71,14 +81,17 @@ module.exports = {
                 {
                     name: 'Version Mc',
                     value: `${mcversion}`,
+                    inline: true,
                 },
                 {
                     name: 'Nom',
-                    value: `${nickname}`,
+                    value: `[\`${nickname}\`](https://plancke.io/hypixel/guild/player/${name})`,
+                    inline: true,
                 },
                 {
                     name: 'Langue',
                     value: `${lanng}`,
+                    inline: true,
                 },
             ],
             timestamp: new Date().toISOString(),

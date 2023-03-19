@@ -3,6 +3,7 @@ const { addCommas } = require('../../contracts/helperFunctions');
 const messages = require('../../../messages.json');
 const { default: axios } = require('axios');
 const wait = require('node:timers/promises').setTimeout;
+const DB = require("../../../API/database/database.js");
 
 module.exports = {
     name: 'mining',
@@ -19,10 +20,8 @@ module.exports = {
       ],
     execute: async (interaction, client, InteractionCreate) => {
         await interaction.deferReply();
-        await wait(1);
-        const linked = require('../../../data/discordLinked.json')
-        const uuid = linked?.[interaction?.user?.id]?.data[0]
-        let name = interaction.options.getString("name") || uuid
+        const mc_username = await DB.getLinkedAccounts(interaction.user.id) || ``
+        const name = interaction.options.getString("name") || mc_username;
         const username = (
             await axios.get(`https://playerdb.co/api/player/minecraft/${name}`)
           ).data.data.player.username;

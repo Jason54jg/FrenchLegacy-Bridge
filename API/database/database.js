@@ -165,6 +165,23 @@ class DB {
         }
         await this.clientDb.db("dev").collection("users").updateMany({}, updatedUser);
     }
+
+     async addLinkedAccounts(discordId, uuid, mc_username) {
+         if(await this.getUserById(discordId) == null) { return }
+
+         let updatedUser = {
+             $set: {
+                 uuid: uuid,
+                 mc_username: mc_username
+             }
+         }
+         await this.clientDb.db("dev").collection("users").updateOne({ discordId: discordId }, updatedUser);
+     }
+
+     async getLinkedAccounts(discordId) {
+         const result = await this.clientDb.db("dev").collection('users').findOne({ discordId: discordId, uuid: {$ne: null} });
+         return result ? result.uuid : null;
+     }
 }
 
 module.exports = new DB();

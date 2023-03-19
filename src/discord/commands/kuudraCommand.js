@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const { toLower } = require('lodash');
 const wait = require('node:timers/promises').setTimeout;
 const messages = require('../../../messages.json');
+const DB = require("../../../API/database/database.js");
 
 module.exports = {
     name: 'kuudra',
@@ -18,9 +19,8 @@ module.exports = {
       ],
       execute: async (interaction, client, InteractionCreate) => {
         await interaction.deferReply();
-        const linked = require('../../../data/discordLinked.json')
-        const uuid = linked?.[interaction?.user?.id]?.data[0]
-        let name = interaction.options.getString("name") || uuid
+        const mc_username = await DB.getLinkedAccounts(interaction.user.id) || ``
+        const name = interaction.options.getString("name") || mc_username;
         const { data } = await axios.get(`https://playerdb.co/api/player/minecraft/${name}`)
         const username = data.data.player.username;
         const uuid2 = data.data.player.raw_id;
