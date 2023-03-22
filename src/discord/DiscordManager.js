@@ -9,6 +9,7 @@ const {
     Discord
 } = require("discord.js");
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
+const { manageGiveaway } = require('./handlers/GiveawayHandler.js');
 const messageToImage = require("../contracts/messageToImage.js");
 const MessageHandler = require("./handlers/MessageHandler.js");
 const StateHandler = require("./handlers/StateHandler.js");
@@ -93,6 +94,9 @@ class DiscordManager extends CommunicationBridge {
                 await msgIterator.next().value[1].edit({ embed: [await util.updateRosterEmbed("FrenchLegacy")] });
 
             }, 1000 * 60 * 30)
+
+            // Recherche de giveaway toutes les minutes
+            setInterval(manageGiveaway, 1000 * 10, client);
 
             const information = new EmbedBuilder()
                 .addFields(
