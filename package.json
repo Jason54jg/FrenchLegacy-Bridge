@@ -1,6 +1,6 @@
 {
   "name": "frenchlegacy-bridge",
-  "version": "3.1.12",
+  "version": "1.2.0",
   "description": "Un chat de guilde Hypixel et un bridgechat Discord",
   "main": "index.js",
   "scripts": {

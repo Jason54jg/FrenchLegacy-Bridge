@@ -37,4 +37,27 @@ async function getUsername(uuid) {
   }
 }
 
-module.exports = { getUUID, getUsername };
+async function resolveUsernameOrUUID(username) {
+  try {
+    const { data } = await axios.get(
+      `${config.minecraft.API.playerDBAPI}/${username}`
+    );
+
+    if (data.success === false || data.error === true) {
+      throw data.message == "La recherche de l'API Mojang a échoué."
+        ? "Nom d'utilisateur invalide."
+        : data.message;
+    }
+
+    if (data.data?.player?.raw_id === undefined) {
+      // eslint-disable-next-line no-throw-literal
+      throw "Aucun UUID trouvé pour ce nom d'utilisateur.";
+    }
+
+    return { username: data.data.player.username, uuid: data.data.player.raw_id };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { getUUID, getUsername, resolveUsernameOrUUID };
