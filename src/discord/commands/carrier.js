@@ -1,22 +1,22 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const config = require("../../../config.json");
+const messages = require('../../../messages.json');
 
 module.exports = {
-    name: 'carry',
+    name: 'carryembed',
     description: `Commande pour les embeds des carrier`,
 
     execute: async (interaction, client) => {
         // Si l'utilisateur n'a pas la permission d'utiliser la commande
         if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
             return await interaction.reply({
-                content: "Vous n'êtes pas autorisé à exécuter cette commande.",
+                content: `${messages.permissionInsuffisante}`,
                 ephemeral: true,
             });
         }
-
         const terms = new EmbedBuilder()
             .addFields({ name: 'Demandes de service', value: "Pour postuler à un rôle de service, réagissez avec 'Créer votre ticket' Veuillez noter que vous DEVEZ être vérifié pour postuler aux rôles de service. Suivez les étapes de <#1017785843458506822> si vous ne l'avez pas déjà fait avant de postuler." })
-            .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
+            .setFooter({ text: "FrenchLegacy", iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png` });
 
         const floor = new EmbedBuilder()
             .addFields({ name: 'Exigences du carry Floor', value: "<@&1040220987733581855> : Cata 39\n<@&1040221012832309300> : Cata 34\n<@&1040221014774251561> : Cata 30\n<@&1040221014866546718> : Cata 29\n<@&1082664044202299443> : Cata 24\n<@&1082664061197631589> : Cata 20\n<@&1082664063298965544> : Cata 15" });

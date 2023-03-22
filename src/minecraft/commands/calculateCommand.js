@@ -26,20 +26,20 @@ class CalculateCommand extends minecraftCommand {
       const answer = eval(calculation);
 
       if (answer === Infinity) {
-        return this.send(`/gc Something went wrong..`);
+        return this.send(`/msg ${username} Quelque chose s'est mal passé..`);
       }
 
       if (answer < 100000) {
-        return this.send(`/gc ${calculation} = ${addCommas(answer)}`);
+        return this.send(`/msg ${username} ${calculation} = ${addCommas(answer)}`);
       }
 
       this.send(
-        `/gc ${calculation} = ${addNotation("oneLetters", answer)} (${addCommas(
+        `/msg ${username} ${calculation} = ${addNotation("oneLetters", answer)} (${addCommas(
           answer
         )})`
       );
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

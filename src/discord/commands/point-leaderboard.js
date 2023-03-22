@@ -6,12 +6,6 @@ module.exports = {
 	description: `Commande pour afficher le leaderboard des points`,
 
 	execute: async (interaction, client) => {
-		if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-			return await interaction.reply({
-				content: "Vous n'êtes pas autorisé à exécuter cette commande.",
-				ephemeral: true,
-			});
-		}
 		let lbres = await util.createPointLeaderboardPage(1);
 
 		if (lbres == null) {

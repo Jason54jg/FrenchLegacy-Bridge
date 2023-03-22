@@ -34,13 +34,13 @@ class GuildExperienceCommand extends minecraftCommand {
       if (!player) throw "Le joueur n'est pas dans la guilde.";
 
       this.send(
-        `/gc ${
+        `/msg ${username} ${
           username == arg[0] ? `${arg[0]}` : `Ton`
         } Expérience de guilde hebdomadaire: ${addCommas(player.weeklyExperience)}.`
       );
 
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(`/msg ${username} ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

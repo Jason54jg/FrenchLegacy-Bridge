@@ -108,7 +108,7 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc ${
+        `/msg ${username} ${
           string === ""
             ? "Ce joueur n'a pas d'enchères actives"
             : `Enchères actives de ${username}: ${string}`
@@ -116,7 +116,7 @@ class AuctionHouseCommand extends minecraftCommand {
       );
     } catch (error) {
       console.log(error);
-      this.send(`/gc [ERREUR] ${error}`);
+      this.send(`/msg ${username} [ERREUR] ${error}`);
     }
   }
 }

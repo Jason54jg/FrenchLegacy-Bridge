@@ -47,7 +47,7 @@ class CatacombsCommand extends minecraftCommand {
           .reduce((a, b) => a + b, 0);
 
       this.send(
-        `/gc Catacombes de ${username}: ${
+        `/msg ${username} Catacombes: ${
           dungeons.catacombs.skill.level > 50
             ? dungeons.catacombs.skill.levelWithProgress.toFixed(2)
             : dungeons.catacombs.skill.level
@@ -68,7 +68,7 @@ class CatacombsCommand extends minecraftCommand {
     } catch (error) {
       console.log(error);
 
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

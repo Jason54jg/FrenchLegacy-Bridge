@@ -75,16 +75,16 @@ class RenderCommand extends minecraftCommand {
           });
 
           return this.send(
-            `/gc Animal de compagnie actif de ${username}: ${
+            `/msg ${username} Animal de compagnie actif de ${username}: ${
               upload.data.link ?? "Quelque chose s'est mal passé.."
             }`
           );
         }
       }
 
-      this.send(`/gc ${username} n'a pas d'animal de compagnie équipé.`);
+      this.send(`/msg ${username} ${username} n'a pas d'animal de compagnie équipé.`);
     } catch (error) {
-      this.send(`/gc Erreur: ${error}`);
+      this.send(`/msg ${username} Erreur: ${error}`);
     }
   }
 }

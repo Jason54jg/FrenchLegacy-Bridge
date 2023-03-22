@@ -26,10 +26,10 @@ class GuildInformationCommand extends minecraftCommand {
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(
-        `/gc Guilds ${guildName} | Tag: ${guild.tag} | Membres: ${guild.members.length} | Niveau: ${guild.level} | GEXP hebdomadaire: ${guild.totalWeeklyGexp}`
+        `/msg ${username} Guilds ${guildName} | Tag: ${guild.tag} | Membres: ${guild.members.length} | Niveau: ${guild.level} | GEXP hebdomadaire: ${guild.totalWeeklyGexp}`
       );
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(`/msg ${username} ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

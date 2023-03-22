@@ -265,7 +265,7 @@ module.exports = {
                 ]
             }).then((c) => {
                 c.send({
-                    content: `${f2} | ${interaction.user} | 1 points`,
+                    content: `${f1} | ${interaction.user} | 1 points`,
                     embeds: [{
                         description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
                         footer: {
