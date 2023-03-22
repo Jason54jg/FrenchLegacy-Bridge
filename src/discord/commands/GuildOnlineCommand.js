@@ -11,7 +11,7 @@ module.exports = {
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
                 cachedMessages.push(message.toString());
-
+                console.log(message.toString());
                 if (message.toString().startsWith("Membres hors ligne")) {
                     bot.removeListener("message", listener);
                     resolve(cachedMessages);
@@ -24,7 +24,7 @@ module.exports = {
             setTimeout(() => {
                 bot.removeListener("message", listener);
                 reject("La commande a expiré. Veuillez réessayer.");
-            }, 5000);
+            }, 12*5000);
         });
 
         try {
