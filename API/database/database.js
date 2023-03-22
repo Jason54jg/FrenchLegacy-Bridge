@@ -1,5 +1,5 @@
 const config = require("../../config.json");
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 class DB {
 
@@ -165,6 +165,55 @@ class DB {
         }
         await this.clientDb.db("dev").collection("users").updateMany({}, updatedUser);
     }
+
+    // ==================== Giveaway ====================
+    // Récuperer un giveaway
+    async getGiveaway(id) {
+        return await this.clientDb.db("dev").collection("giveaway").findOne({ _id: new ObjectId(id) });
+    }
+
+    async getGiveaways() {
+        return await this.clientDb.db("dev").collection("giveaway").find().toArray();
+    }
+
+    // Créer un giveaway
+    async createGiveaway(name, endDate, host, winners) {
+        const db = this.clientDb.db("dev");
+        const newGiveaway = {
+            name: name,
+            host: host,
+            winners: winners,
+            endDate: endDate,
+            participants: []
+        }
+        return await db.collection("giveaway").insertOne(newGiveaway);
+    }
+
+    // Ajouter un participant a un giveaway
+    async registerUserToGiveaway(id, discordId) {
+        const giveaway = await this.getGiveaway(id);
+        if (giveaway == null) { return; }
+
+        const updatedGiveaway = {
+            $push: {
+                participants: discordId
+            }
+        }
+
+        await this.clientDb.db("dev").collection("giveaway").updateOne({ _id: new ObjectId(id) }, updatedGiveaway);
+    }
+
+    // Verifier si le joueur participe au giveaway
+    async isUserParticipatingToGiveaway(id, discordId) {
+        const res = await this.clientDb.db("dev").collection("giveaway").findOne({ _id: new ObjectId(id), participants: discordId });
+        return res != null;
+    }
+
+    // Supprimer un giveaway
+    deleteGiveaway(id) {
+        this.clientDb.db("dev").collection("giveaway").findOneAndDelete({ _id: id });
+    }
+    // ========================================
 
      async addLinkedAccounts(discordId, uuid, mc_username) {
          if(await this.getUserById(discordId) == null) { return }
