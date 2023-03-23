@@ -43,7 +43,7 @@ function addNotation(type, value) {
   }
 
   if (type === "oneLetters") {
-    notList = ["K", "M", "B", "T"];
+    notList = [" K", " M", " B", " T"];
   }
 
   let checkNum = 1000;
@@ -163,6 +163,76 @@ async function decodeData(buffer) {
   return nbt.simplify(parsedNbt);
 }
 
+// Bedwars Level Calculator
+const EASY_LEVELS = 4;
+const EASY_LEVELS_XP = 7000;
+const XP_PER_PRESTIGE = 96 * 5000 + EASY_LEVELS_XP;
+const LEVELS_PER_PRESTIGE = 100;
+const HIGHEST_PRESTIGE = 10;
+
+function getExpForLevel(level) {
+  if (level == 0) return 0;
+
+  var respectedLevel = getLevelRespectingPrestige(level);
+  if (respectedLevel > EASY_LEVELS) {
+    return 5000;
+  }
+
+  switch (respectedLevel) {
+    case 1:
+      return 500;
+    case 2:
+      return 1000;
+    case 3:
+      return 2000;
+    case 4:
+      return 3500;
+  }
+  return 5000;
+}
+
+function getLevelRespectingPrestige(level) {
+  if (level > HIGHEST_PRESTIGE * LEVELS_PER_PRESTIGE) {
+    return level - HIGHEST_PRESTIGE * LEVELS_PER_PRESTIGE;
+  } else {
+    return level % LEVELS_PER_PRESTIGE;
+  }
+}
+
+function getBedwarsLevel(exp) {
+  var prestiges = Math.floor(exp / XP_PER_PRESTIGE);
+  var level = prestiges * LEVELS_PER_PRESTIGE;
+  var expWithoutPrestiges = exp - prestiges * XP_PER_PRESTIGE;
+
+  for (let i = 1; i <= EASY_LEVELS; ++i) {
+    var expForEasyLevel = getExpForLevel(i);
+    if (expWithoutPrestiges < expForEasyLevel) {
+      break;
+    }
+    level++;
+    expWithoutPrestiges -= expForEasyLevel;
+  }
+
+  return level + expWithoutPrestiges / 5000;
+}
+
+function getSkywarsLevel(exp) {
+  var xps = [0, 20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000];
+  let exactLevel = 0;
+  if (exp >= 15000) {
+    exactLevel = (exp - 15000) / 10000 + 12;
+  } else {
+    for (let i = 0; i < xps.length; i++) {
+      if (exp < xps[i]) {
+        exactLevel = i + (exp - xps[i - 1]) / (xps[i] - xps[i - 1]);
+        break;
+      }
+    }
+  }
+
+  return exactLevel;
+}
+
 async function getStats(player, uuid, mode, time) {
   try {
     if (["skyblock", "sb"].includes(mode) === false) {
@@ -174,13 +244,82 @@ async function getStats(player, uuid, mode, time) {
           `${config.minecraft.API.pixelicAPI}/player/${time}/${uuid}?key=${config.minecraft.API.pixelicAPIkey}`
         ),
       ]);
-
+  
       if (!mode || mode.includes("/")) {
         const karma = response.data.player.karma - response24H.data.General.karma;
         const experience = response.data.player.networkExp - response24H.data.General.EXP;
         const level = getLevel(response.data.player.networkExp) - getLevel(parseInt(response24H.data.General.EXP));
-
+  
         return `/gc ${player} has earned ${karma.toLocaleString()} karma and ${level.toFixed(5)} levels (${experience.toLocaleString()} EXP) in the last ${time === "daily" ? "day" : time.replace("ly", "")}!`;
+      } else if (["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())) {
+        const bedwarsData = response.data.player.stats.Bedwars;
+        const oldBedwarsData = response24H.data.Bedwars;
+  
+        const experience = bedwarsData.Experience - oldBedwarsData.EXP;
+        const level = getBedwarsLevel(experience);
+  
+        const FK =
+          bedwarsData.final_kills_bedwars - oldBedwarsData.overall.finalKills;
+        const FD =
+          bedwarsData.final_deaths_bedwars -
+          oldBedwarsData.overall.finalDeaths +
+          1;
+  
+        const wins = bedwarsData.wins_bedwars - oldBedwarsData.overall.wins;
+        const losses =
+          bedwarsData.losses_bedwars - oldBedwarsData.overall.losses + 1;
+  
+        const BB =
+          bedwarsData.beds_broken_bedwars - oldBedwarsData.overall.bedsBroken;
+        const BL =
+          bedwarsData.beds_lost_bedwars - oldBedwarsData.overall.bedsLost + 1;
+  
+        return `/gc [${level.toFixed(5)}✫] ${player} FK: ${addCommas(FK)} FKDR: ${(
+          FK / FD || 0
+        ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
+          2
+        )} BB: ${BB} BLR: ${(BB / BL || 0).toFixed(2)}`;
+      } else if (
+        ["sw", "skywars", "skywar", "sws"].includes(mode.toLowerCase())
+      ) {
+        const skywarsData = response.data.player.stats.SkyWars;
+        const oldSkywarsData = response24H.data.Skywars;
+  
+        const experience = skywarsData.skywars_experience - oldSkywarsData.EXP;
+        const level = getSkywarsLevel(experience) - 1;
+  
+        const kills = skywarsData.kills - oldSkywarsData.overall.kills;
+        const deaths = skywarsData.deaths - oldSkywarsData.overall.deaths + 1;
+  
+        const wins = skywarsData.wins - oldSkywarsData.overall.wins;
+        const losses = skywarsData.losses - oldSkywarsData.overall.losses + 1;
+  
+        const coins = skywarsData.coins - oldSkywarsData.coins;
+  
+        return `/gc [${level.toFixed(5)}✫] ${player} Kills: ${addCommas(kills)} KDR: ${(
+          kills / deaths || 0
+        ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
+          2
+        )} Coins: ${addCommas(coins || 0)}`;
+      } else if (["duels", "duel", "d"].includes(mode.toLowerCase())) {
+        const oldDuelsData = response24H.data.Duels.overall;
+        const duelsData = response.data.player.stats.Duels;
+  
+        const gamesPlayed = duelsData.games_played_duels - oldDuelsData.gamesPlayed;
+  
+        const wins = duelsData.wins - oldDuelsData.wins;
+        const losses = duelsData.losses - oldDuelsData.losses;
+  
+        const kills = duelsData.kills - oldDuelsData.kills
+        const deaths = duelsData.deaths - oldDuelsData.deaths;
+  
+        return `/gc ${player} Games: ${
+          gamesPlayed.toLocaleString()
+        } Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
+          2
+        )} Kills: ${kills.toLocaleString()} KDR: ${(kills / deaths || 0).toFixed(
+          2
+        )}`;
       }
     } else {
       const [response, response24H] = await Promise.all([
@@ -192,7 +331,7 @@ async function getStats(player, uuid, mode, time) {
 
       const profile = response.profile;
       const oldProfile = response24H.data.Profiles[response.profileData.profile_id];
-
+      
       const experience = profile.leveling.experience;
       const skills = getSkills(profile);
       const slayer = getSlayer(profile);
@@ -202,7 +341,7 @@ async function getStats(player, uuid, mode, time) {
         output.push(`${capitalize(skill)}: ${formatNumber((skills[skill].totalXp - oldProfile.skills[skill].EXP).toFixed(0))}`)
       });
       Object.keys(slayer).map((type) => {
-        output.push(`${capitalize(type)}: ${formatNumber((slayer[type].xp - oldProfile.slayer[type].EXP).toFixed(0))}`)
+        output.push(`${capitalize(type)}: ${formatNumber((slayer[type].xp - oldProfile.slayer[type].EXP).toFixed(0))}`) 
       });
       output.push(`SB Level: ${(experience / 100 - oldProfile.EXP / 100).toFixed(2)}`);
       output.push(`SB Experience: ${(experience - oldProfile.EXP).toLocaleString()}`);
@@ -345,7 +484,7 @@ function formatNumber(number, decimals = 2) {
 
   if (number < 100000) return parseInt(number).toLocaleString();
 
-  const abbrev = ["", "K", "M", "B", "T"];
+  const abbrev = ["", "K", "M", "B", "T", "Qa", "Qi", "S", "O", "N", "D"];
   const unformattedNumber = Math.abs(number);
 
   const abbrevIndex = Math.floor(Math.log10(unformattedNumber) / 3);
@@ -374,4 +513,3 @@ module.exports = {
   formatUsername,
   formatNumber,
 };
-

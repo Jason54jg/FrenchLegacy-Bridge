@@ -108,34 +108,34 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isGuildLoginMessage(message)) {
-      let user = message.split(">")[1].trim().split("joined.")[0].trim();
+      let username = message.split(">")[1].trim().split("joined.")[0].trim();
       let motd = motds[Math.floor(Math.random() * motds.length)];
 
       return setTimeout(() => {
-        this.bot.chat(`/msg ${user} ${motd.slice(0, 80)}`);
+        this.bot.chat(`/msg ${username} ${motd.slice(0, 80)}`);
         if (motd.slice(80, 160)) {
           setTimeout(() => {
-            this.bot.chat(`/msg ${user} ${motd.slice(80, 160)}`);
+            this.bot.chat(`/msg ${username} ${motd.slice(80, 160)}`);
           }, 700);
         }
         if (motd.slice(160, 240)) {
           setTimeout(() => {
-            this.bot.chat(`/msg ${user} ${motd.slice(160, 240)}`);
+            this.bot.chat(`/msg ${username} ${motd.slice(160, 240)}`);
           }, 1400);
         }
         if (motd.slice(240, 320)) {
           setTimeout(() => {
-            this.bot.chat(`/msg ${user} ${motd.slice(240, 320)}`);
+            this.bot.chat(`/msg ${username} ${motd.slice(240, 320)}`);
           }, 2100);
         }
         if (motd.slice(320, 400)) {
           setTimeout(() => {
-            this.bot.chat(`/msg ${user} ${motd.slice(320, 400)}`);
+            this.bot.chat(`/msg ${username} ${motd.slice(320, 400)}`);
           }, 2800);
         }
         if (motd.slice(400, 480)) {
           setTimeout(() => {
-            this.bot.chat(`/msg ${user} ${motd.slice(400, 480)}`);
+            this.bot.chat(`/msg ${username} ${motd.slice(400, 480)}`);
           }, 3500);
         }
       }, 1000);

@@ -4,7 +4,7 @@ const {
 } = require("../../../API/functions/getLatestProfile.js");
 const getSlayer = require("../../../API/stats/slayer.js");
 const {
-  addCommas,
+  formatNumber,
   formatUsername,
 } = require("../../contracts/helperFunctions.js");
 const { capitalize } = require("lodash");
@@ -59,17 +59,11 @@ class SlayersCommand extends minecraftCommand {
         this.send(
           `/msg ${username} ${username} de ${capitalize(slayerType)} - ${
             profile[slayerType].level
-          } Niveaux | Experience: ${addCommas(profile[slayerType].xp)}`
+          } Niveaux | Experience: ${formatNumber(profile[slayerType].xp)}`
         );
       } else {
-        const slayer = Object.keys(profile).reduce(
-          (acc, slayer) =>
-            `${acc} | ${capitalize(slayer)}: Niveau: ${
-              profile[slayer].level
-            } | Experience: ${addCommas(profile[slayer].xp)}`,
-          ""
-        );
-        this.send(`/msg ${username} Slayer de ${username} - ${slayer}`);
+        const slayer = Object.keys(profile).reduce((acc, slayer) => `${acc} | ${capitalize(slayer)}: ${profile[slayer].level} (${formatNumber(profile[slayer].xp)})`, "");
+        this.send(`/msg ${username} Slayer de ${username}: ${slayer.slice(3)}`);
       }
       
     } catch (error) {

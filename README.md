@@ -45,8 +45,6 @@ Le `prefix` est le préfixe de commande utilisé pour toutes les commandes du bo
 
 `guildID` est l'ID de la guilde hypixel requise pour l'API Hypixel, `guildExp` est la valeur entière requise pour la commande `!gexp` qui est utilisée pour vérifier combien d'expérience de guilde supplémentaire l'utilisateur doit collecter pour répondre aux exigences de la guilde.
 
-`messageRepeatBypass` est la possibilité de basculer le contournement pour que les utilisateurs utilisent la même commande dos à dos sans que le bot ne soit arrêté par le chat hypixel, je vous recommande de le garder.
-
 `messageRepeatBypassLength` est la longueur du message qui sera envoyé pour contourner la répétition du message, je vous recommande de le garder sur au moins 16.
 #### Discord
 

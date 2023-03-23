@@ -27,44 +27,33 @@ class warpoutCommand extends minecraftCommand {
       const warpoutListener = async (message) => {
         message = message.toString();
 
-        if (
-          message.includes(
-            "You cannot invite that player since they're not online."
-          )
-        ) {
+        if (message.includes("You cannot invite that player since they're not online.")) {
           this.send(`/msg ${username} ${user} n'est pas en ligne!`);
           this.isOnCooldown = false;
         }
 
-        if (message.includes("You cannot invite that player.")) {
+        if (message.includes("You cannot invite that player!")) {
           this.send(`/gc ${user} a désactivé les demandes de partie!`);
           this.isOnCooldown = false;
         }
 
-        if (
-          message.includes("invited") &&
-          message.includes("to the party! They have 60 seconds to accept.")
-        ) {
+        if (message.includes("invited") &&message.includes("to the party! They have 60 seconds to accept.")) {
           this.send(`/msg ${username} ${user} a été invité avec succès à la partie!`);
         }
 
         if (message.includes(" joined the party.")) {
-          this.send(
-            `/msg ${username} ${user} rejoint la partie ! Je le fait quitter le lobby..`
-          );
+          this.send(`/msg ${username} ${user} rejoint la partie ! Je le fait quitter le lobby..`);
           await delay(1100);
 
           bot.chat("/p warp");
         }
 
         if (message.includes(" is not allowed on your server!")) {
-          this.send(
-            `/msg ${username} ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`
-          );
+          this.send(`/msg ${username} ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`);
           this.isOnCooldown = false;
 
           await delay(1000);
-          bot.chat("/p disband");
+          bot.chat("/p leave");
         }
 
         if (message.includes("warped to your server")) {
@@ -74,6 +63,22 @@ class warpoutCommand extends minecraftCommand {
 
           await delay(1000);
           bot.chat("/p disband");
+        }
+
+        if (message.includes("You are not allowed to invite players.")) {
+          this.send(`/msg D'une manière ou d'une autre, je ne suis pas autorisé à inviter des joueurs?`);
+          this.isOnCooldown = false;
+
+          await delay(1000);
+          bot.chat("/p disband");
+        }
+
+        if (message.includes("You are not allowed to disband this party.")) {
+          this.send(`/msg D'une manière ou d'une autre, je n'ai pas le droit de dissoudre ce parti?`);
+          this.isOnCooldown = false;
+
+          await delay(1000);
+          bot.chat("/p leave");
         }
       };
 
