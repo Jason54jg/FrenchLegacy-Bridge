@@ -51,7 +51,7 @@
     "mineflayer": "^4.8.0",
     "mkdirp": "^2.1.6",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.41",
+    "moment-timezone": "^0.5.42",
     "mongodb": "^5.1.0",
     "node-fetch": "^3.3.1",
     "node-schedule": "^2.1.1",
@@ -65,7 +65,7 @@
     "eslint": "^8.36.0",
     "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.22",
-    "prettier": "2.8.6"
+    "prettier": "2.8.7"
   },
   "eslintConfig": {
     "globals": {
