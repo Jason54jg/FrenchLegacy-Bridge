@@ -104,7 +104,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle("Fermer le ticket!")
                 .setDescription(
-                    `ticket fermer par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+                    `ticket fermé par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
                 )
 
             interaction.reply({ embeds: [embed], components: [rowDeleteFalse] })

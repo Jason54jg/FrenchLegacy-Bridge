@@ -27,7 +27,10 @@ class StateHandler extends eventHandler {
 
   async onMessage(event) {
     const message = event.toString().trim();
-    let colouredMessage = event.toMotd();
+    const colouredMessage = event.toMotd();
+
+    // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
+    if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) return;
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -584,23 +587,6 @@ class StateHandler extends eventHandler {
       playerMessage.length == 0
     )
       return;
-
-    if (this.isMessageFromBot(username)) {
-      if (
-        config.minecraft.bot.messageRepeatBypass === true &&
-        message.includes("[HYPIXEL ") === false
-      ) {
-        const lastString = playerMessage.slice(
-          -config.minecraft.bot.messageRepeatBypassLength
-        );
-        if (lastString.includes(" ") === false) {
-          colouredMessage = colouredMessage.slice(
-            0,
-            -config.minecraft.bot.messageRepeatBypassLength - 2
-          );
-        }
-      }
-    }
 
     if (
       playerMessage.includes(config.minecraft.bot.prefix) &&

@@ -10,8 +10,7 @@ module.exports = {
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
                 cachedMessages.push(message.toString());
-                console.log(message.toString());
-                if (message.toString().startsWith("Membres hors ligne")) {
+                if (message.toString().startsWith("Offline Members")) {
                     bot.removeListener("message", listener);
                     resolve(cachedMessages);
                 }
