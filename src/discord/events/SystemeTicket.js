@@ -9,11 +9,6 @@ const buttonCloseTicket = new ButtonBuilder()
     .setLabel(' | fermer le ticket')
     .setEmoji("🔒")
     .setStyle(ButtonStyle.Danger);
-const buttonDeleteTicket = new ButtonBuilder()
-    .setStyle(ButtonStyle.Danger)
-    .setEmoji("🗑️")
-    .setDisabled(true)
-    .setCustomId("ticket-delete")
 const buttonClaimTicket = new ButtonBuilder()
     .setCustomId('claim')
     .setLabel(' | Claim')
@@ -30,7 +25,8 @@ module.exports = {
         }
         if (!interaction.isButton()) return;
 
-        let logChannelService = config.discord.roles.logChannelService;
+        let logChannelDefaultService = config.discord.roles.logChannelDefaultService;
+        let logChannelCarrierService = config.discord.roles.logChannelCarrierService;
 
         let catégorieslayer = config.discord.roles.catégorieslayer;
         let catégoriefloor = config.discord.roles.catégoriefloor;
@@ -71,40 +67,36 @@ module.exports = {
 
         let DejaUnChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
 
-        if (interaction.customId === "ticket-close") {
+        if (interaction.customId.contains("ticket-close")) {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
+            const requestId = interaction.customId.split("-")[2];
           
-            const rowPanel = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                  .setStyle(ButtonStyle.Danger)
-                  .setEmoji("🔒")
-                  .setDisabled(true)
-                  .setCustomId("ticket-close")
-              );
+            const rowPanel = new ActionRowBuilder().addComponents(buttonCloseTicket);
 
             await interaction.message.edit({ components: [rowPanel] });
+
+
 
             const rowDeleteFalse = new ActionRowBuilder().addComponents(
               new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setEmoji("🗑️")
                 .setDisabled(true)
-                .setCustomId("ticket-delete")
             );
 
             const rowDeleteTrue = new ActionRowBuilder().addComponents(
               new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setEmoji("🗑️")
-                .setDisabled(false)
-                .setCustomId("ticket-delete")
+                    .setDisabled(false)
+                    .setCustomId(`ticket-delete${requestId != null ? `-${requestId}` : ""}`)
             );
 
             const embed = new EmbedBuilder()
                 .setTitle("Fermer le ticket!")
                 .setDescription(
-                    `ticket fermé par <@!${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+                    `ticket fermé par <@${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
                 )
 
             interaction.reply({ embeds: [embed], components: [rowDeleteFalse] })
@@ -168,16 +160,23 @@ module.exports = {
             }
         }
 
-        else if (interaction.customId === "ticket-delete" && interaction.channel.name.includes("fermer")) {
+        else if (interaction.customId.contains("ticket-delete") && interaction.channel.name.includes("fermer")) {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
-            const transcriptsChannel = interaction.guild.channels.cache.get(logChannelService);
+
+            let transcriptsChannel;
+            switch (interaction.customId.split("-")[2]) {
+                case "carrierrequest":
+                    transcriptsChannel = interaction.guild.channels.cache.get(logChannelCarrierService);
+                    break;
+                default:
+                    transcriptsChannel = interaction.guild.channels.cache.get(logChannelDefaultService);
+            }
 
             const rowCloseFalse = new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setEmoji("🗑️")
                 .setDisabled(true)
-                .setCustomId("ticket-delete")
 
             interaction.message.edit({ components: [new ActionRowBuilder().addComponents(rowCloseFalse)] });
 
@@ -216,8 +215,8 @@ module.exports = {
                     .setTitle("Ticket Transcript")
                     .addFields(
                         { name: "Channel", value: `${interaction.channel.name}`, inline: true },
-                        { name: "Propriétaire du ticket", value: `<@!${channel.topic}>`, inline: true },
-                        { name: "Supprimé par", value: `<@!${interaction.user.id}>`, inline: true },
+                        { name: "Propriétaire du ticket", value: `<@${channel.topic}>`, inline: true },
+                        { name: "Supprimé par", value: `<@${interaction.user.id}>`, inline: true },
                         {
                             name: "Direct Transcript",
                             value: `[Direct Transcript](${transcript.url})`,
@@ -1351,7 +1350,12 @@ module.exports = {
                     }],
                     components: [
                         new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket)
+                            .addComponents(new ButtonBuilder()
+                                .setCustomId('ticket-close-carrierrequest')
+                                .setLabel(' | fermer le ticket')
+                                .setEmoji("🔒")
+                                .setStyle(ButtonStyle.Danger)
+                            )
                     ]
                 })
                 interaction.reply({
