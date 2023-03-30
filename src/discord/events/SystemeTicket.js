@@ -4,6 +4,7 @@ const Logger = require("../.././Logger.js");
 const sourcebin = require("sourcebin_js");
 const DB = require("../../../API/database/database.js");
 
+const roles = config.discord.roles;
 const buttonCloseTicket = new ButtonBuilder()
     .setCustomId('ticket-close')
     .setLabel(' | fermer le ticket')
@@ -13,6 +14,7 @@ const buttonClaimTicket = new ButtonBuilder()
     .setCustomId('claim')
     .setLabel(' | Claim')
     .setEmoji('📩')
+    .setDisabled(false)
     .setStyle(ButtonStyle.Secondary);
 
 
@@ -25,10 +27,6 @@ module.exports = {
             return;
         }
         if (!interaction.isButton()) return;
-
-        const roles = config.discord.roles;
-        let logChannelDefaultService = roles.logChannelDefaultService;
-        let logChannelCarrierService = roles.logChannelCarrierService;
 
         let catégoriecarry = roles.catégoriecarry;
         let catégorieticket = roles.catégorieticket;
@@ -94,9 +92,17 @@ module.exports = {
                 .setMinLength(1)
                 .setPlaceholder('Exemple: 1, 2, 5, ...')
                 .setValue('1');
+            const ignInput = new TextInputBuilder()
+                .setCustomId('ign')
+                .setLabel("Entrez votre IGN")
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(16)
+                .setMinLength(1)
+                .setPlaceholder('Exemple: A6sT, CherchePas, ...');
 
             const nbCarryRow = new ActionRowBuilder().addComponents(nbCarryInput);
-            modal.addComponents(nbCarryRow);
+            const ignRow = new ActionRowBuilder().addComponents(ignInput);
+            modal.addComponents(nbCarryRow, ignRow);
             await interaction.showModal(modal);
 
         } else if (interaction.customId === "claim") {
@@ -126,85 +132,64 @@ module.exports = {
                 })
             }
 
-            // ID: carry-amount
-        }
+            // Envoyer la réponse
+            interaction.reply({
+                embeds: [{
+                    description: `Votre salon a été pris en charge par ${interaction.user}`,
+                    footer: {
+                        text: "FrenchLegacy"
+                    },
+                }],
+                components: [
+                    new ActionRowBuilder()
+                        .addComponents(new ButtonBuilder()
+                            .setCustomId('claim-end')
+                            .setLabel(' | Carry effectué')
+                            .setEmoji("🔒")
+                            .setStyle(ButtonStyle.Success)
+                        )
+                ]
+            })
+            // Supprimer le bouton de claim
+            interaction.message.edit({
+                components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(true))]
+            })
 
-        else if (interaction.customId.includes("ticket-delete") && interaction.channel.name.includes("fermer")) {
-            const channel = interaction.channel;
-            const member = interaction.guild.members.cache.get(channel.topic);
-
-            let transcriptsChannel;
-            switch (interaction.customId.split("-")[2]) {
-                case "carrierrequest":
-                    transcriptsChannel = interaction.guild.channels.cache.get(logChannelCarrierService);
-                    break;
-                default:
-                    transcriptsChannel = interaction.guild.channels.cache.get(logChannelDefaultService);
+        } else if (interaction.customId === "claim-end") {
+            // Verifie que la personne qui clique sur ce bouton soit bien la personne qui a claim
+            if (! interaction.message.embeds[0].description.split('@')[1].split('>')[0] == interaction.user.id) {
+                return interaction.reply({
+                    embeds: [{
+                        description: `Seul la personne qui a claim ce ticket peut effectuer cette action !`,
+                        footer: {
+                            text: "FrenchLegacy"
+                        },
+                    }],
+                    ephemeral: true
+                })
             }
 
-            const rowCloseFalse = new ButtonBuilder()
-                .setStyle(ButtonStyle.Danger)
-                .setEmoji("🗑️")
-                .setDisabled(true)
+            // Créer un formulaire où le carrier renseigne le nombre de carry effectué
+            const modal = new ModalBuilder()
+                .setCustomId("claim-end")
+                .setTitle('Combien de carry avez-vous fait ?')
 
-            interaction.message.edit({ components: [new ActionRowBuilder().addComponents(rowCloseFalse)] });
+            const nbCarryInput = new TextInputBuilder()
+                .setCustomId('numberOfCarry')
+                .setLabel("Entrez le nombre de carry que vous avez fait")
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(4)
+                .setMinLength(1)
+                .setPlaceholder('Exemple: 1, 2, 5, ...')
+                .setValue('1');
 
-            interaction.deferUpdate();
+            const nbCarryRow = new ActionRowBuilder().addComponents(nbCarryInput);
+            modal.addComponents(nbCarryRow);
+            await interaction.showModal(modal);
 
-            let msg = await channel.send({ content: "Enregistrement du transcript..." });
-            channel.messages.fetch().then(async (messages) => {
-                const content = messages
-                    .reverse()
-                    .map(
-                        (m) =>
-                            `${new Date(m.createdAt).toLocaleString("en-US")} - ${m.author.tag
-                            }: ${m.attachments.size > 0
-                                ? m.attachments.first().proxyURL
-                                : m.content
-                            }`
-                    )
-                    .join("\n");
-
-                let transcript = await sourcebin.create(
-                    [{ name: `${channel.name}`, content: content, languageId: "text" }],
-                    {
-                        title: `Transcript: ${channel.name}`,
-                        description: " ",
-                    }
-                );
-
-                const row = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder()
-                        .setStyle(ButtonStyle.Link)
-                        .setEmoji("📑")
-                        .setURL(`${transcript.url}`)
-                );
-
-                const embed = new EmbedBuilder()
-                    .setTitle("Ticket Transcript")
-                    .addFields(
-                        { name: "Channel", value: `${interaction.channel.name}`, inline: true },
-                        { name: "Propriétaire du ticket", value: `<@${channel.topic}>`, inline: true },
-                        { name: "Supprimé par", value: `<@${interaction.user.id}>`, inline: true },
-                        {
-                            name: "Direct Transcript",
-                            value: `[Direct Transcript](${transcript.url})`,
-                            inline: true,
-                        }
-                    )
-
-                await transcriptsChannel.send({ embeds: [embed], components: [row] });
-            });
-
-            await msg.edit({
-                content: `Transcript enregistrée dans <#${transcriptsChannel.id}>`,
-            });
-
-            await channel.send({ content: "Le ticket sera supprimé dans 5 secondes!" });
-
-            setTimeout(async function () {
-                channel.delete();
-            }, 5000);
+        }
+        else if (interaction.customId.includes("ticket-delete") && interaction.channel.name.includes("fermer")) {
+            closeTicket(interaction);
         } else if (interaction.customId == "ticket") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
@@ -351,14 +336,38 @@ module.exports = {
 }
 
 async function manageModalInteraction(interaction, client) {
-    if (interaction.customId.includes('carry-amount')) {
-        const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
+    if (interaction.customId.includes('claim-end')) {
+        let carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
 
         // Si la valeur renseigné n'est pas un nombre
-        if (isNaN(carryAmount)) {
+        if (isNaN(carryAmount) || carryAmount < 1) {
             return interaction.reply({
                 embeds: [{
-                    description: `Vous devez renseigner un nombre afin de pouvoir créer ce ticket`,
+                    description: `Vous devez renseigner un nombre valide afin de pouvoir fermer ce ticket`,
+                    footer: {
+                        text: "FrenchLegacy"
+                    },
+                }],
+                ephemeral: true
+            })
+        }
+
+        const messages = await interaction.message.channel.messages.fetch();
+        const firstMessage = Array.from(messages)[messages.size - 1][1];
+
+        // Données issue du message principal
+        carryAmount = parseInt(carryAmount);
+        const nbCarryTotal = parseInt(firstMessage.content.split("/")[1].split("c")[0].trim());
+        const nbCarryDone = parseInt(firstMessage.content.split("|")[2].split("/")[0].trim());
+        const pointsTotal = parseInt(firstMessage.content.split("|")[2].split(">")[1].split("p")[0].trim());
+        const carryToDo = nbCarryTotal - nbCarryDone;
+        const carryRemaining = nbCarryTotal - (nbCarryDone + carryAmount);
+        const pointsPerCarry = pointsTotal / carryToDo;
+
+        if (carryRemaining < 0) {
+            return interaction.reply({
+                embeds: [{
+                    description: `Le nombre de carry renseigné excède le nombre de carry restant.\n*Note: Tout abus du système sera fortement sanctionné !*`,
                     footer: {
                         text: "FrenchLegacy"
                     },
@@ -381,21 +390,31 @@ async function manageModalInteraction(interaction, client) {
             })
         }
 
-        DB.addScoreToUser(user.discordId, carryAmount * points);
-        await interaction.message.edit({
-            components: [
-                new ActionRowBuilder()
-                    .addComponents(buttonCloseTicket)
-            ]
-        });
-        interaction.reply({
+        //DB.addScoreToUser(user.discordId, carryAmount * pointsPerCarry);
+
+        // Mise à jour du message originel
+        await firstMessage.edit({
+            content: `${firstMessage.content.split("|")[0]}|${firstMessage.content.split("|")[1]}| ${(nbCarryDone + carryAmount)}/${nbCarryTotal} carry -> ${(carryToDo - carryAmount) * pointsPerCarry} point${(carryToDo - carryAmount) * pointsPerCarry == 1 ? "" : `s`}${carryToDo - carryAmount == 1 ? "" : ` (${pointsPerCarry}/carry)`}`,
+            components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(false))]
+        })
+
+        await interaction.message.delete();
+        await interaction.reply({
             embeds: [{
-                description: `Votre salon a été pris en charge par ${interaction.user} pour ${carryAmount} carry`,
+                description: `<@${user.discordId}> **a effectué ${carryAmount} carry**\n\nNote aux carriers: *Vous devez re-claim ce ticket si vous souhaitez a nouveau faire des carry pour cette personne*`,
                 footer: {
                     text: "FrenchLegacy"
                 },
-            }]
+            }],
+            ephemeral: false
         })
+
+        // Fermer le ticket si tout les carry ont été fait
+        if (carryRemaining != 0) {
+            return;
+        }
+        closeTicket(interaction, "carry");
+
     }
 
     // Slayer interactions
@@ -410,7 +429,7 @@ async function manageModalInteraction(interaction, client) {
     } else if (interaction.customId == "T3eman") {
         createCarryChannel(interaction, "T3Voidgloom", 6, roles.roleT3emanId, roles.catégorieslayer, "Voidgloom Seraph 3: 800k/unité \nPrix pour (10 ou plus) : 600k/unité", "<:Enderman:1039706047214014464>");
     } else if (interaction.customId == "T4eman") {
-        createCarryChannel(interaction, "T5Voidgloom", 10, roles.roleT4emanId, roles.catégorieslayer, "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité", "<:Enderman:1039706047214014464>");
+        createCarryChannel(interaction, "T4Voidgloom", 10, roles.roleT4emanId, roles.catégorieslayer, "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité", "<:Enderman:1039706047214014464>");
     } else if (interaction.customId == "T2blaze") {
         createCarryChannel(interaction, "T2Inferno", 7, roles.roleT2blazeId, roles.catégorieslayer, "Inferno Demonlord 2: 1m/unité \nPrix pour (10 ou plus) : 850k/unité", "<:Blaze:1039705790501617745>");
     } else if (interaction.customId == "T3blaze") {
@@ -469,6 +488,7 @@ function createCarryChannel(interaction, title, points, roleId, categorieId, pri
     const role = interaction.guild.roles.cache.get(roleId);
 
     const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
+    const ign = interaction.fields.getTextInputValue('ign')
 
     // Si la valeur renseigné n'est pas un nombre valide
     if (isNaN(carryAmount) || carryAmount < 1) {
@@ -511,22 +531,91 @@ function createCarryChannel(interaction, title, points, roleId, categorieId, pri
     // Envoie des informations sur le carry dans le nouveau channel
     .then((c) => {
         c.send({
-            content: `${role} | ${interaction.user} | ${carryAmount} carry -> ${points * carryAmount} point${points * carryAmount == 1 ? "":"s"} (${points}/carry)`,
+            content: `${role} | ${interaction.user} IGN: ${ign} | 0/${carryAmount} carry -> ${points * carryAmount} point${points * carryAmount == 1 ? "" :`s (${points}/carry)`}`,
             embeds: [{
-                description: `Veuillez indiquer votre IGN à la suite de ce message !\n\nInformations sur les prix :\n\n${priceInfo}`,
+                description: `Informations sur les prix :\n\n${priceInfo}`,
                 footer: {
                     text: "FrenchLegacy",
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
                 },
             }],
-            components: [
-                new ActionRowBuilder()
-                    .addComponents(buttonCloseTicket, buttonClaimTicket)
-            ]
+            components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(false))]
         })
         interaction.reply({
             content: `${emote} Votre ticket à été ouvert avec succès. <#${c.id}>`,
             ephemeral: true
         })
     })
+}
+
+async function closeTicket(interaction, ticketType = null) {
+    const channel = interaction.channel;
+
+    const logChannelDefaultService = roles.logChannelDefaultService;
+    const logChannelCarrierService = roles.logChannelCarrierService;
+
+    let transcriptsChannel;
+    switch (ticketType) {
+        case "carry":
+            transcriptsChannel = interaction.guild.channels.cache.get(logChannelCarrierService);
+            break;
+        default:
+            transcriptsChannel = interaction.guild.channels.cache.get(logChannelDefaultService);
+    }
+    interaction.deferUpdate();
+
+    let msg = await channel.send({ content: "Enregistrement du transcript..." });
+    channel.messages.fetch().then(async (messages) => {
+        const content = messages
+            .reverse()
+            .map(
+                (m) =>
+                    `${new Date(m.createdAt).toLocaleString("en-US")} - ${m.author.tag
+                    }: ${m.attachments.size > 0
+                        ? m.attachments.first().proxyURL
+                        : m.content
+                    }`
+            )
+            .join("\n");
+
+        let transcript = await sourcebin.create(
+            [{ name: `${channel.name}`, content: content, languageId: "text" }],
+            {
+                title: `Transcript: ${channel.name}`,
+                description: " ",
+            }
+        );
+
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setEmoji("📑")
+                .setURL(`${transcript.url}`)
+        );
+
+        const embed = new EmbedBuilder()
+            .setTitle("Ticket Transcript")
+            .addFields(
+                { name: "Channel", value: `${interaction.channel.name}`, inline: true },
+                { name: "Propriétaire du ticket", value: `<@${channel.topic}>`, inline: true },
+                { name: "Supprimé par", value: `<@${interaction.user.id}>`, inline: true },
+                {
+                    name: "Direct Transcript",
+                    value: `[Direct Transcript](${transcript.url})`,
+                    inline: true,
+                }
+            )
+
+        await transcriptsChannel.send({ embeds: [embed], components: [row] });
+    });
+
+    await msg.edit({
+        content: `Transcript enregistrée dans <#${transcriptsChannel.id}>`,
+    });
+
+    await channel.send({ content: "Le ticket sera supprimé dans 5 secondes!" });
+
+    setTimeout(async function () {
+        channel.delete();
+    }, 5000);
 }
