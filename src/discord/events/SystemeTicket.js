@@ -46,12 +46,7 @@ module.exports = {
 
 
 
-            const rowDeleteFalse = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                    .setStyle(ButtonStyle.Danger)
-                    .setEmoji("🗑️")
-                    .setDisabled(true)
-            );
+            const rowDeleteFalse = new ActionRowBuilder().addComponents(buttonCloseTicket.setDisabled(true));
 
             const rowDeleteTrue = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
@@ -150,9 +145,9 @@ module.exports = {
                         )
                 ]
             })
-            // Supprimer le bouton de claim
+            // Désactiver le bouton de claim
             interaction.message.edit({
-                components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(true))]
+                components: [new ActionRowBuilder().addComponents(buttonCloseTicket, buttonClaimTicket.setDisabled(true))]
             })
 
         } else if (interaction.customId === "claim-end") {
@@ -189,7 +184,7 @@ module.exports = {
 
         }
         else if (interaction.customId.includes("ticket-delete") && interaction.channel.name.includes("fermer")) {
-            closeTicket(interaction);
+            closeTicket(interaction, interaction.customId.split("-")[2]);
         } else if (interaction.customId == "ticket") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
@@ -390,12 +385,12 @@ async function manageModalInteraction(interaction, client) {
             })
         }
 
-        await DB.addScoreToUser(user.discordId, carryAmount * pointsPerCarry);
+        DB.addScoreToUser(user.discordId, carryAmount * pointsPerCarry);
 
         // Mise à jour du message originel
         await firstMessage.edit({
             content: `${firstMessage.content.split("|")[0]}|${firstMessage.content.split("|")[1]}| ${(nbCarryDone + carryAmount)}/${nbCarryTotal} carry -> ${(carryToDo - carryAmount) * pointsPerCarry} point${(carryToDo - carryAmount) * pointsPerCarry == 1 ? "" : `s`}${carryToDo - carryAmount == 1 ? "" : ` (${pointsPerCarry}/carry)`}`,
-            components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(false))]
+            components: [new ActionRowBuilder().addComponents(buttonCloseTicket, buttonClaimTicket.setDisabled(false))]
         })
 
         await interaction.message.delete();
@@ -539,7 +534,7 @@ function createCarryChannel(interaction, title, points, roleId, categorieId, pri
                     iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
                 },
             }],
-            components: [new ActionRowBuilder().addComponents(buttonClaimTicket.setDisabled(false))]
+            components: [new ActionRowBuilder().addComponents(buttonCloseTicket, buttonClaimTicket.setDisabled(false))]
         })
         interaction.reply({
             content: `${emote} Votre ticket à été ouvert avec succès. <#${c.id}>`,
@@ -557,12 +552,12 @@ async function closeTicket(interaction, ticketType = null) {
     let transcriptsChannel;
     switch (ticketType) {
         case "carry":
+        case "carrierrequest":
             transcriptsChannel = interaction.guild.channels.cache.get(logChannelCarrierService);
             break;
         default:
             transcriptsChannel = interaction.guild.channels.cache.get(logChannelDefaultService);
     }
-    interaction.deferUpdate();
 
     let msg = await channel.send({ content: "Enregistrement du transcript..." });
     channel.messages.fetch().then(async (messages) => {
