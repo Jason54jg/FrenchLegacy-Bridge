@@ -390,7 +390,7 @@ async function manageModalInteraction(interaction, client) {
             })
         }
 
-        //DB.addScoreToUser(user.discordId, carryAmount * pointsPerCarry);
+        await DB.addScoreToUser(user.discordId, carryAmount * pointsPerCarry);
 
         // Mise à jour du message originel
         await firstMessage.edit({
