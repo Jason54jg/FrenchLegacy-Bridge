@@ -5,10 +5,17 @@ const sourcebin = require("sourcebin_js");
 const DB = require("../../../API/database/database.js");
 
 const roles = config.discord.roles;
+const disabledButtonCloseTicket = new ButtonBuilder()
+    .setCustomId('ticket-close')
+    .setLabel(' | fermer le ticket')
+    .setEmoji("🔒")
+    .setDisabled(true)
+    .setStyle(ButtonStyle.Danger);
 const buttonCloseTicket = new ButtonBuilder()
     .setCustomId('ticket-close')
     .setLabel(' | fermer le ticket')
     .setEmoji("🔒")
+    .setDisabled(false)
     .setStyle(ButtonStyle.Danger);
 const buttonClaimTicket = new ButtonBuilder()
     .setCustomId('claim')
@@ -45,8 +52,8 @@ module.exports = {
             await interaction.message.edit({ components: [rowPanel] });
 
 
-
-            const rowDeleteFalse = new ActionRowBuilder().addComponents(buttonCloseTicket.setDisabled(true));
+            
+            const rowDeleteFalse = new ActionRowBuilder().addComponents(disabledButtonCloseTicket);
 
             const rowDeleteTrue = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
