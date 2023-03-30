@@ -15,6 +15,7 @@ const buttonClaimTicket = new ButtonBuilder()
     .setEmoji('📩')
     .setStyle(ButtonStyle.Secondary);
 
+
 module.exports = {
     name: 'interactionCreate',
     once: false,
@@ -25,53 +26,22 @@ module.exports = {
         }
         if (!interaction.isButton()) return;
 
-        let logChannelDefaultService = config.discord.roles.logChannelDefaultService;
-        let logChannelCarrierService = config.discord.roles.logChannelCarrierService;
+        const roles = config.discord.roles;
+        let logChannelDefaultService = roles.logChannelDefaultService;
+        let logChannelCarrierService = roles.logChannelCarrierService;
 
-        let catégorieslayer = config.discord.roles.catégorieslayer;
-        let catégoriefloor = config.discord.roles.catégoriefloor;
-        let catégoriemaster = config.discord.roles.catégoriemaster;
-        let catégoriecarry = config.discord.roles.catégoriecarry;
-        let catégorieticket = config.discord.roles.catégorieticket;
-        let catégoriekuudra = config.discord.roles.catégoriekuudra;
+        let catégoriecarry = roles.catégoriecarry;
+        let catégorieticket = roles.catégorieticket;
 
-        let roleStaff = interaction.guild.roles.cache.get(config.discord.roles.commandRole);
-        let f7 = interaction.guild.roles.cache.get(config.discord.roles.rolef7Id);
-        let f6 = interaction.guild.roles.cache.get(config.discord.roles.rolef6Id);
-        let f5 = interaction.guild.roles.cache.get(config.discord.roles.rolef5Id);
-        let f4 = interaction.guild.roles.cache.get(config.discord.roles.rolef4Id);
-        let f3 = interaction.guild.roles.cache.get(config.discord.roles.rolef3Id);
-        let f2 = interaction.guild.roles.cache.get(config.discord.roles.rolef2Id);
-        let f1 = interaction.guild.roles.cache.get(config.discord.roles.rolef1Id);
-        let m7 = interaction.guild.roles.cache.get(config.discord.roles.rolem7Id);
-        let m6 = interaction.guild.roles.cache.get(config.discord.roles.rolem6Id);
-        let m5 = interaction.guild.roles.cache.get(config.discord.roles.rolem5Id);
-        let m4 = interaction.guild.roles.cache.get(config.discord.roles.rolem4Id);
-        let m3 = interaction.guild.roles.cache.get(config.discord.roles.rolem3Id);
-        let m2 = interaction.guild.roles.cache.get(config.discord.roles.rolem2Id);
-        let m1 = interaction.guild.roles.cache.get(config.discord.roles.rolem1Id);
-        let T3Spider = interaction.guild.roles.cache.get(config.discord.roles.roleT3SpiderId);
-        let T4Spider = interaction.guild.roles.cache.get(config.discord.roles.roleT4SpiderId);
-        let T4REV = interaction.guild.roles.cache.get(config.discord.roles.roleT4REVId);
-        let T5REV = interaction.guild.roles.cache.get(config.discord.roles.roleT5REVId);
-        let T3eman = interaction.guild.roles.cache.get(config.discord.roles.roleT3emanId);
-        let T4eman = interaction.guild.roles.cache.get(config.discord.roles.roleT4emanId);
-        let T2blaze = interaction.guild.roles.cache.get(config.discord.roles.roleT2blazeId);
-        let T3blaze = interaction.guild.roles.cache.get(config.discord.roles.roleT3blazeId);
-        let T4blaze = interaction.guild.roles.cache.get(config.discord.roles.roleT4blazeId);
-        let T1kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT1kuudraId);
-        let T2kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT2kuudraId);
-        let T3kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT3kuudraId);
-        let T4kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT4kuudraId);
-        let T5kuudra = interaction.guild.roles.cache.get(config.discord.roles.roleT5kuudraId);
+        let roleStaff = interaction.guild.roles.cache.get(roles.commandRole);
 
         let DejaUnChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
 
-        if (interaction.customId.contains("ticket-close")) {
+        if (interaction.customId.includes("ticket-close")) {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
             const requestId = interaction.customId.split("-")[2];
-          
+
             const rowPanel = new ActionRowBuilder().addComponents(buttonCloseTicket);
 
             await interaction.message.edit({ components: [rowPanel] });
@@ -79,16 +49,16 @@ module.exports = {
 
 
             const rowDeleteFalse = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Danger)
-                .setEmoji("🗑️")
-                .setDisabled(true)
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Danger)
+                    .setEmoji("🗑️")
+                    .setDisabled(true)
             );
 
             const rowDeleteTrue = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Danger)
-                .setEmoji("🗑️")
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Danger)
+                    .setEmoji("🗑️")
                     .setDisabled(false)
                     .setCustomId(`ticket-delete${requestId != null ? `-${requestId}` : ""}`)
             );
@@ -109,8 +79,27 @@ module.exports = {
 
             if (member == undefined) { return };
             interaction.channel.permissionOverwrites.edit(member, { ViewChannel: false });
-        }
-        else if (interaction.customId === "claim") {
+        } else if (interaction.customId.includes("carry")) {
+            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
+
+            const modal = new ModalBuilder()
+                .setCustomId(interaction.customId.split("-")[1])
+                .setTitle('Combien de carry devez-vous effectuer ?')
+
+            const nbCarryInput = new TextInputBuilder()
+                .setCustomId('numberOfCarry')
+                .setLabel("Entrez le nombre de carry a effectuer")
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(4)
+                .setMinLength(1)
+                .setPlaceholder('Exemple: 1, 2, 5, ...')
+                .setValue('1');
+
+            const nbCarryRow = new ActionRowBuilder().addComponents(nbCarryInput);
+            modal.addComponents(nbCarryRow);
+            await interaction.showModal(modal);
+
+        } else if (interaction.customId === "claim") {
             // Verifie que ce n'est pas la personne à l'origine du ticket qui claim
             if (interaction.message.mentions.users.keys().next().value == interaction.user.id) {
                 return interaction.reply({
@@ -125,7 +114,7 @@ module.exports = {
             }
 
             // Vérifie que la personne qui claim possède le role
-            if (! interaction.member._roles.includes(interaction.message.content.split('&')[1].split('>')[0])) {
+            if (!interaction.member._roles.includes(interaction.message.content.split('&')[1].split('>')[0])) {
                 return interaction.reply({
                     embeds: [{
                         description: `Vous ne possedez pas le rôle pour claim ce ticket !`,
@@ -137,30 +126,10 @@ module.exports = {
                 })
             }
 
-            // S'il s'agit bien d'un ticket lié a un carry (qui rapporte des points)
-            // note: pas la meilleur facon de vérifier, mais fonctionnelle pour le moment
-            if (interaction.message.content.split('|')[2] != null) {
-                // Création d'un formulaire pour renseigner le nombre de carry a effectuer
-                const modal = new ModalBuilder()
-                    .setCustomId('carry-amount')
-                    .setTitle('Combien de carry devez-vous effectuer ?')
-
-                const nbCarryInput = new TextInputBuilder()
-                    .setCustomId('numberOfCarry')
-                    .setLabel("Entrez le nombre de carry a effectuer")
-                    .setStyle(TextInputStyle.Short)
-                    .setMaxLength(4)
-                    .setMinLength(1)
-                    .setPlaceholder('Exemple: 1, 2, 5, ...')
-                    .setValue('1');
-
-                const nbCarryRow = new ActionRowBuilder().addComponents(nbCarryInput);
-                modal.addComponents(nbCarryRow);
-                await interaction.showModal(modal);
-            }
+            // ID: carry-amount
         }
 
-        else if (interaction.customId.contains("ticket-delete") && interaction.channel.name.includes("fermer")) {
+        else if (interaction.customId.includes("ticket-delete") && interaction.channel.name.includes("fermer")) {
             const channel = interaction.channel;
             const member = interaction.guild.members.cache.get(channel.topic);
 
@@ -236,1046 +205,6 @@ module.exports = {
             setTimeout(async function () {
                 channel.delete();
             }, 5000);
-        }
-        else if (interaction.customId == "f1") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f1 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f1,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f1} | ${interaction.user} | 1 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Professor:1039705994768425050> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        }
-        else if (interaction.customId == "f2") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f2 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f2,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f2} | ${interaction.user} | 1 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Scarf:1039705859518910634> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        }
-        else if (interaction.customId == "f3") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f3 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f3,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f3} | ${interaction.user} | 1 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Professor:1039705994768425050> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        }
-        else if (interaction.customId == "f4") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f4 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f4,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f4} | ${interaction.user} | 2 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Thorn:1039692699625865276> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        }
-        else if (interaction.customId == "f5") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f5 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f5,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f5} | ${interaction.user} | 1 point`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Livid:1039692626665934900> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "f6") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f6 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f6,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f6} | ${interaction.user} | 3 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Sadan:1039692739488534580> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "f7") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `f7 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriefloor}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: f7,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${f7} | ${interaction.user} | 5 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Necron:1040832502417338458> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m1") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `m1 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriemaster}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: m1,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${m1} | ${interaction.user} | 4 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Bonzo:1039705817252909147> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m2") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `m2 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriemaster}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: m2,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${m2} | ${interaction.user} | 8 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Scarf:1039705859518910634> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m3") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `m3 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriemaster}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: m3,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${m3} | ${interaction.user} | 7 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Professor:1039705994768425050> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m4") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m4 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m4,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
-                c.send({
-                    content: `${m4} | ${interaction.user} | 15 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**Completion**\n- 1 Run: 10m",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Thorn:1039692699625865276> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m5") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `m5 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriemaster}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: m5,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${m5} | ${interaction.user} | 10 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Livid:1039692626665934900> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m6") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `m6 ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriemaster}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: m6,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${m6} | ${interaction.user} | 13 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Sadan:1039692739488534580> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "m7") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `m7 ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégoriemaster}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: m7,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
-                c.send({
-                    content: `${m7} | ${interaction.user} | 20 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer votre IGN, l'étage du carry, le nombre de carry que vous souhaitez et le score que vous souhaitez.\n\nInformations sur les prix :\n\n**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Necron:1040832502417338458> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T3Spider") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T3Spider ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T3Spider,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T3Spider} | ${interaction.user} | 1 point`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider: 70k/unité\nPrix pour (10 ou plus) : 50k/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Spider:1081243964755157012> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T4Spider") {
-              if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-              interaction.guild.channels.create({
-                  name: `T4Spider ${interaction.user.username}`,
-                  type: ChannelType.GuildText,
-                  topic: `${interaction.user.id}`,
-                  parent: `${catégorieslayer}`,
-                  permissionOverwrites: [
-                      {
-                          id: interaction.guild.id,
-                          deny: [PermissionFlagsBits.ViewChannel]
-                      },
-                      {
-                          id: interaction.user.id,
-                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                      },
-                      {
-                          id: roleStaff,
-                          allow: [PermissionFlagsBits.ViewChannel]
-                      },
-                      {
-                          id: T4Spider,
-                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                      }
-                  ]
-              }).then((c) => {
-                  c.send({
-                      content: `${T4Spider} | ${interaction.user} | 3 point`,
-                      embeds: [{
-                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nSpider T4: 100k/unité\nPrix pour (10 ou plus) : 90k/unité",
-                          footer: {
-                              text: "FrenchLegacy",
-                              iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                          },
-                      }],
-                      components: [
-                          new ActionRowBuilder()
-                              .addComponents(buttonCloseTicket, buttonClaimTicket)
-                      ]
-                  })
-                  interaction.reply({
-                      content: `<:Spider:1081243964755157012> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                      ephemeral: true
-                  })
-              })
-          } else if (interaction.customId == "T4REV") {
-          if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-          interaction.guild.channels.create({
-              name: `T4Revenant ${interaction.user.username}`,
-              type: ChannelType.GuildText,
-              topic: `${interaction.user.id}`,
-              parent: `${catégorieslayer}`,
-              permissionOverwrites: [
-                  {
-                      id: interaction.guild.id,
-                      deny: [PermissionFlagsBits.ViewChannel]
-                  },
-                  {
-                      id: interaction.user.id,
-                      allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                  },
-                  {
-                      id: roleStaff,
-                      allow: [PermissionFlagsBits.ViewChannel]
-                  },
-                  {
-                      id: T4REV,
-                      allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                  }
-              ]
-          }).then((c) => {
-              c.send({
-                  content: `${T4REV} | ${interaction.user} | 1 point`,
-                  embeds: [{
-                      description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nZombie T4: 150k/unité\nPrix pour (10 ou plus) : 80k/unité",
-                      footer: {
-                          text: "FrenchLegacy",
-                          iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                      },
-                  }],
-                  components: [
-                      new ActionRowBuilder()
-                          .addComponents(buttonCloseTicket, buttonClaimTicket)
-                  ]
-              })
-              interaction.reply({
-                  content: `<:Revenant:1039706422465794158> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                  ephemeral: true
-              })
-          })
-      } else if (interaction.customId == "T5REV") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T5Revenant ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T5REV,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T5REV} | ${interaction.user} | 2 point`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nAtoned Horror: 200k/unité\nPrix pour (10 ou plus) : 150k/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Revenant:1039706422465794158> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T3eman") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T3Voidgloom ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T3eman,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T3eman} | ${interaction.user} | 6 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 3: 800k/unité\nPrix T3 pour (10 ou plus) : 600k/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Enderman:1039706047214014464> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T4eman") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T4Voidgloom ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T4eman,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T4eman} | ${interaction.user} | 10 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nVoidgloom Seraph 4: 2.5m/unité\nPrix T4 pour (10 ou plus) : 2m/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Enderman:1039706047214014464> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T2blaze") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T2Inferno ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T2blaze,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T2blaze} | ${interaction.user} | 7 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 2: 1m/ pour (10+) 850k/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Blaze:1039705790501617745> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T3blaze") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T3Inferno ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégorieslayer}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T3blaze,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T3blaze} | ${interaction.user} | 15 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 3: 2.5m/ pour (10+) 2m/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Blaze:1039705790501617745> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "T4blaze") {
-            if (DejaUnChannel) return interaction.reply({content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true})
-                interaction.guild.channels.create({
-                    name: `T4Inferno ${interaction.user.username}`,
-                    type: ChannelType.GuildText,
-                    topic: `${interaction.user.id}`,
-                    parent: `${catégorieslayer}`,
-                    permissionOverwrites: [
-                        {
-                            id: interaction.guild.id,
-                            deny: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        },
-                        {
-                            id: roleStaff,
-                            allow: [PermissionFlagsBits.ViewChannel]
-                        },
-                        {
-                            id: T4blaze,
-                            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                        }
-                    ]
-                }).then((c)=>{
-                c.send({
-                    content: `${T4blaze} | ${interaction.user} | 18 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de boss que vous voulez passer\n\nInformations sur les prix :\n\nInferno Demonlord 4: 6.5m /pour (10+) 6m/unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Blaze:1039705790501617745> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
         } else if (interaction.customId == "ticket") {
             if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
             interaction.guild.channels.create({
@@ -1363,231 +292,6 @@ module.exports = {
                     ephemeral: true
                 })
             })
-        } else if (interaction.customId == "k1") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T1Kuudra ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriekuudra}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T1kuudra,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T1kuudra} | ${interaction.user} | 5 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "k2") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T2Kuudra ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriekuudra}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T2kuudra,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T2kuudra} | ${interaction.user} | 8 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 10m\n- 5 ou plus: 8m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "k3") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T3Kuudra ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriekuudra}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T3kuudra,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T3kuudra} | ${interaction.user} | 15 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.5m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "k4") {
-            if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-            interaction.guild.channels.create({
-                name: `T4Kuudra ${interaction.user.username}`,
-                type: ChannelType.GuildText,
-                topic: `${interaction.user.id}`,
-                parent: `${catégoriekuudra}`,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    },
-                    {
-                        id: roleStaff,
-                        allow: [PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: T4kuudra,
-                        allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                    }
-                ]
-            }).then((c) => {
-                c.send({
-                    content: `${T4kuudra} | ${interaction.user} | 20 points`,
-                    embeds: [{
-                        description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 20m\n- 5 ou plus: 17m unité",
-                        footer: {
-                            text: "FrenchLegacy",
-                            iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                        },
-                    }],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket, buttonClaimTicket)
-                    ]
-                })
-                interaction.reply({
-                    content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                    ephemeral: true
-                })
-            })
-        } else if (interaction.customId == "k5") {
-              if (DejaUnChannel) return interaction.reply({ content: 'Vous avez déja un ticket d\'ouvert sur le serveur.', ephemeral: true })
-              interaction.guild.channels.create({
-                  name: `T5Kuudra ${interaction.user.username}`,
-                  type: ChannelType.GuildText,
-                  topic: `${interaction.user.id}`,
-                  parent: `${catégoriekuudra}`,
-                  permissionOverwrites: [
-                      {
-                          id: interaction.guild.id,
-                          deny: [PermissionFlagsBits.ViewChannel]
-                      },
-                      {
-                          id: interaction.user.id,
-                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                      },
-                      {
-                          id: roleStaff,
-                          allow: [PermissionFlagsBits.ViewChannel]
-                      },
-                      {
-                          id: T5kuudra,
-                          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
-                      }
-                  ]
-              }).then((c) => {
-                  c.send({
-                      content: `${T5kuudra} | ${interaction.user} | 40 points`,
-                      embeds: [{
-                          description: "Veuillez indiquer les éléments suivants :\n- Votre IGN\n- Le nombre de run que vous voulez passer\n\nInformations sur les prix :\n\n**Runs**\n- 1 Run: 60m\n- 5 ou plus: 50m unité",
-                          footer: {
-                              text: "FrenchLegacy",
-                              iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
-                          },
-                      }],
-                      components: [
-                          new ActionRowBuilder()
-                              .addComponents(buttonCloseTicket, buttonClaimTicket)
-                      ]
-                  })
-                  interaction.reply({
-                      content: `<:Kuudra:1049723520072044614> Votre ticket à été ouvert avec succès. <#${c.id}>`,
-                      ephemeral: true
-                  })
-              })
         } else if (interaction.customId == "roles_vip") {
             if (interaction.member.roles.cache.has('999026248590315661')) {
                 interaction.member.roles.remove('999026248590315661');
@@ -1647,14 +351,14 @@ module.exports = {
 }
 
 async function manageModalInteraction(interaction, client) {
-    if (interaction.customId === 'carry-amount') {
+    if (interaction.customId.includes('carry-amount')) {
         const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
-        const points = parseInt(interaction.message.content.split('|')[2].split('p')[0].trim(), 10);
+
         // Si la valeur renseigné n'est pas un nombre
         if (isNaN(carryAmount)) {
             return interaction.reply({
                 embeds: [{
-                    description: `Vous devez renseigner un nombre afin de pouvoir prendre ce ticket en charge`,
+                    description: `Vous devez renseigner un nombre afin de pouvoir créer ce ticket`,
                     footer: {
                         text: "FrenchLegacy"
                     },
@@ -1679,11 +383,11 @@ async function manageModalInteraction(interaction, client) {
 
         DB.addScoreToUser(user.discordId, carryAmount * points);
         await interaction.message.edit({
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(buttonCloseTicket)
-                    ]
-                });
+            components: [
+                new ActionRowBuilder()
+                    .addComponents(buttonCloseTicket)
+            ]
+        });
         interaction.reply({
             embeds: [{
                 description: `Votre salon a été pris en charge par ${interaction.user} pour ${carryAmount} carry`,
@@ -1693,5 +397,136 @@ async function manageModalInteraction(interaction, client) {
             }]
         })
     }
-    
+
+    // Slayer interactions
+    else if (interaction.customId == "T3Spider") {
+        createCarryChannel(interaction, "T3Spider", 1, roles.roleT3SpiderId, roles.catégorieslayer, "Spider: 70k/unité \nPrix pour (10 ou plus) : 50k/unité", "<:Spider:1081243964755157012>");
+    } else if (interaction.customId == "T4Spider") {
+        createCarryChannel(interaction, "T4Spider", 3, roles.roleT4SpiderId, roles.catégorieslayer, "Spider T4: 100k/unité \nPrix pour (10 ou plus) : 90k/unité", "<:Spider:1081243964755157012>");
+    } else if (interaction.customId == "T4REV") {
+        createCarryChannel(interaction, "T4Revenant", 1, roles.roleT4REVId, roles.catégorieslayer, "Zombie T4: 150k/unité \nPrix pour (10 ou plus) : 80k/unité", "<:Revenant:1039706422465794158>");
+    } else if (interaction.customId == "T5REV") {
+        createCarryChannel(interaction, "T5Revenant", 2, roles.roleT5REVId, roles.catégorieslayer, "Atoned Horror: 200k/unité \nPrix pour (10 ou plus) : 150k/unité", "<:Revenant:1039706422465794158>");
+    } else if (interaction.customId == "T3eman") {
+        createCarryChannel(interaction, "T3Voidgloom", 6, roles.roleT3emanId, roles.catégorieslayer, "Voidgloom Seraph 3: 800k/unité \nPrix pour (10 ou plus) : 600k/unité", "<:Enderman:1039706047214014464>");
+    } else if (interaction.customId == "T4eman") {
+        createCarryChannel(interaction, "T5Voidgloom", 10, roles.roleT4emanId, roles.catégorieslayer, "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité", "<:Enderman:1039706047214014464>");
+    } else if (interaction.customId == "T2blaze") {
+        createCarryChannel(interaction, "T2Inferno", 7, roles.roleT2blazeId, roles.catégorieslayer, "Inferno Demonlord 2: 1m/unité \nPrix pour (10 ou plus) : 850k/unité", "<:Blaze:1039705790501617745>");
+    } else if (interaction.customId == "T3blaze") {
+        createCarryChannel(interaction, "T3Inferno", 15, roles.roleT3blazeId, roles.catégorieslayer, "Inferno Demonlord 3: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité", "<:Blaze:1039705790501617745>");
+    } else if (interaction.customId == "T4blaze") {
+        createCarryChannel(interaction, "T4Inferno", 18, roles.roleT4blazeId, roles.catégorieslayer, "Inferno Demonlord 4: 6.5m/unité \nPrix pour (10 ou plus) : 6m/unité", "<:Blaze:1039705790501617745>");
+    }
+
+    // Kuudra interactions
+    else if (interaction.customId == "k1") {
+        createCarryChannel(interaction, "T1Kuudra", 5, roles.roleT1kuudraId, roles.catégoriekuudra, "**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité", "<:Kuudra:1049723520072044614>");
+    } else if (interaction.customId == "k2") {
+        createCarryChannel(interaction, "T2Kuudra", 8, roles.roleT2kuudraId, roles.catégoriekuudra, "**Runs**\n- 1 Run: 10m\n- 5 ou plus: 8m unité", "<:Kuudra:1049723520072044614>");
+    } else if (interaction.customId == "k3") {
+        createCarryChannel(interaction, "T3Kuudra", 15, roles.roleT3kuudraId, roles.catégoriekuudra, "**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.5m unité", "<:Kuudra:1049723520072044614>");
+    } else if (interaction.customId == "k4") {
+        createCarryChannel(interaction, "T4Kuudra", 20, roles.roleT4kuudraId, roles.catégoriekuudra, "**Runs**\n- 1 Run: 20m\n- 5 ou plus: 17m unité", "<:Kuudra:1049723520072044614>");
+    } else if (interaction.customId == "k5") {
+        createCarryChannel(interaction, "T5Kuudra", 40, roles.roleT5kuudraId, roles.catégoriekuudra, "**Runs**\n- 1 Run: 60m\n- 5 ou plus: 50m unité", "<:Kuudra:1049723520072044614>");
+    }
+
+    // Dungeon interactions
+    else if (interaction.customId == "f1") {
+        createCarryChannel(interaction, "f1", 1, roles.rolef1Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité", "<:Bonzo:1039705817252909147>");
+    } else if (interaction.customId == "f2") {
+        createCarryChannel(interaction, "f2", 1, roles.rolef2Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité", "<:Scarf:1039705859518910634>");
+    } else if (interaction.customId == "f3") {
+        createCarryChannel(interaction, "f3", 1, roles.rolef3Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité", "<:Professor:1039705994768425050>");
+    } else if (interaction.customId == "f4") {
+        createCarryChannel(interaction, "f4", 2, roles.rolef4Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité", "<:Thorn:1039692699625865276>");
+    } else if (interaction.customId == "f5") {
+        createCarryChannel(interaction, "f5", 1, roles.rolef5Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité", "<:Livid:1039692626665934900>");
+    } else if (interaction.customId == "f6") {
+        createCarryChannel(interaction, "f6", 3, roles.rolef6Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité", "<:Sadan:1039692739488534580>");
+    } else if (interaction.customId == "f7") {
+        createCarryChannel(interaction, "f7", 5, roles.rolef7Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité", "<:Necron:1040832502417338458>");
+    } else if (interaction.customId == "m1") {
+        createCarryChannel(interaction, "m1", 4, roles.rolem1Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité", "<:Bonzo:1039705817252909147>");
+    } else if (interaction.customId == "m2") {
+        createCarryChannel(interaction, "m2", 8, roles.rolem2Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité", "<:Scarf:1039705859518910634>");
+    } else if (interaction.customId == "m3") {
+        createCarryChannel(interaction, "m3", 7, roles.rolem3Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité", "<:Professor:1039705994768425050>");
+    } else if (interaction.customId == "m4") {
+        createCarryChannel(interaction, "m4", 15, roles.rolem4Id, roles.catégoriemaster, "**Completion**\n- 1 Run: 10m", "<:Thorn:1039692699625865276>");
+    } else if (interaction.customId == "m5") {
+        createCarryChannel(interaction, "m5", 10, roles.rolem5Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité", "<:Livid:1039692626665934900>");
+    } else if (interaction.customId == "m6") {
+        createCarryChannel(interaction, "m6", 13, roles.rolem6Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité", "<:Sadan:1039692739488534580>");
+    } else if (interaction.customId == "m7") {
+        createCarryChannel(interaction, "m7", 20, roles.rolem7Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité", "<:Necron:1040832502417338458>");
+    }
+}
+
+function createCarryChannel(interaction, title, points, roleId, categorieId, priceInfo, emote) {
+    const roleStaff = interaction.guild.roles.cache.get(config.discord.roles.commandRole);
+    const role = interaction.guild.roles.cache.get(roleId);
+
+    const carryAmount = interaction.fields.getTextInputValue('numberOfCarry');
+
+    // Si la valeur renseigné n'est pas un nombre valide
+    if (isNaN(carryAmount) || carryAmount < 1) {
+        return interaction.reply({
+            embeds: [{
+                description: `Vous devez renseigner un nombre valide afin de pouvoir créer ce ticket`,
+                footer: {
+                    text: "FrenchLegacy"
+                },
+            }],
+            ephemeral: true
+        })
+    }
+
+    // Création du channel de carry
+    interaction.guild.channels.create({
+        name: `${title} ${interaction.user.username}`,
+        type: ChannelType.GuildText,
+        topic: `${interaction.user.id}`,
+        parent: `${categorieId}`,
+        permissionOverwrites: [
+            {
+                id: interaction.guild.id,
+                deny: [PermissionFlagsBits.ViewChannel]
+            },
+            {
+                id: interaction.user.id,
+                allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+            },
+            {
+                id: roleStaff,
+                allow: [PermissionFlagsBits.ViewChannel]
+            },
+            {
+                id: role,
+                allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages]
+            }
+        ]
+    })
+    // Envoie des informations sur le carry dans le nouveau channel
+    .then((c) => {
+        c.send({
+            content: `${role} | ${interaction.user} | ${carryAmount} carry -> ${points * carryAmount} point${points * carryAmount == 1 ? "":"s"} (${points}/carry)`,
+            embeds: [{
+                description: `Veuillez indiquer votre IGN à la suite de ce message !\n\nInformations sur les prix :\n\n${priceInfo}`,
+                footer: {
+                    text: "FrenchLegacy",
+                    iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png"
+                },
+            }],
+            components: [
+                new ActionRowBuilder()
+                    .addComponents(buttonCloseTicket, buttonClaimTicket)
+            ]
+        })
+        interaction.reply({
+            content: `${emote} Votre ticket à été ouvert avec succès. <#${c.id}>`,
+            ephemeral: true
+        })
+    })
 }

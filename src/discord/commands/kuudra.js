@@ -67,27 +67,27 @@ module.exports = {
                 new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('k1')
+                        .setCustomId('carry-k1')
                         .setLabel('Basic')
                         .setEmoji('1049723395740274709')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
-                        .setCustomId('k2')
+                        .setCustomId('carry-k2')
                         .setLabel('Hot')
                         .setEmoji('1049723395740274709')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
-                        .setCustomId('k3')
+                        .setCustomId('carry-k3')
                         .setLabel('Burning')
                         .setEmoji('1049723395740274709')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
-                        .setCustomId('k4')
+                        .setCustomId('carry-k4')
                         .setLabel('Fiery')
                         .setEmoji('1049723395740274709')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
-                        .setCustomId('k5')
+                        .setCustomId('carry-k5')
                         .setLabel('Infernal')
                         .setEmoji('1049723395740274709')
                         .setStyle(ButtonStyle.Primary),

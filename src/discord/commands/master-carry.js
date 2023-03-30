@@ -80,27 +80,27 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents(
                         new ButtonBuilder()
-                            .setCustomId('m1')
+                            .setCustomId('carry-m1')
                             .setLabel('M1')
                             .setEmoji('1039705817252909147')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('m2')
+                            .setCustomId('carry-m2')
                             .setLabel('M2')
                             .setEmoji('1039705859518910634')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('m3')
+                            .setCustomId('carry-m3')
                             .setLabel('M3')
                             .setEmoji('1039705994768425050')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('m4')
+                            .setCustomId('carry-m4')
                             .setLabel('M4')
                             .setEmoji('1039692699625865276')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('m5')
+                            .setCustomId('carry-m5')
                             .setLabel('M5')
                             .setEmoji('1039692626665934900')
                             .setStyle(ButtonStyle.Primary)
@@ -108,12 +108,12 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents(
                         new ButtonBuilder()
-                            .setCustomId('m6')
+                            .setCustomId('carry-m6')
                             .setLabel('M6')
                             .setEmoji('1039692739488534580')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('m7')
+                            .setCustomId('carry-m7')
                             .setLabel('M7')
                             .setEmoji('1040832502417338458')
                             .setStyle(ButtonStyle.Primary)

@@ -105,27 +105,27 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents(
                         new ButtonBuilder()
-                            .setCustomId('f1')
+                            .setCustomId('carry-f1')
                             .setLabel('F1')
                             .setEmoji('1039705817252909147')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('f2')
+                            .setCustomId('carry-f2')
                             .setLabel('F2')
                             .setEmoji('1039705859518910634')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('f3')
+                            .setCustomId('carry-f3')
                             .setLabel('F3')
                             .setEmoji('1039705994768425050')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('f4')
+                            .setCustomId('carry-f4')
                             .setLabel('F4')
                             .setEmoji('1039692699625865276')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('f5')
+                            .setCustomId('carry-f5')
                             .setLabel('F5')
                             .setEmoji('1039692626665934900')
                             .setStyle(ButtonStyle.Primary)
@@ -133,12 +133,12 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents(
                         new ButtonBuilder()
-                            .setCustomId('f6')
+                            .setCustomId('carry-f6')
                             .setLabel('F6')
                             .setEmoji('1039692739488534580')
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
-                            .setCustomId('f7')
+                            .setCustomId('carry-f7')
                             .setLabel('F7')
                             .setEmoji('1040832502417338458')
                             .setStyle(ButtonStyle.Primary),
