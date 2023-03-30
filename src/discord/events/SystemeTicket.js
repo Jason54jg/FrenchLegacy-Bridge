@@ -389,7 +389,7 @@ async function manageModalInteraction(interaction, client) {
 
         // Mise à jour du message originel
         await firstMessage.edit({
-            content: `${firstMessage.content.split("|")[0]}|${firstMessage.content.split("|")[1]}| ${(nbCarryDone + carryAmount)}/${nbCarryTotal} carry -> ${(carryToDo - carryAmount) * pointsPerCarry} point${(carryToDo - carryAmount) * pointsPerCarry == 1 ? "" : `s`}${carryToDo - carryAmount == 1 ? "" : ` (${pointsPerCarry}/carry)`}`,
+            content: `${firstMessage.content.split("|")[0]}|${firstMessage.content.split("|")[1]}| ${(nbCarryDone + carryAmount)}/${nbCarryTotal} carry fait -> ${(carryToDo - carryAmount) * pointsPerCarry} point${(carryToDo - carryAmount) * pointsPerCarry == 1 ? "" : `s`}${carryToDo - carryAmount == 1 ? "" : ` (${pointsPerCarry}/carry)`}`,
             components: [new ActionRowBuilder().addComponents(buttonCloseTicket, buttonClaimTicket.setDisabled(false))]
         })
 
@@ -526,7 +526,7 @@ function createCarryChannel(interaction, title, points, roleId, categorieId, pri
     // Envoie des informations sur le carry dans le nouveau channel
     .then((c) => {
         c.send({
-            content: `${role} | ${interaction.user} IGN: ${ign} | 0/${carryAmount} carry -> ${points * carryAmount} point${points * carryAmount == 1 ? "" :`s (${points}/carry)`}`,
+            content: `${role} | ${interaction.user} IGN: ${ign} | 0/${carryAmount} carry fait -> ${points * carryAmount} point${points * carryAmount == 1 ? "" :`s (${points}/carry)`}`,
             embeds: [{
                 description: `Informations sur les prix :\n\n${priceInfo}`,
                 footer: {
