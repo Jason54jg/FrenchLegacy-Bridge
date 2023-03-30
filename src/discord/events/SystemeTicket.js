@@ -526,7 +526,7 @@ function createCarryChannel(interaction, title, points, roleId, categorieId, pri
     // Envoie des informations sur le carry dans le nouveau channel
     .then((c) => {
         c.send({
-            content: `${role} | ${interaction.user} IGN: ${ign} | 0/${carryAmount} carry fait -> ${points * carryAmount} point${points * carryAmount == 1 ? "" :`s (${points}/carry)`}`,
+            content: `${role} | ${interaction.user} IGN: ${ign} | 0/${carryAmount} carry fait -> ${points * carryAmount} point${points * carryAmount == 1 ? "" : `s`}${carryAmount == 1 ? "" : `(${points}/carry)`}`,
             embeds: [{
                 description: `Informations sur les prix :\n\n${priceInfo}`,
                 footer: {
