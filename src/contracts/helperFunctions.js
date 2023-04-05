@@ -10,8 +10,8 @@ const axios = require("axios");
 const config = require("../../config.json");
 const moment = require("moment");
 const { getLatestProfile } = require("../../API/functions/getLatestProfile.js");
-const getSkills = require('../../API/stats/skills.js');
-const getSlayer = require('../../API/stats/slayer.js');
+const getSkills = require("../../API/stats/skills.js");
+const getSlayer = require("../../API/stats/slayer.js");
 
 function replaceAllRanks(input) {
   input = input.replaceAll("[OWNER] ", "");
@@ -246,12 +246,22 @@ async function getStats(player, uuid, mode, time) {
       ]);
   
       if (!mode || mode.includes("/")) {
-        const karma = response.data.player.karma - response24H.data.General.karma;
-        const experience = response.data.player.networkExp - response24H.data.General.EXP;
-        const level = getLevel(response.data.player.networkExp) - getLevel(parseInt(response24H.data.General.EXP));
-  
-        return `/gc ${player} has earned ${karma.toLocaleString()} karma and ${level.toFixed(5)} levels (${experience.toLocaleString()} EXP) in the last ${time === "daily" ? "day" : time.replace("ly", "")}!`;
-      } else if (["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())) {
+        const karma =
+          response.data.player.karma - response24H.data.General.karma;
+        const experience =
+          response.data.player.networkExp - response24H.data.General.EXP;
+        const level =
+          getLevel(response.data.player.networkExp) -
+          getLevel(parseInt(response24H.data.General.EXP));
+
+        return `/gc ${player} has earned ${karma.toLocaleString()} karma and ${level.toFixed(
+          5
+        )} levels (${experience.toLocaleString()} EXP) in the last ${
+          time === "daily" ? "day" : time.replace("ly", "")
+        }!`;
+      } else if (
+        ["bw", "bedwars", "bedwar", "bws"].includes(mode.toLowerCase())
+      ) {
         const bedwarsData = response.data.player.stats.Bedwars;
         const oldBedwarsData = response24H.data.Bedwars;
   
@@ -273,12 +283,12 @@ async function getStats(player, uuid, mode, time) {
           bedwarsData.beds_broken_bedwars - oldBedwarsData.overall.bedsBroken;
         const BL =
           bedwarsData.beds_lost_bedwars - oldBedwarsData.overall.bedsLost + 1;
-  
-        return `/gc [${level.toFixed(5)}✫] ${player} FK: ${addCommas(FK)} FKDR: ${(
-          FK / FD || 0
-        ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
-          2
-        )} BB: ${BB} BLR: ${(BB / BL || 0).toFixed(2)}`;
+
+        return `/gc [${level.toFixed(5)}✫] ${player} FK: ${addCommas(
+          FK
+        )} FKDR: ${(FK / FD || 0).toFixed(2)} Wins: ${wins} WLR: ${(
+          wins / losses || 0
+        ).toFixed(2)} BB: ${BB} BLR: ${(BB / BL || 0).toFixed(2)}`;
       } else if (
         ["sw", "skywars", "skywar", "sws"].includes(mode.toLowerCase())
       ) {
@@ -295,31 +305,30 @@ async function getStats(player, uuid, mode, time) {
         const losses = skywarsData.losses - oldSkywarsData.overall.losses + 1;
   
         const coins = skywarsData.coins - oldSkywarsData.coins;
-  
-        return `/gc [${level.toFixed(5)}✫] ${player} Kills: ${addCommas(kills)} KDR: ${(
-          kills / deaths || 0
-        ).toFixed(2)} Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
-          2
-        )} Coins: ${addCommas(coins || 0)}`;
+
+        return `/gc [${level.toFixed(5)}✫] ${player} Kills: ${addCommas(
+          kills
+        )} KDR: ${(kills / deaths || 0).toFixed(2)} Wins: ${wins} WLR: ${(
+          wins / losses || 0
+        ).toFixed(2)} Coins: ${addCommas(coins || 0)}`;
       } else if (["duels", "duel", "d"].includes(mode.toLowerCase())) {
         const oldDuelsData = response24H.data.Duels.overall;
         const duelsData = response.data.player.stats.Duels;
-  
-        const gamesPlayed = duelsData.games_played_duels - oldDuelsData.gamesPlayed;
-  
+
+        const gamesPlayed =
+          duelsData.games_played_duels - oldDuelsData.gamesPlayed;
+
         const wins = duelsData.wins - oldDuelsData.wins;
         const losses = duelsData.losses - oldDuelsData.losses;
-  
-        const kills = duelsData.kills - oldDuelsData.kills
+
+        const kills = duelsData.kills - oldDuelsData.kills;
         const deaths = duelsData.deaths - oldDuelsData.deaths;
-  
-        return `/gc ${player} Games: ${
-          gamesPlayed.toLocaleString()
-        } Wins: ${wins} WLR: ${(wins / losses || 0).toFixed(
-          2
-        )} Kills: ${kills.toLocaleString()} KDR: ${(kills / deaths || 0).toFixed(
-          2
-        )}`;
+
+        return `/gc ${player} Games: ${gamesPlayed.toLocaleString()} Wins: ${wins} WLR: ${(
+          wins / losses || 0
+        ).toFixed(2)} Kills: ${kills.toLocaleString()} KDR: ${(
+          kills / deaths || 0
+        ).toFixed(2)}`;
       }
     } else {
       const [response, response24H] = await Promise.all([
@@ -330,7 +339,9 @@ async function getStats(player, uuid, mode, time) {
       ]);
 
       const profile = response.profile;
-      const oldProfile = response24H.data.Profiles[response.profileData.profile_id];
+      const oldProfile =
+        response24H.data.Profiles[response.profileData.profile_id];
+
       
       const experience = profile.leveling.experience;
       const skills = getSkills(profile);
@@ -338,28 +349,49 @@ async function getStats(player, uuid, mode, time) {
 
       const output = [];
       Object.keys(skills).map((skill) => {
-        output.push(`${capitalize(skill)}: ${formatNumber((skills[skill].totalXp - oldProfile.skills[skill].EXP).toFixed(0))}`)
+        output.push(
+          `${capitalize(skill)}: ${
+            skills[skill].totalXp - oldProfile.skills[skill].EXP ?? 0
+          }`
+        );
       });
       Object.keys(slayer).map((type) => {
-        output.push(`${capitalize(type)}: ${formatNumber((slayer[type].xp - oldProfile.slayer[type].EXP).toFixed(0))}`) 
+        output.push(
+          `${capitalize(type)}: ${
+            slayer[type].xp - oldProfile.slayer[type]?.EXP ?? 0
+          }`
+        );
       });
-      output.push(`SB Level: ${(experience / 100 - oldProfile.EXP / 100).toFixed(2)}`);
-      output.push(`SB Experience: ${(experience - oldProfile.EXP).toLocaleString()}`);
-      output.push(`Catacombs: ${formatNumber((profile?.dungeons?.dungeon_types?.catacombs?.experience - oldProfile.dungeons.catacombs.EXP) || 0)}`);
+      output.push(`SB Experience: ${experience - oldProfile.EXP}`);
+      output.push(
+        `Catacombs: ${
+          profile?.dungeons?.dungeon_types?.catacombs?.experience -
+            oldProfile.dungeons.catacombs?.EXP ??
+          0 ??
+          0
+        }`
+      );
 
       let description = "";
+      output.sort((a, b) => {
+        if (a.split(": ")[0] === "SB Experience") return -1;
+
+        return parseInt(b.split(": ")[1]) - parseInt(a.split(": ")[1]);
+      });
+
       for (const item of output) {
         const [type, value] = item.split(": ");
         if (parseInt(value) === 0) continue;
 
-        description += `${type}: ${value} | `;
+        description += `${type}: ${formatNumber(value)} | `;
       }
 
-
-      return `/gc ${capitalize(time)} SB stats: ${description === "" ? "No changes" : description.slice(0, -3)}`;
+      return `/gc ${capitalize(time)} SB stats: ${
+        description === "" ? "No changes" : description.slice(0, -3)
+      }`;
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw error?.response?.data?.cause ?? error;
   }
 }

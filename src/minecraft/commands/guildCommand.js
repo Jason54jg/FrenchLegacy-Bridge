@@ -24,7 +24,6 @@ class GuildInformationCommand extends minecraftCommand {
         .map((arg) => capitalize(arg))
         .join(" ");
 
-      console.log(guildName)
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(

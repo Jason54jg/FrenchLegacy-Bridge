@@ -1,7 +1,14 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const config = require("../../../config.json");
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const getAnswer = (message) => message.split(": ")[1];
+const getAnswer = (message) => {
+  if (message.includes(config.minecraft.bot.messageFormat)) {
+    return message.split(config.minecraft.bot.messageFormat)[1].trim();
+  }
+
+  return message.split(": ")[1];
+};
 
 class QuickMathsCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -9,14 +16,18 @@ class QuickMathsCommand extends minecraftCommand {
 
     this.name = "quickmaths";
     this.aliases = ["qm"];
-    this.description = "Résolvez l'équation en moins de 10 secondes ! Testez vos compétences en mathématiques!";
+    this.description =
+    "Résolvez l'équation en moins de 10 secondes ! Testez vos compétences en mathématiques!";
     this.options = [];
   }
 
   async onCommand(username, message) {
     try {
       const userUsername = username;
-      const operands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+      const operands = [
+        Math.floor(Math.random() * 10),
+        Math.floor(Math.random() * 10),
+      ];
       const operators = ["+", "-", "*"];
       const operator = operators[Math.floor(Math.random() * operators.length)];
 
@@ -31,7 +42,7 @@ class QuickMathsCommand extends minecraftCommand {
       let answered = false;
 
       const listener = (username, message) => {
-        if (username === bot.username || getAnswer(message) !== answer.toString()) {
+        if (getAnswer(message) !== answer.toString()) {
           return;
         }
 

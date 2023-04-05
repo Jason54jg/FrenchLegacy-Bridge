@@ -55,7 +55,7 @@ module.exports = {
         const conditions = new EmbedBuilder()
         .setTitle("Conditions d'entrée")
         .setDescription("Veuillez vous assurer que vous remplissez les conditions d'entrée lors de la création d'un ticket. Les conditions d'entrée sont les suivantes:")
-        .addFields({ name: '▬▬▬▬▬▬▬▬', value: "Kuudra Basic Tier nécessite l'chèvement de la quête\nKuudra Hot Tier nécessite 1,000 de reputation\nKuudra Burning Tier nécessite 3,000 de reputation\nKuudra Fiery Tier nécessite 7,000 de reputation\n\nRemarque : l'achèvement des niveaux précédents est requis pour entrer dans le niveau pour lequel vous achetez un carry.", inline: true })
+        .addFields({ name: '▬▬▬▬▬▬▬▬', value: "Kuudra Basic Tier nécessite l'achèvement de la quête\nKuudra Hot Tier nécessite 1,000 de reputation\nKuudra Burning Tier nécessite 3,000 de reputation\nKuudra Fiery Tier nécessite 7,000 de reputation\n\nRemarque : l'achèvement des niveaux précédents est requis pour entrer dans le niveau pour lequel vous achetez un carry.", inline: true })
         .setFooter({text: "FrenchLegacy", iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`});
 
         const service = new EmbedBuilder()

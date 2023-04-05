@@ -20,7 +20,6 @@ module.exports = {
         const promise = new Promise((resolve, reject) => {
             const listener = (message) => {
                 cachedMessages.push(message.toString());
-                console.log(message.toString());
 
                 if (
                     message.toString().startsWith("10.") &&
