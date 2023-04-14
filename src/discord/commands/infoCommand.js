@@ -31,9 +31,13 @@ module.exports = {
           value: `Bot Username: \`${bot.username}\`\nPrefix: \`${
             config.minecraft.bot.prefix
           }\`\nSkyBlock Events: \`${
-            config.minecraft.skyblockEventsNotifications.enabled ? "enabled" : "disabled"
+            config.minecraft.skyblockEventsNotifications.enabled
+              ? "enabled"
+              : "disabled"
           }\`\nAcceptation automatique: \`${
-            config.minecraft.guildRequirement.autoAccept ? "enabled" : "disabled"
+            config.minecraft.guildRequirements.autoAccept
+              ? "enabled"
+              : "disabled"
           }\`\nExigence d'expérience de guilde: \`${config.minecraft.guild.guildExp.toLocaleString()}\`\nDisponibilité : En ligne depuis <t:${Math.floor(
             (Date.now() - client.uptime) / 1000
           )}:R>\nVersion: \`${require("../../../package.json").version}\`\n`,
@@ -61,7 +65,9 @@ module.exports = {
             config.discord.roles.commandRole
           }>\nMessage Mode: \`${
             config.discord.other.messageMode ? "enabled" : "disabled"
-          }\`\nFilter: \`${config.discord.other.filterMessages}\`\nJoin Messages: \`${
+          }\`\nFilter: \`${
+            config.discord.other.filterMessages
+          }\`\nJoin Messages: \`${
             config.discord.other.joinMessage ? "enabled" : "disabled"
           }\``,
           inline: true,

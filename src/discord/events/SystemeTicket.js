@@ -467,7 +467,7 @@ async function manageModalInteraction(interaction, client) {
     } else if (interaction.customId == "f6") {
         createCarryChannel(interaction, "f6", 3, roles.rolef6Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité", "<:Sadan:1039692739488534580>");
     } else if (interaction.customId == "f7") {
-        createCarryChannel(interaction, "f7", 5, roles.rolef7Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 5m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité", "<:Necron:1040832502417338458>");
+        createCarryChannel(interaction, "f7", 5, roles.rolef7Id, roles.catégoriefloor, "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 8m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité", "<:Necron:1040832502417338458>");
     } else if (interaction.customId == "m1") {
         createCarryChannel(interaction, "m1", 4, roles.rolem1Id, roles.catégoriemaster, "**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité", "<:Bonzo:1039705817252909147>");
     } else if (interaction.customId == "m2") {

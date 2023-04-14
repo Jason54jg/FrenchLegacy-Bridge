@@ -29,8 +29,13 @@ class StateHandler extends eventHandler {
     const message = event.toString().trim();
     const colouredMessage = event.toMotd();
 
-    // NOTE: fixes "100/100❤     100/100✎ Mana" spam in the debug channel
-    if (message.includes("✎ Mana") && message.includes("❤") && message.includes("/")) return;
+    // REMARQUE: corrige le spam "100/100❤ 100/100✎ Mana" dans le canal de debug
+    if (
+      message.includes("✎ Mana") &&
+      message.includes("❤") &&
+      message.includes("/")
+    )
+      return;
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
