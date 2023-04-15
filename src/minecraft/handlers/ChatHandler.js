@@ -44,77 +44,47 @@ class StateHandler extends eventHandler {
       });
     }
 
-    if (this.isLimboJoinMessage(message)) {
-      return setTimeout(() => bot.chat("/lobby"), 1000);
+    if (this.isLobbyJoinMessage(message)) {
+      return bot.chat("\u00a7");
     }
 
-    if (this.isSkyBlockJoinMessage(message)) {
-      await delay(3000);
-      this.send(`/skyblock`);
-    }
+    if (
+      this.isPartyMessage(message) &&
+      config.minecraft.fragBot.enabled === true
+    ) {
+      const username = message.substr(54).startsWith("[")
+        ? message.substr(54).split(" ")[1].trim()
+        : message.substr(54).split(" ")[0].trim();
 
-    if (this.isBugServerMessage(message)) {
-      await delay(70000);
-      this.send(`/skyblock`);
-      await delay(80000);
-      this.send(`/is`);
-    }
+      const { blacklist, blacklisted, whitelist, whitelisted } =
+        config.minecraft.fragBot;
+      if (blacklist || whitelist) {
+        const uuid = await getUUID(username);
 
-    if (this.isRestartServerMessage(message)) {
-      await delay(70000);
-      this.send(`/skyblock`);
-      await delay(80000);
-      this.send(`/is`);
-    }
+        if (config.minecraft.fragBot.blacklist === true) {
+          if (blacklisted.includes(username) || blacklisted.includes(uuid)) {
+            return;
+          }
+        }
 
-    if (this.isGameUpdateMessage(message)) {
-      await delay(40000);
-      this.send(`/skyblock`);
-      await delay(42000);
-      this.send(`/is`);
+        const members = await hypixel
+          .getGuild("player", bot.username)
+          .then(async (guild) => guild.members.map((member) => member.uuid));
+        if (
+          (config.minecraft.fragBot.whitelist &&
+            whitelisted.includes(username)) ||
+          members.includes(uuid)
+        ) {
+          this.send(`/party accept ${username}`);
+          await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
+          this.send(`/party leave`);
+        }
+      } else {
+        this.send(`/party accept ${username}`);
+        await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
+        this.send(`/party leave`);
+      }
     }
-
-    if (this.isKickServerMessage(message)) {
-      await delay(10000);
-      this.send(`/is`);
-    }
-
-    if (this.isSwitchServerMessage(message)) {
-      await delay(10000);
-      this.send(`/is`);
-    }
-
-    if (this.isBugServerMessage(message)) {
-      await delay(70000);
-      this.send(`/skyblock`);
-      await delay(80000);
-      this.send(`/is`);
-    }
-
-    if (this.isRestartServerMessage(message)) {
-      await delay(70000);
-      this.send(`/skyblock`);
-      await delay(80000);
-      this.send(`/is`);
-    }
-
-    if (this.isGameUpdateMessage(message)) {
-      await delay(40000);
-      this.send(`/skyblock`);
-      await delay(42000);
-      this.send(`/is`);
-    }
-
-    if (this.isKickServerMessage(message)) {
-      await delay(10000);
-      this.send(`/is`);
-    }
-
-    if (this.isSwitchServerMessage(message)) {
-      await delay(10000);
-      this.send(`/is`);
-    }
-
     if (this.isGuildLoginMessage(message)) {
       let username = message.split(">")[1].trim().split("joined.")[0].trim();
       let motd = motds[Math.floor(Math.random() * motds.length)];
@@ -700,32 +670,6 @@ class StateHandler extends eventHandler {
     );
   }
 
-  isSwitchServerMessage(message) {
-    return message.includes("Sending to server");
-  }
-
-  isKickServerMessage(message) {
-    return message.includes("Evacuating to Hub...");
-  }
-
-  isGameUpdateMessage(message) {
-    return message.includes("This server will restart soon: Game Update");
-  }
-
-  isRestartServerMessage(message) {
-    return message.includes(
-      "[Important] This server will restart soon: Scheduled Restart"
-    );
-  }
-
-  isBugServerMessage(message) {
-    return (
-      message.includes(
-        "An exception occurred in your connection, so you were put in the SkyBlock Lobby!"
-      ) || message.includes("Out of sync, check your internet connection!")
-    );
-  }
-
   isPromotionMessage(message) {
     return message.includes("was promoted from") && !message.includes(":");
   }
@@ -865,11 +809,7 @@ class StateHandler extends eventHandler {
     );
   }
 
-  isLimboJoinMessage(message) {
-    return message.endsWith(" a queue.");
-  }
-
-  isSkyBlockJoinMessage(message) {
+  isLobbyJoinMessage(message) {
     return (
       (message.endsWith(" the lobby!") ||
         message.endsWith(" the lobby! <<<")) &&
