@@ -6,6 +6,13 @@
       "messageRepeatBypass": true,
       "messageRepeatBypassLength": 24
     },
+    "fragBot": {
+      "enabled": true,
+      "whitelist": false,
+      "customWhitelist": [],
+      "blacklist": false,
+      "blacklisted": []
+    },
     "guild": {
       "guildExp": 50000
     },
