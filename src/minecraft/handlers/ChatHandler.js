@@ -670,6 +670,13 @@ class StateHandler extends eventHandler {
     );
   }
 
+  isPartyMessage(message) {
+    return (
+      message.includes("has invited you to join their party!") &&
+      !message.includes(":")
+    );
+  }
+
   isPromotionMessage(message) {
     return message.includes("was promoted from") && !message.includes(":");
   }
