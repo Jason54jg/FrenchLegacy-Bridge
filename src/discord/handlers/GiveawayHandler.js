@@ -18,8 +18,15 @@ async function manageGiveaway(client) {
         const nbWinner = giveaway.winners;
         for (let i = 0; i < nbWinner && participants.length > 0; i++) {
             let winnerIndex = Math.floor(Math.random() * participants.length);
-            winners += `<@${participants[winnerIndex]}> `;
-            participants.splice(winnerIndex, 1);
+            let winner = participants[winnerIndex];
+            winners += `<@${winner}> `;
+            for (let j = 0; j < participants.length; j++) {
+                if (participants[j] == winner) {
+                    participants.splice(j, 1);
+                    j--;
+                }
+
+            }
         }
 
         // Afficher le(s) gagnant(s)
