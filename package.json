@@ -57,7 +57,7 @@
     "node-schedule": "^2.1.1",
     "prismarine-nbt": "^2.2.1",
     "request": "^2.88.2",
-    "skyhelper-networth": "1.12.9",
+    "skyhelper-networth": "1.12.10",
     "sourcebin_js": "^0.0.3-ignore",
     "util": "^0.12.5"
   },
