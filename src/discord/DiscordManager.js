@@ -85,14 +85,14 @@ class DiscordManager extends CommunicationBridge {
             await roster.send({ embeds: [await util.updateRosterEmbed("FrenchLegacyII")] })*/
 
             // Update le roster toutes les 30 minutes
-            setInterval(async () => {
+            /*setInterval(async () => {
                 const rosterChannel = client.channels.cache.get(config.discord.channels.guildOnlineChannel);
                 const lastMessages = await rosterChannel.messages.fetch({ limit: 2 });
                 const msgIterator = lastMessages.entries();
                 await msgIterator.next().value[1].edit({ embed: [await util.updateRosterEmbed("FrenchLegacyII")] });
                 await msgIterator.next().value[1].edit({ embed: [await util.updateRosterEmbed("FrenchLegacy")] });
 
-            }, 1000 * 60 * 30)
+            }, 1000 * 60 * 30)*/
 
             // Recherche de giveaway toutes les minutes
             setInterval(manageGiveaway, 1000 * 10, client);
@@ -109,12 +109,12 @@ class DiscordManager extends CommunicationBridge {
                 .addFields({ name: 'Connecté : ✅', value: '\u200B' })
                 .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
-            const KetroX = new EmbedBuilder()
-                .setTitle('KetroX Logs')
+            const DesterBot = new EmbedBuilder()
+                .setTitle('DesterBot Logs')
                 .addFields({ name: 'Connecté : ✅', value: '\u200B' })
                 .setFooter({ text: "FrenchLegacy", iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png" });
 
-            err_logchan.send({ embeds: [information, DayTheCloud, KetroX] });
+            err_logchan.send({ embeds: [information, DayTheCloud, DesterBot] });
 
             this.stateHandler.onReady();
         });
@@ -251,7 +251,7 @@ class DiscordManager extends CommunicationBridge {
             case "minecraft":
                 channel.send({
                     files: [
-                        new AttachmentBuilder(messageToImage(fullMessage), {
+                        new AttachmentBuilder(await messageToImage(fullMessage,username), {
                             name: `${username}.png`,
                         }),
                     ],
@@ -347,7 +347,7 @@ class DiscordManager extends CommunicationBridge {
             case "minecraft":
                 await channel.send({
                     files: [
-                        new AttachmentBuilder(messageToImage(fullMessage), {
+                        new AttachmentBuilder(await messageToImage(fullMessage,username), {
                             name: `${username}.png`,
                         }),
                     ],
