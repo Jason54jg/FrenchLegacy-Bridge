@@ -46,7 +46,7 @@
     "got": "^13.0.0",
     "hypixel-api-reborn": "^10.0.0",
     "imgur": "^2.3.0",
-    "lilyweight": "^2.7.0",
+    "lilyweight": "^2.7.2",
     "lodash": "^4.17.21",
     "mineflayer": "^4.10.0",
     "mkdirp": "^3.0.1",
