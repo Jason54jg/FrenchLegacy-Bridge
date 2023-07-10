@@ -54,8 +54,8 @@ dependencies:
     specifier: ^2.3.0
     version: 2.3.0
   lilyweight:
-    specifier: ^2.7.0
-    version: 2.7.0
+    specifier: ^2.7.2
+    version: 2.7.2
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -2058,8 +2058,8 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /lilyweight@2.7.0:
-    resolution: {integrity: sha512-p3SlXRWtY1egXkReHnsymKBZXXJBG4BDV36oNd59qBktHLuXO8AC94Y3/Ko7c6XbqdJjzVzdmXD+9/7Zub84+A==}
+  /lilyweight@2.7.2:
+    resolution: {integrity: sha512-jJJfiq4HFok1iiZ4d77synztcAQQd1FgTYA9/eREPILP99DiyFH8FSDUH1Z8WXAHzeWBrP0xZ5tFceQHVUJ0Xw==}
     dependencies:
       node-fetch: 2.6.7
     transitivePeerDependencies:
