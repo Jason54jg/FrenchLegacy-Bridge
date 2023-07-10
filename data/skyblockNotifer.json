@@ -125,7 +125,20 @@
     "SkyBlock Profiles Maintenance | Resolved - SkyBlock is now open to all players. We are not aware of any issues after the profile changes, if you come across any bugs please report them https://hypixel.net/bug-reports/create | May 16, 19:31 EDT",
     "Players unable to connect | Investigating - We are currently aware and investigating an issue that is causing players to be unable to join the Hypixel Server. | May 29, 13:28 EDT",
     "Players unable to connect | Monitoring - A fix has been implemented and we are monitoring the results. | May 29, 14:30 EDT",
-    "Players unable to connect | Resolved - This incident has been resolved. | May 29, 16:36 EDT"
+    "Players unable to connect | Resolved - This incident has been resolved. | May 29, 16:36 EDT",
+    "Players unable to join due to authentication | Investigating - We are currently investigating an issue with an upstream provider causing player authentication to fail. | Jun  1, 19:19 EDT",
+    "Players unable to join due to authentication | Investigating - We are currently investigating an issue with an upstream provider causing player authentication to fail and resulting in some players being unable to join. | Jun  1, 19:19 EDT",
+    "Players unable to join due to authentication | Resolved - This incident has been resolved. | Jun  1, 19:28 EDT",
+    "SkyBlock Update 0.19 | Jun 19, 12:19 EDT | THIS IS A SCHEDULED EVENT Jun 20, 08:00 - 20:00 EDT",
+    "SkyBlock Update 0.19 | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Jun 20, 08:00 EDT",
+    "SkyBlock Update 0.19 | Scheduled - SkyBlock will be undergoing maintenance for the release of 0.19. | Jun 19, 12:19 EDT",
+    "SkyBlock Update 0.19 | Completed - The scheduled maintenance has been completed. | Jun 20, 14:54 EDT",
+    "SkyBlock Rift Unavailable | Identified - We have identified issues regarding recent changes within the Rift island and as a result have temporarily disabled access to the Rift island while we work on a solution. | Jun 26, 08:01 EDT",
+    "SkyBlock Rift Unavailable | Monitoring - A fix has been implemented and we are monitoring the results. | Jun 26, 21:38 EDT",
+    "Players unable to join due to authentication | Investigating - We are currently investigating an issue with an upstream provider causing player authentication to fail and resulting in some players being unable to join. | Jun 27, 12:28 EDT",
+    "Players unable to join due to authentication | Monitoring - A fix has been implemented and we are monitoring the results. | Jun 27, 12:32 EDT",
+    "Players unable to join due to authentication | Resolved - This incident has been resolved. | Jun 27, 12:39 EDT",
+    "SkyBlock Rift Unavailable | Resolved - This incident has been resolved. | Jul  2, 15:34 EDT"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -193,6 +206,21 @@
     "SkyBlock Patch 0.18.4 - Sack Additions & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-4-sack-additions-bug-fixes.5360095/",
     "[May 26] Repair Wizard Portal City Project | https://hypixel.net/threads/may-26-repair-wizard-portal-city-project.5376262/",
     "SkyBlock Patch 0.18.5 - Abiphone Contacts, Dungeons Balancing, & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-5-abiphone-contacts-dungeons-balancing-bug-fixes.5375486/",
-    "SkyBlock Patch 0.18.5 - Abiphone Contacts, Dungeons Balancing, & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-5-abiphone-contacts-dungeons-balancing-bug-fixes.5380870/"
+    "SkyBlock Patch 0.18.5 - Abiphone Contacts, Dungeons Balancing, & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-18-5-abiphone-contacts-dungeons-balancing-bug-fixes.5380870/",
+    "Achievement Update | New Rewards, Balancing, and More! | https://hypixel.net/threads/achievement-update-new-rewards-balancing-and-more.1866948/",
+    "[June 7] SkyBlock Patch Notes | https://hypixel.net/threads/june-7-skyblock-patch-notes.5385735/",
+    "Hypixel now supports Minecraft 1.20 | https://hypixel.net/threads/hypixel-now-supports-minecraft-1-20.5386736/",
+    "SkyBlock - 4th Anniversary! | https://hypixel.net/threads/skyblock-4th-anniversary.5387715/",
+    "Atlas - Community Based Replay Review System | https://hypixel.net/threads/atlas-community-based-replay-review-system.3630110/",
+    "[June 14] SkyBlock Patch Notes | https://hypixel.net/threads/june-14-skyblock-patch-notes.5393862/",
+    "SkyBlock Patch 0.19 - The Rift | https://hypixel.net/threads/skyblock-patch-0-19-the-rift.5399251/",
+    "[June 21] Undead Patch | https://hypixel.net/threads/june-21-undead-patch.5401355/",
+    "[June 23] Rift Day 2 Patch | https://hypixel.net/threads/june-23-rift-day-2-patch.5404126/",
+    "[June 23] Rift Day 3 Patch | https://hypixel.net/threads/june-23-rift-day-3-patch.5404126/",
+    "[June 26] Rift Shen's Changes | https://hypixel.net/threads/june-26-rift-shens-changes.5406362/",
+    "[June 26] SkyBlock Patch Notes | https://hypixel.net/threads/june-26-skyblock-patch-notes.5406480/",
+    "Resolution to Rift Access (6/26/23) | https://hypixel.net/threads/resolution-to-rift-access-6-26-23.5407127/",
+    "2023 Summer Event and Sale! | https://hypixel.net/threads/2023-summer-event-and-sale.5408071/",
+    "[June 29] SkyBlock Patch Notes | https://hypixel.net/threads/june-29-skyblock-patch-notes.5410140/"
   ]
 }

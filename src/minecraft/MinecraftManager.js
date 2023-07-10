@@ -44,7 +44,40 @@ class MinecraftManager extends CommunicationBridge {
       version: "1.8.9",
       viewDistance: "tiny",
       chatLengthLimit: 256,
+      profilesFolder: "../../auth-cache",
     });
+  }
+
+  async sendSafeMessage(command, prefix, message) {
+    let max_length = 250;
+    let max_messages = 5;
+
+    if(prefix.length >= max_length){
+      this.bot.chat(`/${command} [ERREUR] Échec de l'envoi du message, car le préfixe est trop long.`);
+      return false;
+    }
+
+    let max_message_allowed = max_length - prefix.length;
+
+    let amount_of_chunks = Math.ceil(message.length / max_message_allowed);
+
+    if(amount_of_chunks > max_messages){
+      this.bot.chat(`/${command} [ERREUR] Échec de l'envoi du message, car il est trop volumineux.`);
+      return false;
+    }
+
+    let chunks = [];
+
+    for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
+      let message_text = message.substring(o, o+max_message_allowed);
+      chunks[i] = `/${command} ${prefix} ${message_text}`;
+    }
+
+    for (let safe_message of chunks) {
+      this.bot.chat(safe_message);
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+    return true;
   }
 
   async onBroadcast({ channel, username, message, replyingTo }) {
@@ -61,43 +94,29 @@ class MinecraftManager extends CommunicationBridge {
     const symbol = config.minecraft.bot.messageFormat;
 
     if (channel === config.discord.channels.guildChatChannel) {
-      return config.discord.other.filterMessages
-        ? this.bot.chat(
-            filter.clean(
-              `/gc ${
-                replyingTo
-                  ? `${username} répond à ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
-            )
-          )
-        : this.bot.chat(
-            `/gc ${
-              replyingTo
-                ? `${username} répond à ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
-          );
+      let prefix = replyingTo
+      ? `${username} répond à ${replyingTo}${symbol}`
+      : `${username}${symbol}`;
+
+      if(config.discord.other.filterMessages){
+        prefix = filter.clean(prefix);
+        message = filter.clean(message);
+      }
+
+      return this.sendSafeMessage('gc', prefix, message);
     }
 
     if (channel === config.discord.channels.officerChannel) {
-      return config.discord.other.filterMessages
-        ? this.bot.chat(
-            filter.clean(
-              `/oc ${
-                replyingTo
-                  ? `${username} répond à ${replyingTo}${symbol}`
-                  : `${username}${symbol}`
-              } ${message}`
-            )
-          )
-        : this.bot.chat(
-            `/oc ${
-              replyingTo
-                ? `${username} répond à ${replyingTo}${symbol}`
-                : `${username}${symbol}`
-            } ${message}`
-          );
+      let prefix = replyingTo
+      ? `${username} répond à ${replyingTo}${symbol}`
+      : `${username}${symbol}`;
+
+      if(config.discord.other.filterMessages){
+        prefix = filter.clean(prefix);
+        message = filter.clean(message);
+      }
+
+      return this.sendSafeMessage('oc', prefix, message);
     }
   }
 }
