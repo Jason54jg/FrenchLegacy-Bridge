@@ -1,5 +1,4 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
-const { addCommas } = require("../../contracts/helperFunctions.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 
@@ -20,8 +19,7 @@ class GuildExperienceCommand extends minecraftCommand {
   }
 
   async onCommand(username, message) {
-    const arg = this.getArgs(message);
-    if (arg[0]) username = arg[0];
+    username = this.getArgs(message)[0] || username;
 
     try {
       const [uuid, guild] = await Promise.all([
@@ -31,12 +29,13 @@ class GuildExperienceCommand extends minecraftCommand {
 
       const player = guild.members.find((member) => member.uuid == uuid);
 
-      if (!player) throw "Le joueur n'est pas dans la guilde.";
+      if (player === undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw "Le joueur n'est pas dans la guilde.";
+      }
 
       this.send(
-        `/msg ${username} ${
-          username == arg[0] ? `${arg[0]}` : `Ton`
-        } Expérience de guilde hebdomadaire: ${addCommas(player.weeklyExperience)}.`
+        `/msg ${username} Expérience de guilde hebdomadaire de ${username}: ${player.weeklyExperience.toLocaleString()}.`
       );
 
     } catch (error) {

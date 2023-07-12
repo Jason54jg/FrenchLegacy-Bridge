@@ -1,7 +1,6 @@
-const {
-  addCommas,
-  formatNumber,
-} = require("../../contracts/helperFunctions.js");const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { formatNumber } = require("../../contracts/helperFunctions.js");
+const minecraftCommand = require("../../contracts/minecraftCommand.js");
+
 class CalculateCommand extends minecraftCommand {
   constructor(minecraft) {
     super(minecraft);
@@ -20,17 +19,13 @@ class CalculateCommand extends minecraftCommand {
 
   onCommand(username, message) {
     try {
-      const calculation = this.getArgs(message)
-        .join(" ")
-        .replace(/[^-()\d/*+.]/g, "");
+      const calculation = message.replace(/[^-()\d/*+.]/g, "");
       const answer = eval(calculation);
 
       if (answer === Infinity) {
-        return this.send(`/msg ${username} Quelque chose s'est mal passé..`);
-      }
-
-      if (answer < 100000) {
-        return this.send(`/msg ${username} ${calculation} = ${addCommas(answer)}`);
+        return this.send(
+          `/msg ${username} Quelque chose s'est mal passé. D'une manière ou d'une autre, vous l'avez cassé (la réponse était l'infini)`
+        );
       }
 
       this.send(

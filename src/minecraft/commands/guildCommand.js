@@ -1,6 +1,9 @@
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const hypixel = require("../../contracts/API/HypixelRebornAPI.js");
-const { capitalize, formatNumber } = require("../../contracts/helperFunctions.js");
+const {
+  capitalize,
+  formatNumber,
+} = require("../../contracts/helperFunctions.js");
 
 class GuildInformationCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -27,7 +30,11 @@ class GuildInformationCommand extends minecraftCommand {
       const guild = await hypixel.getGuild("name", guildName);
 
       this.send(
-        `/msg ${username} Guilds ${guildName} | Tag: ${guild.tag} | Membres: ${guild.members.length} | Niveau: ${guild.level} | GEXP hebdomadaire: ${formatNumber(guild.totalWeeklyGexp)}`
+        `/msg ${username} Guild ${guildName} | Tag: [${guild.tag}] | Members: ${
+          guild.members.length
+        } | Niveau: ${guild.level} | GEXP hebdomadaire: ${formatNumber(
+          guild.totalWeeklyGexp
+        )}`
       );
     } catch (error) {
       this.send(`/msg ${username} ${error.toString().replace("[hypixel-api-reborn] ", "")}`);

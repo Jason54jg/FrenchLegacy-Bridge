@@ -1,14 +1,11 @@
 const config = require("../../../config.json");
-const { ImgurClient } = require("imgur");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getRank = require("../../../API/stats/rank.js");
 const axios = require("axios");
 const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
 class AuctionHouseCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -33,20 +30,24 @@ class AuctionHouseCommand extends minecraftCommand {
       let string = "";
 
       const uuid = await getUUID(username);
-      const response =
-        (
-          await axios.get(
-            `${config.minecraft.API.hypixelAPI}/skyblock/auction?key=${config.minecraft.API.hypixelAPIkey}&player=${uuid}`
-          )
-        ).data?.auctions || [];
-      const player =
-        (
-          await axios.get(
-            `${config.minecraft.API.hypixelAPI}/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`
-          )
-        ).data?.player || {};
 
-      const activeAuctions = response.filter(
+      const { hypixelAPI, hypixelAPIkey } = config.minecraft.API;
+
+      const [auctionResponse, playerResponse] = await Promise.all([
+        axios.get(
+          `${hypixelAPI}/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`
+        ),
+        axios.get(`${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${uuid}`),
+      ]);
+
+      const auctions = auctionResponse.data?.auctions || [];
+      const player = playerResponse.data?.player || {};
+
+      if (auctions.length === 0) {
+        return this.send(`/gc Ce joueur n'a pas d'enchères actives.`);
+      }
+
+      const activeAuctions = auctions.filter(
         (auction) => auction.end >= Date.now()
       );
 
@@ -65,29 +66,32 @@ class AuctionHouseCommand extends minecraftCommand {
               `§7`
             );
           } else if (auction.bids.length > 0) {
-            const bidder =
-              (
-                await axios.get(
-                  `${config.minecraft.API.hypixelAPI}/player?key=${
-                    config.minecraft.API.hypixelAPIkey
-                  }&uuid=${auction.bids[auction.bids.length - 1].bidder}`
-                )
-              ).data?.player || {};
+            const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
+
+            const bidderResponse = await axios.get(
+              `${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
+            );
+
+            const bidder = bidderResponse.data?.player || {};
+            if (bidder === undefined) {
+              // eslint-disable-next-line no-throw-literal
+              throw `Failed to get bidder for auction ${auction.uuid}`;
+            }
+
+            const { amount } = auction.bids[auction.bids.length - 1];
+            const bidOrBids = auction.bids.length === 1 ? "bids" : "bid";
+
             lore.push(
-              `§7Bids: §a${auction.bids.length} ${
-                auction.bids.length === 1 ? "bid" : "bids"
-              }`,
+              `§7Bids: §a${auction.bids.length} ${bidOrBids}`,
               `§7`,
-              `§7Top Bid: §6${addCommas(
-                auction.bids[auction.bids.length - 1].amount
-              )} coins`,
+              `§7Top Bid: §6${amount.toLocaleString()} coins`,
               `§7Bidder: ${getRank(bidder)} ${bidder.displayname}`,
               `§7`
             );
           }
         } else {
           lore.push(
-            `§7Achetez-le maintenant: §6${addCommas(auction.starting_bid)} coins`,
+            `§7Achetez-le maintenant: §6${auction.starting_bid.toLocaleString()} coins`,
             `§7`
           );
         }
@@ -99,21 +103,12 @@ class AuctionHouseCommand extends minecraftCommand {
         );
 
         const renderedItem = await renderLore(` ${auction.item_name}`, lore);
-        const upload = await imgurClient.upload({
-          image: renderedItem,
-          type: "stream",
-        });
+        const upload = await uploadImage(renderedItem);
 
         string += string === "" ? upload.data.link : " | " + upload.data.link;
       }
 
-      this.send(
-        `/msg ${username} ${
-          string === ""
-            ? "Ce joueur n'a pas d'enchères actives"
-            : `Enchères actives de ${username}: ${string}`
-        }`
-      );
+      this.send(`/msg ${username} ${`Enchères actives de ${username}: ${string}`}`);
     } catch (error) {
       console.log(error);
       this.send(`/msg ${username} [ERREUR] ${error}`);

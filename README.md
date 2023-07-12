@@ -90,15 +90,11 @@ Le `debugChannel` est l'ID du canal de texte où le bot doit envoyer des message
 
 ### API
 
-Les options de l'API incluent des informations sur les API utilisées, les seules qui doivent être modifiées sont `hypixelAPIkey`, `antiSniperKey` et `imgurAPIkey`.
+Les options de l'API incluent des informations sur les API utilisées, les seules qui doivent être modifiées sont `hypixelAPIkey` et `imgurAPIkey`.
 
 Vous pouvez recevoir la clé API Hypixel en rejoignant le réseau Hypixel et en tapant la commande `/api new`.
 
 > L'API Hypixel est utilisée pour la plupart des commandes.
-
-La clé AntiSniper peut être générée [Ici](https://api.antisniper.net/).
-
-> L'API AntiSniper est utilisée pour les commandes `!denick`.
 
 L'API Imgur peut être générée [ici](https://api.imgur.com/oauth2/addclient).
 

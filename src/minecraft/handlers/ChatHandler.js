@@ -34,8 +34,9 @@ class StateHandler extends eventHandler {
       message.includes("✎ Mana") &&
       message.includes("❤") &&
       message.includes("/")
-    )
+    ) {
       return;
+    }
 
     if (config.discord.channels.debugMode === true) {
       this.minecraft.broadcastMessage({
@@ -144,14 +145,16 @@ class StateHandler extends eventHandler {
 
         if (
           weight > config.minecraft.guildRequirement.requirements.senitherWeight
-        )
+        ) {
           meetRequirements = true;
+        }
 
         if (
           skyblockLevel >
           config.minecraft.guildRequirement.requirements.skyblockLevel
-        )
+        ) {
           meetRequirements = true;
+        }
 
         bot.chat(
           `/oc ${username} ${
@@ -545,7 +548,7 @@ class StateHandler extends eventHandler {
     const userParts = group.split(" ");
     const username = userParts[userParts.length - (hasRank ? 2 : 1)];
     const guildRank = userParts.pop().replace(/[[\]]/g, "") || "Member";
-    let playerMessage = parts.join(":").trim();
+    const playerMessage = parts.join(":").trim();
 
     const playerRankColor = colouredMessage
       .split(" ")[2]
@@ -560,8 +563,9 @@ class StateHandler extends eventHandler {
     if (
       (!this.isGuildMessage(message) && !this.isOfficerChatMessage(message)) ||
       playerMessage.length == 0
-    )
+    ) {
       return;
+    }
 
     if (
       playerMessage.includes(config.minecraft.bot.prefix) &&

@@ -1,12 +1,7 @@
-// eslint-disable-next-line
-const { ImgurClient } = require("imgur");
 const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
-const config = require("../../../config.json");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const {
   decodeData,
   formatUsername,
@@ -59,37 +54,32 @@ class RenderCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (!profile.profile.inv_contents?.data) {
+      if (profile.profile?.inv_contents?.data === undefined) {
         return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
       }
 
-      const inventoryData = (
-        await decodeData(
-          Buffer.from(profile.profile.inv_contents.data, "base64")
-        )
-      ).i;
-
-      if (
-        !inventoryData[itemNumber - 1] ||
-        !Object.keys(inventoryData[itemNumber - 1] || {}).length
-      ) {
-        this.send(`/msg ${username} Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`);
-      }
-
-      const renderedItem = await renderLore(
-        inventoryData[itemNumber - 1]?.tag?.display?.Name,
-        inventoryData[itemNumber - 1]?.tag?.display?.Lore
+      const { i: inventoryData } = await decodeData(
+        Buffer.from(profile.profile.inv_contents.data, "base64")
       );
 
-      const upload = await imgurClient.upload({
-        image: renderedItem,
-        type: "stream",
-      });
+      if (
+        inventoryData[itemNumber - 1] === undefined ||
+        Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
+      ) {
+        return this.send(
+          `/msg ${username} Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`
+        );
+      }
+
+      const Name = inventoryData[itemNumber - 1]?.tag?.display;
+      const Lore = inventoryData[itemNumber - 1]?.tag?.display;
+
+      const renderedItem = await renderLore(Name, Lore);
+
+      const upload = await uploadImage(renderedItem);
 
       this.send(
-        `/msg ${username} Objet de ${username} à l'emplacement ${itemNumber}: ${
-          upload.data.link ?? "Quelque chose s'est mal passé..."
-        }`
+        `/msg ${username} Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`
       );
     } catch (error) {
       this.send(`/msg ${username} Erreur: ${error}`);

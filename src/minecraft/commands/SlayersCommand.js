@@ -44,6 +44,8 @@ class SlayersCommand extends minecraftCommand {
         "enderman",
         "blaze",
         "demonlord",
+        "vamp",
+        "vampire",
       ];
 
       const slayerType = slayer.includes(args[1]) ? args[1] : null;
@@ -62,7 +64,13 @@ class SlayersCommand extends minecraftCommand {
           } Niveaux | Experience: ${formatNumber(profile[slayerType].xp)}`
         );
       } else {
-        const slayer = Object.keys(profile).reduce((acc, slayer) => `${acc} | ${capitalize(slayer)}: ${profile[slayer].level} (${formatNumber(profile[slayer].xp)})`, "");
+        const slayer = Object.keys(profile).reduce(
+          (acc, slayer) =>
+            `${acc} | ${capitalize(slayer)}: ${
+              profile[slayer].level
+            } (${formatNumber(profile[slayer].xp)})`,
+          ""
+        );
         this.send(`/msg ${username} Slayer de ${username}: ${slayer.slice(3)}`);
       }
       

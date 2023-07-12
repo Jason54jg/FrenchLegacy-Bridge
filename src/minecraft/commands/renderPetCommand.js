@@ -1,9 +1,3 @@
-// eslint-disable-next-line
-const { ImgurClient } = require("imgur");
-const config = require("../../../config.json");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
 const {
   getRarityColor,
   formatUsername,
@@ -14,6 +8,7 @@ const {
   getLatestProfile,
 } = require("../../../API/functions/getLatestProfile.js");
 const getPets = require("../../../API/stats/pets.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
 class RenderCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -41,48 +36,24 @@ class RenderCommand extends minecraftCommand {
 
       const profile = getPets(data.profile);
 
-      for (const pet of profile.pets) {
-        if (pet.active) {
-          const lore = pet.lore;
-          const newLore = [];
-          let newLine = [];
+      const pet = profile.pets.find((pet) => pet.active === true);
 
-          for (const line of lore) {
-            if (!line.includes("Total XP")) {
-              newLine = line.split(". ");
-              if (newLine.length > 0) {
-                for (const l of newLine) {
-                  newLore.push(l);
-                }
-              } else {
-                newLore.push(newLine);
-              }
-            } else {
-              newLore.push(line);
-            }
-          }
-
-          const renderedItem = await renderLore(
-            `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${
-              pet.display_name
-            }`,
-            newLore
-          );
-
-          const upload = await imgurClient.upload({
-            image: renderedItem,
-            type: "stream",
-          });
-
-          return this.send(
-            `/msg ${username} Animal de compagnie actif de ${username}: ${
-              upload.data.link ?? "Quelque chose s'est mal passé.."
-            }`
-          );
-        }
+      if (pet === undefined) {
+        return this.send(`/msg ${username} ${username} n'a pas d'animal équipé.`);
       }
 
-      this.send(`/msg ${username} ${username} n'a pas d'animal de compagnie équipé.`);
+      const renderedItem = await renderLore(
+        `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
+        pet.lore
+      );
+
+      const upload = await uploadImage(renderedItem);
+
+      return this.send(
+        `/sg ${username} ${username} n'a pas d'animal de compagnie équipé: ${
+          upload.data.link ?? "Quelque chose s'est mal passé.."
+        }`
+      );
     } catch (error) {
       this.send(`/msg ${username} Erreur: ${error}`);
     }
