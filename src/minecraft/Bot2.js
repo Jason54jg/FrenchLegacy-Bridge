@@ -20,7 +20,6 @@ class Bot2 extends CommunicationBridge2 {
     this.stateHandler = new StateHandler(this);
     this.errorHandler = new ErrorHandler(this);
     this.chatHandler = new ChatHandler(this, new CommandHandler(this));
-
   }
 
   connect() {
@@ -49,9 +48,12 @@ class Bot2 extends CommunicationBridge2 {
     bridgeChat = channel;
     if (!this.bot.player) return;
 
-    username = username.split(' | ')[1]
+    username = username.split(" | ")[1];
 
-    if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
+    if (
+      channel === config.discord.channels.debugChannel &&
+      config.discord.channels.debugMode === true
+    ) {
       return this.bot.chat(message);
     }
 

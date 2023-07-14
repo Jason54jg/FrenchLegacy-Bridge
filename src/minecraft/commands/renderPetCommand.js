@@ -16,7 +16,8 @@ class RenderCommand extends minecraftCommand {
 
     this.name = "pet";
     this.aliases = ["pets"];
-    this.description = "Aperçu de l'animal de compagnie actif de l'utilisateur spécifié.";
+    this.description =
+      "Aperçu de l'animal de compagnie actif de l'utilisateur spécifié.";
     this.options = [
       {
         name: "username",
@@ -39,7 +40,9 @@ class RenderCommand extends minecraftCommand {
       const pet = profile.pets.find((pet) => pet.active === true);
 
       if (pet === undefined) {
-        return this.send(`/msg ${username} ${username} n'a pas d'animal équipé.`);
+        return this.send(
+          `/msg ${username} ${username} n'a pas d'animal équipé.`
+        );
       }
 
       const renderedItem = await renderLore(

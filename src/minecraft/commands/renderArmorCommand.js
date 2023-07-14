@@ -32,11 +32,13 @@ class ArmorCommand extends minecraftCommand {
       username = this.getArgs(message)[0] || username;
 
       const profile = await getLatestProfile(username);
-      
+
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (profile.profile.inv_armor?.data === undefined) {
-        return this.send(`/msg ${username} Ce joueur a une API d'inventaire désactivée.`);
+        return this.send(
+          `/msg ${username} Ce joueur a une API d'inventaire désactivée.`
+        );
       }
 
       const { i: inventoryData } = await decodeData(
@@ -48,7 +50,9 @@ class ArmorCommand extends minecraftCommand {
         inventoryData.filter((x) => JSON.stringify(x) === JSON.stringify({}))
           .length === 4
       ) {
-        return this.send(`/msg ${username} ${username} n'a pas d'armure équipée.`);
+        return this.send(
+          `/msg ${username} ${username} n'a pas d'armure équipée.`
+        );
       }
 
       let response = "";
@@ -73,7 +77,6 @@ class ArmorCommand extends minecraftCommand {
       }
 
       this.send(`/msg ${username} L'armure de ${username}: ${response}`);
-
     } catch (error) {
       this.send(`/msg ${username} Erreur: ${error}`);
     }

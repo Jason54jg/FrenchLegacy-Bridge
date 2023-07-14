@@ -15,11 +15,13 @@ class FetchurCommand extends minecraftCommand {
     try {
       const { text, description } = getFetchur();
 
-      this.send(`/msg ${username} Fetchur: ${text} | Description: ${description}`);
-
+      this.send(
+        `/msg ${username} Fetchur: ${text} | Description: ${description}`
+      );
     } catch (error) {
-
-      this.send(`/msg ${username} Erreur: ${error || "Quelque chose s'est mal passé.."}`);
+      this.send(
+        `/msg ${username} Erreur: ${error || "Quelque chose s'est mal passé.."}`
+      );
     }
   }
 }

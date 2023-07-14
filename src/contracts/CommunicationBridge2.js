@@ -28,7 +28,9 @@ class CommunicationBridge2 {
   }
 
   connect() {
-    throw new Error("La connexion du bridge de communication n'est pas encore implémentée!");
+    throw new Error(
+      "La connexion du bridge de communication n'est pas encore implémentée!"
+    );
   }
 
   onBroadcast(event) {

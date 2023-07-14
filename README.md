@@ -46,6 +46,7 @@ Le `prefix` est le préfixe de commande utilisé pour toutes les commandes du bo
 `guildID` est l'ID de la guilde hypixel requise pour l'API Hypixel, `guildExp` est la valeur entière requise pour la commande `!gexp` qui est utilisée pour vérifier combien d'expérience de guilde supplémentaire l'utilisateur doit collecter pour répondre aux exigences de la guilde.
 
 `messageRepeatBypassLength` est la longueur du message qui sera envoyé pour contourner la répétition du message, je vous recommande de le garder sur au moins 16.
+
 #### Discord
 
 Les options Discord incluent les options `token`, `clientID`, `serverID`, `guildChatChannel`, `officerChannel`, `loggingChannel`, `commandRole`, `prefix`, `messageMode`, `joinMessage` et `filterMessages`.
@@ -120,50 +121,46 @@ L'option `requirements` a des sous-options, qui sont des exigences.
 
 `Discord`
 
-| Command      | Description                                      | Syntax                      | Example                             | Response                           |
-|--------------| ------------------------------------------------ |-----------------------------|-------------------------------------| ---------------------------------- |
-| blacklist    | Bloque l'utilisateur spécifié contre l'utilisation du bot. | `/blacklist [arg] [joueur]` | `/blacklist add CherchePas` | ![](https://imgur.com/Ybaj9wj.png) |
-| demote       | Rétrograde l'utilisateur donné d'un rang de guilde. | `/demote [joueur]`          | `/demote CherchePas`            | ![](https://imgur.com/liHDaOW.png) |
-| guildtop     | Top 10 des membres avec le plus d'xp de guilde. | `/guildtop [Nombre]`        | `/guildtop 5`                       | ![](https://imgur.com/7oV77ey.png) |
-| help         | Affiche le menu d'aide. | `/help`                     | `/help`                             | ![](https://imgur.com/CLka3pQ.png) |
-| infos        | Affiche des informations sur le bot. | `/info`                     | `/info`                             | ![](https://imgur.com/pRONsiE.png) |
-| invite       | Invite l'utilisateur spécifié dans la guilde. | `/invite [joueur]`          | `/invite CherchePas`            | ![](https://imgur.com/DIfzSS7.png) |
-| kick         | Expulse l'utilisateur spécifié de la guilde. | `/kick [joueur] [raison]`   | `/kick CherchePas`              | ![](https://imgur.com/auMbSD9.png) |
-| mute         | Coupe le son de l'utilisateur donné pendant une durée donnée. | `/mute [joueur] [heure]`    | `/mute CherchePas 1h`           | ![](https://imgur.com/fQxoyHv.png) |
-| online       | Voir le joueur en ligne dans la guilde.                 | `/online`                   | `/online`                           | ![](https://imgur.com/Ny4vTRQ.png) |
-| execute      | Exécute les commandes en tant que bot minecraft. | `/execute [commande]`       | `/execute /g unmute CherchePas` | ![](https://imgur.com/fBi2Bv2.png) |
-| ping         | Affiche la latence du bot. | `/ping`                     | `/ping`                             | ![](https://imgur.com/9sHFgGT.png) |
-| promote      | Promeut l'utilisateur spécifié d'un rang. | `/promote [joueur]`         | `/promote CherchePas`           | ![](https://imgur.com/wmMWP5b.png) |
-| unmute     | Rétablit le son de l'utilisateur donné. | `/unmute [joueur]`          | `/unmute CherchePas`            | ![](https://imgur.com/nlu8lo6.png) |
-| uptime | Affiche la disponibilité du bot.                     | `/uptime`                   | `/uptime`                           | ![](https://imgur.com/R1cnJfn.png) |
+| Command   | Description                                                   | Syntax                      | Example                         | Response                           |
+| --------- | ------------------------------------------------------------- | --------------------------- | ------------------------------- | ---------------------------------- |
+| blacklist | Bloque l'utilisateur spécifié contre l'utilisation du bot.    | `/blacklist [arg] [joueur]` | `/blacklist add CherchePas`     | ![](https://imgur.com/Ybaj9wj.png) |
+| demote    | Rétrograde l'utilisateur donné d'un rang de guilde.           | `/demote [joueur]`          | `/demote CherchePas`            | ![](https://imgur.com/liHDaOW.png) |
+| guildtop  | Top 10 des membres avec le plus d'xp de guilde.               | `/guildtop [Nombre]`        | `/guildtop 5`                   | ![](https://imgur.com/7oV77ey.png) |
+| help      | Affiche le menu d'aide.                                       | `/help`                     | `/help`                         | ![](https://imgur.com/CLka3pQ.png) |
+| infos     | Affiche des informations sur le bot.                          | `/info`                     | `/info`                         | ![](https://imgur.com/pRONsiE.png) |
+| invite    | Invite l'utilisateur spécifié dans la guilde.                 | `/invite [joueur]`          | `/invite CherchePas`            | ![](https://imgur.com/DIfzSS7.png) |
+| kick      | Expulse l'utilisateur spécifié de la guilde.                  | `/kick [joueur] [raison]`   | `/kick CherchePas`              | ![](https://imgur.com/auMbSD9.png) |
+| mute      | Coupe le son de l'utilisateur donné pendant une durée donnée. | `/mute [joueur] [heure]`    | `/mute CherchePas 1h`           | ![](https://imgur.com/fQxoyHv.png) |
+| online    | Voir le joueur en ligne dans la guilde.                       | `/online`                   | `/online`                       | ![](https://imgur.com/Ny4vTRQ.png) |
+| execute   | Exécute les commandes en tant que bot minecraft.              | `/execute [commande]`       | `/execute /g unmute CherchePas` | ![](https://imgur.com/fBi2Bv2.png) |
+| ping      | Affiche la latence du bot.                                    | `/ping`                     | `/ping`                         | ![](https://imgur.com/9sHFgGT.png) |
+| promote   | Promeut l'utilisateur spécifié d'un rang.                     | `/promote [joueur]`         | `/promote CherchePas`           | ![](https://imgur.com/wmMWP5b.png) |
+| unmute    | Rétablit le son de l'utilisateur donné.                       | `/unmute [joueur]`          | `/unmute CherchePas`            | ![](https://imgur.com/nlu8lo6.png) |
+| uptime    | Affiche la disponibilité du bot.                              | `/uptime`                   | `/uptime`                       | ![](https://imgur.com/R1cnJfn.png) |
 
 `Minecraft`
 
-| Command        | Description                                 | Syntax                           | Example                          | Response                                                                                                                                                                                                                                     |
-|----------------| ------------------------------------------- |----------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| accessories    | Accessoires de l'utilisateur spécifié. | `!accessories [joueur]`          | `!accessories CherchePas`        | `Accessoires de Refraction » 98 Recombobulés » 97 Enrichis » 43` & `Accessoires de Refraction » Communs - 0 Inhabituels - 16 Rares - 13 Épiques - 26 Légendaires - 16 Spéciaux - 0 Très Spéciaux - 2`                                        |
-| armor          | Rend l'armure de l'utilisateur spécifié. | `!armor [joueur]`                | `!armor CherchePas`            | `L'armure de DeathStreeks » https://i.imgur.com/JdijFmo.png https://i.imgur.com/8uBpRrY.png https://i.imgur.com/oVQl6WV.png https://i.imgur .com/x7wlfnk.png`                                                                                |
-| auction        | Enchères actives de l'utilisateur spécifié. | `!auction [joueur]`              | `!auction CherchePas`        | `Les enchères actives de DuckySoSkilled » https://i.imgur.com/9Jw8zCK.png`                                                                                                                                                                   |
-| catacombes     | Skyblock Dungeons Statistiques de l'utilisateur spécifié. | `!catacombes [joueur]`           | `!catacombes CherchePas`       | `Catacombes de DeathStreeks: 62,29 Moyenne de classe: 50 Secrets trouvés: 279 088 (8,50 SPR) Classes: H - 50 M - 50 B - 50 A - 50 T - 50`                                                                                                    |
-| daily          | Obtenez les statistiques quotidiennes de l'utilisateur spécifié.          | `!daily [player] [gamemode]`     | `!daily CherchePas`          | `DuckySoSkilled has gained 0 karma and gained 0.1 levels in the last day.`                                                                                                                                                                   |
-| denick         | Denick nom d'utilisateur de l'utilisateur spécifié. | `!denick [joueur]`               | `!denick CherchePas`         | `[MVP++] rajas0423 est surnommé the_good_anime`                                                                                                                                                                                              |
-| equipment      | Rend l'équipement de l'utilisateur spécifié. | `!equipment [joueur]`            | `!equipment CherchePas`          | `Équipement de réfraction » https://i.imgur.com/QOU2r0O.png https://i.imgur.com/dUrotYa.png https://i.imgur.com/0Fxnkjd.png https://i.imgur .com/wIEcrZX.png`                                                                                |
-| fairysouls | Fairy Souls de l'utilisateur spécifié. | `!fairysouls [joueur]`           | `!fairysouls CherchePas`       | `Les âmes féeriques de DeathStreeks : 238/238 Progrès: 100,00%`                                                                                                                                                                              |
-| fetchur       | Informations sur un article pour Fetchur. | `!fetchur [élément]`             | `!fetchur`                       | `Fetchur Requests » 1x Superboom TNT Description: Cet objet peut être acheté à l'hôtel des ventes ou trouvé dans les donjons`                                                                                                                |
-| guildexp     | Expérience de guildes de l'utilisateur spécifié.        | `!guildexp [player]`             | `!guildexp CherchePas`       | `Your Weekly Guild Experience » 1,495`                                                                                                                                                                                                       |
-| help           | Affiche le menu d'aide. | `!help`                          | `!help`                          | `https://imgur.com/BQBQXwN.png`                                                                                                                                                                                                              |
-| level          | Niveau Skyblock de l'utilisateur spécifié. | `level [joueur]`                 | `!level CherchePas`            | `Niveau Skyblock de DeathStreek » 354.59`                                                                                                                                                                                                    |
-| math           | Calculez tout type de problème mathématique. | `!math <calcul>`                 | `!math 6 * 9 + 6 + 9`            | `6*9+6+9 = 69`                                                                                                                                                                                                                               |
-| monthly        | Obtenez les statistiques mensuelles de l'utilisateur spécifié. | `!monthly [joueur]`              | `!monthly CherchePas` | `DuckySoSkilled a gagné 0 karma et gagné 0,1 niveaux au cours du dernier mois.`                                                                                                                                                              |
-| networth       | Networth de l'utilisateur spécifié.| `!networth [joueur]`             | `!networth CherchePas `          | `Refraction's Networth est 114 B Unsoulbound Networth : 61,9 B Purse : 3,56 B Bank : 1,07 B`                                                                                                                                                 |
-| pet            | Rend l'animal de compagnie actif de l'utilisateur spécifié. | `!pet [joueur]`  | `!pet CherchePas`                | `Animal actif de la réfraction » https://i.imgur.com/FVuLQk4.png`                                                                                                                                                                            |
-| render         | Rend l'élément de l'utilisateur spécifié. | `!render [joueur] [emplacement]` | `!render CherchePas`         | `Article de DuckySoSkilled à l'emplacement 1 » https://i.imgur.com/U2dIcSc.png`                                                                                                                                                              |
-| skills         | Compétences et moyenne des compétences de l'utilisateur spécifié. | `!skills [joueur]`          | `!skills CherchePas`         | `Moyenne de compétence » 54.44 Agriculture - 60.00 Exploitation minière - 60.00 Combat - 60.00 Enchantement - 60.00 Pêche - 50.00 Cueillette - 50.00 Alchimie - 50.00 Apprivoisement - 50.00 Menuiserie - 50.00`                             |
-| skyblock       | Statistiques Skyblock de l'utilisateur spécifié.| `!skyblock [joueur]`             | `!skyblock DeathStreeks`         | `Level de DeathStreeks » 354.59 Senither Weight » 44,455 Lily Weight » 39,268 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`                  |
-| tueur          | Slayer de l'utilisateur spécifié. | `!slayer [joueur] [type]`         | `!slayer CherchePas`           | `Slayer de DeathStreeks - Zombie : Niveau : 9 Expérience : 3 165 000 Araignée : Niveau : 9 Expérience : 1 000 625 Loup : Niveau : 9 Expérience : 1 002 000 Enderman : Niveau : 9 Expérience : 1 715 475 Blaze : Niveau : 9 Expérience : 1 035 000` |
-| weekly         | Obtenez les statistiques hebdomadaires de l'utilisateur spécifié. | `!weekly [joueur]`         | `!weekly CherchePas`         | `DuckySoSkilled a gagné 0 karma et gagné 0,1 niveau la semaine dernière.`                                                                                                                                                                    |
-| weight         | Statistiques Skyblock de l'utilisateur spécifié.           | `!weight [joueur]`               | `!weight CherchePas`         | `Senither de Refraction » 27721.82 Compétences : 12991.95 Donjons : 11353.90` & `Poids Lily de Refraction » 28342.24 Compétences » 12310.84 slayer » 4476.85 Donjons » 11554.55`                                                       |
-| warpout         | Permet de faire partire quelqu'un de votre lobby si il accepte.           | `!warpout [joueur]`               | `!warpout CherchePas`         | 
+| Command     | Description                                                       | Syntax                           | Example                   | Response                                                                                                                                                                                                                                           |
+|-------------| ----------------------------------------------------------------- | -------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accessories | Accessoires de l'utilisateur spécifié.                            | `!accessories [joueur]`          | `!accessories CherchePas` | `Accessoires de Refraction » 98 Recombobulés » 97 Enrichis » 43` & `Accessoires de Refraction » Communs - 0 Inhabituels - 16 Rares - 13 Épiques - 26 Légendaires - 16 Spéciaux - 0 Très Spéciaux - 2`                                              |
+| armor       | Rend l'armure de l'utilisateur spécifié.                          | `!armor [joueur]`                | `!armor CherchePas`       | `L'armure de DeathStreeks » https://i.imgur.com/JdijFmo.png https://i.imgur.com/8uBpRrY.png https://i.imgur.com/oVQl6WV.png https://i.imgur .com/x7wlfnk.png`                                                                                      |
+| auction     | Enchères actives de l'utilisateur spécifié.                       | `!auction [joueur]`              | `!auction CherchePas`     | `Les enchères actives de DuckySoSkilled » https://i.imgur.com/9Jw8zCK.png`                                                                                                                                                                         |
+| catacombes  | Skyblock Dungeons Statistiques de l'utilisateur spécifié.         | `!catacombes [joueur]`           | `!catacombes CherchePas`  | `Catacombes de DeathStreeks: 62,29 Moyenne de classe: 50 Secrets trouvés: 279 088 (8,50 SPR) Classes: H - 50 M - 50 B - 50 A - 50 T - 50`                                                                                                          |
+| equipment   | Rend l'équipement de l'utilisateur spécifié.                      | `!equipment [joueur]`            | `!equipment CherchePas`   | `Équipement de réfraction » https://i.imgur.com/QOU2r0O.png https://i.imgur.com/dUrotYa.png https://i.imgur.com/0Fxnkjd.png https://i.imgur .com/wIEcrZX.png`                                                                                      |
+| fairysouls  | Fairy Souls de l'utilisateur spécifié.                            | `!fairysouls [joueur]`           | `!fairysouls CherchePas`  | `Les âmes féeriques de DeathStreeks : 238/238 Progrès: 100,00%`                                                                                                                                                                                    |
+| fetchur     | Informations sur un article pour Fetchur.                         | `!fetchur [élément]`             | `!fetchur`                | `Fetchur Requests » 1x Superboom TNT Description: Cet objet peut être acheté à l'hôtel des ventes ou trouvé dans les donjons`                                                                                                                      |
+| guildexp    | Expérience de guildes de l'utilisateur spécifié.                  | `!guildexp [player]`             | `!guildexp CherchePas`    | `Your Weekly Guild Experience » 1,495`                                                                                                                                                                                                             |
+| help        | Affiche le menu d'aide.                                           | `!help`                          | `!help`                   | `https://imgur.com/BQBQXwN.png`                                                                                                                                                                                                                    |
+| level       | Niveau Skyblock de l'utilisateur spécifié.                        | `level [joueur]`                 | `!level CherchePas`       | `Niveau Skyblock de DeathStreek » 354.59`                                                                                                                                                                                                          |
+| math        | Calculez tout type de problème mathématique.                      | `!math <calcul>`                 | `!math 6 * 9 + 6 + 9`     | `6*9+6+9 = 69`                                                                                                                                                                                                                                     |
+| networth    | Networth de l'utilisateur spécifié.                               | `!networth [joueur]`             | `!networth CherchePas `   | `Refraction's Networth est 114 B Unsoulbound Networth : 61,9 B Purse : 3,56 B Bank : 1,07 B`                                                                                                                                                       |
+| pet         | Rend l'animal de compagnie actif de l'utilisateur spécifié.       | `!pet [joueur]`                  | `!pet CherchePas`         | `Animal actif de la réfraction » https://i.imgur.com/FVuLQk4.png`                                                                                                                                                                                  |
+| render      | Rend l'élément de l'utilisateur spécifié.                         | `!render [joueur] [emplacement]` | `!render CherchePas`      | `Article de DuckySoSkilled à l'emplacement 1 » https://i.imgur.com/U2dIcSc.png`                                                                                                                                                                    |
+| skills      | Compétences et moyenne des compétences de l'utilisateur spécifié. | `!skills [joueur]`               | `!skills CherchePas`      | `Moyenne de compétence » 54.44 Agriculture - 60.00 Exploitation minière - 60.00 Combat - 60.00 Enchantement - 60.00 Pêche - 50.00 Cueillette - 50.00 Alchimie - 50.00 Apprivoisement - 50.00 Menuiserie - 50.00`                                   |
+| skyblock    | Statistiques Skyblock de l'utilisateur spécifié.                  | `!skyblock [joueur]`             | `!skyblock DeathStreeks`  | `Level de DeathStreeks » 354.59 Senither Weight » 44,455 Lily Weight » 39,268 Skill Average » 54.4 Slayer » 7,918,100 Catacombs » 62 Class Average » 50 Networth » 133 B Accessories » 98 Recombobulated » 97 Enriched » 44`                       |
+| slayer      | Slayer de l'utilisateur spécifié.                                 | `!slayer [joueur] [type]`        | `!slayer CherchePas`      | `Slayer de DeathStreeks - Zombie : Niveau : 9 Expérience : 3 165 000 Araignée : Niveau : 9 Expérience : 1 000 625 Loup : Niveau : 9 Expérience : 1 002 000 Enderman : Niveau : 9 Expérience : 1 715 475 Blaze : Niveau : 9 Expérience : 1 035 000` |
+| weight      | Statistiques Skyblock de l'utilisateur spécifié.                  | `!weight [joueur]`               | `!weight CherchePas`      | `Senither de Refraction » 27721.82 Compétences : 12991.95 Donjons : 11353.90` & `Poids Lily de Refraction » 28342.24 Compétences » 12310.84 slayer » 4476.85 Donjons » 11554.55`                                                                   |
+| warpout     | Permet de faire partire quelqu'un de votre lobby si il accepte.   | `!warpout [joueur]`              | `!warpout CherchePas`     |
 
 ### Chat Triggers Module
 
@@ -176,41 +173,40 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 ### To-Do List
 
 - [ ] Bug
-    - Lors de l'envoi de message dans le salon discord par un utilisateur qu'un seul bot r'envoi le message dans le tchat
-    - Commande utiliser sur discord doit fonctionner pour chaque bot (exemple pour l'invite d'un joueur) faire une sélection de quelle guilde on veut l'invité
+  - Lors de l'envoi de message dans le salon discord par un utilisateur qu'un seul bot r'envoi le message dans le tchat
+  - Commande utiliser sur discord doit fonctionner pour chaque bot (exemple pour l'invite d'un joueur) faire une sélection de quelle guilde on veut l'invité
 - [ ] Envoi de Message entre deux guildes
-    - Faire en sorte que le bot de la première guilde envoi dans la deuxième guilde ainsi que la deuxième guilde.
+  - Faire en sorte que le bot de la première guilde envoi dans la deuxième guilde ainsi que la deuxième guilde.
 - [ ] Channel avec le nombre de membres
-    - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
+  - Un Channel qui permet de voir le nombre de membres dans la guilde et qui s'actualise automatiquement
 - [ ] Channel avec le nombre de connectés
-    - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
+  - Un Channel qui permet de voir le nombre de connectés et qui s'actualise automatiquement
 - [ ] Système de giveaway
-    - Permet de créer, annuler, reroll ou de stop des giveaway avec une commande.
+  - Permet de créer, annuler, reroll ou de stop des giveaway avec une commande.
 - [ ] Auto channel vocal
-    - Fonction qui permet de créer des salons quand quelqu'un rejoint un salon définit et de pouvoir gérer son propre salon avec des commandes.
-    - Avec un système de commandes possible de faire les test sur le discord actuel avec /tempchannel
+  - Fonction qui permet de créer des salons quand quelqu'un rejoint un salon définit et de pouvoir gérer son propre salon avec des commandes.
+  - Avec un système de commandes possible de faire les test sur le discord actuel avec /tempchannel
 - [ ] Message de bienvenue et au revoir
-    - Envoi d'une embed avec quelque info par qui il a été invité et combien il y a de membres sur le discord en lui indiquant d'aller dans le salon links.
+  - Envoi d'une embed avec quelque info par qui il a été invité et combien il y a de membres sur le discord en lui indiquant d'aller dans le salon links.
 - [ ] Système de level avec des rôles
-    - Permet d'attribuer des rôles avec un certain nombre d'xp possible d'en avec l'activité écrit et vocal commande pour le leaderboard.
+  - Permet d'attribuer des rôles avec un certain nombre d'xp possible d'en avec l'activité écrit et vocal commande pour le leaderboard.
 - [ ] Sauvegarde de rôles
-    - Permet d'enregistrer tous les rôles d'une personne quand il quitte le discord et qu'il revient.
+  - Permet d'enregistrer tous les rôles d'une personne quand il quitte le discord et qu'il revient.
 - [ ] Système de tempmute
-    - Permet de mute une personne temporairement en lui attribut un rôle tempmute.
-    - Commande pour voir la list des mute.
+  - Permet de mute une personne temporairement en lui attribut un rôle tempmute.
+  - Commande pour voir la list des mute.
 - [ ] Système de tempban
-    - Permet de ban une personne temporairement.
-    - Commande pour voir la list des ban.
+  - Permet de ban une personne temporairement.
+  - Commande pour voir la list des ban.
 - [ ] Commande de clear
 - [ ] Logs
-    - Des logs exemple changement de nom, mise à jour des rôles, suppression du salon ....
+  - Des logs exemple changement de nom, mise à jour des rôles, suppression du salon ....
 - [ ] Fil d'actualité auto
-    - Création d'un fil d'actualité quand une personne envoi un message dans un salon.
+  - Création d'un fil d'actualité quand une personne envoi un message dans un salon.
 - [ ] Auto rôle
-    - Ajout automatique de certain rôle.
+  - Ajout automatique de certain rôle.
 - [ ] Notifications Twitch
-    - Envoi un message dans un salon quand une personne de la liste est en live.
-      
+  - Envoi un message dans un salon quand une personne de la liste est en live.
 
 ## Crédits
 
@@ -226,3 +222,4 @@ Le bot comprend également un bot frag intégré qui peut être utilisé par la 
 - [DuckySoLucky](https://github.com/DuckySoLucky)
 - [AxleCat284](https://github.com/AxleCat284)
 - [SkyStats](https://github.com/SkyStats-Development/SkyStats)
+- [Soopy](https://soopy.dev/)

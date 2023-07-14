@@ -14,7 +14,8 @@ class CatacombsCommand extends minecraftCommand {
 
     this.name = "catacombs";
     this.aliases = ["cata", "dungeons"];
-    this.description = "Skyblock Dungeons Statistiques de l'utilisateur spécifié.";
+    this.description =
+      "Skyblock Dungeons Statistiques de l'utilisateur spécifié.";
     this.options = [
       {
         name: "username",
@@ -37,7 +38,6 @@ class CatacombsCommand extends minecraftCommand {
       if (dungeons == null) {
         throw `${username} n'a jamais joué aux donjons sur ${data.profileData.cute_name}.`;
       }
-
 
       const completions = Object.values(dungeons.catacombs)
         .flatMap((floors) => Object.values(floors))
@@ -62,7 +62,6 @@ class CatacombsCommand extends minecraftCommand {
           1
         )} (${(dungeons.secrets_found / completions).toFixed(1)} S/R)`
       );
-
     } catch (error) {
       console.log(error);
 

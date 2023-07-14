@@ -34,7 +34,9 @@ class EquipmentCommand extends minecraftCommand {
       username = formatUsername(username, profile.profileData?.game_mode);
 
       if (profile.profile?.equippment_contents?.data === undefined) {
-        return this.send(`/msg ${username} Ce joueur a une API d'inventaire désactivée.`);
+        return this.send(
+          `/msg ${username} Ce joueur a une API d'inventaire désactivée.`
+        );
       }
 
       const { i: inventoryData } = await decodeData(

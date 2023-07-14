@@ -17,7 +17,7 @@ class QuickMathsCommand extends minecraftCommand {
     this.name = "quickmaths";
     this.aliases = ["qm"];
     this.description =
-    "Résolvez l'équation en moins de 10 secondes ! Testez vos compétences en mathématiques!";
+      "Résolvez l'équation en moins de 10 secondes ! Testez vos compétences en mathématiques!";
     this.options = [];
   }
 
@@ -35,7 +35,9 @@ class QuickMathsCommand extends minecraftCommand {
       const answer = eval(operands.join(operator));
       const headStart = 250;
 
-      this.send(`/gc ${username} Qu'est-ce que ${equation}? (Vous avez ${headStart}ms d'avance)`);
+      this.send(
+        `/gc ${username} Qu'est-ce que ${equation}? (Vous avez ${headStart}ms d'avance)`
+      );
       await delay(headStart);
 
       const startTime = Date.now();
@@ -47,7 +49,11 @@ class QuickMathsCommand extends minecraftCommand {
         }
 
         answered = true;
-        this.send(`/gc ${userUsername} Correct! Il vous a fallu ${(Date.now() - startTime).toLocaleString()}ms`);
+        this.send(
+          `/gc ${userUsername} Correct! Il vous a fallu ${(
+            Date.now() - startTime
+          ).toLocaleString()}ms`
+        );
         bot.removeListener("chat", listener);
       };
 
@@ -57,12 +63,15 @@ class QuickMathsCommand extends minecraftCommand {
         bot.removeListener("chat", listener);
 
         if (!answered) {
-          this.send(`/gc ${userUsername} Le temps est écoulé! La réponse était ${answer}`);
+          this.send(
+            `/gc ${userUsername} Le temps est écoulé! La réponse était ${answer}`
+          );
         }
       }, 10000);
-
     } catch (error) {
-      this.send(`/gc ${username} Erreur: ${error || "Quelque chose a mal tournég.."}`);
+      this.send(
+        `/gc ${username} Erreur: ${error || "Quelque chose a mal tournég.."}`
+      );
     }
   }
 }

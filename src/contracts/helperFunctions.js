@@ -277,7 +277,8 @@ function formatNumber(number, decimals = 2) {
 
   const isNegative = number < 0;
 
-  if (number < 100000 && number > -100000) return parseInt(number).toLocaleString();
+  if (number < 100000 && number > -100000)
+    return parseInt(number).toLocaleString();
 
   const abbrev = ["", "K", "M", "B", "T", "Qa", "Qi", "S", "O", "N", "D"];
   const unformattedNumber = Math.abs(number);
@@ -287,7 +288,7 @@ function formatNumber(number, decimals = 2) {
     unformattedNumber / Math.pow(10, abbrevIndex * 3)
   ).toFixed(decimals);
 
-  return `${isNegative ? '-' : ''}${shortNumber}${abbrev[abbrevIndex]}`;
+  return `${isNegative ? "-" : ""}${shortNumber}${abbrev[abbrevIndex]}`;
 }
 
 module.exports = {

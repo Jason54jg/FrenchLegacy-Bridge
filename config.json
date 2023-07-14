@@ -19,11 +19,6 @@
     "API": {
       "hypixelAPI": "https://api.hypixel.net",
       "hypixelAPIkey": "",
-      "antiSniperAPI": "https://api.antisniper.net",
-      "antiSniperKey": "",
-      "playerDBAPI": "https://playerdb.co/api/player/minecraft",
-      "pixelicAPI": "https://api.pixelic.de",
-      "pixelicAPIkey": "",
       "imgurAPIkey": ""
     },
     "guildRequirement": {
@@ -50,79 +45,82 @@
         "SEASON_OF_JERRY": true,
         "SPOOKY_FESTIVAL": true,
         "TRAVELING_ZOO": true
+      },
+      "customTime": {
+        "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
       }
     }
   },
-    "discord": {
-      "bot": {
-        "token": "",
-        "usernameBot1": "",
-        "usernameBot2": "",
-        "clientID": "846461538013282314",
-        "serverID": "238809855090098189"
-      },
-      "channels": {
-        "guildChatChannel": "1074340308994760704",
-		"giveawayChannel": "",
-        "officerChannel": "920442582142693378",
-        "loggingChannel": "1014148236132483112",
-        "debugMode": false,
-        "debugChannel": "1014128623755731064",
-        "guildOnlineChannel": "1012161134935150592",
-        "fragbotChannelId": "1037543673434488832"
-      },
-      "AutoreactChannel": {
-         "channel": ["999010677907783782", "999011574037631036"],
-         "emojis": [["1037683345758376007"], ["1057733768300994631"]]
-      },
-      "roles": {
-        "commandRole": "1074255251672146012",
-        "logChannelCarrier": "1014131502503710800",
-        "logChannelTicket": "1039673163149221990",
-        "logChannelDefaultService": "1039673163149221990",
-		"logChannelCarrierService": "1089655306939805757",
-        "catégorieslayer": "1039707149724569600",
-        "catégoriefloor": "1039707029960396830",
-        "catégoriemaster": "1039707097107021825",
-        "catégoriecarry": "1003641109785890856",
-        "catégorieticket": "999022377449046046",
-        "catégoriekuudra": "1049667631449395200",
-        "rolef7Id": "1040220987733581855",
-        "rolef6Id": "1040221012832309300",
-        "rolef5Id": "1040221014774251561",
-        "rolef4Id": "1040221014866546718",
-        "rolef3Id": "1082664044202299443",
-        "rolef2Id": "1082664061197631589",
-        "rolef1Id": "1082664063298965544",
-        "rolem7Id": "1040221015369850890",
-        "rolem6Id": "1040221309474447381",
-        "rolem5Id": "1040221311739383808",
-        "rolem4Id": "1040221312234307624",
-        "rolem3Id": "1040221313681326102",
-        "rolem2Id": "1040221314801213452",
-        "rolem1Id": "1040221325228265573",
-        "roleT3SpiderId": "1081249558962634902",
-        "roleT4SpiderId": "1081249592894554143",
-        "roleT4REVId": "1081249593808928869",
-        "roleT5REVId": "1040221924497821706",
-        "roleT3emanId": "1040221652333625374",
-        "roleT4emanId": "1040221650349719622",
-        "roleT2blazeId": "1040221647543734342",
-        "roleT3blazeId": "1040221642539929664",
-        "roleT4blazeId": "1040221640941912104",
-        "roleT1kuudraId": "1049720607161450546",
-        "roleT2kuudraId": "1049720621635997770",
-        "roleT3kuudraId": "1049720624890773514",
-        "roleT4kuudraId": "1049720642745925762",
-        "roleT5kuudraId": "1081301217386446889"
-      },
-      "other": {
-        "messageMode": "webhook",
-        "filterMessages": true,
-        "joinMessage": false
-      }
+  "discord": {
+    "bot": {
+      "token": "",
+      "usernameBot1": "",
+      "usernameBot2": "",
+      "clientID": "238809504374980618",
+      "serverID": "1084606312257683497"
+    },
+    "channels": {
+      "guildChatChannel": "",
+      "giveawayChannel": "",
+      "officerChannel": "",
+      "loggingChannel": "",
+      "debugMode": false,
+      "debugChannel": "",
+      "guildOnlineChannel": "",
+      "fragbotChannelId": ""
+    },
+    "AutoreactChannel": {
+      "channel": ["1086001398770057268", "1086001398770057268"],
+      "emojis": [["1037683345758376007"], ["1057733768300994631"]]
+    },
+    "roles": {
+      "commandRole": "1084606469732839474",
+      "logChannelCarrier": "",
+      "logChannelTicket": "",
+      "logChannelDefaultService": "",
+      "logChannelCarrierService": "",
+      "catégorieslayer": "",
+      "catégoriefloor": "",
+      "catégoriemaster": "",
+      "catégoriecarry": "",
+      "catégorieticket": "",
+      "catégoriekuudra": "",
+      "rolef7Id": "",
+      "rolef6Id": "",
+      "rolef5Id": "",
+      "rolef4Id": "",
+      "rolef3Id": "",
+      "rolef2Id": "",
+      "rolef1Id": "",
+      "rolem7Id": "",
+      "rolem6Id": "",
+      "rolem5Id": "",
+      "rolem4Id": "",
+      "rolem3Id": "",
+      "rolem2Id": "",
+      "rolem1Id": "",
+      "roleT3SpiderId": "",
+      "roleT4SpiderId": "",
+      "roleT4REVId": "",
+      "roleT5REVId": "",
+      "roleT3emanId": "",
+      "roleT4emanId": "",
+      "roleT2blazeId": "",
+      "roleT3blazeId": "",
+      "roleT4blazeId": "",
+      "roleT1kuudraId": "",
+      "roleT2kuudraId": "",
+      "roleT3kuudraId": "",
+      "roleT4kuudraId": "",
+      "roleT5kuudraId": ""
+    },
+    "other": {
+      "messageMode": "webhook",
+      "filterMessages": true,
+      "joinMessage": false
+    }
   },
   "database": {
-	  "uri": ""
+    "uri": ""
   }
 }

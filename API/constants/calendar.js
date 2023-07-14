@@ -1,5 +1,8 @@
 // CREDITS: https://github.com/slothpixel/core (Modified)
-const { nth, parseTimestamp } = require("../../src/contracts/helperFunctions.js");
+const {
+  nth,
+  parseTimestamp,
+} = require("../../src/contracts/helperFunctions.js");
 
 const months = [
   "Early Spring",

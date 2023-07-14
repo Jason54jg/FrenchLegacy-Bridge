@@ -114,7 +114,7 @@ module.exports = (player, profile) => {
       catacombs: {
         skill: calcSkill(
           "dungeoneering",
-          dungeons?.dungeon_types.catacombs.experience || 0,
+          dungeons?.dungeon_types.catacombs.experience || 0
         ),
         perks,
         HIGEHST_TIER_COMPLETED,

@@ -1,4 +1,3 @@
-/*eslint-disable */
 const CommunicationBridge = require("../contracts/CommunicationBridge.js");
 const StateHandler = require("./handlers/StateHandler.js");
 const ErrorHandler = require("./handlers/ErrorHandler.js");
@@ -8,7 +7,6 @@ const config = require("../../config.json");
 const mineflayer = require("mineflayer");
 const Filter = require("bad-words");
 const Logger = require("../Logger");
-/*eslint-enable */
 const filter = new Filter();
 
 class MinecraftManager extends CommunicationBridge {
@@ -23,7 +21,6 @@ class MinecraftManager extends CommunicationBridge {
 
     require("./other/eventNotifier.js");
     require("./other/skyblockNotifier.js");
-
   }
 
   connect() {
@@ -48,12 +45,14 @@ class MinecraftManager extends CommunicationBridge {
     });
   }
 
-  async sendSafeMessage(command, prefix, message) {
+  async sendSafeMessage(command, prefix, message, should_clean) {
     let max_length = 250;
     let max_messages = 5;
 
-    if(prefix.length >= max_length){
-      this.bot.chat(`/${command} [ERREUR] Échec de l'envoi du message, car le préfixe est trop long.`);
+    if (prefix.length >= max_length) {
+      this.bot.chat(
+        `/${command} [ERREUR] Échec de l'envoi du message, car le préfixe est trop long.`
+      );
       return false;
     }
 
@@ -61,21 +60,31 @@ class MinecraftManager extends CommunicationBridge {
 
     let amount_of_chunks = Math.ceil(message.length / max_message_allowed);
 
-    if(amount_of_chunks > max_messages){
-      this.bot.chat(`/${command} [ERREUR] Échec de l'envoi du message, car il est trop volumineux.`);
+    if (amount_of_chunks > max_messages) {
+      this.bot.chat(
+        `/${command} [ERREUR] Échec de l'envoi du message, car il est trop volumineux.`
+      );
       return false;
     }
 
     let chunks = [];
 
-    for (let i = 0, o = 0; i < amount_of_chunks; ++i, o += max_message_allowed) {
-      let message_text = message.substring(o, o+max_message_allowed);
-      chunks[i] = `/${command} ${prefix} ${message_text}`;
+    for (
+      let i = 0, o = 0;
+      i < amount_of_chunks;
+      ++i, o += max_message_allowed
+    ) {
+      let message_text = message.substring(o, o + max_message_allowed);
+      let final_message = `${prefix} ${message_text}`;
+      if(should_clean){
+        final_message = filter.clean(final_message);
+      }
+      chunks[i] = `/${command} ${final_message}`;
     }
 
     for (let safe_message of chunks) {
       this.bot.chat(safe_message);
-      await new Promise(resolve => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 400));
     }
     return true;
   }
@@ -85,9 +94,12 @@ class MinecraftManager extends CommunicationBridge {
     bridgeChat = channel;
     if (!this.bot.player) return;
 
-    username = username.split(' | ')[1]
+    username = username.split(" | ")[1];
 
-    if (channel === config.discord.channels.debugChannel && config.discord.channels.debugMode === true) {
+    if (
+      channel === config.discord.channels.debugChannel &&
+      config.discord.channels.debugMode === true
+    ) {
       return this.bot.chat(message);
     }
 
@@ -95,28 +107,18 @@ class MinecraftManager extends CommunicationBridge {
 
     if (channel === config.discord.channels.guildChatChannel) {
       let prefix = replyingTo
-      ? `${username} répond à ${replyingTo}${symbol}`
-      : `${username}${symbol}`;
+        ? `${username} répond à ${replyingTo}${symbol}`
+        : `${username}${symbol}`;
 
-      if(config.discord.other.filterMessages){
-        prefix = filter.clean(prefix);
-        message = filter.clean(message);
-      }
-
-      return this.sendSafeMessage('gc', prefix, message);
+      return this.sendSafeMessage('gc', prefix, message, config.discord.other.filterMessages);
     }
 
     if (channel === config.discord.channels.officerChannel) {
       let prefix = replyingTo
-      ? `${username} répond à ${replyingTo}${symbol}`
-      : `${username}${symbol}`;
+        ? `${username} répond à ${replyingTo}${symbol}`
+        : `${username}${symbol}`;
 
-      if(config.discord.other.filterMessages){
-        prefix = filter.clean(prefix);
-        message = filter.clean(message);
-      }
-
-      return this.sendSafeMessage('oc', prefix, message);
+      return this.sendSafeMessage('oc', prefix, message, config.discord.other.filterMessages);
     }
   }
 }

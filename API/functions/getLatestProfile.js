@@ -16,7 +16,8 @@ async function getLatestProfile(uuid) {
     if (cache.has(uuid)) {
       const data = cache.get(uuid);
 
-      if (data.last_save + 300000 > Date.now()) { // 5 minutes
+      if (data.last_save + 300000 > Date.now()) {
+        // 5 minutes
         return data;
       }
     }
@@ -82,7 +83,7 @@ async function getLatestProfile(uuid) {
       playerRes: playerRes,
       player: player,
       uuid: uuid,
-    }
+    };
 
     cache.set(uuid, output);
 

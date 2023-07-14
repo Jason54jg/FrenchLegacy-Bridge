@@ -10,7 +10,8 @@ class unscrambleCommand extends minecraftCommand {
 
     this.name = "unscramble";
     this.aliases = ["déchiffrer", "unscrambleme", "unscrambleme", "us"];
-    this.description = "Déchiffrez le mot et tapez-le dans le chat pour gagner!";
+    this.description =
+      "Déchiffrez le mot et tapez-le dans le chat pour gagner!";
     this.options = [
       {
         name: "length",
@@ -36,7 +37,9 @@ class unscrambleCommand extends minecraftCommand {
         const remainingTime = cooldownDuration - elapsedTime;
 
         if (remainingTime > 0) {
-          return this.send(`/gc Veuillez patienter jusqu'à la fin de la partie en cours.`);
+          return this.send(
+            `/gc Veuillez patienter jusqu'à la fin de la partie en cours.`
+          );
         }
       }
 
@@ -44,7 +47,11 @@ class unscrambleCommand extends minecraftCommand {
       cooldowns.set(this.name, Date.now());
       const listener = (username, message) => {
         if (getWord(message) === answer) {
-          this.send(`/gc ${username} a bien deviné! Temps écoulé: ${(Date.now() - startTime).toLocaleString()}ms!`);
+          this.send(
+            `/gc ${username} a bien deviné! Temps écoulé: ${(
+              Date.now() - startTime
+            ).toLocaleString()}ms!`
+          );
 
           bot.removeListener("chat", listener);
           answered = true;

@@ -1,9 +1,6 @@
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 const { demojify } = require("discord-emoji-converter");
 const config = require("../../../config.json");
-const { ImgurClient } = require("imgur");
-const imgurClient = new ImgurClient({
-  clientId: config.minecraft.API.imgurAPIkey,
-});
 
 class MessageHandler {
   constructor(discord, command) {
@@ -12,18 +9,18 @@ class MessageHandler {
   }
   async react_to_msg(msg, emojis) {
     for (let i = 0; i < emojis.length; i++) {
-      await msg.react(emojis[i])
+      await msg.react(emojis[i]);
     }
   }
   async onMessage(message) {
     const autochannel = config.discord.AutoreactChannel.channel;
     const emoji = config.discord.AutoreactChannel.emojis;
-    let id = message.channel.id
+    let id = message.channel.id;
     for (let i = 0; i < autochannel.length; i++) {
-          if (autochannel[i] == id) {
-            this.react_to_msg(message, emoji[i])
-          }
-        }
+      if (autochannel[i] == id) {
+        this.react_to_msg(message, emoji[i]);
+      }
+    }
     if (
       message.author.id === client.user.id ||
       !this.shouldBroadcastMessage(message)
@@ -34,7 +31,6 @@ class MessageHandler {
     const content = this.stripDiscordContent(message).trim();
     if (content.length === 0) return;
 
-    
     const messageData = {
       member: message.member.user,
       channel: message.channel.id,
@@ -45,27 +41,36 @@ class MessageHandler {
 
     this.discord.broadcastMessage(messageData);
 
-    if (message.attachments.values().length === 0) return;
+    try {
+      const images = content.split(" ").filter((line) => line.startsWith("http"));
+      for (const attachment of message.attachments.values()) {
+        images.push(attachment.url);
+      }
 
-    messageData.message = "";
-    for (const attachment of message.attachments.values()) {
-      await delay(1000)
-      const imgurLink = await imgurClient.upload({
-        image: attachment.url,
-        type: "url",
-      });
-      messageData.message += `${imgurLink.data.link} `;
+      if (images.length === 0) return;
+
+      for (const attachment of images) {
+        const imgurLink = await uploadImage(attachment);
+
+        messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
+
+        if (messageData.message.includes(imgurLink.data.link) === false) {
+          messageData.message += ` ${imgurLink.data.link}`;
+        }
+      }
+
+      if (messageData.message.length === 0) return;
+
+      this.discord.broadcastMessage(messageData);
+    } catch (error) {
+      console.log(error);
     }
-
-    if (messageData.message.length === 0) return;
-
-    this.discord.broadcastMessage(messageData);
   }
-  
+
   async fetchReply(message) {
     try {
       if (message.reference === undefined) return null;
-      
+
       const reference = await message.channel.messages.fetch(
         message.reference.messageId
       );
@@ -89,7 +94,6 @@ class MessageHandler {
       if (config.discord.other.messageMode === "webhook") {
         return reference.author.username ?? mentionedUserName;
       }
-
     } catch (error) {
       return null;
     }
@@ -136,8 +140,8 @@ class MessageHandler {
     // ? La fonction demojify() a un bogue. Il génère une erreur lorsqu'il rencontre un canal avec emoji dans son nom. Exemple: #💬・chat-de-guilde
     try {
       return demojify(output);
-    } catch(e) {
-      return output
+    } catch (e) {
+      return output;
     }
   }
 

@@ -1,7 +1,6 @@
-/*eslint-disable */
 const { Collection } = require("discord.js");
 const Logger = require("../Logger");
-/*eslint-enable */
+const axios = require("axios");
 const config = require("../../config.json");
 const fs = require("fs");
 
@@ -12,7 +11,9 @@ class CommandHandler {
     this.prefix = config.minecraft.bot.prefix;
     this.commands = new Collection();
 
-    const commandFiles = fs.readdirSync("./src/minecraft/commands").filter((file) => file.endsWith(".js"));
+    const commandFiles = fs
+      .readdirSync("./src/minecraft/commands")
+      .filter((file) => file.endsWith(".js"));
     for (const file of commandFiles) {
       const command = new (require(`./commands/${file}`))(minecraft);
 
@@ -21,16 +22,39 @@ class CommandHandler {
   }
 
   handle(player, message) {
-    if (!message.startsWith(this.prefix)) return false;
+    if (message.startsWith(this.prefix)) {
+      const args = message.slice(this.prefix.length).trim().split(/ +/);
+      const commandName = args.shift().toLowerCase();
+      const command =
+        this.commands.get(commandName) ?? this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
-    const args = message.slice(this.prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-    const command = this.commands.get(commandName) || this.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+      if (!command) return false;
 
-    if (!command) return false;
+      Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
+      command.onCommand(player, message);
+      return true;
+    } else if (message.startsWith("-")) {
+      bot.chat(`/gc [SOOPY V2] ${message}`);
 
-    Logger.minecraftMessage(`${player} - [${command.name}] ${message}`);
-    command.onCommand(player, message);
+      const command = message.slice(1).split(" ")[0];
+
+      Logger.minecraftMessage(`${player} - [${command}] ${message}`);
+
+      (async () => {
+        try {
+          const URI = encodeURI(`https://soopy.dev/api/guildBot/runCommand?user=${player}&cmd=${message.slice(1)}`);
+          const response = await axios.get(URI);
+
+          if (response?.data?.msg === undefined) {
+            return bot.chat(`/gc [SOOPY V2] An error occured while running the command`);
+          }
+
+          bot.chat(`/gc [SOOPY V2] ${response.data.msg}`);
+        } catch (e) {
+          bot.chat(`/gc [SOOPY V2] ${e.cause ?? e.message ?? "Unknown error"}`);
+        }
+      })();
+    }
 
     return true;
   }

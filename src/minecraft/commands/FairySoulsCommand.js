@@ -26,7 +26,7 @@ class FairySoulsCommand extends minecraftCommand {
 
       const data = await getLatestProfile(username);
       username = formatUsername(username, data.profileData.game_mode);
-      
+
       const total = data.profileData.game_mode === "island" ? 5 : 242;
 
       const { fairy_souls_collected } = data.profile;
@@ -39,7 +39,6 @@ class FairySoulsCommand extends minecraftCommand {
       );
     } catch (error) {
       this.send(`/msg ${username} Erreur: ${error}`);
-
     }
   }
 }

@@ -52,7 +52,7 @@ class SlayersCommand extends minecraftCommand {
       username = args[0] || username;
 
       const data = await getLatestProfile(username);
-    
+
       username = formatUsername(username, data.profileData.cute_name);
 
       const profile = getSlayer(data.profile);
@@ -73,7 +73,6 @@ class SlayersCommand extends minecraftCommand {
         );
         this.send(`/msg ${username} Slayer de ${username}: ${slayer.slice(3)}`);
       }
-      
     } catch (error) {
       this.send(`/msg ${username} Error: ${error}`);
     }

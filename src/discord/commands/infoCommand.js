@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const fs = require("fs");
-const messages = require('../../../messages.json');
+const messages = require("../../../messages.json");
 
 module.exports = {
   name: "info",

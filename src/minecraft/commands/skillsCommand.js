@@ -11,7 +11,8 @@ class SkillsCommand extends minecraftCommand {
 
     this.name = "skills";
     this.aliases = ["skill", "sa"];
-    this.description = "Compétences et moyenne des compétences de l'utilisateur spécifié.";
+    this.description =
+      "Compétences et moyenne des compétences de l'utilisateur spécifié.";
     this.options = [
       {
         name: "username",
@@ -41,7 +42,9 @@ class SkillsCommand extends minecraftCommand {
       ).toFixed(2);
 
       this.send(
-        `/msg ${username} Moyenne de compétence de ${username}: ${skillAverage ?? 0} | Farming - ${Math.floor(
+        `/msg ${username} Moyenne de compétence de ${username}: ${
+          skillAverage ?? 0
+        } | Farming - ${Math.floor(
           profile.farming.levelWithProgress ?? 0
         )} | Mining - ${Math.floor(
           profile.mining.levelWithProgress ?? 0

@@ -20,7 +20,9 @@ class StateHandler extends eventHandler {
   }
 
   onLogin() {
-    Logger.minecraftMessage("Client prêt, connecté en tant que " + this.bot.username);
+    Logger.minecraftMessage(
+      "Client prêt, connecté en tant que " + this.bot.username
+    );
 
     this.loginAttempts = 0;
     this.exactDelay = 0;

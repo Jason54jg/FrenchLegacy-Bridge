@@ -7,12 +7,21 @@ module.exports = {
     if (oldMessage.author.bot) return;
 
     const embed = new EmbedBuilder()
-      .setDescription( `**Message modifié dans ${oldMessage.channel} [Message](${oldMessage.url})**`)
+      .setDescription(
+        `**Message modifié dans ${oldMessage.channel} [Message](${oldMessage.url})**`
+      )
       .addFields(
         { name: "→ Avant", value: oldMessage.content, inline: false },
         { name: "→ Maintenant", value: newMessage.content, inline: false },
-        { name: `→ Temps: <t:${+ toFixed((Date.now() + client.uptime) / 1000, 0)}:R>`, value: '\u200B', inline: false }
-      )
+        {
+          name: `→ Temps: <t:${+toFixed(
+            (Date.now() + client.uptime) / 1000,
+            0
+          )}:R>`,
+          value: "\u200B",
+          inline: false,
+        }
+      );
 
     const channel = oldMessage.guild.channels.cache.get("1084756237675147304");
 

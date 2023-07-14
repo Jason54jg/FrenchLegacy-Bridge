@@ -24,7 +24,6 @@ class AuctionHouseCommand extends minecraftCommand {
   }
 
   async onCommand(username, message) {
-
     try {
       username = this.getArgs(message)[0] || username;
       let string = "";
@@ -108,7 +107,9 @@ class AuctionHouseCommand extends minecraftCommand {
         string += string === "" ? upload.data.link : " | " + upload.data.link;
       }
 
-      this.send(`/msg ${username} ${`Enchères actives de ${username}: ${string}`}`);
+      this.send(
+        `/msg ${username} ${`Enchères actives de ${username}: ${string}`}`
+      );
     } catch (error) {
       console.log(error);
       this.send(`/msg ${username} [ERREUR] ${error}`);

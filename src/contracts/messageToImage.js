@@ -43,7 +43,10 @@ function getHeight(message) {
 
   for (const msg of splitMessage) {
     const currentMessage = msg.substring(1);
-    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
+    if (
+      width + ctx.measureText(currentMessage).width > 1000 ||
+      msg.charAt(0) === "n"
+    ) {
       width = 5;
       height += 40;
     }
@@ -54,7 +57,7 @@ function getHeight(message) {
   return height + 10;
 }
 
-async function generateMessageImage(message,username) {
+async function generateMessageImage(message, username) {
   const canvasHeight = getHeight(message);
   const canvas = createCanvas(1000, canvasHeight);
   const ctx = canvas.getContext("2d");
@@ -74,12 +77,19 @@ async function generateMessageImage(message,username) {
 
   for (const msg of splitMessage) {
     if (msg === splitMessage[2]) {
-      ctx.drawImage(await loadImage(`https://www.mc-heads.net/avatar/${username}/32`), width, height - 30);
+      ctx.drawImage(
+        await loadImage(`https://www.mc-heads.net/avatar/${username}/32`),
+        width,
+        height - 30
+      );
       width += 50;
     }
     const colorCode = RGBA_COLOR[msg.charAt(0)];
     const currentMessage = msg.substring(1);
-    if (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n") {
+    if (
+      width + ctx.measureText(currentMessage).width > 1000 ||
+      msg.charAt(0) === "n"
+    ) {
       width = 5;
       height += 40;
     }

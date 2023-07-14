@@ -37,7 +37,11 @@ class GuildInformationCommand extends minecraftCommand {
         )}`
       );
     } catch (error) {
-      this.send(`/msg ${username} ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/msg ${username} ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")}`
+      );
     }
   }
 }

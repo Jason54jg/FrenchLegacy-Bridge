@@ -138,7 +138,14 @@
     "Players unable to join due to authentication | Investigating - We are currently investigating an issue with an upstream provider causing player authentication to fail and resulting in some players being unable to join. | Jun 27, 12:28 EDT",
     "Players unable to join due to authentication | Monitoring - A fix has been implemented and we are monitoring the results. | Jun 27, 12:32 EDT",
     "Players unable to join due to authentication | Resolved - This incident has been resolved. | Jun 27, 12:39 EDT",
-    "SkyBlock Rift Unavailable | Resolved - This incident has been resolved. | Jul  2, 15:34 EDT"
+    "SkyBlock Rift Unavailable | Resolved - This incident has been resolved. | Jul  2, 15:34 EDT",
+    "SMP Maintenance | Jul 10, 10:53 EDT | THIS IS A SCHEDULED EVENT Jul 11, 08:00 EDT  -  Jul 18, 08:00 EDT",
+    "SMP Maintenance | In progress - Scheduled maintenance is currently in progress. We will provide updates as necessary. | Jul 11, 08:00 EDT",
+    "SMP Maintenance | Scheduled - SMP will be undergoing maintenance and will be unavailable. We aim to complete maintenance as soon as possible but we cannot guarantee an ETA. | Jul 10, 10:53 EDT",
+    "SkyBlock Bazaar and Booster Cookies disabled | Investigating - We are currently investigating an issue with booster cookies and the bazaar, and as a result, both of these systems are currently disabled. | Jul 12, 10:41 EDT",
+    "SkyBlock Bazaar and Booster Cookies disabled | Monitoring - We have re-opened the Bazaar and enabled consuming Booster Cookies. Any players affected by the issue of cookies purchased that could not be consumed should have them refunded as soon as possible. | Jul 12, 12:31 EDT",
+    "SkyBlock Bazaar and Booster Cookies disabled | Update - We have re-opened the Bazaar and enabled consuming Booster Cookies. Any players affected by the issue of cookies purchased that could not be consumed should have had them refunded as a delivery in Jerry. | Jul 12, 12:55 EDT",
+    "SkyBlock Bazaar and Booster Cookies disabled | Resolved - This incident has been resolved. | Jul 12, 14:04 EDT"
   ],
   "skyblockUpdates": [
     "[February 22] SkyBlock Patch Notes | https://hypixel.net/threads/february-22-skyblock-patch-notes.5276871/",
@@ -221,6 +228,9 @@
     "[June 26] SkyBlock Patch Notes | https://hypixel.net/threads/june-26-skyblock-patch-notes.5406480/",
     "Resolution to Rift Access (6/26/23) | https://hypixel.net/threads/resolution-to-rift-access-6-26-23.5407127/",
     "2023 Summer Event and Sale! | https://hypixel.net/threads/2023-summer-event-and-sale.5408071/",
-    "[June 29] SkyBlock Patch Notes | https://hypixel.net/threads/june-29-skyblock-patch-notes.5410140/"
+    "[June 29] SkyBlock Patch Notes | https://hypixel.net/threads/june-29-skyblock-patch-notes.5410140/",
+    "Login Alerts - Argus | https://hypixel.net/threads/login-alerts-argus.3284306/",
+    "Skyblock Enchanting Mega-Overhaul | https://hypixel.net/threads/skyblock-enchanting-mega-overhaul.3604521/",
+    "SkyBlock Patch 0.19.1 - Item Linking, Leveling Update, Stash QoL, & Bug Fixes | https://hypixel.net/threads/skyblock-patch-0-19-1-item-linking-leveling-update-stash-qol-bug-fixes.5422629/"
   ]
 }
