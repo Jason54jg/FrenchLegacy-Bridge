@@ -336,7 +336,7 @@ class StateHandler extends eventHandler {
       });
     }
 
-    if (this.isRepeatMessage(message)) {
+    /*if (this.isRepeatMessage(message)) {
       return client.channels.cache.get(bridgeChat).send({
         embeds: [
           {
@@ -345,7 +345,7 @@ class StateHandler extends eventHandler {
           },
         ],
       });
-    }
+    }*/
 
     if (this.isNoPermission(message)) {
       return this.minecraft.broadcastCleanEmbed({
@@ -733,9 +733,9 @@ class StateHandler extends eventHandler {
     );
   }
 
-  isRepeatMessage(message) {
+  /*isRepeatMessage(message) {
     return message == "You cannot say the same message twice!";
-  }
+  }*/
 
   isNoPermission(message) {
     return (

@@ -36,6 +36,18 @@ module.exports = {
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
       });
 
+    const wolf = new EmbedBuilder()
+      .setThumbnail("https://cdn.discordapp.com/emojis/1134075444392640573.png")
+      .addFields({
+        name: "Informations sur les prix des Wolf",
+        value:
+          "Wolf T4: 100k/unité\nPrix pour (10 ou plus) : 80k/unité",
+      })
+      .setFooter({
+        text: "FrenchLegacy",
+        iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+      });
+
     const spider = new EmbedBuilder()
       .setThumbnail("https://cdn.discordapp.com/emojis/1081243964755157012.png")
       .addFields({
@@ -141,6 +153,7 @@ module.exports = {
         conditions,
         rev,
         spider,
+        wolf,
         enderman,
         inferno,
         carry,
@@ -160,6 +173,11 @@ module.exports = {
             .setEmoji("1081243964755157012")
             .setStyle(ButtonStyle.Primary),
           new ButtonBuilder()
+            .setCustomId("carry-T4Wolf")
+            .setLabel("T4 Wolf")
+            .setEmoji("1134075444392640573")
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
             .setCustomId("carry-T4REV")
             .setLabel("T4 Revenant")
             .setEmoji("1039706422465794158")
@@ -168,15 +186,15 @@ module.exports = {
             .setCustomId("carry-T5REV")
             .setLabel("T5 Revenant")
             .setEmoji("1039706422465794158")
-            .setStyle(ButtonStyle.Primary),
-          new ButtonBuilder()
-            .setCustomId("carry-T3eman")
-            .setLabel("T3 Enderman")
-            .setEmoji("1039706047214014464")
             .setStyle(ButtonStyle.Primary)
         ),
         // Créer une nouvelle ligne tout les 5 boutons !
         new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId("carry-T3eman")
+            .setLabel("T3 Enderman")
+            .setEmoji("1039706047214014464")
+            .setStyle(ButtonStyle.Primary),
           new ButtonBuilder()
             .setCustomId("carry-T4eman")
             .setLabel("T4 Enderman")
@@ -199,9 +217,6 @@ module.exports = {
             .setStyle(ButtonStyle.Primary)
         ),
       ],
-    });
-    interaction.channel.send({
-      embeds: [aatrox],
     });
   },
 };
