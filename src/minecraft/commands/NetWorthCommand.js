@@ -28,14 +28,14 @@ class NetWorthCommand extends minecraftCommand {
     try {
       username = this.getArgs(message)[0] || username;
 
-      const data = await getLatestProfile(username);
+      const data = await getLatestProfile(username, { museum: true });
 
       username = formatUsername(username, data.profileData?.game_mode);
 
       const profile = await getNetworth(
         data.profile,
         data.profileData?.banking?.balance || 0,
-        { cache: true, onlyNetworth: true }
+        { cache: true, onlyNetworth: true, museumData: data.museum }
       );
 
       if (profile.noInventory === true) {
@@ -44,14 +44,14 @@ class NetWorthCommand extends minecraftCommand {
         );
       }
 
+      const networth = formatNumber(profile.networth);
+      const unsoulboundNetworth = formatNumber(profile.unsoulboundNetworth);
+      const purse = formatNumber(profile.purse);
+      const bank = profile.bank ? formatNumber(profile.bank) : "N/A";
+      const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
+
       this.send(
-        `/msg ${username} Le Networth de ${username} est ${formatNumber(
-          profile.networth
-        )} | Unsoulbound Networth: ${formatNumber(
-          profile.unsoulboundNetworth
-        )} | Purse: ${formatNumber(profile.purse)} | Bank: ${formatNumber(
-          profile.bank
-        )}`
+        `/msg ${username} Le Networth de ${username} est ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
       );
     } catch (error) {
       console.log(error);
