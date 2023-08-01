@@ -27,7 +27,7 @@ module.exports = {
       throw new Error("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 
-    const name = interaction.options.getString("user");
+    const name = interaction.options.getString("name");
     const rang = interaction.options.getString("rang");
 
     bot.chat(`/g setrank ${name} ${rang}`);
