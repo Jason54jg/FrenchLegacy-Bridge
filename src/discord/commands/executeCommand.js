@@ -1,5 +1,5 @@
-const config = require("../../../config.json");
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
@@ -14,26 +14,23 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (
-      !(
-        await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
-    ) {
-      return await interaction.reply({
-        content: `${messages.permissionInsuffisante}`,
-        ephemeral: true,
-      });
-    }
-    const command = interaction.options.getString("commande");
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new Error("Vous n'êtes pas autorisé à utiliser cette commande.");
+      }
+
+    const command = interaction.options.getString("command");
     bot.chat(`/${command}`);
+
     const commandMessage = new EmbedBuilder()
-      .setTitle(`${messages.commandeRéussi}`)
+      .setTitle("La commande a été exécutée avec succès")
       .setDescription(`\`/${command}\`\n`)
       .setFooter({
+        text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
       });
-    await interaction.reply({ embeds: [commandMessage], ephemeral: true });
+
+    await interaction.followUp({ embeds: [commandMessage], ephemeral: true });
   },
 };

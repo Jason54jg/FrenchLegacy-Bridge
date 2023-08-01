@@ -14,28 +14,25 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (
-      !(
-        await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
-    ) {
-      return await interaction.reply({
-        content: `${messages.permissionInsuffisante}`,
-        ephemeral: true,
-      });
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new Error("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
+
     const name = interaction.options.getString("name");
     bot.chat(`/g invite ${name}`);
+
     const embed = new EmbedBuilder()
-      .setTitle(`${messages.commandeRéussi}`)
-      .setDescription("Regarde dans <#1014148236132483112>")
-      .setTimestamp()
+      .setAuthor({ name: "Invite" })
+      .setDescription(`Exécuté avec succès \`/g invite ${name}\`\nRegarde dans <#1014148236132483112>`)
       .setFooter({
         text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
       });
-    await interaction.reply({ embeds: [embed] });
+
+    await interaction.followUp({
+      embeds: [embed],
+    });
   },
 };

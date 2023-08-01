@@ -24,7 +24,7 @@ module.exports = {
       .then(async (player) => {
         let found = false;
         player.socialMedia.forEach((media) => {
-          if (media.link === interaction.user.tag) {
+          if (media.link === interaction.user.username ?? interaction.user.tag) {
             found = true;
           }
         });

@@ -24,8 +24,8 @@ module.exports = {
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
       });
 
-    const FrenchBot = new EmbedBuilder()
-      .setTitle("FrenchBot Logs")
+    const Desterbot = new EmbedBuilder()
+      .setTitle("Desterbot Logs")
       .addFields({
         name: "Connecté : ✅",
         value: "\u200B",
@@ -35,6 +35,17 @@ module.exports = {
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
       });
 
-    interaction.reply({ embeds: [information, Cartouche, FrenchBot] });
+    const Daythecloud = new EmbedBuilder()
+      .setTitle("Daythecloud Logs")
+      .addFields({
+        name: "Connecté : ✅",
+        value: "\u200B",
+      })
+      .setFooter({
+        text: "FrenchLegacy",
+        iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+      });
+
+    await interaction.followUp({ embeds: [information, Daythecloud, Desterbot] });
   },
 };

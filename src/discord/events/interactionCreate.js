@@ -1,35 +1,33 @@
+const { EmbedBuilder } = require("discord.js");
 const Logger = require("../.././Logger");
 
 module.exports = {
   name: "interactionCreate",
   async execute(interaction) {
-    if (interaction.isChatInputCommand()) {
-      // Pire idée au monde: impossible d'utiliser des réponses ephemeral
-      // Si une interaction prend plus de 3 secondes a répondre, il faut
-      // la gérer au niveau de la commande, pas de manière global
+    try {
+      if (interaction.isChatInputCommand()) {
+        await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
-      // By doing this, you remove the ephemeral feature from EVERY command ever created
-      //await interaction.deferReply({ ephemeral: false }).catch(() => {});
-
-      const command = interaction.client.commands.get(interaction.commandName);
-      if (!command) return;
-
-      try {
-        Logger.discordMessage(
-          `${interaction.user.username} - [${interaction.commandName}]`
-        );
+        const command = interaction.client.commands.get(interaction.commandName);
+        if (command === undefined) {
+          return;
+        }
 
         bridgeChat = interaction.channelId;
 
+        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
         await command.execute(interaction, interaction.client);
-      } catch (error) {
-        console.log(error);
-
-        await interaction.reply({
-          content: `\`[⌛]\` ${interaction.member}, une erreur est survenue.`,
-          ephemeral: true,
-        });
       }
+    } catch (error) {
+      const errorEmbed = new EmbedBuilder()
+        .setAuthor({ name: "Une erreur est survenue" })
+        .setDescription(`\`\`\`${error}\`\`\``)
+        .setFooter({
+            text: "FrenchLegacy",
+            iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+        });
+
+      await interaction.editReply({ embeds: [errorEmbed] });
     }
   },
 };

@@ -5,12 +5,13 @@ module.exports = {
   name: "gonline",
   description: "Liste des membres en ligne.",
 
-  execute: async (interaction, client) => {
+  execute: async (interaction) => {
     const cachedMessages = [];
-    const promise = new Promise((resolve, reject) => {
+    const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
-        cachedMessages.push(message.toString());
-        if (message.toString().startsWith("Offline Members")) {
+        message = message.toString();
+        cachedMessages.push(message);
+        if (message.startsWith("Offline Members")) {
           bot.removeListener("message", listener);
           resolve(cachedMessages);
         }
@@ -26,52 +27,32 @@ module.exports = {
     });
 
     try {
-      const messages = await promise;
-      const trimmedMessages = messages.map((message) => message.trim());
+      const message = await messages;
 
-      const onlineMembersMessage = trimmedMessages.find((message) =>
-        message.startsWith("Online Members: ")
-      );
-      const onlineMembers = `${onlineMembersMessage.split(": ")[0]}: \`${
-        onlineMembersMessage.split(": ")[1]
-      }\``;
+      const onlineMembers = message.find((m) => m.startsWith("Online Members: "));
+      const totalMembers = message.find((message) => message.startsWith("Total Members: "));
 
-      const totalMembersMessage = trimmedMessages.find((message) =>
-        message.startsWith("Total Members: ")
-      );
-      const totalMembers = `${totalMembersMessage.split(": ")[0]}: \`${
-        totalMembersMessage.split(": ")[1]
-      }\``;
+      const onlineMembersList = message;
+      const online = onlineMembersList
+        .flatMap((item, index) => {
+          if (item.includes("-- ") === false) return;
 
-      const onlineMembersList = trimmedMessages;
-
-      let description = `${totalMembers}\n${onlineMembers}\n\n`;
-
-      let online = onlineMembersList.flatMap((item, index) => {
-        if (item.includes("-- ")) {
           const nextLine = onlineMembersList[parseInt(index) + 1];
-          if (nextLine?.includes("●")) {
-            return [item, nextLine.split("●").map((item) => item.trim())];
-          }
-        }
-        return [];
-      });
+          if (nextLine.includes("●")) {
+            const rank = item.replaceAll("--", "").trim();
+            const players = nextLine
+              .split("●")
+              .map((item) => item.trim())
+              .filter((item) => item);
 
-      online = online.filter((item) => item);
+            if (rank === undefined || players === undefined) return;
 
-      description += online
-        .map((item) => {
-          if (item.length === 0) return;
-
-          if (item.includes("--")) {
-            item = item.replaceAll("--", "").trim();
-            return `**${item}**\n`;
-          } else {
-            return `\`${item.filter((item) => item !== "").join(", ")}\`\n`;
+            return `**${rank}**\n${players.map((item) => `\`${item}\``).join(", ")}`;
           }
         })
-        .join(" ");
+        .filter((item) => item);
 
+      const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
       const embed = new EmbedBuilder()
         .setColor("#2ECC71")
         .setTitle("Membres en ligne")
@@ -81,7 +62,7 @@ module.exports = {
           iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.followUp({ embeds: [embed] });
     } catch (error) {
       console.log(error);
       const errorEmbed = new EmbedBuilder()
@@ -93,7 +74,7 @@ module.exports = {
           iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
-      return await interaction.reply({ embeds: [errorEmbed] });
+      return await interaction.followUp({ embeds: [errorEmbed] });
     }
   },
 };

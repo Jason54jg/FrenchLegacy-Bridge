@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "guildtop",
+  name: "gtop",
   description: "Top 10 des membres avec le plus d'expérience de guilde.",
   options: [
     {
@@ -13,18 +13,16 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
+  execute: async (interaction) => {
     const time = interaction.options.getString("time");
 
     const cachedMessages = [];
-    const promise = new Promise((resolve, reject) => {
+    const messages = new Promise((resolve, reject) => {
       const listener = (message) => {
-        cachedMessages.push(message.toString());
+        message = message.toString();
+        cachedMessages.push(message);
 
-        if (
-          message.toString().startsWith("10.") &&
-          message.toString().endsWith("Guild Experience")
-        ) {
+        if (message.startsWith("10.") && message.endsWith("Guild Experience")) {
           bot.removeListener("message", listener);
           resolve(cachedMessages);
         }
@@ -40,15 +38,11 @@ module.exports = {
     });
 
     try {
-      const messages = await promise;
-      const trimmedMessages = messages
-        .map((message) => message.trim())
-        .filter((message) => message.includes("Guild Experience"));
+      const message = await messages;
 
+      const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
       const description = trimmedMessages
         .map((message) => {
-          if (trimmedMessages.indexOf(message) === 0) return;
-
           const [position, , name, guildExperience] = message.split(" ");
           return `\`${position}\` **${name}** - \`${guildExperience}\` Expérience de guilde\n`;
         })
@@ -63,7 +57,7 @@ module.exports = {
           iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.followUp({ embeds: [embed] });
     } catch (error) {
       console.log(error);
       const errorEmbed = new EmbedBuilder()
@@ -75,7 +69,7 @@ module.exports = {
           iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
-      return await interaction.reply({ embeds: [errorEmbed] });
+      return await interaction.followUp({ embeds: [errorEmbed] });
     }
   },
 };
