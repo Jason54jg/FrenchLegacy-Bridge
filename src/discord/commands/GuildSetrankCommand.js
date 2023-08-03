@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const config = require("../../../config.json");
 const { EmbedBuilder } = require("discord.js");
 const fs = require("fs");
@@ -24,7 +25,7 @@ module.exports = {
   execute: async (interaction) => {
     const user = interaction.member;
     if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
-      throw new Error("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 
     const name = interaction.options.getString("name");

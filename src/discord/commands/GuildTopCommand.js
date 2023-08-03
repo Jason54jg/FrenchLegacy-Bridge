@@ -37,7 +37,6 @@ module.exports = {
       }, 5000);
     });
 
-    try {
       const message = await messages;
 
       const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
@@ -58,18 +57,5 @@ module.exports = {
         });
 
       return await interaction.followUp({ embeds: [embed] });
-    } catch (error) {
-      console.log(error);
-      const errorEmbed = new EmbedBuilder()
-        .setColor("#E74C3C")
-        .setTitle("Erreur")
-        .setDescription(`\`\`\`${error}\`\`\``)
-        .setFooter({
-          text: `${messages.footerhelp}`,
-          iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
-        });
-
-      return await interaction.followUp({ embeds: [errorEmbed] });
-    }
   },
 };

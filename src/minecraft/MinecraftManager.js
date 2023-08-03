@@ -47,7 +47,6 @@ class MinecraftManager extends CommunicationBridge {
 
   async onBroadcast({ channel, username, message, replyingTo }) {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
-    bridgeChat = channel;
     if (!this.bot.player) return;
 
     username = username.split(" | ")[1];

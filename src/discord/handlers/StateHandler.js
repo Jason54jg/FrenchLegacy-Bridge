@@ -10,7 +10,6 @@ class StateHandler {
     Logger.discordMessage(
       "Client prêt, connecté en tant que " + this.discord.client.user.tag
     );
-    global.bridgeChat = config.discord.channels.guildChatChannel;
   }
 
   async getChannel(type) {

@@ -11,11 +11,7 @@
   },
   "globals": {
     "bot": true,
-    "client": true,
-    "minecraftCommandList": true,
-    "uptime": true,
-    "bridgeChat": true,
-    "bot2": true
+    "client": true
   },
   "rules": {
     "curly": ["warn", "multi-line", "consistent"],

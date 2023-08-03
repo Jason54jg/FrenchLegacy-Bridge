@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
 const messages = require("../../../messages.json");
@@ -33,7 +34,7 @@ module.exports = {
   execute: async (interaction) => {
     const user = interaction.member;
     if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
-      throw new Error("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 
     const name = interaction.options.getString("name");
@@ -44,7 +45,7 @@ module.exports = {
     } else if (arg == "remove") {
       bot.chat(`/ignore remove ${name}`);
     } else {
-      throw new Error("Utilisation incorrecte: `/ignore [add/remove] [nom]`.");
+      throw new HypixelDiscordChatBridgeError("Utilisation incorrecte: `/ignore [add/remove] [nom]`.");
       }
 
     const embed = new EmbedBuilder()
