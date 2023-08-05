@@ -33,12 +33,8 @@ module.exports = {
   ],
   execute: async (interaction) => {
     // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (
-      !(
-        await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
-    ) {
-      return await interaction.reply({
+    if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+      return await interaction.followUp({
         content: `${messages.permissionInsuffisante}`,
         ephemeral: true,
       });
@@ -50,7 +46,7 @@ module.exports = {
 
     // Vérifie si le score est un nombre
     if (isNaN(score)) {
-      return await interaction.reply({
+      return await interaction.followUp({
         content: "Le nombre renseigné n'est pas valide",
         ephemeral: true,
       });
@@ -87,7 +83,7 @@ module.exports = {
         break;
     }
 
-    return interaction.reply({
+    return interaction.followUp({
       content: `${messages.commandeRéussi}`,
       ephemeral: true,
     });

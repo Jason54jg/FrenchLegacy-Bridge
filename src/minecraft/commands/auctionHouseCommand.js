@@ -30,13 +30,10 @@ class AuctionHouseCommand extends minecraftCommand {
 
       const uuid = await getUUID(username);
 
-      const { hypixelAPI, hypixelAPIkey } = config.minecraft.API;
-
+      const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
-        axios.get(
-          `${hypixelAPI}/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`
-        ),
-        axios.get(`${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${uuid}`),
+        axios.get(`https://api.hypixel.net/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
+        axios.get(`https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${uuid}`),
       ]);
 
       const auctions = auctionResponse.data?.auctions || [];
@@ -68,7 +65,7 @@ class AuctionHouseCommand extends minecraftCommand {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
             const bidderResponse = await axios.get(
-              `${hypixelAPI}/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
+              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`
             );
 
             const bidder = bidderResponse.data?.player || {};

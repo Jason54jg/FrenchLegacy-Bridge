@@ -18,7 +18,6 @@ module.exports = {
   ],
 
   execute: async (interaction, client) => {
-    await interaction.deferReply();
     const mc_username = (await DB.getLinkedAccounts(interaction.user.id)) || ``;
     const name = interaction.options.getString("name") || mc_username;
     const username = (
@@ -83,7 +82,7 @@ module.exports = {
       },
     };
 
-    await interaction.editReply({
+    await interaction.followUp({
       embeds: [embedplayer],
     });
   },

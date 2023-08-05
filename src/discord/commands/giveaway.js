@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const {
   EmbedBuilder,
   ActionRowBuilder,
@@ -39,14 +40,12 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
-    // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    /*if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
-            return await interaction.reply({
-                content: "Vous n'êtes pas autorisé à exécuter cette commande.",
-                ephemeral: true,
-            });
-        }*/
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+    }
+
 
     const name = interaction.options.get("nom").value;
     const host = interaction.options.get("host").value;
@@ -55,7 +54,7 @@ module.exports = {
 
     // Vérifier si la date renseignée est valide
     if (date.match(/(\d{2}\/){2}\d{4}(:\d{2}){2}/g).length == 0) {
-      return await interaction.reply({
+      return await interaction.followUp({
         content: "La date renseignée n'est pas valide",
         ephemeral: true,
       });
@@ -77,7 +76,7 @@ module.exports = {
     );
 
     if (giveawayId == null) {
-      return await interaction.reply({
+      return await interaction.followUp({
         content:
           "Une erreur est survenue lors de l'interaction avec la base de donnée",
         ephemeral: true,
@@ -103,7 +102,7 @@ module.exports = {
         iconURL:
           "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
-    interaction.reply({
+    interaction.followUp({
       embeds: [giveawayEmbed],
       components: [
         new ActionRowBuilder().addComponents(

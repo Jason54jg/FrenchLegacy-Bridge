@@ -113,7 +113,7 @@ module.exports = {
       },
     };
 
-    await interaction.reply({
+    await interaction.followUp({
       embeds: [embeded],
     });
   },

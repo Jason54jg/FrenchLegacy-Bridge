@@ -44,7 +44,7 @@ module.exports = {
               text: `${messages.footerhelp}`,
               iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
             });
-          await interaction.reply({ embeds: [successfullyLinked] });
+          await interaction.followUp({ embeds: [successfullyLinked] });
         } else {
           const verificationTutorialEmbed = new EmbedBuilder()
             .setAuthor({
@@ -63,7 +63,7 @@ module.exports = {
               text: `${messages.footerhelp}`,
               iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
             });
-          await interaction.reply({
+          await interaction.followUp({
             content:
               "Le compte lié de votre Minecraft ne correspond pas au Discord.",
             embeds: [verificationTutorialEmbed],
@@ -78,7 +78,7 @@ module.exports = {
             text: `${messages.footerhelp}`,
             iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
           });
-        interaction.reply({ embeds: [errorEmbed] });
+        interaction.followUp({ embeds: [errorEmbed] });
       });
   },
 };

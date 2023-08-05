@@ -17,7 +17,6 @@ module.exports = {
     },
   ],
   execute: async (interaction, client, InteractionCreate) => {
-    await interaction.deferReply();
     const mc_username = (await DB.getLinkedAccounts(interaction.user.id)) || ``;
     const name = interaction.options.getString("name") || mc_username;
     const username = (
@@ -92,6 +91,6 @@ module.exports = {
       },
     };
 
-    await interaction.editReply({ embeds: [chat] });
+    await interaction.followUp({ embeds: [chat] });
   },
 };

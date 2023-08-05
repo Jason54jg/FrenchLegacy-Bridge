@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+const Configuration = require("./Configuration.js");
 const DiscordManager = require("./discord/DiscordManager.js");
 const MinecraftManager = require("./minecraft/MinecraftManager.js");
 const Bot2 = require("./minecraft/Bot2.js");

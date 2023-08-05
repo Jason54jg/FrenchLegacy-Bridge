@@ -38,6 +38,6 @@ module.exports = {
       },
     };
 
-    await interaction.reply({ embeds: [chat] });
+    await interaction.followUp({ embeds: [chat] });
   },
 };

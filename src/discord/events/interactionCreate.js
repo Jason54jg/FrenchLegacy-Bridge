@@ -30,7 +30,7 @@ module.exports = {
         .setAuthor({ name: "Une erreur est survenue" })
         .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
         .setFooter({
-            text: "FrenchLegacy",
+            text: `${messages.footerhelp}`,
             iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
@@ -47,7 +47,7 @@ module.exports = {
             }\`\n\`\`\`${error.stack}\`\`\``
           )
           .setFooter({
-            text: `FrenchLegacy`,
+            text: `${messages.footerhelp}`,
             iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
           });
 

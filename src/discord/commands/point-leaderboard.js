@@ -9,7 +9,7 @@ module.exports = {
     let lbres = await util.createPointLeaderboardPage(1);
 
     if (lbres == null) {
-      return await interaction.reply({
+      return await interaction.followUp({
         content:
           "Une erreur est survenue lors de l'éxecution de la requète vers la base de donnée.",
         ephemeral: true,

@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const {
   ActionRowBuilder,
   ButtonBuilder,
@@ -11,17 +12,10 @@ module.exports = {
   name: "floorembed",
   description: `Commande pour les embeds de floor`,
 
-  execute: async (interaction, client) => {
-    // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (
-      !(
-        await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
-    ) {
-      return await interaction.reply({
-        content: `${messages.permissionInsuffisante}`,
-        ephemeral: true,
-      });
+  execute: async (interaction) => {
+    const user = interaction.member;
+    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 
     const terms = new EmbedBuilder()

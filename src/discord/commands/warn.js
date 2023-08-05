@@ -1,3 +1,4 @@
+const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
 const config = require("../../../config.json");
 const DB = require("../../../API/database/database.js");
 const messages = require("../../../messages.json");
@@ -14,14 +15,10 @@ module.exports = {
     },
   ],
 
-  execute: async (interaction, client) => {
+  execute: async (interaction) => {
     // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (
-      !(
-        await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
-    ) {
-      return await interaction.reply({
+    if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.commandRole)) {
+      return await interaction.followUp({
         content: `${messages.permissionInsuffisante}`,
         ephemeral: true,
       });
@@ -30,7 +27,7 @@ module.exports = {
     const name = interaction.options.getString("name").value;
     const user = await DB.getUserById(name);
     if (user == null) {
-      return await interaction.reply({
+      return await interaction.followUp({
         content: "Le joueur que vous avez tenté d'avertir n'a pas été trouvé",
         ephemeral: true,
       });

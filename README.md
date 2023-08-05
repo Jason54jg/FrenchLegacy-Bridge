@@ -93,7 +93,7 @@ Le `debugChannel` est l'ID du canal de texte où le bot doit envoyer des message
 
 Les options de l'API incluent des informations sur les API utilisées, les seules qui doivent être modifiées sont `hypixelAPIkey` et `imgurAPIkey`.
 
-Vous pouvez recevoir la clé API Hypixel en rejoignant le réseau Hypixel et en tapant la commande `/api new`.
+Vous pouvez recevoir la clé API Hypixel en accédant à [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard/) et en créant une nouvelle application.
 
 > L'API Hypixel est utilisée pour la plupart des commandes.
 
