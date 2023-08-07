@@ -71,7 +71,7 @@ class RenderCommand extends minecraftCommand {
         Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
       ) {
         return this.send(
-          `/msg ${username} Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`
+          `/gc Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`
         );
       }
 
@@ -83,10 +83,10 @@ class RenderCommand extends minecraftCommand {
       const upload = await uploadImage(renderedItem);
 
       this.send(
-        `/msg ${username} Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`
+        `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`
       );
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

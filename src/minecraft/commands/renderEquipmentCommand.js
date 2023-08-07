@@ -35,7 +35,7 @@ class EquipmentCommand extends minecraftCommand {
 
       if (profile.profile?.equippment_contents?.data === undefined) {
         return this.send(
-          `/msg ${username} Ce joueur a une API d'inventaire désactivée.`
+          `/gc Ce joueur a une API d'inventaire désactivée.`
         );
       }
 
@@ -64,9 +64,9 @@ class EquipmentCommand extends minecraftCommand {
         response += response.split(" | ").length == 4 ? link : `${link} | `;
       }
 
-      this.send(`/msg ${username} Équipement de ${username}: ${response}`);
+      this.send(`/gc Équipement de ${username}: ${response}`);
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

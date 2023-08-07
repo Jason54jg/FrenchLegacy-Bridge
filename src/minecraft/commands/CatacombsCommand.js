@@ -51,7 +51,7 @@ class CatacombsCommand extends minecraftCommand {
         ) / Object.keys(dungeons.classes).length;
 
       this.send(
-        `/msg ${username} Catacombes de ${username}: ${level} | Class Average: ${classAvrg.toFixed(
+        `/gc Catacombes de ${username}: ${level} | Class Average: ${classAvrg.toFixed(
           1
         )} (${dungeons.classes.healer.level}H, ${
           dungeons.classes.mage.level
@@ -65,7 +65,7 @@ class CatacombsCommand extends minecraftCommand {
     } catch (error) {
       console.log(error);
 
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

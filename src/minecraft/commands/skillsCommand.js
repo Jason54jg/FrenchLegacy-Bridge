@@ -42,7 +42,7 @@ class SkillsCommand extends minecraftCommand {
       ).toFixed(2);
 
       this.send(
-        `/msg ${username} Moyenne de compétence de ${username}: ${
+        `/gc Moyenne de skills de ${username}: ${
           skillAverage ?? 0
         } | Farming - ${Math.floor(
           profile.farming.levelWithProgress ?? 0
@@ -65,7 +65,7 @@ class SkillsCommand extends minecraftCommand {
         )}`
       );
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}}`);
+      this.send(`/gc Erreur: ${error}}`);
     }
   }
 }

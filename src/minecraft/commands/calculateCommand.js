@@ -24,17 +24,17 @@ class CalculateCommand extends minecraftCommand {
 
       if (answer === Infinity) {
         return this.send(
-          `/msg ${username} Quelque chose s'est mal passé. D'une manière ou d'une autre, vous l'avez cassé (la réponse était l'infini)`
+          `/gc Quelque chose s'est mal passé. D'une manière ou d'une autre, vous l'avez cassé (la réponse était l'infini)`
         );
       }
 
       this.send(
-        `/msg ${username} ${calculation} = ${formatNumber(
+        `/gc ${calculation} = ${formatNumber(
           answer
         )} (${answer.toLocaleString()})`
       );
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

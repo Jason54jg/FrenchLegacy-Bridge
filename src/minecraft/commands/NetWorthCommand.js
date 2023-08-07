@@ -40,7 +40,7 @@ class NetWorthCommand extends minecraftCommand {
 
       if (profile.noInventory === true) {
         return this.send(
-          `/msg ${username} ${username} a une API d'inventaire désactivée!`
+          `/gc ${username} a une API d'inventaire désactivée!`
         );
       }
 
@@ -51,11 +51,11 @@ class NetWorthCommand extends minecraftCommand {
       const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
 
       this.send(
-        `/msg ${username} Le Networth de ${username} est ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
+        `/gc Le Networth de ${username} est ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
       );
     } catch (error) {
       console.log(error);
-      this.send(`/msg ${username} ERREUR: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

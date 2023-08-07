@@ -32,13 +32,13 @@ class FairySoulsCommand extends minecraftCommand {
       const { fairy_souls_collected } = data.profile;
 
       this.send(
-        `/msg ${username} Les Fairy Souls de ${username}: ${fairy_souls_collected}/${total} | Progress: ${(
+        `/gc Les Fairy Souls de ${username}: ${fairy_souls_collected}/${total} | Progress: ${(
           (fairy_souls_collected / total) *
           100
         ).toFixed(2)}%`
       );
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

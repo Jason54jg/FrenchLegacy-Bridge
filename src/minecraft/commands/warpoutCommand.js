@@ -16,7 +16,7 @@ class warpoutCommand extends minecraftCommand {
   async onCommand(username, message) {
     try {
       if (this.isOnCooldown) {
-        return this.send(`/msg ${username} La commande est en cooldown`);
+        return this.send(`/gc La commande est en cooldown`);
       }
 
       this.isOnCooldown = true;
@@ -32,7 +32,7 @@ class warpoutCommand extends minecraftCommand {
             "You cannot invite that player since they're not online."
           )
         ) {
-          this.send(`/msg ${username} ${user} n'est pas en ligne!`);
+          this.send(`/gc ${user} n'est pas en ligne!`);
           this.isOnCooldown = false;
         }
 
@@ -46,13 +46,13 @@ class warpoutCommand extends minecraftCommand {
           message.includes("to the party! They have 60 seconds to accept.")
         ) {
           this.send(
-            `/msg ${username} ${user} a été invité avec succès à la partie!`
+            `/gc ${user} a été invité avec succès à la partie!`
           );
         }
 
         if (message.includes(" joined the party.")) {
           this.send(
-            `/msg ${username} ${user} rejoint la partie ! Je le fait quitter le lobby..`
+            `/gc ${user} rejoint la partie ! Je le fait quitter le lobby..`
           );
           await delay(1100);
 
@@ -61,7 +61,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes(" is not allowed on your server!")) {
           this.send(
-            `/msg ${username} ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`
+            `/gc ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`
           );
           this.isOnCooldown = false;
 
@@ -73,7 +73,7 @@ class warpoutCommand extends minecraftCommand {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
           this.send(
-            `/msg ${username} ${user} a été warp du lobby! Suppression de la partie..`
+            `/gc ${user} a été warp du lobby! Suppression de la partie..`
           );
 
           await delay(1000);
@@ -109,7 +109,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (this.isOnCooldown === true) {
           this.send(
-            `/msg ${username} Délai de l'invitation à la partie à expiré.`
+            `/gc Délai de l'invitation à la partie à expiré.`
           );
           await delay(1000);
           bot.chat("/p disband");
@@ -119,7 +119,7 @@ class warpoutCommand extends minecraftCommand {
       }, 30000);
     } catch (error) {
       this.send(
-        `/msg ${username} Erreur: ${error || "Quelque chose s'est mal passé.."}`
+        `/gc Erreur: ${error || "Quelque chose s'est mal passé.."}`
       );
 
       this.isOnCooldown = false;

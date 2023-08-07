@@ -48,11 +48,11 @@ class StatsCommand extends minecraftCommand {
           .map((skill) => profile.senither.skills[skill].total)
           .reduce((a, b) => a + b, 0)
       )} | Dungeons: ${formatNumber(profile.senither.dungeons.total)}`;
-      this.send(`/msg ${username} ${username} ${senitherW}`);
+      this.send(`/gc ${username} ${senitherW}`);
       await delay(690);
-      this.send(`/msg ${username} ${username} ${lilyW}`);
+      this.send(`/gc ${username} ${lilyW}`);
     } catch (error) {
-      this.send(`/msg ${username} Error: ${error}`);
+      this.send(`/gc Error: ${error}`);
     }
   }
 }

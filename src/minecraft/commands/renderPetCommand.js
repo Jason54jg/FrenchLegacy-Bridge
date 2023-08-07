@@ -41,7 +41,7 @@ class RenderCommand extends minecraftCommand {
 
       if (pet === undefined) {
         return this.send(
-          `/msg ${username} ${username} n'a pas d'animal équipé.`
+          `/gc ${username} n'a pas d'animal équipé.`
         );
       }
 
@@ -58,7 +58,7 @@ class RenderCommand extends minecraftCommand {
         }`
       );
     } catch (error) {
-      this.send(`/msg ${username} Erreur: ${error}`);
+      this.send(`/gc Erreur: ${error}`);
     }
   }
 }

@@ -105,11 +105,11 @@ class AuctionHouseCommand extends minecraftCommand {
       }
 
       this.send(
-        `/msg ${username} ${`Enchères actives de ${username}: ${string}`}`
+        `/gc ${`Enchères actives de ${username}: ${string}`}`
       );
     } catch (error) {
       console.log(error);
-      this.send(`/msg ${username} [ERREUR] ${error}`);
+      this.send(`/gc Erreur ${error}`);
     }
   }
 }
