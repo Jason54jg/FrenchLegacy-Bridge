@@ -35,7 +35,7 @@
     "bad-words": "^3.0.4",
     "canvas": "^2.11.2",
     "chalk": "^5.3.0",
-    "discord-api-types": "^0.37.51",
+    "discord-api-types": "^0.37.52",
     "discord-emoji-converter": "^1.2.8",
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
