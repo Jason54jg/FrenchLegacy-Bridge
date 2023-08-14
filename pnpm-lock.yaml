@@ -60,8 +60,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   mineflayer:
-    specifier: ^4.10.1
-    version: 4.10.1
+    specifier: ^4.11.0
+    version: 4.11.0
   mkdirp:
     specifier: ^3.0.1
     version: 3.0.1
@@ -336,8 +336,8 @@ packages:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: false
 
-  /@types/readable-stream@2.3.15:
-    resolution: {integrity: sha512-oM5JSKQCcICF1wvGgmecmHldZ48OZamtMxcGGVICOJA8o8cahXC1zEVAif8iwoc5j8etxFaRFnf095+CDsuoFQ==}
+  /@types/readable-stream@4.0.1:
+    resolution: {integrity: sha512-TSGmoAl2OVQ7sI1ToKoaonynp6kPdTDaBPvgMRz8ABvohWmYvimQqaZkaupTPjcOrpz8+ZdOBv3rCmAvBgVhqg==}
     dependencies:
       '@types/node': 18.11.18
       safe-buffer: 5.1.2
@@ -2267,6 +2267,7 @@ packages:
 
   /memory-pager@1.5.0:
     resolution: {integrity: sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -2320,11 +2321,11 @@ packages:
     resolution: {integrity: sha512-qaUSbKWoOsH9brn0JQuBhxNAzTDMwrOXorwuRxdJKKKDYvZhtml+6GVCUrY5HRiEsieBEjCUnhVpDuQiKsiFaw==}
     dev: false
 
-  /minecraft-protocol@1.43.1:
-    resolution: {integrity: sha512-/tcC5Ai7/voCgOLVNaYwwAC89Vx7hkmlDkuL7zrelkcFWPMzFb3U8kdDUXRpPraNz6+ltKKSLolysAeYbmX00A==}
+  /minecraft-protocol@1.44.0:
+    resolution: {integrity: sha512-sYu4fFzUKt3spPG5tAdkaB9sNQPT0sV6fyS0sS7/nxdzFfjmLhF6BLNC+32ieK4/MhgNyHtH6xusD0Bi0Roq9w==}
     engines: {node: '>=14'}
     dependencies:
-      '@types/readable-stream': 2.3.15
+      '@types/readable-stream': 4.0.1
       aes-js: 3.1.2
       buffer-equal: 1.0.1
       debug: 4.3.4
@@ -2347,23 +2348,23 @@ packages:
       - supports-color
     dev: false
 
-  /mineflayer@4.10.1:
-    resolution: {integrity: sha512-Ixvovd5wtx7ZYzm5YCqgOVoMqTam0LEEMwfOQGQ7Y3AAPk8Ci1rXOZZDdJmn9XRnloRRR8jv2MjQW2kFl7LyQg==}
+  /mineflayer@4.11.0:
+    resolution: {integrity: sha512-LFCpvqEcjvVG5U7SpkZybaT0h41yR9W9IWm/QTHM5VBn2VDGsB40zyyZpTOiOI4F57DoOxypGy8048jq5k4u2Q==}
     engines: {node: '>=14'}
     dependencies:
       minecraft-data: 3.38.0
-      minecraft-protocol: 1.43.1
+      minecraft-protocol: 1.44.0
       prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0)
       prismarine-block: 1.17.0
       prismarine-chat: 1.7.2
       prismarine-chunk: 1.34.0(minecraft-data@3.38.0)
       prismarine-entity: 2.2.0
-      prismarine-item: 1.12.1
+      prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
       prismarine-physics: 1.7.0
       prismarine-recipe: 1.3.1(prismarine-registry@1.6.0)
       prismarine-registry: 1.6.0
-      prismarine-windows: 2.6.1
+      prismarine-windows: 2.8.0
       prismarine-world: 3.6.1
       protodef: 1.15.0
       typed-emitter: 1.4.0
@@ -2795,7 +2796,7 @@ packages:
       minecraft-data: 3.38.0
       prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0)
       prismarine-chat: 1.7.2
-      prismarine-item: 1.12.1
+      prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
       prismarine-registry: 1.6.0
     dev: false
@@ -2804,7 +2805,7 @@ packages:
     resolution: {integrity: sha512-+m03T/MFhsXyLF2lH+MF5BPjqDvpeyX/T6v7l6rncVLahMVq/0knr7FPyrYHHzqIpSW8tx4iwhdfDcmwzMVBEQ==}
     dependencies:
       mojangson: 2.0.2
-      prismarine-item: 1.12.1
+      prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
       prismarine-registry: 1.6.0
       sprintf-js: 1.1.2
@@ -2831,13 +2832,13 @@ packages:
     dependencies:
       minecraft-data: 3.38.0
       prismarine-chat: 1.7.2
-      prismarine-item: 1.12.1
+      prismarine-item: 1.14.0
       prismarine-registry: 1.6.0
       vec3: 0.1.7
     dev: false
 
-  /prismarine-item@1.12.1:
-    resolution: {integrity: sha512-Q+cV8WCM6gTO/K8gIpe4sTCVj0wdXy/IIctpQhgj4iRPoRY/rLCI88FAGsLNU1cabOFQDO3a0NIz+KLvhOvbQA==}
+  /prismarine-item@1.14.0:
+    resolution: {integrity: sha512-udQHYGJ05klFe8Kkc0TOmwoXj5Xl1ZPgHVoMbGUAFB9exN4TFxEa1A39vkSYhxP5Et9PNufQQvFBFVom0nXikA==}
     dependencies:
       prismarine-nbt: 2.2.1
       prismarine-registry: 1.6.0
@@ -2888,12 +2889,19 @@ packages:
       prismarine-nbt: 2.2.1
     dev: false
 
-  /prismarine-windows@2.6.1:
-    resolution: {integrity: sha512-5B8+W4Zb9MWaakd38I/WW564zEgat6bC23ftcv15yVYmHZTq8mtUfX2GsOUD3Pu/aFKarvXpyyJahFMUTUVoXg==}
+  /prismarine-registry@1.7.0:
+    resolution: {integrity: sha512-yyva0FpWI078nNeMhx8ekVza5uUTYhEv+C+ADu3wUQXiG8qhXkvrf0uzsnhTgZL8BLdsi2axgCEiKw9qSKIuxQ==}
     dependencies:
-      prismarine-item: 1.12.1
-      prismarine-registry: 1.6.0
-      typed-emitter: 1.4.0
+      minecraft-data: 3.38.0
+      prismarine-nbt: 2.2.1
+    dev: false
+
+  /prismarine-windows@2.8.0:
+    resolution: {integrity: sha512-9HVhJ8tfCeRubYwQzgz8oiHNAebMJ5hDdjm45PZwrOgewaislnR2HDsbPMWiCcyWkYL7J8bVLVoSzEzv5pH98g==}
+    dependencies:
+      prismarine-item: 1.14.0
+      prismarine-registry: 1.7.0
+      typed-emitter: 2.1.0
     dev: false
 
   /prismarine-world@3.6.1:
@@ -3122,6 +3130,14 @@ packages:
       queue-microtask: 1.2.3
     dev: true
 
+  /rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+    requiresBuild: true
+    dependencies:
+      tslib: 2.6.1
+    dev: false
+    optional: true
+
   /safe-array-concat@1.0.0:
     resolution: {integrity: sha512-9dVEFruWIsnie89yym+xWTAYASdpw3CJV7Li/6zBewGf9z2i1j31rP6jnY0pHEO4QZh6N0K11bFjWmdR8UGdPQ==}
     engines: {node: '>=0.4'}
@@ -3301,6 +3317,7 @@ packages:
 
   /sparse-bitfield@3.0.3:
     resolution: {integrity: sha512-kvzhi7vqKTfkh0PZU+2D2PIllw2ymqJKujUcyPMd9Y75Nv4nPbGJZXNhxsgdQab2BmlDct1YnfQCguEvHr7VsQ==}
+    requiresBuild: true
     dependencies:
       memory-pager: 1.5.0
     dev: false
@@ -3565,6 +3582,12 @@ packages:
 
   /typed-emitter@1.4.0:
     resolution: {integrity: sha512-weBmoo3HhpKGgLBOYwe8EB31CzDFuaK7CCL+axXhUYhn4jo6DSkHnbefboCF5i4DQ2aMFe0C/FdTWcPdObgHyg==}
+    dev: false
+
+  /typed-emitter@2.1.0:
+    resolution: {integrity: sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==}
+    optionalDependencies:
+      rxjs: 7.8.1
     dev: false
 
   /uint4@0.1.2:
