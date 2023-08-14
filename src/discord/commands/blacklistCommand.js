@@ -33,7 +33,7 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.commandRole) === false) {
+    if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
       throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 

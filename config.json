@@ -77,7 +77,8 @@
       "emojis": [["1037683345758376007"], ["1057733768300994631"]]
     },
     "roles": {
-      "commandRole": "1084606469732839474",
+      "adminRole": "",
+      "staffRole": "",
       "logChannelCarrier": "",
       "logChannelTicket": "",
       "logChannelDefaultService": "",

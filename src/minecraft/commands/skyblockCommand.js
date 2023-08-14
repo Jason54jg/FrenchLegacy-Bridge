@@ -54,7 +54,7 @@ class SkyblockCommand extends minecraftCommand {
           .reduce((a, b) => a + b, 0) /
         (Object.keys(skills).length - 2)
       ).toFixed(1);
-      const slayerXp = Object.value(slayer)
+      const slayerXp = Object.values(slayer)
         .map((slayerData) => slayerData.xp)
         .reduce((a, b) => a + b, 0)
         .toLocaleString();
@@ -77,9 +77,7 @@ class SkyblockCommand extends minecraftCommand {
       );
     } catch (error) {
       console.log(error);
-      this.send(
-        "/gc Il n'y a pas de joueur avec l'UUID ou le nom donné ou le joueur n'a pas de profil Skyblock"
-      );
+      this.send(`/gc ${error}`);
     }
   }
 }

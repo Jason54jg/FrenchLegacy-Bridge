@@ -16,7 +16,7 @@ module.exports = {
     if (
       !(
         await interaction.guild.members.fetch(interaction.user)
-      ).roles.cache.has(config.discord.roles.commandRole)
+      ).roles.cache.has(config.discord.roles.adminRole)
     ) {
       return await interaction.reply({
         content: `${messages.permissionInsuffisante}`,
