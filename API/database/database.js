@@ -240,12 +240,14 @@ class DB {
   }
 
   // Créer un giveaway
-  async createGiveaway(name, endDate, host, winners) {
+  async createGiveaway(name, channel, endDate, host, winners, roleRequired) {
     const db = this.clientDb.db("dev");
     const newGiveaway = {
       name: name,
+      channel: channel,
       host: host,
       winners: winners,
+      roleRequired: roleRequired;
       endDate: endDate,
       participants: [],
     };

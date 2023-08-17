@@ -63,9 +63,20 @@ async function manageGiveawayButtons(interaction) {
   if (id.length > 2) {
     // Afficher la liste des participants du giveaway
     let description = "";
-    participants.forEach((user) => {
-      description += `<@${user}> `;
-    });
+    let isFull = false;
+    for (let i = 0; i < participants.length && !isFull; i++) {
+        const user = participants[i];
+
+        const currentUserFormatted = `<@${user}> `;
+        const fillerMessage = `\net ${participants.length - (i + 1)} autres...`;
+
+        description += currentUserFormatted;
+        if (description.length > 4070 - fillerMessage.length) { // max description length = 4096 - default description message - filler message
+            description = description.substring(0, description.length - 1 - currentUserFormatted.length)
+            description += fillerMessage;
+            isFull = true;
+        }
+    }
 
     const embed = new EmbedBuilder()
       .setTitle(`Participants au giveaway **${giveaway.name}**`)
@@ -87,6 +98,13 @@ async function manageGiveawayButtons(interaction) {
         content: "Vous êtes déjà inscrit à ce giveaway",
         ephemeral: true,
       });
+    }
+    // Vérifier que l'utilisateur peut participer au giveaway
+    if(giveaway.roleRequired != null && interaction.member.roles.cache.has(giveaway.roleRequired)){
+        return await interaction.reply({
+            content: `Vous ne pouvez pas participer à ce giveaway car il vous manque le rôle <@&${giveaway.roleRequired}>`,
+            ephemeral: true,
+        });
     }
 
     // Ajouter l'utilisateur au giveaway

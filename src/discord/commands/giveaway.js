@@ -38,6 +38,12 @@ module.exports = {
       type: 3,
       required: true,
     },
+    {
+      name: "require",
+      description: "Seul les personnes ayant le role renseigné pourrons participer au giveaway",
+      type: 8,
+      required: false
+    }
   ],
 
   execute: async (interaction) => {
@@ -48,9 +54,11 @@ module.exports = {
 
 
     const name = interaction.options.get("nom").value;
+    const channel = interaction.channelId;
     const host = interaction.options.get("host").value;
     const winners = interaction.options.get("gagnant").value;
     const date = interaction.options.get("date_de_fin").value;
+    const roleRequired = interaction.options.get("require").value;
 
     // Vérifier si la date renseignée est valide
     if (date.match(/(\d{2}\/){2}\d{4}(:\d{2}){2}/g).length == 0) {
@@ -70,9 +78,11 @@ module.exports = {
     // Préparation du giveaway
     let giveawayId = await DB.createGiveaway(
       name,
+      channel,
       dateFormatted,
       host,
-      winners
+      winners,
+      roleRequired
     );
 
     if (giveawayId == null) {
@@ -92,10 +102,11 @@ module.exports = {
       )
       .setDescription(
         `Merci à <@${host}> qui organise ce giveaway !\n\n` +
+          `${roleRequired != null ? `Ce giveaway est reservé aux personnes qui possède le role <@&${roleRequired}>\n` : ``}`
           `Vous avez jusqu'au <t:${
             dateFormatted.valueOf() / 1000
           }> pour y participer\n` +
-          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>`
+          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>` +
       )
       .setFooter({
         text: "FrenchLegacy",

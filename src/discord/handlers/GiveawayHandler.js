@@ -37,7 +37,7 @@ async function manageGiveaway(client) {
 
     // Afficher le(s) gagnant(s)
     const giveawayChannel = client.channels.cache.get(
-      config.discord.channels.giveawayChannel
+        giveaway.channel
     );
 
     const embed = new EmbedBuilder()
