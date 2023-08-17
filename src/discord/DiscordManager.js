@@ -63,8 +63,6 @@ class DiscordManager extends CommunicationBridge {
     this.client = client;
 
     this.client.on("ready", async (client) => {
-      const err_fragbotChannelId = config.discord.channels.fragbotChannelId;
-      const err_logchan = client.channels.cache.get(err_fragbotChannelId);
 
       const activities = [
         { name: `Hypixel`, type: ActivityType.Playing },

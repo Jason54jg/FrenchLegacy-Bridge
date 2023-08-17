@@ -50,38 +50,6 @@ class StateHandler extends eventHandler {
       return bot.chat("\u00a7");
     }
 
-    if (
-      this.isPartyMessage(message) &&
-      config.minecraft.fragBot.enabled === true
-    ) {
-      const username = message.substr(54).startsWith("[")
-        ? message.substr(54).split(" ")[1].trim()
-        : message.substr(54).split(" ")[0].trim();
-
-      const { blacklist, blacklisted, whitelist, whitelisted } = config.minecraft.fragBot;
-      if (blacklist || whitelist) {
-        const uuid = await getUUID(username);
-
-        if (config.minecraft.fragBot.blacklist === true) {
-          if (blacklisted.includes(username) || blacklisted.includes(uuid)) {
-            return;
-          }
-        }
-
-        const members = await hypixel
-          .getGuild("player", bot.username)
-          .then(async (guild) => guild.members.map((member) => member.uuid));
-        if ((config.minecraft.fragBot.whitelist && whitelisted.includes(username)) || members.includes(uuid)) {
-          this.send(`/party accept ${username}`);
-          await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
-          this.send(`/party leave`);
-        }
-      } else {
-        this.send(`/party accept ${username}`);
-        await delay(Math.floor(Math.random() * (6900 - 4200 + 1)) + 4200);
-        this.send(`/party leave`);
-      }
-    }
     if (this.isGuildLoginMessage(message)) {
       let username = message.split(">")[1].trim().split("joined.")[0].trim();
       let motd = motds[Math.floor(Math.random() * motds.length)];
@@ -701,13 +669,6 @@ class StateHandler extends eventHandler {
   isKickMessage(message) {
     return (
       message.includes("was kicked from the guild by") && !message.includes(":")
-    );
-  }
-
-  isPartyMessage(message) {
-    return (
-      message.includes("has invited you to join their party!") &&
-      !message.includes(":")
     );
   }
 

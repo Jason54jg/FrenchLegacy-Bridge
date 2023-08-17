@@ -10,13 +10,6 @@
       "normal": true,
       "soopy": true
     },
-    "fragBot": {
-      "enabled": true,
-      "whitelist": false,
-      "whitelisted": [],
-      "blacklist": false,
-      "blacklisted": []
-    },
     "guild": {
       "guildExp": 50000
     },
@@ -69,16 +62,15 @@
       "loggingChannel": "",
       "debugMode": false,
       "debugChannel": "",
-      "guildOnlineChannel": "",
-      "fragbotChannelId": ""
+      "guildOnlineChannel": ""
     },
     "AutoreactChannel": {
       "channel": ["1086001398770057268", "1086001398770057268"],
       "emojis": [["1037683345758376007"], ["1057733768300994631"]]
     },
     "roles": {
-      "adminRole": "",
-      "staffRole": "",
+      "adminRole": "953370681171644506",
+      "staffRole": "1084606469732839474",
       "logChannelCarrier": "",
       "logChannelTicket": "",
       "logChannelDefaultService": "",
