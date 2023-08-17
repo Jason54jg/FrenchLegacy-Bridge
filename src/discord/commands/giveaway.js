@@ -102,11 +102,11 @@ module.exports = {
       )
       .setDescription(
         `Merci à <@${host}> qui organise ce giveaway !\n\n` +
-          `${roleRequired != null ? `Ce giveaway est reservé aux personnes qui possède le role <@&${roleRequired}>\n` : ``}`
+          `${roleRequired != null ? `Ce giveaway est reservé aux personnes qui possède le role <@&${roleRequired}>\n` : ``}` +
           `Vous avez jusqu'au <t:${
             dateFormatted.valueOf() / 1000
           }> pour y participer\n` +
-          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>` +
+          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>`
       )
       .setFooter({
         text: "FrenchLegacy",
