@@ -48,6 +48,7 @@ module.exports = {
 
 
     const name = interaction.options.get("nom").value;
+    const channel = interaction.channelId;
     const host = interaction.options.get("host").value;
     const winners = interaction.options.get("gagnant").value;
     const date = interaction.options.get("date_de_fin").value;
@@ -70,6 +71,7 @@ module.exports = {
     // Préparation du giveaway
     let giveawayId = await DB.createGiveaway(
       name,
+      channel,
       dateFormatted,
       host,
       winners
