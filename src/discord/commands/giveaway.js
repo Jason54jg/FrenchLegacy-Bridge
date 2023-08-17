@@ -106,7 +106,7 @@ module.exports = {
           `Vous avez jusqu'au <t:${
             dateFormatted.valueOf() / 1000
           }> pour y participer\n` +
-          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>` +
+          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>`
       )
       .setFooter({
         text: "FrenchLegacy",

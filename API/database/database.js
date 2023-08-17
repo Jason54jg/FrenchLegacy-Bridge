@@ -247,7 +247,7 @@ class DB {
       channel: channel,
       host: host,
       winners: winners,
-      roleRequired: roleRequired;
+      roleRequired: roleRequired,
       endDate: endDate,
       participants: [],
     };
