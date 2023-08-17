@@ -100,7 +100,7 @@ async function manageGiveawayButtons(interaction) {
       });
     }
     // Vérifier que l'utilisateur peut participer au giveaway
-    if(giveaway.roleRequired != null && interaction.member.roles.cache.has(giveaway.roleRequired)){
+    if(giveaway.roleRequired != null && !interaction.member.roles.cache.has(giveaway.roleRequired)){
         return await interaction.reply({
             content: `Vous ne pouvez pas participer à ce giveaway car il vous manque le rôle <@&${giveaway.roleRequired}>`,
             ephemeral: true,
