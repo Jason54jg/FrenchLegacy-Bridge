@@ -9,8 +9,8 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "kuudraembed",
-  description: `Commande pour les embeds des kuudra`,
+  name: "kuudracarryderpy",
+  description: `Commande pour les embeds des kuudra pour derpy`,
 
   execute: async (interaction) => {
     const user = interaction.member;
@@ -42,7 +42,7 @@ module.exports = {
         iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
       })
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
-      .addFields({ name: "Runs", value: "- 1 Run: 6m\n- 5 ou plus: 5m/unité" })
+      .addFields({ name: "Runs", value: "- 1 Run: 9m\n- 5 ou plus: 7.5m/unité" })
       .setFooter({
         text: "FrenchLegacy",
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
@@ -54,7 +54,7 @@ module.exports = {
         iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
       })
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
-      .addFields({ name: "Runs", value: "- 1 Run: 10m\n- 5 ou plus: 8m/unité" })
+      .addFields({ name: "Runs", value: "- 1 Run: 15m\n- 5 ou plus: 12m/unité" })
       .setFooter({
         text: "FrenchLegacy",
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
@@ -68,7 +68,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
-        value: "- 1 Run: 15m\n- 5 ou plus: 12.5m/unité",
+        value: "- 1 Run: 22.5m\n- 5 ou plus: 18.7m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -83,7 +83,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
-        value: "- 1 Run: 20m\n- 5 ou plus: 17m/unité",
+        value: "- 1 Run: 30m\n- 5 ou plus: 25.5m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -98,7 +98,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
-        value: "- 1 Run: 60m\n- 5 ou plus: 50m/unité",
+        value: "- 1 Run: 90m\n- 5 ou plus: 75m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",

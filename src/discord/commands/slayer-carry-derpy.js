@@ -9,8 +9,8 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "slayercarryaatrox",
-  description: `Commande pour les embeds de slayer`,
+  name: "slayercarryderpy",
+  description: `Commande pour les embeds de slayer pour derpy`,
 
   execute: async (interaction) => {
     const user = interaction.member;
@@ -23,7 +23,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix des T5 Rev",
         value:
-          "Zombie T4: 180k/unité\nPrix pour (10 ou plus) : 96k/unité\n\nZombie T5: 240k/unité\nPrix pour (10 ou plus) : 180k/unité",
+          "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 225k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -35,7 +35,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix des Wolf",
         value:
-          "Wolf T4: 100k/unité\nPrix pour (10 ou plus) : 80k/unité",
+          "Wolf T4: 75k/unité\nPrix pour (10 ou plus) : 60k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -47,7 +47,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix des Spider",
         value:
-          "Spider T3: 84k/unité\nPrix pour (10 ou plus) : 60k/unité\n\nSpider T4: 120k/unité\nPrix pour (10 ou plus) : 108k/unité",
+          "Spider T3: 105k/unité\nPrix pour (10 ou plus) : 75k/unité\n\nSpider T4: 150k/unité\nPrix pour (10 ou plus) : 135k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -59,7 +59,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix du Slayer Enderman",
         value:
-          "Voidgloom Seraph 3: 960k/unité\nPrix pour (10 ou plus) : 720k/unité\n\nVoidgloom Seraph 4: 3m/unité\nPrix pour (10 ou plus) : 2.4m/unité",
+          "Voidgloom Seraph 3: 1.2m/unité\nPrix pour (10 ou plus) : 900k/unité\n\nVoidgloom Seraph 4: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -71,7 +71,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix des Inferno",
         value:
-          "Inferno Demonlord 2: 1.2m/unité\nPrix pour (10 ou plus) : 1m/unité\n\nInferno Demonlord 3: 3m/unité\nPrix pour (10 ou plus) : 2.4m/unité\n\nInferno Demonlord 4: 7.8m/unité\nPrix pour (10 ou plus) : 7.2m/unité",
+          "Inferno Demonlord 2: 1.5m/unité\nPrix pour (10 ou plus) : 1.2m/unité\n\nInferno Demonlord 3: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité\n\nInferno Demonlord 4: 9.7m/unité\nPrix pour (10 ou plus) : 9m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -100,7 +100,7 @@ module.exports = {
         {
           name: "__**Remarques**__",
           value:
-            "- Vous serez averti si vous enfreignez l'une des règles ci-dessus.\n- Vous serez averti si vous ouvrez un ticket et n'y envoyez pas de message pendant 30 minutes.\n- Si vous êtes averti plus de 5 fois vous recevrez une liste noire de tickets.",
+            "- Vous serez averti si vous enfreignez l'une des règles ci-dessus.\n- Vous serez averti si vous ouvrez un ticket et n'y envoyez pas de message pendant 30 minutes.\n- Si vous êtes averti plus de 5 fois vous recevrez une liste noie de tickets.",
         }
       )
       .setFooter({
@@ -124,17 +124,6 @@ module.exports = {
         name: "Service de carry Slayer",
         value:
           "<:Blaze:1039705790501617745>: Service de carry Inferno Demonlord\n<:Enderman:1039706047214014464>: Service de carry des void seraph\n<:Revenant:1039706422465794158>: Service de carry revenant horror\n<:Spider:1081243964755157012>: Service de carry Spider\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)",
-      })
-      .setFooter({
-        text: "FrenchLegacy",
-        iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
-      });
-
-    const aatrox = new EmbedBuilder()
-      .addFields({
-        name: "Informations pour Aatrox",
-        value:
-          "Exceptionnellement nous avons augmenté les prix des carrys pendant Aatrox de 20%",
       })
       .setFooter({
         text: "FrenchLegacy",

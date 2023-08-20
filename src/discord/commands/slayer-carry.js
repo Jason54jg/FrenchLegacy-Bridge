@@ -9,7 +9,7 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "slayerembed",
+  name: "slayercarry",
   description: `Commande pour les embeds de slayer`,
 
   execute: async (interaction) => {
