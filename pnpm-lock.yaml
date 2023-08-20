@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@discordjs/rest':
-    specifier: ^2.0.0
-    version: 2.0.0
+    specifier: ^2.0.1
+    version: 2.0.1
   axios:
     specifier: 1.4.0
     version: 1.4.0
@@ -21,14 +21,14 @@ dependencies:
     specifier: ^5.3.0
     version: 5.3.0
   discord-api-types:
-    specifier: ^0.37.53
-    version: 0.37.53
+    specifier: ^0.37.54
+    version: 0.37.54
   discord-emoji-converter:
     specifier: ^1.2.8
     version: 1.2.8
   discord.js:
-    specifier: ^14.12.1
-    version: 14.12.1
+    specifier: ^14.13.0
+    version: 14.13.0
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -60,8 +60,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   mineflayer:
-    specifier: ^4.11.0
-    version: 4.11.0
+    specifier: ^4.12.0
+    version: 4.12.0
   mkdirp:
     specifier: ^3.0.1
     version: 3.0.1
@@ -107,8 +107,8 @@ devDependencies:
     specifier: ^3.0.1
     version: 3.0.1
   prettier:
-    specifier: 3.0.1
-    version: 3.0.1
+    specifier: 3.0.2
+    version: 3.0.2
 
 packages:
 
@@ -131,62 +131,62 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@discordjs/builders@1.6.4:
-    resolution: {integrity: sha512-ARFKvmAkLhfkQQiNxqi0YIWqwUExvBRtvdtMFVJXvJoibsGkFrB/DWTf9byU7BTVUfsmW8w7NM55tYXR5S/iSg==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/builders@1.6.5:
+    resolution: {integrity: sha512-SdweyCs/+mHj+PNhGLLle7RrRFX9ZAhzynHahMCLqp5Zeq7np7XC6/mgzHc79QoVlQ1zZtOkTTiJpOZu5V8Ufg==}
+    engines: {node: '>=16.11.0'}
     dependencies:
-      '@discordjs/formatters': 0.3.1
-      '@discordjs/util': 1.0.0
+      '@discordjs/formatters': 0.3.2
+      '@discordjs/util': 1.0.1
       '@sapphire/shapeshift': 3.9.2
-      discord-api-types: 0.37.53
+      discord-api-types: 0.37.50
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.3
       tslib: 2.6.1
     dev: false
 
-  /@discordjs/collection@1.5.2:
-    resolution: {integrity: sha512-LDplPy8SPbc8MYkuCdnLRGWqygAX97E8NH7gA9uz+NZ/hXknUKJHuxsOmhC6pmHnF9Zmg0kvfwrDjGsRIljt9g==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/collection@1.5.3:
+    resolution: {integrity: sha512-SVb428OMd3WO1paV3rm6tSjM4wC+Kecaa1EUGX7vc6/fddvw/6lg90z4QtCqm21zvVe92vMMDt9+DkIvjXImQQ==}
+    engines: {node: '>=16.11.0'}
     dev: false
 
-  /@discordjs/formatters@0.3.1:
-    resolution: {integrity: sha512-M7X4IGiSeh4znwcRGcs+49B5tBkNDn4k5bmhxJDAUhRxRHTiFAOTVUNQ6yAKySu5jZTnCbSvTYHW3w0rAzV1MA==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/formatters@0.3.2:
+    resolution: {integrity: sha512-lE++JZK8LSSDRM5nLjhuvWhGuKiXqu+JZ/DsOR89DVVia3z9fdCJVcHF2W/1Zxgq0re7kCzmAJlCMMX3tetKpA==}
+    engines: {node: '>=16.11.0'}
     dependencies:
-      discord-api-types: 0.37.53
+      discord-api-types: 0.37.50
     dev: false
 
-  /@discordjs/rest@2.0.0:
-    resolution: {integrity: sha512-CW9ldfzsRzUbHcS4Oqu5+Moo+yrQ5qQ9groKNxPOzcoq2nuXa/fXOXkuQtQHcTeSVXsC9cmJ56M8gBDBUyLgGA==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/rest@2.0.1:
+    resolution: {integrity: sha512-/eWAdDRvwX/rIE2tuQUmKaxmWeHmGealttIzGzlYfI4+a7y9b6ZoMp8BG/jaohs8D8iEnCNYaZiOFLVFLQb8Zg==}
+    engines: {node: '>=16.11.0'}
     dependencies:
-      '@discordjs/collection': 1.5.2
-      '@discordjs/util': 1.0.0
+      '@discordjs/collection': 1.5.3
+      '@discordjs/util': 1.0.1
       '@sapphire/async-queue': 1.5.0
       '@sapphire/snowflake': 3.5.1
       '@vladfrangu/async_event_emitter': 2.2.2
-      discord-api-types: 0.37.53
+      discord-api-types: 0.37.50
       magic-bytes.js: 1.0.15
       tslib: 2.6.1
       undici: 5.22.1
     dev: false
 
-  /@discordjs/util@1.0.0:
-    resolution: {integrity: sha512-U2Iiab0mo8cFe+o4ZY4GROoAetGjFYA1PhhxiXEW82LuPUjOU/seHZDtVjDpOf6n3rz4IRm84wNtgHdpqRY5CA==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/util@1.0.1:
+    resolution: {integrity: sha512-d0N2yCxB8r4bn00/hvFZwM7goDcUhtViC5un4hPj73Ba4yrChLSJD8fy7Ps5jpTLg1fE9n4K0xBLc1y9WGwSsA==}
+    engines: {node: '>=16.11.0'}
     dev: false
 
-  /@discordjs/ws@1.0.0:
-    resolution: {integrity: sha512-POiImjuQJzwCxjJs4JCtDcTjzvjVsVQbnsaoW/F03yTVdrj/xSpmgv4383AnpNEYXI+CA6ggkz37phZDsZQ1NQ==}
-    engines: {node: '>=16.9.0'}
+  /@discordjs/ws@1.0.1:
+    resolution: {integrity: sha512-avvAolBqN3yrSvdBPcJ/0j2g42ABzrv3PEL76e3YTp2WYMGH7cuspkjfSyNWaqYl1J+669dlLp+YFMxSVQyS5g==}
+    engines: {node: '>=16.11.0'}
     dependencies:
-      '@discordjs/collection': 1.5.2
-      '@discordjs/rest': 2.0.0
-      '@discordjs/util': 1.0.0
+      '@discordjs/collection': 1.5.3
+      '@discordjs/rest': 2.0.1
+      '@discordjs/util': 1.0.1
       '@sapphire/async-queue': 1.5.0
       '@types/ws': 8.5.5
       '@vladfrangu/async_event_emitter': 2.2.2
-      discord-api-types: 0.37.53
+      discord-api-types: 0.37.50
       tslib: 2.6.1
       ws: 8.13.0
     transitivePeerDependencies:
@@ -957,27 +957,31 @@ packages:
     resolution: {integrity: sha512-c68LpLbO+7kP/b1Hr1qs8/BJ09F5khZGTxqxZuhzxpmwJKOgRFHJWIb9/KmqnqHhLdO55aOxFH/EGBvUQbL/RQ==}
     dev: false
 
-  /discord-api-types@0.37.53:
-    resolution: {integrity: sha512-N6uUgv50OyP981Mfxrrt0uxcqiaNr0BDaQIoqfk+3zM2JpZtwU9v7ce1uaFAP53b2xSDvcbrk80Kneui6XJgGg==}
+  /discord-api-types@0.37.50:
+    resolution: {integrity: sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==}
+    dev: false
+
+  /discord-api-types@0.37.54:
+    resolution: {integrity: sha512-xNO6yzEMfpVSVUa6lOOzgLDy3Gyd8yuBAozGQdjpW9VjRq2Ccboz4FhTrd5v4Hw7pbkCKwnHvddjIYrX0INkUQ==}
     dev: false
 
   /discord-emoji-converter@1.2.8:
     resolution: {integrity: sha512-95UIHZugZ5nvfZb/hX4+UK9a0run8ZleU1u3xOMFxZjusfigpmrQlxbSHJemzeB5ebCJ7gJVt9Pmmhi8+zKMHw==}
     dev: false
 
-  /discord.js@14.12.1:
-    resolution: {integrity: sha512-gGjhTkauIPgFXxpBl0UZgyehrKhDe90cIS8Hn1xFBYQ63EuUAkKoUqRNmc/pcla6DD16s4cUz5tAbdSpXivnxw==}
-    engines: {node: '>=16.9.0'}
+  /discord.js@14.13.0:
+    resolution: {integrity: sha512-Kufdvg7fpyTEwANGy9x7i4od4yu5c6gVddGi5CKm4Y5a6sF0VBODObI3o0Bh7TGCj0LfNT8Qp8z04wnLFzgnbA==}
+    engines: {node: '>=16.11.0'}
     dependencies:
-      '@discordjs/builders': 1.6.4
-      '@discordjs/collection': 1.5.2
-      '@discordjs/formatters': 0.3.1
-      '@discordjs/rest': 2.0.0
-      '@discordjs/util': 1.0.0
-      '@discordjs/ws': 1.0.0
+      '@discordjs/builders': 1.6.5
+      '@discordjs/collection': 1.5.3
+      '@discordjs/formatters': 0.3.2
+      '@discordjs/rest': 2.0.1
+      '@discordjs/util': 1.0.1
+      '@discordjs/ws': 1.0.1
       '@sapphire/snowflake': 3.5.1
       '@types/ws': 8.5.5
-      discord-api-types: 0.37.53
+      discord-api-types: 0.37.50
       fast-deep-equal: 3.1.3
       lodash.snakecase: 4.1.1
       tslib: 2.6.1
@@ -2348,13 +2352,13 @@ packages:
       - supports-color
     dev: false
 
-  /mineflayer@4.11.0:
-    resolution: {integrity: sha512-LFCpvqEcjvVG5U7SpkZybaT0h41yR9W9IWm/QTHM5VBn2VDGsB40zyyZpTOiOI4F57DoOxypGy8048jq5k4u2Q==}
+  /mineflayer@4.12.0:
+    resolution: {integrity: sha512-k7yK+XBWqqaqmSyCIryLoPicr8zAs8lePvMAkgTSne61sFWkNaZ0SLRRN9wAhT/ISAHFmayNVoGG1catKNiNJQ==}
     engines: {node: '>=14'}
     dependencies:
       minecraft-data: 3.38.0
       minecraft-protocol: 1.44.0
-      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0)
+      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.7.0)
       prismarine-block: 1.17.0
       prismarine-chat: 1.7.2
       prismarine-chunk: 1.34.0(minecraft-data@3.38.0)
@@ -2362,8 +2366,8 @@ packages:
       prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
       prismarine-physics: 1.7.0
-      prismarine-recipe: 1.3.1(prismarine-registry@1.6.0)
-      prismarine-registry: 1.6.0
+      prismarine-recipe: 1.3.1(prismarine-registry@1.7.0)
+      prismarine-registry: 1.7.0
       prismarine-windows: 2.8.0
       prismarine-world: 3.6.1
       protodef: 1.15.0
@@ -2759,8 +2763,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@3.0.1:
-    resolution: {integrity: sha512-fcOWSnnpCrovBsmFZIGIy9UqK2FaI7Hqax+DIO0A9UxeVoY4iweyaFjS5TavZN97Hfehph0nhsZnjlVKzEQSrQ==}
+  /prettier@3.0.2:
+    resolution: {integrity: sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -2780,25 +2784,25 @@ packages:
       - supports-color
     dev: false
 
-  /prismarine-biome@1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0):
+  /prismarine-biome@1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.7.0):
     resolution: {integrity: sha512-GY6nZxq93mTErT7jD7jt8YS1aPrOakbJHh39seYsJFXvueIOdHAmW16kYQVrTVMW5MlWLQVxV/EquRwOgr4MnQ==}
     peerDependencies:
       minecraft-data: ^3.0.0
       prismarine-registry: ^1.1.0
     dependencies:
       minecraft-data: 3.38.0
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
     dev: false
 
   /prismarine-block@1.17.0:
     resolution: {integrity: sha512-GawzWU91pH4sLTtMvrRe2wiEbO8hgTRwViCBYoFmmqeJYLiblq4GfXOvclj3rEAEdAAVzRKCQxQHpLJhhLWssg==}
     dependencies:
       minecraft-data: 3.38.0
-      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0)
+      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.7.0)
       prismarine-chat: 1.7.2
       prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
     dev: false
 
   /prismarine-chat@1.7.2:
@@ -2807,7 +2811,7 @@ packages:
       mojangson: 2.0.2
       prismarine-item: 1.14.0
       prismarine-nbt: 2.2.1
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
       sprintf-js: 1.1.2
     dev: false
 
@@ -2815,10 +2819,10 @@ packages:
     resolution: {integrity: sha512-5RuQk8w9Ot550G5mmUFZvjpHugEXozgEFXiAhynrBCHOKJ3mMQ7VvhWF2irtjx+d2t29yDAiSEiSS34vxAmODQ==}
     engines: {node: '>=14'}
     dependencies:
-      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.6.0)
+      prismarine-biome: 1.3.0(minecraft-data@3.38.0)(prismarine-registry@1.7.0)
       prismarine-block: 1.17.0
       prismarine-nbt: 2.2.1
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
       smart-buffer: 4.2.0
       uint4: 0.1.2
       vec3: 0.1.7
@@ -2833,7 +2837,7 @@ packages:
       minecraft-data: 3.38.0
       prismarine-chat: 1.7.2
       prismarine-item: 1.14.0
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
       vec3: 0.1.7
     dev: false
 
@@ -2841,7 +2845,7 @@ packages:
     resolution: {integrity: sha512-udQHYGJ05klFe8Kkc0TOmwoXj5Xl1ZPgHVoMbGUAFB9exN4TFxEa1A39vkSYhxP5Et9PNufQQvFBFVom0nXikA==}
     dependencies:
       prismarine-nbt: 2.2.1
-      prismarine-registry: 1.6.0
+      prismarine-registry: 1.7.0
     dev: false
 
   /prismarine-nbt@1.6.0:
@@ -2874,19 +2878,12 @@ packages:
       - supports-color
     dev: false
 
-  /prismarine-recipe@1.3.1(prismarine-registry@1.6.0):
+  /prismarine-recipe@1.3.1(prismarine-registry@1.7.0):
     resolution: {integrity: sha512-xfa9E9ACoaDi+YzNQ+nk8kWSIqt5vSZOOCHIT+dTXscf/dng2HaJ/59uwe1D/jvOkAd2OvM6RRJM6fFe0q/LDA==}
     peerDependencies:
       prismarine-registry: ^1.4.0
     dependencies:
-      prismarine-registry: 1.6.0
-    dev: false
-
-  /prismarine-registry@1.6.0:
-    resolution: {integrity: sha512-oduDRuwa5rXT8CkPeMSlBsuBzxZF9oRsDpFK0oBStpIoNwSuTqqGGGgLlyL20OS2O9pmqYpOMlmG80CW4uuKJw==}
-    dependencies:
-      minecraft-data: 3.38.0
-      prismarine-nbt: 2.2.1
+      prismarine-registry: 1.7.0
     dev: false
 
   /prismarine-registry@1.7.0:
