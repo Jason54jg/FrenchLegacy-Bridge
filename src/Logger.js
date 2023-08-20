@@ -54,25 +54,6 @@ async function getCurrentTime() {
   });
 }
 
-async function configUpdateMessage(message) {
-  const columns = process.stdout.columns;
-  const warning = "IMPORTANT!";
-  const message2 = "Veuillez mettre à jour votre fichier de configuration";
-  const padding = " ".repeat(Math.floor((columns - warning.length + 1) / 2));
-  const padding2 = " ".repeat(Math.floor((columns - message2.length + 1) / 2));
-
-  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
-  console.log(chalk.bgRed.black(padding + warning + padding));
-  console.log(chalk.bgRed.black(padding2 + message2 + padding2));
-  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
-  console.log();
-  console.log(
-    `${chalk.bgRedBright.black(`[${await getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
-  );
-}
-
 module.exports = {
   discordMessage,
   minecraftMessage,
@@ -80,5 +61,4 @@ module.exports = {
   errorMessage,
   broadcastMessage,
   getCurrentTime,
-  configUpdateMessage,
 };

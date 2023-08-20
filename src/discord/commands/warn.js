@@ -17,7 +17,7 @@ module.exports = {
 
   execute: async (interaction) => {
     // Si l'utilisateur n'a pas la permission d'utiliser la commande
-    if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.roles.staffRole)) {
+    if (!(await interaction.guild.members.fetch(interaction.user)).roles.cache.has(config.discord.commands.staffRole)) {
       return await interaction.followUp({
         content: `${messages.permissionInsuffisante}`,
         ephemeral: true,

@@ -14,7 +14,7 @@ const Logger = require("../.././Logger.js");
 const sourcebin = require("sourcebin_js");
 const DB = require("../../../API/database/database.js");
 
-const roles = config.discord.roles;
+const roles = config.discord.commands;
 const disabledButtonCloseTicket = new ButtonBuilder()
   .setCustomId("ticket-close")
   .setLabel(" | fermer le ticket")
@@ -464,9 +464,317 @@ async function manageModalInteraction(interaction, client) {
     }
     closeTicket(interaction, "carry");
   }
-
   // Slayer interactions
-  else if (interaction.customId == "T3Spider") {
+  else if (interaction.customId == "T4Wolf") {
+    createCarryChannel(
+      interaction,
+      "T4Wolf",
+      2,
+      roles.roleT4WolfId,
+      roles.catégorieslayer,
+      "Wolf T4: 75k/unité\nPrix pour (10 ou plus) : 60k/unité",
+      "<:Wolf:1134075444392640573>"
+    );
+  } else if (interaction.customId == "T3Spider") {
+    createCarryChannel(
+      interaction,
+      "T3Spider",
+      1,
+      roles.roleT3SpiderId,
+      roles.catégorieslayer,
+      "Spider T3: 105k/unité\nPrix pour (10 ou plus) : 75k/unité",
+      "<:Spider:1081243964755157012>"
+    );
+  } else if (interaction.customId == "T4Spider") {
+    createCarryChannel(
+      interaction,
+      "T4Spider",
+      3,
+      roles.roleT4SpiderId,
+      roles.catégorieslayer,
+      "Spider T4: 150k/unité\nPrix pour (10 ou plus) : 135k/unité",
+      "<:Spider:1081243964755157012>"
+    );
+  } else if (interaction.customId == "T4REV") {
+    createCarryChannel(
+      interaction,
+      "T4Revenant",
+      1,
+      roles.roleT4REVId,
+      roles.catégorieslayer,
+      "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité",
+      "<:Revenant:1039706422465794158>"
+    );
+  } else if (interaction.customId == "T5REV") {
+    createCarryChannel(
+      interaction,
+      "T5Revenant",
+      2,
+      roles.roleT5REVId,
+      roles.catégorieslayer,
+      "Zombie T5: 200k/unité\nPrix pour (10 ou plus) : 225k/unité",
+      "<:Revenant:1039706422465794158>"
+    );
+  } else if (interaction.customId == "T3eman") {
+    createCarryChannel(
+      interaction,
+      "T3Voidgloom",
+      6,
+      roles.roleT3emanId,
+      roles.catégorieslayer,
+      "Voidgloom Seraph 3: 1.2m/unité\nPrix pour (10 ou plus) : 900k/unité",
+      "<:Enderman:1039706047214014464>"
+    );
+  } else if (interaction.customId == "T4eman") {
+    createCarryChannel(
+      interaction,
+      "T4Voidgloom",
+      10,
+      roles.roleT4emanId,
+      roles.catégorieslayer,
+      "Voidgloom Seraph 4: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
+      "<:Enderman:1039706047214014464>"
+    );
+  } else if (interaction.customId == "T2blaze") {
+    createCarryChannel(
+      interaction,
+      "T2Inferno",
+      7,
+      roles.roleT2blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 2: 1.5m/unité\nPrix pour (10 ou plus) : 1.2m/unité",
+      "<:Blaze:1039705790501617745>"
+    );
+  } else if (interaction.customId == "T3blaze") {
+    createCarryChannel(
+      interaction,
+      "T3Inferno",
+      15,
+      roles.roleT3blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 3: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
+      "<:Blaze:1039705790501617745>"
+    );
+  } else if (interaction.customId == "T4blaze") {
+    createCarryChannel(
+      interaction,
+      "T4Inferno",
+      18,
+      roles.roleT4blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 4: 9.7m/unité\nPrix pour (10 ou plus) : 9m/unité",
+      "<:Blaze:1039705790501617745>"
+    );
+  }
+
+  // Kuudra interactions
+  else if (interaction.customId == "k1") {
+    createCarryChannel(
+      interaction,
+      "T1Kuudra",
+      5,
+      roles.roleT1kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 9m\n- 5 ou plus: 7.5m/unité",
+      "<:Kuudra:1049723520072044614>"
+    );
+  } else if (interaction.customId == "k2") {
+    createCarryChannel(
+      interaction,
+      "T2Kuudra",
+      8,
+      roles.roleT2kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12m/unité",
+      "<:Kuudra:1049723520072044614>"
+    );
+  } else if (interaction.customId == "k3") {
+    createCarryChannel(
+      interaction,
+      "T3Kuudra",
+      15,
+      roles.roleT3kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 22.5m\n- 5 ou plus: 18.7m/unité",
+      "<:Kuudra:1049723520072044614>"
+    );
+  } else if (interaction.customId == "k4") {
+    createCarryChannel(
+      interaction,
+      "T4Kuudra",
+      20,
+      roles.roleT4kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 30m\n- 5 ou plus: 25.5m/unité",
+      "<:Kuudra:1049723520072044614>"
+    );
+  } else if (interaction.customId == "k5") {
+    createCarryChannel(
+      interaction,
+      "T5Kuudra",
+      40,
+      roles.roleT5kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 90m\n- 5 ou plus: 75m/unité",
+      "<:Kuudra:1049723520072044614>"
+    );
+  }
+
+  // Dungeon interactions
+  else if (interaction.customId == "f1") {
+    createCarryChannel(
+      interaction,
+      "f1",
+      1,
+      roles.rolef1Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 135k\n- 5 ou plus: 105k/unité\n\n**S Runs**\n- 1 Run: 180k\n- 5 ou plus: 150k/unité",
+      "<:Bonzo:1039705817252909147>"
+    );
+  } else if (interaction.customId == "f2") {
+    createCarryChannel(
+      interaction,
+      "f2",
+      1,
+      roles.rolef2Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 255k\n- 5 ou plus: 225k/unité\n\n**S Runs**\n- 1 Run: 375k\n- 5 ou plus: 315k/unité",
+      "<:Scarf:1039705859518910634>"
+    );
+  } else if (interaction.customId == "f3") {
+    createCarryChannel(
+      interaction,
+      "f3",
+      1,
+      roles.rolef3Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 420k\n- 5 ou plus: 390k/unité\n\n**S Runs**\n- 1 Run: 525k\n- 5 ou plus: 450k/unité",
+      "<:Professor:1039705994768425050>"
+    );
+  } else if (interaction.customId == "f4") {
+    createCarryChannel(
+      interaction,
+      "f4",
+      2,
+      roles.rolef4Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k/unité\n\n**S Runs**\n- 1 Run: 900k\n- 5 ou plus: 765k/unité",
+      "<:Thorn:1039692699625865276>"
+    );
+  } else if (interaction.customId == "f5") {
+    createCarryChannel(
+      interaction,
+      "f5",
+      1,
+      roles.rolef5Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 525k\n- 5 ou plus: 450k/unité\n\n**S Runs**\n- 1 Run: 750k\n- 5 or more Runs: 637k/unité\n\n**S+ Runs**\n- 1 Run: 4.2m\n- 5 ou plus: 1m/unité",
+      "<:Livid:1039692626665934900>"
+    );
+  } else if (interaction.customId == "f6") {
+    createCarryChannel(
+      interaction,
+      "f6",
+      3,
+      roles.rolef6Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 900k\n- 5 ou plus: 765k/unité\n\n**S Runs**\n- 1 Run: 1.2m\n- 5 ou plus: 1m/unité\n\n**S+ Runs**\n- 1 Run: 1.6m\n- 5 ou plus: 1.2m/unité",
+      "<:Sadan:1039692739488534580>"
+    );
+  } else if (interaction.customId == "f7") {
+    createCarryChannel(
+      interaction,
+      "f7",
+      5,
+      roles.rolef7Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 6m\n- 5 ou plus: 5.1m/unité\n\n**S Runs**\n- 1 Run: 12m\n- 5 ou plus: 10.2m/unité\n\n**S+ Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.7m/unité",
+      "<:Necron:1040832502417338458>"
+    );
+  } else if (interaction.customId == "m1") {
+    createCarryChannel(
+      interaction,
+      "m1",
+      4,
+      roles.rolem1Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 1.5m\n- 5 ou plus: 1.2/unité",
+      "<:Bonzo:1039705817252909147>"
+    );
+  } else if (interaction.customId == "m2") {
+    createCarryChannel(
+      interaction,
+      "m2",
+      8,
+      roles.rolem2Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2.5m/unité",
+      "<:Scarf:1039705859518910634>"
+    );
+  } else if (interaction.customId == "m3") {
+    createCarryChannel(
+      interaction,
+      "m3",
+      7,
+      roles.rolem3Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 4.5m\n- 5 ou plus: 3m/unité",
+      "<:Professor:1039705994768425050>"
+    );
+  } else if (interaction.customId == "m4") {
+    createCarryChannel(
+      interaction,
+      "m4",
+      15,
+      roles.rolem4Id,
+      roles.catégoriemaster,
+      "**Completion**\n- 1 Run: 15m",
+      "<:Thorn:1039692699625865276>"
+    );
+  } else if (interaction.customId == "m5") {
+    createCarryChannel(
+      interaction,
+      "m5",
+      10,
+      roles.rolem5Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.4m/unité",
+      "<:Livid:1039692626665934900>"
+    );
+  } else if (interaction.customId == "m6") {
+    createCarryChannel(
+      interaction,
+      "m6",
+      13,
+      roles.rolem6Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 9m\n- 5 ou plus: 7.6m/unité",
+      "<:Sadan:1039692739488534580>"
+    );
+  } else if (interaction.customId == "m7") {
+    createCarryChannel(
+      interaction,
+      "m7",
+      20,
+      roles.rolem7Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 37.5m\n- 5 ou plus: 31.5m unité",
+      "<:Necron:1040832502417338458>"
+    );
+  }
+/*
+  // Slayer interactions
+  else if (interaction.customId == "T4Wolf") {
+    createCarryChannel(
+      interaction,
+      "T4Wolf",
+      2,
+      roles.roleT4WolfId,
+      roles.catégorieslayer,
+      "Wolf T4: 50k/unité\nPrix pour (10 ou plus) : 40k/unité",
+      "<:Wolf:1134075444392640573>"
+    );
+  } else if (interaction.customId == "T3Spider") {
     createCarryChannel(
       interaction,
       "T3Spider",
@@ -752,7 +1060,7 @@ async function manageModalInteraction(interaction, client) {
       "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
       "<:Necron:1040832502417338458>"
     );
-  }
+  }*/
 }
 
 function createCarryChannel(
@@ -765,7 +1073,7 @@ function createCarryChannel(
   emote
 ) {
   const roleStaff = interaction.guild.roles.cache.get(
-    config.discord.roles.commandRole
+    config.discord.commands.staffRole
   );
   const role = interaction.guild.roles.cache.get(roleId);
 

@@ -36,7 +36,7 @@ class MinecraftManager extends CommunicationBridge {
     return mineflayer.createBot({
       host: "mc.hypixel.net",
       port: 25565,
-      username: config.discord.bot.usernameBot1,
+      username: config.discord.bot.usernameBot,
       auth: "microsoft",
       version: "1.8.9",
       viewDistance: "tiny",
