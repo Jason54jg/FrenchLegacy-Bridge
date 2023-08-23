@@ -38,7 +38,7 @@ class AccessoriesCommand extends minecraftCommand {
         .join(", ");
 
       this.send(
-        `/gc Accessoires de ${username}: ${talismans.total} (${rarities}), Recombed: ${talismans.recombed}, Enriched: ${talismans.enriched}`
+        `/gc Accessoires de ${username}: ${talismans?.total ?? 0} (${rarities}), Recombed: ${talismans?.recombed ?? 0}, Enriched: ${talismans?.enriched ?? 0}`
       );
     } catch (error) {
       this.send(`/gc Erreur: ${error}`);

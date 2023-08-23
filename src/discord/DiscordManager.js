@@ -19,7 +19,6 @@ const config = require("../../config.json");
 const Logger = require(".././Logger.js");
 const path = require("node:path");
 const fs = require("fs");
-const { kill } = require("node:process");
 const util = require("./fonction_pour_bot/guild_online");
 
 class DiscordManager extends CommunicationBridge {
@@ -216,11 +215,17 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (message.includes("https://")) {
-          let link = message.match(/https?:\/\/[^\s]+/g)[0];
+          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
+          const link = links
+            .map((link) => {
+              if (link.endsWith("§r")) {
+                link = link.substring(0, link.length - 2);
+              }
+
+              return link;
+            })
+            .join("\n");
 
           channel.send(link);
         }
@@ -250,11 +255,17 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (fullMessage.includes("https://")) {
-          let link = fullMessage.match(/https?:\/\/[^\s]+/g)[0];
+          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
 
-          if (link.endsWith("§r")) {
-            link = link.substring(0, link.length - 2);
-          }
+          const link = links
+            .map((link) => {
+              if (link.endsWith("§r")) {
+                link = link.substring(0, link.length - 2);
+              }
+
+              return link;
+            })
+            .join("\n");
 
           channel.send(link);
         }

@@ -41,11 +41,19 @@ En utilisant le lien fourni dans la console, vous vous connectez au compte minec
 
 #### Minecraft
 
+La section `bot` contient des options de configuration pour le bot minecraft, y compris le `prefix`, `messageFormat` et `messageRepeatBypassLength`.
+
 Le `prefix` est le préfixe de commande utilisé pour toutes les commandes du bot du côté Discord, par défaut, il est défini sur `!`.
 
 `guildID` est l'ID de la guilde hypixel requise pour l'API Hypixel, `guildExp` est la valeur entière requise pour la commande `!gexp` qui est utilisée pour vérifier combien d'expérience de guilde supplémentaire l'utilisateur doit collecter pour répondre aux exigences de la guilde.
 
 `messageRepeatBypassLength` est la longueur du message qui sera envoyé pour contourner la répétition du message, je vous recommande de le garder sur au moins 16.
+
+### Guild
+
+La section guilde contient des options liées à la guilde Hypixel.
+
+L'option `guildExp` est une valeur entière requise pour la commande `!gexp`, qui est utilisée pour vérifier combien d'expérience de guilde supplémentaire un utilisateur doit collecter pour répondre aux exigences de la guilde. Par défaut, il est défini sur 50 000.
 
 #### Discord
 
@@ -69,9 +77,12 @@ Le `commandRole` est l'ID de n'importe quel rôle sur le serveur pour lequel le 
 
 Le `messageMode` peut être soit `bot`, `webhook` ou `minecraft`. Cela sélectionne la façon dont les messages doivent être affichés lorsqu'ils sont envoyés de Minecraft à Discord. Si le mode webhook est sélectionné, le bot a besoin de l'autorisation "Gérer les webhooks" dans le canal dans lequel il s'exécute. Le bot a toujours besoin des autorisations "Envoyer des messages" et "Afficher le canal" dans le canal dans lequel vous l'utilisez.
 
-- [Voir l'exemple de Webhook](https://imgur.com/DttmVtQ)
-- [Voir l'exemple du mode bot](https://imgur.com/WvRAeZc)
-- [Voir l'exemple du mode Minecraft](https://imgur.com/MAAMpiT)
+- Webhook Example
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/f53e46d0-fae5-49f5-bdda-c6f6520e1921)
+- Bot Example
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7e693926-1408-4f7c-8da8-5f4984fd6ac2)
+- Minecraft Example
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/5954245a-fc72-49c0-9a33-c3040788225b)
 
 > Remarque - La limite de taux Discord pour les webhooks est de 30 requêtes toutes les 60 secondes, alors que pour les messages de bot normaux, c'est 5 messages toutes les 5 secondes. L'utilisation de webhooks réduit de moitié le nombre de messages que le bot peut envoyer par minute, ce qui peut causer des problèmes dans une guilde active.
 
@@ -104,7 +115,9 @@ L'API Imgur peut être générée [ici](https://api.imgur.com/oauth2/addclient).
 ### Event
 
 Les options d'événement incluent divers événements qui seront notifiés par le robot 30 et 5 minutes avant le début de l'événement. Si vous n'aimez pas l'un des événements, changez simplement la valeur de "true" à "false". Il est également possible de désactiver complètement la notification de bot dans l'option "activé".
+> Preview
 
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/0fc99431-3213-40fa-949b-6acca62ef63c)
 ### Guild Requirements
 
 Le bot inclut également l'acceptation automatique de la guilde si l'utilisateur répond aux exigences. Les exigences sont définies dans le config.json, si la valeur de l'exigence est de 0 ou inférieure à 0, elle ne sera pas prise en compte.
@@ -162,13 +175,12 @@ L'option `requirements` a des sous-options, qui sont des exigences.
 | weight      | Statistiques Skyblock de l'utilisateur spécifié.                  | `!weight [joueur]`               | `!weight CherchePas`      | `Senither de Refraction » 27721.82 Compétences : 12991.95 Donjons : 11353.90` & `Poids Lily de Refraction » 28342.24 Compétences » 12310.84 slayer » 4476.85 Donjons » 11554.55`                                                                   |
 | warpout     | Permet de faire partire quelqu'un de votre lobby si il accepte.   | `!warpout [joueur]`              | `!warpout CherchePas`     |
 
+Bot prend également en charge les commandes Soopy V2, le préfixe est le même que le préfixe du mod.
+> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
+
 ### Chat Triggers Module
 
 Si vous pensez que ce format de message est ennuyeux, vous pouvez consulter mon référentiel pour le module ChatTriggers qui modifie l'apparence des messages de Bot. [Cliquez ici](https://github.com/DuckySoLucky/Hypixel-Guild-Chat-Format)
-
-#### Frag Bot
-
-Le bot comprend également un bot frag intégré qui peut être utilisé par la guilde.
 
 ### To-Do List
 

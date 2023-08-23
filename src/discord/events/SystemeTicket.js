@@ -47,7 +47,7 @@ module.exports = {
     let catégoriecarry = roles.catégoriecarry;
     let catégorieticket = roles.catégorieticket;
 
-    let roleStaff = interaction.guild.roles.cache.get(roles.commandRole);
+    let roleStaff = interaction.guild.roles.cache.get(roles.staffRole);
 
     let DejaUnChannel = interaction.guild.channels.cache.find(
       (c) => c.topic == interaction.user.id
@@ -512,7 +512,7 @@ async function manageModalInteraction(interaction, client) {
       2,
       roles.roleT5REVId,
       roles.catégorieslayer,
-      "Zombie T5: 200k/unité\nPrix pour (10 ou plus) : 225k/unité",
+      "Zombie T5: 300k/unité\nPrix pour (10 ou plus) : 225k/unité",
       "<:Revenant:1039706422465794158>"
     );
   } else if (interaction.customId == "T3eman") {
@@ -811,7 +811,7 @@ async function manageModalInteraction(interaction, client) {
       2,
       roles.roleT5REVId,
       roles.catégorieslayer,
-      "Atoned Horror: 200k/unité \nPrix pour (10 ou plus) : 150k/unité",
+      "Zombie T5: 200k/unité \nPrix pour (10 ou plus) : 150k/unité",
       "<:Revenant:1039706422465794158>"
     );
   } else if (interaction.customId == "T3eman") {

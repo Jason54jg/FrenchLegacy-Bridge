@@ -64,9 +64,9 @@ class SkyblockCommand extends minecraftCommand {
           .map((value) => value.level)
           .reduce((a, b) => a + b, 0) / Object.keys(dungeons.classes).length;
       const networthValue = formatNumber(networth.networth);
-      const talismanCount = talismans.total;
-      const recombobulatedCount = talismans.recombed;
-      const enrichmentCount = talismans.enriched;
+      const talismanCount = talismans?.total ?? 0;
+      const recombobulatedCount = talismans?.recombed ?? 0;
+      const enrichmentCount = talismans?.enriched ?? 0;
 
       this.send(
         `/gc Niveau de ${username}: ${

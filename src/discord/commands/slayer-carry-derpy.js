@@ -23,7 +23,7 @@ module.exports = {
       .addFields({
         name: "Informations sur les prix des T5 Rev",
         value:
-          "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 225k/unité",
+          "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité\n\nZombie T5: 300k/unité\nPrix pour (10 ou plus) : 225k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
