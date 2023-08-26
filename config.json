@@ -52,7 +52,8 @@
       "token": "",
       "usernameBot": "",
       "clientID": "238809504374980618",
-      "serverID": "1084606312257683497"
+      "serverID": "1084606312257683497",
+      "seconbotid":""
     },
     "channels": {
       "guildChatChannel": "",
