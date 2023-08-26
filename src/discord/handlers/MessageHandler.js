@@ -143,6 +143,17 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
+    const authorId = message.author.id
+    if (message.author.id === config.discord.bot.seconbotid){
+      const isValid = message.content.length > 0;
+      const validChannelIds = [
+        config.discord.channels.officerChannel,
+        config.discord.channels.guildChatChannel,
+        config.discord.channels.debugChannel,
+      ];
+      return isValid && validChannelIds.includes(message.channel.id);
+    }
+    else{
     const isValid = !message.author.bot && message.content.length > 0;
     const validChannelIds = [
       config.discord.channels.officerChannel,
@@ -152,6 +163,7 @@ class MessageHandler {
 
     return isValid && validChannelIds.includes(message.channel.id);
   }
+}
 }
 
 module.exports = MessageHandler;
