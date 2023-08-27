@@ -22,22 +22,43 @@ class MessageHandler {
       }
     }
     try {
-      if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
-        return;
-      }
-
-      const content = this.stripDiscordContent(message).trim();
-      if (content.length === 0) {
-        return;
-      }
-
       const messageData = {
-        member: message.member.user,
-        channel: message.channel.id,
-        username: message.member.displayName,
-        message: content,
-        replyingTo: await this.fetchReply(message),
-      };
+        member: "",
+        channel: "",
+        username: "",
+        message: "",
+        replyingTo: "",
+      }
+      if (message.webhookID){
+        const tag = config.discord.bot.tag
+        const webhook = await message.channel.fetchWebhooks();
+        if (webhook.size>0){
+          const firstWebhook = webhook.first()
+
+          const webhookUsername = firstWebhook.name
+          if (webhookUsername.includes(tag2)){
+            messageData.channel = message.channel.id
+            messageData.username = webhookUsername.replace(tag,"")
+            messageData.message = firstWebhook.cleanContent
+          }
+        }
+      }
+      else{
+        if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+          return;
+        }
+
+        const content = this.stripDiscordContent(message).trim();
+        if (content.length === 0) {
+          return;
+        }
+
+        messageData.member = message.member.user
+        messageData.channel = message.channel.id
+        messageData.username = message.member.displayName
+        messageData.message = content
+        messageData.replyingTo = await this.fetchReply(message)
+      }
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
@@ -143,17 +164,6 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    const authorId = message.author.id
-    if (message.author.id === config.discord.bot.seconbotid){
-      const isValid = message.content.length > 0;
-      const validChannelIds = [
-        config.discord.channels.officerChannel,
-        config.discord.channels.guildChatChannel,
-        config.discord.channels.debugChannel,
-      ];
-      return isValid && validChannelIds.includes(message.channel.id);
-    }
-    else{
     const isValid = !message.author.bot && message.content.length > 0;
     const validChannelIds = [
       config.discord.channels.officerChannel,
@@ -163,7 +173,6 @@ class MessageHandler {
 
     return isValid && validChannelIds.includes(message.channel.id);
   }
-}
 }
 
 module.exports = MessageHandler;
