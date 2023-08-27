@@ -39,7 +39,7 @@ class MessageHandler {
           const webhookUsername = message.author.username
           console.log(webhookUsername)
           console.log("username")
-          if (webhookUsername.includes(tag)){
+          if (webhookUsername.includes(tag) && !webhookUsername.includes(config.minecraft.bot.pseudo1) && !webhookUsername.includes(config.minecraft.bot.pseudo2)){
             messageData.channel = message.channel.id
             messageData.username = webhookUsername.replace(tag,"")
             messageData.message = message.content
