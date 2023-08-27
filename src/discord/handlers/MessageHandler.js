@@ -29,7 +29,7 @@ class MessageHandler {
         message: "",
         replyingTo: "",
       }
-      if (message.author.id === config.discord.bot.webhookid){
+      if (message.author.id === config.discord.bot.webhookid && messag.channel.id ===config.discord.channels.guildChatChannel){
         const tag = config.discord.bot.tag2
         const webhook = await message.channel.fetchWebhooks();
         if (webhook.size>0){
