@@ -54,7 +54,8 @@
       "clientID": "238809504374980618",
       "serverID": "1084606312257683497",
       "tag":"",
-      tag2:""
+      "tag2":"",
+      "webhookid" = "1074341327216574514"
     },
     "channels": {
       "guildChatChannel": "",
