@@ -39,7 +39,7 @@ class MessageHandler {
           const firstWebhook = webhook.first()
 
           const webhookUsername = firstWebhook.name
-          if (webhookUsername.includes(tag2)){
+          if (webhookUsername.includes(tag)){
             messageData.channel = message.channel.id
             messageData.username = webhookUsername.replace(tag,"")
             messageData.message = firstWebhook.cleanContent
