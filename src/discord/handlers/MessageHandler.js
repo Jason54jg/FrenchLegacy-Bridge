@@ -32,13 +32,17 @@ class MessageHandler {
       console.log(message.webhookID)
       if (message.author.id === config.discord.bot.webhookid){
         console.log(message)
+        console.log("message")
         const tag = config.discord.bot.tag
         const webhook = await message.channel.fetchWebhooks();
         console.log(webhook)
+        console.log("webhook")
         if (webhook.size>0){
           const firstWebhook = webhook.first()
 
           const webhookUsername = firstWebhook.name
+          console.log(webhookUsername)
+          console.log("username")
           if (webhookUsername.includes(tag)){
             messageData.channel = message.channel.id
             messageData.username = webhookUsername.replace(tag,"")
