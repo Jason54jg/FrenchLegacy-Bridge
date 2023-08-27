@@ -4,7 +4,9 @@
       "prefix": "!",
       "messageFormat": " »",
       "messageRepeatBypass": true,
-      "messageRepeatBypassLength": 24
+      "messageRepeatBypassLength": 24,
+      "pseudo1":"",
+      "pseudo2":""
     },
     "commands": {
       "normal": true,
