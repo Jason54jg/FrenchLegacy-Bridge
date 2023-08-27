@@ -29,7 +29,9 @@ class MessageHandler {
         message: "",
         replyingTo: "",
       }
+      console.log(message.webhookID)
       if (message.webhookID){
+        console.log(message)
         const tag = config.discord.bot.tag
         const webhook = await message.channel.fetchWebhooks();
         if (webhook.size>0){
