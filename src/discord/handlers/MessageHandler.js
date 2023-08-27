@@ -34,6 +34,7 @@ class MessageHandler {
         console.log(message)
         const tag = config.discord.bot.tag
         const webhook = await message.channel.fetchWebhooks();
+        console.log(webhook)
         if (webhook.size>0){
           const firstWebhook = webhook.first()
 
