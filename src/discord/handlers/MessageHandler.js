@@ -34,15 +34,15 @@ class MessageHandler {
         const webhook = await message.channel.fetchWebhooks();
         if (webhook.size>0){
           const firstWebhook = webhook.first()
-          console.log(firstWebhook)
-          console.log("firstwebhook")
+          console.log(message)
+          console.log("message")
           const webhookUsername = message.author.username
           console.log(webhookUsername)
           console.log("username")
           if (webhookUsername.includes(tag)){
             messageData.channel = message.channel.id
             messageData.username = webhookUsername.replace(tag,"")
-            messageData.message = firstWebhook.cleanContent
+            messageData.message = message.content
             console.log(messageData)
             console.log("message data")
           }
