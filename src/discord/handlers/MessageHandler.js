@@ -29,24 +29,22 @@ class MessageHandler {
         message: "",
         replyingTo: "",
       }
-      console.log(message.webhookID)
       if (message.author.id === config.discord.bot.webhookid){
-        console.log(message)
-        console.log("message")
-        const tag = config.discord.bot.tag
+        const tag = config.discord.bot.tag2
         const webhook = await message.channel.fetchWebhooks();
-        console.log(webhook)
-        console.log("webhook")
         if (webhook.size>0){
           const firstWebhook = webhook.first()
-
-          const webhookUsername = firstWebhook.name
+          console.log(firstWebhook)
+          console.log("firstwebhook")
+          const webhookUsername = message.author.username
           console.log(webhookUsername)
           console.log("username")
           if (webhookUsername.includes(tag)){
             messageData.channel = message.channel.id
             messageData.username = webhookUsername.replace(tag,"")
             messageData.message = firstWebhook.cleanContent
+            console.log(messageData)
+            console.log("message data")
           }
         }
       }
