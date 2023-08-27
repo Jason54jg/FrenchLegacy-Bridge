@@ -30,7 +30,7 @@ class MessageHandler {
         replyingTo: "",
       }
       console.log(message.webhookID)
-      if (message.webhookID){
+      if (message.author.id === config.discord.bot.webhookid){
         console.log(message)
         const tag = config.discord.bot.tag
         const webhook = await message.channel.fetchWebhooks();
