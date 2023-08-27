@@ -22,22 +22,48 @@ class MessageHandler {
       }
     }
     try {
-      if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
-        return;
-      }
-
-      const content = this.stripDiscordContent(message).trim();
-      if (content.length === 0) {
-        return;
-      }
-
       const messageData = {
-        member: message.member.user,
-        channel: message.channel.id,
-        username: message.member.displayName,
-        message: content,
-        replyingTo: await this.fetchReply(message),
-      };
+        member: "",
+        channel: "",
+        username: "",
+        message: "",
+        replyingTo: "",
+      }
+      if (message.author.id === config.discord.bot.webhookid && message.channel.id === config.discord.channels.guildChatChannel){
+        const tag = config.discord.bot.tag2
+        const webhook = await message.channel.fetchWebhooks();
+        if (webhook.size>0){
+          const firstWebhook = webhook.first()
+          console.log(message)
+          console.log("message")
+          const webhookUsername = message.author.username
+          console.log(webhookUsername)
+          console.log("username")
+          if (webhookUsername.includes(tag)){
+            messageData.channel = message.channel.id
+            messageData.username = webhookUsername.replace(tag,"")
+            messageData.message = message.content
+            console.log(messageData)
+            console.log("message data")
+          }
+        }
+      }
+      else{
+        if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+          return;
+        }
+
+        const content = this.stripDiscordContent(message).trim();
+        if (content.length === 0) {
+          return;
+        }
+
+        messageData.member = message.member.user
+        messageData.channel = message.channel.id
+        messageData.username = message.member.displayName
+        messageData.message = content
+        messageData.replyingTo = await this.fetchReply(message)
+      
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
@@ -55,7 +81,7 @@ class MessageHandler {
           }
         }
       }
-
+      }
       if (messageData.message.length === 0) return;
 
       this.discord.broadcastMessage(messageData);

@@ -240,7 +240,7 @@ class DiscordManager extends CommunicationBridge {
         );
         this.app.discord.webhook.send({
           content: message,
-          username: `${username} [${guildRank}]`,
+          username: `${username} [${guildRank}] ${config.discord.bot.tag}`,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
         });
         break;
