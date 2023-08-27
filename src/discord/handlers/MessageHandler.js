@@ -58,7 +58,7 @@ class MessageHandler {
         messageData.username = message.member.displayName
         messageData.message = content
         messageData.replyingTo = await this.fetchReply(message)
-      }
+      
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
@@ -76,7 +76,7 @@ class MessageHandler {
           }
         }
       }
-
+      }
       if (messageData.message.length === 0) return;
 
       this.discord.broadcastMessage(messageData);
