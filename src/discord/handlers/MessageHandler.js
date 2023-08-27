@@ -22,22 +22,40 @@ class MessageHandler {
       }
     }
     try {
-      if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
-        return;
-      }
-
-      const content = this.stripDiscordContent(message).trim();
-      if (content.length === 0) {
-        return;
-      }
-
       const messageData = {
-        member: message.member.user,
-        channel: message.channel.id,
-        username: message.member.displayName,
-        message: content,
-        replyingTo: await this.fetchReply(message),
-      };
+        member: "",
+        channel: "",
+        username: "",
+        message: "",
+        replyingTo: "",
+      }
+      if (message.author.id === config.discord.bot.webhookid && message.channel.id === config.discord.channels.guildChatChannel) {
+        const tag = config.discord.bot.tag2
+        const webhook = await message.channel.fetchWebhooks();
+        if (webhook.size > 0) {
+          const firstWebhook = webhook.first()
+          const webhookUsername = message.author.username
+          if (webhookUsername.includes(tag)) {
+            messageData.channel = message.channel.id
+            messageData.username = webhookUsername.replace(tag, "")
+            messageData.message = message.content
+          }
+        }
+      } else {
+        if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+          return;
+        }
+
+        const content = this.stripDiscordContent(message).trim();
+        if (content.length === 0) {
+          return;
+        }
+
+        messageData.member = message.member.user
+        messageData.channel = message.channel.id
+        messageData.username = message.member.displayName
+        messageData.message = content
+        messageData.replyingTo = await this.fetchReply(message)
 
       const images = content.split(" ").filter((line) => line.startsWith("http"));
       for (const attachment of message.attachments.values()) {
@@ -55,6 +73,7 @@ class MessageHandler {
           }
         }
       }
+    }
 
       if (messageData.message.length === 0) return;
 
@@ -66,32 +85,45 @@ class MessageHandler {
 
   async fetchReply(message) {
     try {
-      if (message.reference === undefined) return null;
+      if (message.reference?.messageId === undefined || message.mentions === undefined) {
+        return null;
+      }
 
       const reference = await message.channel.messages.fetch(
         message.reference.messageId
       );
 
-      const mentionedUserName = message?.mentions?.repliedUser?.username;
-      if (config.discord.other.messageMode === "bot") {
-        const embedAuthorName = reference?.embeds?.[0]?.author?.name;
+      const mentionedUserName = message.mentions.repliedUser.globalName ?? message.mentions.repliedUser.username;
 
-        return embedAuthorName ?? mentionedUserName;
+      if (config.discord.other.messageMode === "bot" && reference.embed !== null) {
+        const name = reference.embeds[0]?.author?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
+
+        return name;
       }
 
-      if (config.discord.other.messageMode === "minecraft") {
-        const attachmentName = reference?.attachments?.values()?.next()
-          ?.value?.name;
+      if (config.discord.other.messageMode === "minecraft" && reference.attachments !== null) {
+        const name = reference.attachments.values()?.next()?.value?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
 
-        return attachmentName
-          ? attachmentName.split(".")[0]
-          : mentionedUserName;
+        return name.split(".")[0];
       }
 
       if (config.discord.other.messageMode === "webhook") {
-        return reference.author.username ?? mentionedUserName;
+        if (reference.author.username === undefined) {
+          return mentionedUserName;
+        }
+
+        return reference.author.username;
       }
+
+      return mentionedUserName ?? null;
     } catch (error) {
+      console.log(error);
       return null;
     }
   }

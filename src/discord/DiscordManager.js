@@ -176,28 +176,19 @@ class DiscordManager extends CommunicationBridge {
     chat,
     color = 1752220,
   }) {
-    let mode = config.discord.other.messageMode.toLowerCase();
-    if (message === undefined) {
-      if (config.discord.channels.debugMode === false) {
-        return;
-      }
-
-      mode = "minecraft";
-    }
-
-    if (message !== undefined) {
-      Logger.broadcastMessage(
-        `${username} [${guildRank}]: ${message}`,
-        `Discord`
-      );
+    const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
+    if (message !== undefined && chat !== "debugChannel") {
+      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
     }
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
-    if (channel === undefined) return;
+    if (channel === undefined) {
+      return;
+    }
 
     switch (mode) {
       case "bot":
-        channel.send({
+        await channel.send({
           embeds: [
             {
               description: message,
@@ -215,38 +206,29 @@ class DiscordManager extends CommunicationBridge {
         });
 
         if (message.includes("https://")) {
-          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
+          const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
-          const link = links
-            .map((link) => {
-              if (link.endsWith("§r")) {
-                link = link.substring(0, link.length - 2);
-              }
-
-              return link;
-            })
-            .join("\n");
-
-          channel.send(link);
+          channel.send(links);
         }
 
         break;
 
       case "webhook":
-        message = message.replace(/@/g, "");
-        this.app.discord.webhook = await this.getWebhook(
-          this.app.discord,
-          chat
-        );
+        message = this.cleanMessage(message);
+        if (message.length === 0) {
+          return;
+        }
+
+        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
         this.app.discord.webhook.send({
           content: message,
-          username: `${username} [${guildRank}]`,
+          username: `${username} [${guildRank}] ${config.discord.bot.tag}`,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
         });
         break;
 
       case "minecraft":
-        channel.send({
+        await channel.send({
           files: [
             new AttachmentBuilder(await messageToImage(fullMessage, username), {
               name: `${username}.png`,
@@ -254,22 +236,11 @@ class DiscordManager extends CommunicationBridge {
           ],
         });
 
-        if (fullMessage.includes("https://")) {
-          const links = fullMessage.match(/https?:\/\/[^\s]+/g);
+        if (message.includes("https://")) {
+          const links = message.match(/https?:\/\/[^\s]+/g).join("\n");
 
-          const link = links
-            .map((link) => {
-              if (link.endsWith("§r")) {
-                link = link.substring(0, link.length - 2);
-              }
-
-              return link;
-            })
-            .join("\n");
-
-          channel.send(link);
+          channel.send(links);
         }
-
         break;
 
       default:
@@ -331,12 +302,17 @@ class DiscordManager extends CommunicationBridge {
         });
         break;
       case "webhook":
+        message = this.cleanMessage(message);
+        if (message.length === 0) {
+          return;
+        }
+
         this.app.discord.webhook = await this.getWebhook(
           this.app.discord,
           channel
         );
         this.app.discord.webhook.send({
-          username: `${username} [${guildRank}]`,
+          username: `${username} [${guildRank}] ${config.discord.bot.tag}`,
           avatarURL: `https://www.mc-heads.net/avatar/${username}`,
           embeds: [
             {
@@ -362,7 +338,25 @@ class DiscordManager extends CommunicationBridge {
   }
 
   hexToDec(hex) {
+    if (hex === undefined) {
+      return 1752220;
+    }
+
     return parseInt(hex.replace("#", ""), 16);
+  }
+
+  cleanMessage(message) {
+    if (message === undefined) {
+      return "";
+    }
+
+    return message
+      .split("\n")
+      .map((part) => {
+        part = part.trim();
+        return part.length === 0 ? "" : part.replace(/@(everyone|here)/gi, "").trim() + " ";
+      })
+      .join("");
   }
 }
 

@@ -52,7 +52,10 @@
       "token": "",
       "usernameBot": "",
       "clientID": "238809504374980618",
-      "serverID": "1084606312257683497"
+      "serverID": "1084606312257683497",
+      "tag": "flv1",
+      "tag2": "flv2",
+      "webhookid": "1074341327216574514"
     },
     "channels": {
       "guildChatChannel": "",
@@ -68,7 +71,7 @@
       "emojis": [["1037683345758376007"], ["1057733768300994631"]]
     },
     "commands": {
-      "checkPerms": false,
+      "checkPerms": true,
       "adminRole": "953370681171644506",
       "staffRole": "1084606469732839474",
       "logChannelCarrier": "",

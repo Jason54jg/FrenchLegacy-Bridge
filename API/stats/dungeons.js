@@ -88,7 +88,7 @@ module.exports = (player, profile) => {
 
     return {
       selected_class: titleCase(dungeons?.selected_dungeon_class),
-      secrets_found: player?.dungeons?.secrets || 0,
+      secrets_found: player?.achievements?.skyblock_treasure_hunter ?? 0,
       classes: {
         healer: calcSkill(
           "dungeoneering",

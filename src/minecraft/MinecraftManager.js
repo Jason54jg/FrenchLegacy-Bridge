@@ -49,7 +49,9 @@ class MinecraftManager extends CommunicationBridge {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
     if (!this.bot.player) return;
 
-    username = username.split(" | ")[1];
+    if (username.includes("|")){
+      username = username.split(" | ")[1];
+    }
 
     if (
       channel === config.discord.channels.debugChannel &&
