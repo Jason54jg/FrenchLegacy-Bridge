@@ -32,7 +32,7 @@ class DiscordManager extends CommunicationBridge {
     this.commandHandler = new CommandHandler(this);
   }
 
-  async connect() {
+  connect() {
     global.client = new Client({
       intents: [
         GatewayIntentBits.Guilds,
@@ -147,7 +147,7 @@ class DiscordManager extends CommunicationBridge {
         : client.on(event.name, (...args) => event.execute(...args));
     }
 
-    global.guild = await client.guilds.fetch(config.discord.bot.serverID);
+    global.guild = client.guilds.fetch(config.discord.bot.serverID);
 
     return true;
   }
@@ -228,6 +228,10 @@ class DiscordManager extends CommunicationBridge {
         break;
 
       case "minecraft":
+        if (fullMessage.length === 0) {
+          return;
+        }
+
         await channel.send({
           files: [
             new AttachmentBuilder(await messageToImage(fullMessage, username), {
@@ -340,6 +344,10 @@ class DiscordManager extends CommunicationBridge {
   hexToDec(hex) {
     if (hex === undefined) {
       return 1752220;
+    }
+
+    if (typeof hex === "number") {
+      return hex;
     }
 
     return parseInt(hex.replace("#", ""), 16);
