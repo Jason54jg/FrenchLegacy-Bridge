@@ -2,26 +2,26 @@ const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js")
 const config = require("./../../../config.json");
 const { EmbedBuilder } = require("discord.js");
 const app = require("./../../Application.js");
+const messages = require("../../../messages.json");
 
 module.exports = {
   name: "restart",
-  description: "Restarts the bot.",
+  description: "Redémarre le bot.",
 
   execute: async (interaction) => {
     if (
       config.discord.commands.checkPerms === true &&
-      interaction.member.roles.cache.has(config.discord.commands.commandRole) === false
+      interaction.member.roles.cache.has(config.discord.commands.adminRole) === false
     ) {
-      throw new HypixelDiscordChatBridgeError("You do not have permission to use this command.");
+      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }
 
     const restartEmbed = new EmbedBuilder()
-      .setColor(15548997)
-      .setTitle("Restarting...")
-      .setDescription("The bot is restarting. This may take a few seconds.")
+      .setTitle("Redémarrage...")
+      .setDescription("Le bot redémarre. Cela peut prendre quelques secondes.")
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: `${messages.footerhelp}`,
+        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     interaction.followUp({ embeds: [restartEmbed] });
@@ -34,12 +34,11 @@ module.exports = {
     });
 
     const successfulRestartEmbed = new EmbedBuilder()
-      .setColor(2067276)
-      .setTitle("Restart Successful!")
-      .setDescription("The bot has been restarted successfully.")
+      .setTitle("Redémarrage réussi!")
+      .setDescription("Le bot a été redémarré avec succès.")
       .setFooter({
-        text: `by @duckysolucky | /help [command] for more information`,
-        iconURL: "https://imgur.com/tgwQJTX.png",
+        text: `${messages.footerhelp}`,
+        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     interaction.editReply({ embeds: [successfulRestartEmbed] });
