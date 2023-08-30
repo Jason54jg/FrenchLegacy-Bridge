@@ -128,6 +128,18 @@ Le bot inclut également l'acceptation automatique de la guilde si l'utilisateur
 
 L'option `requirements` a des sous-options, qui sont des exigences.
 
+### hypixelUpdates
+
+Cette configuration active les mises à jour Hypixel et inclut les paramètres pour les actualités Hypixel, les mises à jour de statut et les modifications de version Skyblock.
+
+La propriété `enabled` détermine si la fonctionnalité est activée ou non. S'il est défini sur true, le bot enverra un message au chat de guilde lorsqu'un nouvel article d'actualité Hypixel est publié, lorsque le statut d'Hypixel change et lorsque la version de Skyblock change.
+
+La propriété `hypixelNews` détermine si le bot doit envoyer un message lorsqu'un nouvel article d'actualité Hypixel est publié.
+
+La propriété `statusUpdates` détermine si le bot doit envoyer un message lorsqu'un nouvel incident se produit ou si une mise à jour le concernant est publiée.
+
+La propriété `skyblockVersion` détermine si le bot doit envoyer un message lorsque la version de Skyblock change.
+
 ### Commands
 
 `< >` = Arguments obligatoires, `[ ]` = Arguments facultatifs
