@@ -28,7 +28,11 @@ class StateHandler extends eventHandler {
     this.exactDelay = 0;
   }
 
-  onEnd() {
+  onEnd(reason) {
+    if (reason === "restart") {
+      return;
+    }
+
     const loginDelay =
       this.exactDelay > 60000 ? 60000 : (this.loginAttempts + 1) * 5000;
 
