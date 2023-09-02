@@ -9,9 +9,10 @@ module.exports = {
   description: "Redémarre le bot.",
 
   execute: async (interaction) => {
+    const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      interaction.member.roles.cache.has(config.discord.commands.adminRole) === false
+      !(user.roles.cache.has(config.discord.commands.adminRole) || config.discord.commands.users.includes(user.id))
     ) {
       throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
     }

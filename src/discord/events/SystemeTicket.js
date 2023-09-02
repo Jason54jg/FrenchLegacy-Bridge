@@ -464,6 +464,7 @@ async function manageModalInteraction(interaction, client) {
     }
     closeTicket(interaction, "carry");
   }
+  /*
   // Slayer interactions
   else if (interaction.customId == "T4Wolf") {
     createCarryChannel(
@@ -575,7 +576,7 @@ async function manageModalInteraction(interaction, client) {
       5,
       roles.roleT1kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 9m\n- 5 ou plus: 7.5m/unité",
+      "**Runs**\n- 1 Run: 7.5m\n- 5 ou plus: 6m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k2") {
@@ -585,7 +586,7 @@ async function manageModalInteraction(interaction, client) {
       8,
       roles.roleT2kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12m/unité",
+      "**Runs**\n- 1 Run: 13.5m\n- 5 ou plus: 10.5m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k3") {
@@ -595,7 +596,7 @@ async function manageModalInteraction(interaction, client) {
       15,
       roles.roleT3kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 22.5m\n- 5 ou plus: 18.7m/unité",
+      "**Runs**\n- 1 Run: 20.5m\n- 5 ou plus: 15m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k4") {
@@ -605,7 +606,7 @@ async function manageModalInteraction(interaction, client) {
       20,
       roles.roleT4kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 30m\n- 5 ou plus: 25.5m/unité",
+      "**Runs**\n- 1 Run: 27m\n- 5 ou plus: 22.5m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k5") {
@@ -615,7 +616,7 @@ async function manageModalInteraction(interaction, client) {
       40,
       roles.roleT5kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 90m\n- 5 ou plus: 75m/unité",
+      "**Runs**\n- 1 Run: 60m\n- 5 ou plus: 45m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   }
@@ -761,8 +762,8 @@ async function manageModalInteraction(interaction, client) {
       "**S Runs**\n- 1 Run: 37.5m\n- 5 ou plus: 31.5m unité",
       "<:Necron:1040832502417338458>"
     );
-  }
-/*
+  }*/
+
   // Slayer interactions
   else if (interaction.customId == "T4Wolf") {
     createCarryChannel(
@@ -874,7 +875,7 @@ async function manageModalInteraction(interaction, client) {
       5,
       roles.roleT1kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
+      "**Runs**\n- 1 Run: 5m\n- 5 ou plus: 4m unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k2") {
@@ -884,7 +885,7 @@ async function manageModalInteraction(interaction, client) {
       8,
       roles.roleT2kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 10m\n- 5 ou plus: 8m unité",
+      "**Runs**\n- 1 Run: 9m\n- 5 ou plus: 7m unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k3") {
@@ -894,7 +895,7 @@ async function manageModalInteraction(interaction, client) {
       15,
       roles.roleT3kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.5m unité",
+      "**Runs**\n- 1 Run: 13m\n- 5 ou plus: 10m unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k4") {
@@ -904,7 +905,7 @@ async function manageModalInteraction(interaction, client) {
       20,
       roles.roleT4kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 20m\n- 5 ou plus: 17m unité",
+      "**Runs**\n- 1 Run: 18m\n- 5 ou plus: 15m unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k5") {
@@ -914,7 +915,7 @@ async function manageModalInteraction(interaction, client) {
       40,
       roles.roleT5kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 60m\n- 5 ou plus: 50m unité",
+      "**Runs**\n- 1 Run: 40m\n- 5 ou plus: 30m unité",
       "<:Kuudra:1049723520072044614>"
     );
   }
@@ -1060,7 +1061,7 @@ async function manageModalInteraction(interaction, client) {
       "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
       "<:Necron:1040832502417338458>"
     );
-  }*/
+  }
 }
 
 function createCarryChannel(
