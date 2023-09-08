@@ -80,7 +80,7 @@ async function generateMessageImage(message, username) {
       ctx.drawImage(
         await loadImage(`https://www.mc-heads.net/avatar/${username}/32`),
         width,
-        height - 30
+        height - 30,
       );
       width += 50;
     }

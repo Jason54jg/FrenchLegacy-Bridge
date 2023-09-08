@@ -29,13 +29,13 @@ class CommunicationBridge2 {
 
   connect() {
     throw new Error(
-      "La connexion du bridge de communication n'est pas encore implémentée!"
+      "La connexion du bridge de communication n'est pas encore implémentée!",
     );
   }
 
   onBroadcast(event) {
     throw new Error(
-      "La gestion de la diffusion du bridge de communication n'est pas encore implémentée!"
+      "La gestion de la diffusion du bridge de communication n'est pas encore implémentée!",
     );
   }
 }

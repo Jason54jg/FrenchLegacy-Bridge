@@ -37,25 +37,27 @@ module.exports = {
       }, 5000);
     });
 
-      const message = await messages;
+    const message = await messages;
 
-      const trimmedMessages = message.map((message) => message.trim()).filter((message) => message.includes("."));
-      const description = trimmedMessages
-        .map((message) => {
-          const [position, , name, guildExperience] = message.split(" ");
-          return `\`${position}\` **${name}** - \`${guildExperience}\` Expérience de guilde\n`;
-        })
-        .join("");
+    const trimmedMessages = message
+      .map((message) => message.trim())
+      .filter((message) => message.includes("."));
+    const description = trimmedMessages
+      .map((message) => {
+        const [position, , name, guildExperience] = message.split(" ");
+        return `\`${position}\` **${name}** - \`${guildExperience}\` Expérience de guilde\n`;
+      })
+      .join("");
 
-      const embed = new EmbedBuilder()
-        .setColor("#2ECC71")
-        .setTitle("Top 10 des membres de la guilde")
-        .setDescription(description)
-        .setFooter({
-          text: `${messages.footerhelp}`,
-          iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
-        });
+    const embed = new EmbedBuilder()
+      .setColor("#2ECC71")
+      .setTitle("Top 10 des membres de la guilde")
+      .setDescription(description)
+      .setFooter({
+        text: `${messages.footerhelp}`,
+        iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+      });
 
-      return await interaction.followUp({ embeds: [embed] });
+    return await interaction.followUp({ embeds: [embed] });
   },
 };

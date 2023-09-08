@@ -8,7 +8,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `**Message modifié dans ${oldMessage.channel} [Message](${oldMessage.url})**`
+        `**Message modifié dans ${oldMessage.channel} [Message](${oldMessage.url})**`,
       )
       .addFields(
         { name: "→ Avant", value: oldMessage.content, inline: false },
@@ -16,11 +16,11 @@ module.exports = {
         {
           name: `→ Temps: <t:${+toFixed(
             (Date.now() + client.uptime) / 1000,
-            0
+            0,
           )}:R>`,
           value: "\u200B",
           inline: false,
-        }
+        },
       );
 
     const channel = oldMessage.guild.channels.cache.get("1084756237675147304");

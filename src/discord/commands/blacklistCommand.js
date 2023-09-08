@@ -35,9 +35,14 @@ module.exports = {
     const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.adminRole) || config.discord.commands.users.includes(user.id))
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
     ) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     const name = interaction.options.getString("name");
@@ -48,15 +53,20 @@ module.exports = {
     } else if (arg == "remove") {
       bot.chat(`/ignore remove ${name}`);
     } else {
-      throw new HypixelDiscordChatBridgeError("Utilisation incorrecte: `/ignore [add/remove] [nom]`.");
-      }
+      throw new HypixelDiscordChatBridgeError(
+        "Utilisation incorrecte: `/ignore [add/remove] [nom]`.",
+      );
+    }
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: "Blacklist" })
-      .setDescription(`Exécuté avec succès \`/ignore ${arg} ${name}\`\nRegarde dans <#1014148236132483112>`)
+      .setDescription(
+        `Exécuté avec succès \`/ignore ${arg} ${name}\`\nRegarde dans <#1014148236132483112>`,
+      )
       .setFooter({
         text: `${messages.footerhelp}`,
-        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        iconURL:
+          "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     await interaction.followUp({

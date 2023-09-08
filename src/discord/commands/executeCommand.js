@@ -19,10 +19,15 @@ module.exports = {
     const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.adminRole) || config.discord.commands.users.includes(user.id))
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
     ) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
-      }
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
+    }
 
     const command = interaction.options.getString("command");
     bot.chat(`/${command}`);

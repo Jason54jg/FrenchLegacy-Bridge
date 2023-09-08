@@ -21,10 +21,17 @@ async function getLatestProfile(uuid, options = { museum: false }) {
   }
 
   const [{ data: playerRes }, { data: profileRes }] = await Promise.all([
-    axios.get(`https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
-    axios.get(`https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`),
+    axios.get(
+      `https://api.hypixel.net/player?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`,
+    ),
+    axios.get(
+      `https://api.hypixel.net/skyblock/profiles?key=${config.minecraft.API.hypixelAPIkey}&uuid=${uuid}`,
+    ),
   ]).catch((error) => {
-    throw error?.response?.data?.cause ?? "Request to Hypixel API failed. Please try again!";
+    throw (
+      error?.response?.data?.cause ??
+      "Request to Hypixel API failed. Please try again!"
+    );
   });
 
   if (playerRes.success === false || profileRes.success === false) {

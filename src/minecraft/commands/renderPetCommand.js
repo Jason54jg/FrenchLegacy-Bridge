@@ -40,14 +40,12 @@ class RenderCommand extends minecraftCommand {
       const pet = profile.pets.find((pet) => pet.active === true);
 
       if (pet === undefined) {
-        return this.send(
-          `/gc ${username} n'a pas d'animal équipé.`
-        );
+        return this.send(`/gc ${username} n'a pas d'animal équipé.`);
       }
 
       const renderedItem = await renderLore(
         `§7[Lvl ${pet.level}] §${getRarityColor(pet.tier)}${pet.display_name}`,
-        pet.lore
+        pet.lore,
       );
 
       const upload = await uploadImage(renderedItem);
@@ -55,7 +53,7 @@ class RenderCommand extends minecraftCommand {
       return this.send(
         `/sg ${username} ${username} n'a pas d'animal de compagnie équipé: ${
           upload.data.link ?? "Quelque chose s'est mal passé.."
-        }`
+        }`,
       );
     } catch (error) {
       this.send(`/gc Erreur: ${error}`);

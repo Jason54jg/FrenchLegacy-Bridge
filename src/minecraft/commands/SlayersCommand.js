@@ -61,7 +61,7 @@ class SlayersCommand extends minecraftCommand {
         this.send(
           `/gc ${username} de ${capitalize(slayerType)} - ${
             profile[slayerType].level
-          } Niveaux | Experience: ${formatNumber(profile[slayerType].xp)}`
+          } Niveaux | Experience: ${formatNumber(profile[slayerType].xp)}`,
         );
       } else {
         const slayer = Object.keys(profile).reduce(
@@ -69,7 +69,7 @@ class SlayersCommand extends minecraftCommand {
             `${acc} | ${capitalize(slayer)}: ${
               profile[slayer].level
             } (${formatNumber(profile[slayer].xp)})`,
-          ""
+          "",
         );
         this.send(`/gc Slayer de ${username}: ${slayer.slice(3)}`);
       }

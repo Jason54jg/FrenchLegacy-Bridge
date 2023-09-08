@@ -22,13 +22,13 @@ class CommandHandler {
 
     const clientID = Buffer.from(
       config.discord.bot.token.split(".")[0],
-      "base64"
+      "base64",
     ).toString("ascii");
 
     rest
       .put(
         Routes.applicationGuildCommands(clientID, config.discord.bot.serverID),
-        { body: commands }
+        { body: commands },
       )
       .catch(console.error);
   }

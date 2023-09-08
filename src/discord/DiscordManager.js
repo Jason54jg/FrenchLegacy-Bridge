@@ -62,7 +62,6 @@ class DiscordManager extends CommunicationBridge {
     this.client = client;
 
     this.client.on("ready", async (client) => {
-
       const activities = [
         { name: `Hypixel`, type: ActivityType.Playing },
         { name: `Les Recrutement`, type: ActivityType.Watching },
@@ -98,7 +97,7 @@ class DiscordManager extends CommunicationBridge {
     });
 
     this.client.on("messageCreate", (message) =>
-      this.messageHandler.onMessage(message)
+      this.messageHandler.onMessage(message),
     );
 
     // Ajouter l'utilisateur qui a rejoint le serveur dans la DB
@@ -176,9 +175,15 @@ class DiscordManager extends CommunicationBridge {
     chat,
     color = 1752220,
   }) {
-    const mode = chat === "debugChannel" ? "minecraft" : config.discord.other.messageMode.toLowerCase();
+    const mode =
+      chat === "debugChannel"
+        ? "minecraft"
+        : config.discord.other.messageMode.toLowerCase();
     if (message !== undefined && chat !== "debugChannel") {
-      Logger.broadcastMessage(`${username} [${guildRank}]: ${message}`, `Discord`);
+      Logger.broadcastMessage(
+        `${username} [${guildRank}]: ${message}`,
+        `Discord`,
+      );
     }
 
     const channel = await this.stateHandler.getChannel(chat || "Guild");
@@ -219,7 +224,10 @@ class DiscordManager extends CommunicationBridge {
           return;
         }
 
-        this.app.discord.webhook = await this.getWebhook(this.app.discord, channel);
+        this.app.discord.webhook = await this.getWebhook(
+          this.app.discord,
+          channel,
+        );
         this.app.discord.webhook.send({
           content: message,
           username: `${username} [${guildRank}] ${config.discord.bot.tag}`,
@@ -249,7 +257,7 @@ class DiscordManager extends CommunicationBridge {
 
       default:
         throw new Error(
-          "Invalid message mode: must be bot, webhook or minecraft"
+          "Invalid message mode: must be bot, webhook or minecraft",
         );
     }
   }
@@ -313,7 +321,7 @@ class DiscordManager extends CommunicationBridge {
 
         this.app.discord.webhook = await this.getWebhook(
           this.app.discord,
-          channel
+          channel,
         );
         this.app.discord.webhook.send({
           username: `${username} [${guildRank}] ${config.discord.bot.tag}`,
@@ -362,7 +370,9 @@ class DiscordManager extends CommunicationBridge {
       .split("\n")
       .map((part) => {
         part = part.trim();
-        return part.length === 0 ? "" : part.replace(/@(everyone|here)/gi, "").trim() + " ";
+        return part.length === 0
+          ? ""
+          : part.replace(/@(everyone|here)/gi, "").trim() + " ";
       })
       .join("");
   }

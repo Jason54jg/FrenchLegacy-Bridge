@@ -12,7 +12,9 @@ async function getUUID(username) {
       }
     }
 
-    const { data } = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`);
+    const { data } = await axios.get(
+      `https://api.mojang.com/users/profiles/minecraft/${username}`,
+    );
 
     if (data.errorMessage || data.id === undefined) {
       throw data.errorMessage ?? "Invalid username.";
@@ -26,16 +28,18 @@ async function getUUID(username) {
     return data.id;
   } catch (error) {
     console.log(error);
-    throw error?.response?.data?.errorMessage === `Couldn't find any profile with name ${username}`
+    throw error?.response?.data?.errorMessage ===
+      `Couldn't find any profile with name ${username}`
       ? "Invalid username."
-      : error?.response?.data?.errorMessage ?? "Request to Mojang API failed. Please try again!";
+      : error?.response?.data?.errorMessage ??
+          "Request to Mojang API failed. Please try again!";
   }
 }
 
 async function getUsername(uuid) {
   try {
     const response = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${uuid}`
+      `https://playerdb.co/api/player/minecraft/${uuid}`,
     );
     return response.data.data.player.username;
   } catch (error) {
@@ -46,7 +50,7 @@ async function getUsername(uuid) {
 async function resolveUsernameOrUUID(username) {
   try {
     const { data } = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${username}`
+      `https://playerdb.co/api/player/minecraft/${username}`,
     );
 
     if (data.success === false || data.error === true) {

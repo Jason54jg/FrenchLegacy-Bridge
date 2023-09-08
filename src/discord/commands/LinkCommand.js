@@ -24,7 +24,10 @@ module.exports = {
       .then(async (player) => {
         let found = false;
         player.socialMedia.forEach((media) => {
-          if (media.link === interaction.user.username ?? interaction.user.tag) {
+          if (
+            media.link === interaction.user.username ??
+            interaction.user.tag
+          ) {
             found = true;
           }
         });
@@ -32,13 +35,13 @@ module.exports = {
           await DB.addLinkedAccounts(
             interaction.user.id,
             player.uuid,
-            player.nickname
+            player.nickname,
           );
 
           const successfullyLinked = new EmbedBuilder()
             .setAuthor({ name: "Lié avec succès!" })
             .setDescription(
-              `Votre compte a été lié avec succès à \`${username}\``
+              `Votre compte a été lié avec succès à \`${username}\``,
             )
             .setFooter({
               text: `${messages.footerhelp}`,
@@ -53,10 +56,10 @@ module.exports = {
                 "https://cdn.discordapp.com/avatars/486155512568741900/164084b936b4461fe9505398f7383a0e.png?size=4096",
             })
             .setDescription(
-              `**Instructions:** \n1) Utilisez votre client Minecraft pour vous connecter à Hypixel. \n2) Une fois connecté, et dans le lobby, cliquez avec le bouton droit de la souris sur "Mon profil" dans votre barre d'accès. C'est l'option #2. \n3) Cliquez sur "Réseaux sociaux" - ce bouton se trouve à gauche du bloc Redstone (le bouton Statut). \n4) Cliquez sur "Discord" - c'est l'avant-dernière option. \n5) Collez votre nom d'utilisateur Discord dans le chat et appuyez sur Entrée. Pour référence : \`${interaction.user.tag}\`\n6) Vous avez terminé ! Attendez environ 30 secondes, puis réessayez.\n \n**Vous obtenez "L'URL n'est pas valide!"?** \nHypixel a des limitations sur les caractères pris en charge dans un nom d'utilisateur Discord. Essayez de changer temporairement votre nom d'utilisateur Discord pour quelque chose sans caractères spéciaux, mettez-le à jour dans le jeu et réessayez.`
+              `**Instructions:** \n1) Utilisez votre client Minecraft pour vous connecter à Hypixel. \n2) Une fois connecté, et dans le lobby, cliquez avec le bouton droit de la souris sur "Mon profil" dans votre barre d'accès. C'est l'option #2. \n3) Cliquez sur "Réseaux sociaux" - ce bouton se trouve à gauche du bloc Redstone (le bouton Statut). \n4) Cliquez sur "Discord" - c'est l'avant-dernière option. \n5) Collez votre nom d'utilisateur Discord dans le chat et appuyez sur Entrée. Pour référence : \`${interaction.user.tag}\`\n6) Vous avez terminé ! Attendez environ 30 secondes, puis réessayez.\n \n**Vous obtenez "L'URL n'est pas valide!"?** \nHypixel a des limitations sur les caractères pris en charge dans un nom d'utilisateur Discord. Essayez de changer temporairement votre nom d'utilisateur Discord pour quelque chose sans caractères spéciaux, mettez-le à jour dans le jeu et réessayez.`,
             )
             .setThumbnail(
-              "https://thumbs.gfycat.com/DentalTemptingLeonberger-size_restricted.gif"
+              "https://thumbs.gfycat.com/DentalTemptingLeonberger-size_restricted.gif",
             )
             .setTimestamp()
             .setFooter({

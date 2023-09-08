@@ -21,7 +21,7 @@ class StateHandler extends eventHandler {
 
   onLogin() {
     Logger.minecraftMessage(
-      "Client prêt, connecté en tant que " + this.bot.username
+      "Client prêt, connecté en tant que " + this.bot.username,
     );
 
     this.loginAttempts = 0;
@@ -39,7 +39,7 @@ class StateHandler extends eventHandler {
     Logger.warnMessage(
       `Le bot Minecraft s'est déconnecté! Tentative de reconnexion dans ${
         loginDelay / 1000
-      } secondes`
+      } secondes`,
     );
 
     setTimeout(() => this.minecraft.connect(), loginDelay);
@@ -47,7 +47,7 @@ class StateHandler extends eventHandler {
 
   onKicked(reason) {
     Logger.warnMessage(
-      `Le bot Minecraft a été expulsé du serveur pour "${reason}"`
+      `Le bot Minecraft a été expulsé du serveur pour "${reason}"`,
     );
 
     this.loginAttempts++;

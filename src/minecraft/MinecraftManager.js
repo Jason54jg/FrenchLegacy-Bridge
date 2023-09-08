@@ -49,7 +49,7 @@ class MinecraftManager extends CommunicationBridge {
     Logger.broadcastMessage(`${username}: ${message}`, "Minecraft");
     if (!this.bot.player) return;
 
-    if (username.includes("|")){
+    if (username.includes("|")) {
       username = username.split(" | ")[1];
     }
 
@@ -70,15 +70,15 @@ class MinecraftManager extends CommunicationBridge {
                 replyingTo
                   ? `${username} répond à ${replyingTo}${symbol}`
                   : `${username}${symbol}`
-              } ${message}`
-            )
+              } ${message}`,
+            ),
           )
         : this.bot.chat(
             `/gc ${
               replyingTo
                 ? `${username} répond à ${replyingTo}${symbol}`
                 : `${username}${symbol}`
-            } ${message}`
+            } ${message}`,
           );
     }
 
@@ -90,15 +90,15 @@ class MinecraftManager extends CommunicationBridge {
                 replyingTo
                   ? `${username} répond à ${replyingTo}${symbol}`
                   : `${username}${symbol}`
-              } ${message}`
-            )
+              } ${message}`,
+            ),
           )
         : this.bot.chat(
             `/oc ${
               replyingTo
                 ? `${username} répond à ${replyingTo}${symbol}`
                 : `${username}${symbol}`
-            } ${message}`
+            } ${message}`,
           );
     }
   }

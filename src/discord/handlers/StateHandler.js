@@ -8,7 +8,7 @@ class StateHandler {
 
   async onReady() {
     Logger.discordMessage(
-      "Client prêt, connecté en tant que " + this.discord.client.user.tag
+      "Client prêt, connecté en tant que " + this.discord.client.user.tag,
     );
   }
 

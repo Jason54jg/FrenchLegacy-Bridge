@@ -25,17 +25,27 @@ module.exports = {
     const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.staffRole) || config.discord.commands.users.includes(user.id))
+      !(
+        user.roles.cache.has(config.discord.commands.staffRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
     ) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
-    const [name, time] = [interaction.options.getString("name"), interaction.options.getString("time")];
+    const [name, time] = [
+      interaction.options.getString("name"),
+      interaction.options.getString("time"),
+    ];
     bot.chat(`/g mute ${name} ${time}`);
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: "Mute" })
-      .setDescription(`Exécuté avec succès \`/g mute ${name} ${time}\`\nRegarde dans <#1014148236132483112>`)
+      .setDescription(
+        `Exécuté avec succès \`/g mute ${name} ${time}\`\nRegarde dans <#1014148236132483112>`,
+      )
       .setFooter({
         text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,

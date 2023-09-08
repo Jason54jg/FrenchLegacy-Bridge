@@ -1,4 +1,6 @@
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const {
+  getLatestProfile,
+} = require("../../../API/functions/getLatestProfile.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const { getBestiary } = require("../../../API/stats/bestiary.js");
@@ -30,11 +32,13 @@ class bestiaryCommand extends minecraftCommand {
 
       const bestiary = getBestiary(data.profile);
       if (bestiary === null) {
-        return this.send(`/gc Ce joueur n'a pas encore rejoint SkyBlock depuis la mise à jour du bestiaire.`);
+        return this.send(
+          `/gc Ce joueur n'a pas encore rejoint SkyBlock depuis la mise à jour du bestiaire.`,
+        );
       }
 
       this.send(
-        `/gc Étape du bestiaire de ${username}: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`
+        `/gc Étape du bestiaire de ${username}: ${bestiary.milestone} / ${bestiary.maxMilestone} | Unlocked Tiers: ${bestiary.tiersUnlocked} / ${bestiary.totalTiers}`,
       );
 
       if (playerUsername === username) {
@@ -43,7 +47,9 @@ class bestiaryCommand extends minecraftCommand {
             if (category === "fishing") {
               Object.keys(bestiary.categories[category]).map((key) => {
                 if (key === "name") return;
-                return bestiary.categories[category][key].mobs.map((mob) => mob);
+                return bestiary.categories[category][key].mobs.map(
+                  (mob) => mob,
+                );
               });
             } else {
               return bestiary.categories[category].mobs.map((mob) => mob);
@@ -51,16 +57,22 @@ class bestiaryCommand extends minecraftCommand {
           })
           .flat()
           .filter((mob) => mob?.nextTierKills != null)
-          .sort((a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills));
+          .sort(
+            (a, b) => a.nextTierKills - a.kills - (b.nextTierKills - b.kills),
+          );
 
         const topFive = bestiaryData.slice(0, 5);
         const topFiveMobs = topFive.map((mob) => {
-          return `${mob.name}: ${mob.kills} / ${mob.nextTierKills} (${mob.nextTierKills - mob.kills})`;
+          return `${mob.name}: ${mob.kills} / ${mob.nextTierKills} (${
+            mob.nextTierKills - mob.kills
+          })`;
         });
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        this.send(`/gc Le plus proche du niveau supérieur: ${topFiveMobs.join(", ")}`);
+        this.send(
+          `/gc Le plus proche du niveau supérieur: ${topFiveMobs.join(", ")}`,
+        );
       }
     } catch (error) {
       console.log(error);

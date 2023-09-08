@@ -28,21 +28,27 @@ class MessageHandler {
         username: "",
         message: "",
         replyingTo: "",
-      }
-      if (message.author.id === config.discord.bot.webhookid && message.channel.id === config.discord.channels.guildChatChannel) {
-        const tag = config.discord.bot.tag2
+      };
+      if (
+        message.author.id === config.discord.bot.webhookid &&
+        message.channel.id === config.discord.channels.guildChatChannel
+      ) {
+        const tag = config.discord.bot.tag2;
         const webhook = await message.channel.fetchWebhooks();
         if (webhook.size > 0) {
-          const firstWebhook = webhook.first()
-          const webhookUsername = message.author.username
+          const firstWebhook = webhook.first();
+          const webhookUsername = message.author.username;
           if (webhookUsername.includes(tag)) {
-            messageData.channel = message.channel.id
-            messageData.username = webhookUsername.replace(tag, "")
-            messageData.message = message.content
+            messageData.channel = message.channel.id;
+            messageData.username = webhookUsername.replace(tag, "");
+            messageData.message = message.content;
           }
         }
       } else {
-        if (message.author.id === client.user.id || !this.shouldBroadcastMessage(message)) {
+        if (
+          message.author.id === client.user.id ||
+          !this.shouldBroadcastMessage(message)
+        ) {
           return;
         }
 
@@ -51,29 +57,34 @@ class MessageHandler {
           return;
         }
 
-        messageData.member = message.member.user
-        messageData.channel = message.channel.id
-        messageData.username = message.member.displayName
-        messageData.message = content
-        messageData.replyingTo = await this.fetchReply(message)
+        messageData.member = message.member.user;
+        messageData.channel = message.channel.id;
+        messageData.username = message.member.displayName;
+        messageData.message = content;
+        messageData.replyingTo = await this.fetchReply(message);
 
-      const images = content.split(" ").filter((line) => line.startsWith("http"));
-      for (const attachment of message.attachments.values()) {
-        images.push(attachment.url);
-      }
+        const images = content
+          .split(" ")
+          .filter((line) => line.startsWith("http"));
+        for (const attachment of message.attachments.values()) {
+          images.push(attachment.url);
+        }
 
-      if (images.length > 0) {
-        for (const attachment of images) {
-          const imgurLink = await uploadImage(attachment);
+        if (images.length > 0) {
+          for (const attachment of images) {
+            const imgurLink = await uploadImage(attachment);
 
-          messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
+            messageData.message = messageData.message.replace(
+              attachment,
+              imgurLink.data.link,
+            );
 
-          if (messageData.message.includes(imgurLink.data.link) === false) {
-            messageData.message += ` ${imgurLink.data.link}`;
+            if (messageData.message.includes(imgurLink.data.link) === false) {
+              messageData.message += ` ${imgurLink.data.link}`;
+            }
           }
         }
       }
-    }
 
       if (messageData.message.length === 0) return;
 
@@ -85,17 +96,25 @@ class MessageHandler {
 
   async fetchReply(message) {
     try {
-      if (message.reference?.messageId === undefined || message.mentions === undefined) {
+      if (
+        message.reference?.messageId === undefined ||
+        message.mentions === undefined
+      ) {
         return null;
       }
 
       const reference = await message.channel.messages.fetch(
-        message.reference.messageId
+        message.reference.messageId,
       );
 
-      const mentionedUserName = message.mentions.repliedUser.globalName ?? message.mentions.repliedUser.username;
+      const mentionedUserName =
+        message.mentions.repliedUser.globalName ??
+        message.mentions.repliedUser.username;
 
-      if (config.discord.other.messageMode === "bot" && reference.embed !== null) {
+      if (
+        config.discord.other.messageMode === "bot" &&
+        reference.embed !== null
+      ) {
         const name = reference.embeds[0]?.author?.name;
         if (name === undefined) {
           return mentionedUserName;
@@ -104,7 +123,10 @@ class MessageHandler {
         return name;
       }
 
-      if (config.discord.other.messageMode === "minecraft" && reference.attachments !== null) {
+      if (
+        config.discord.other.messageMode === "minecraft" &&
+        reference.attachments !== null
+      ) {
         const name = reference.attachments.values()?.next()?.value?.name;
         if (name === undefined) {
           return mentionedUserName;

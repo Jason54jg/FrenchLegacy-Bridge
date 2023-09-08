@@ -30,7 +30,7 @@ module.exports = {
     const username =
       (
         await axios.get(
-          `https://sessionserver.mojang.com/session/minecraft/profile/${name}/`
+          `https://sessionserver.mojang.com/session/minecraft/profile/${name}/`,
         )
       ).data.name || name;
     const rank = (await hypixel.getPlayer(name)).rank;

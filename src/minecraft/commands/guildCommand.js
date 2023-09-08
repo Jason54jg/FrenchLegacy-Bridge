@@ -33,15 +33,11 @@ class GuildInformationCommand extends minecraftCommand {
         `/gc Guild ${guildName} | Tag: [${guild.tag}] | Members: ${
           guild.members.length
         } | Niveau: ${guild.level} | GEXP hebdomadaire: ${formatNumber(
-          guild.totalWeeklyGexp
-        )}`
+          guild.totalWeeklyGexp,
+        )}`,
       );
     } catch (error) {
-      this.send(
-        `/gc ${error
-          .toString()
-          .replace("[hypixel-api-reborn] ", "")}`
-      );
+      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
     }
   }
 }

@@ -91,8 +91,8 @@ class StateHandler extends eventHandler {
           .split("has")[0]
           .replaceAll(
             "-----------------------------------------------------\n",
-            ""
-          )
+            "",
+          ),
       );
       const uuid = await getUUID(username);
       if (config.minecraft.guildRequirement.enabled) {
@@ -125,7 +125,7 @@ class StateHandler extends eventHandler {
         bot.chat(
           `/oc ${username} ${
             meetRequirements ? "meets" : "Doesn't meet"
-          } Se conforme aux exigences. SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`
+          } Se conforme aux exigences. SB Weight: ${weight.toLocaleString()} | SB Level: ${skyblockLevel.toLocaleString()}`,
         );
 
         if (meetRequirements === true) {
@@ -147,7 +147,7 @@ class StateHandler extends eventHandler {
                 name: "Skyblock Level",
                 value: `${skyblockLevel.toLocaleString()}`,
                 inline: true,
-              }
+              },
             )
             .setThumbnail(`https://www.mc-heads.net/avatar/${player.nickname}`)
             .setFooter({
@@ -199,7 +199,11 @@ class StateHandler extends eventHandler {
         .trim()
         .split(/ +/g)[0];
       await delay(1000);
-      bot.chat(`/gc ${this.replaceVariables(messages.guildJoinMessage, {prefix: config.minecraft.bot.prefix})}`);
+      bot.chat(
+        `/gc ${this.replaceVariables(messages.guildJoinMessage, {
+          prefix: config.minecraft.bot.prefix,
+        })}`,
+      );
       return this.minecraft.broadcastHeadedEmbed({
         message: this.replaceVariables(messages.joinMessage, { username }),
         title: `Membre rejoint`,
@@ -553,10 +557,18 @@ class StateHandler extends eventHandler {
     }
 
     if (match && this.isDiscordMessage(message) === false) {
-      const { chatType, /* rank, */ username, guildRank = "Member", message } = match.groups;
+      const {
+        chatType,
+        /* rank, */ username,
+        guildRank = "Member",
+        message,
+      } = match.groups;
 
       // TODO: fix regex so there's no need for this
-      if (this.isLoginMessage(`Guild > ${message}`) || this.isLogoutMessage(`Guild > ${message}`)) {
+      if (
+        this.isLoginMessage(`Guild > ${message}`) ||
+        this.isLogoutMessage(`Guild > ${message}`)
+      ) {
         return;
       }
 
@@ -571,10 +583,18 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isCommand(match.groups.message)) {
-      const { username = match?.groups?.username, prefix, command, args } = this.getCommandData(match.groups.message);
+      const {
+        username = match?.groups?.username,
+        prefix,
+        command,
+        args,
+      } = this.getCommandData(match.groups.message);
 
       if (this.isDiscordMessage(message) === true) {
-        return this.command.handle(username, `${prefix}${command} ${args ?? ""}`);
+        return this.command.handle(
+          username,
+          `${prefix}${command} ${args ?? ""}`,
+        );
       }
 
       this.command.handle(username, match.groups.message);
@@ -582,14 +602,16 @@ class StateHandler extends eventHandler {
   }
 
   isDiscordMessage(message) {
-    const regex = new RegExp(`^(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*(?<message>.+?)\\s*$`);
+    const regex = new RegExp(
+      `^(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*(?<message>.+?)\\s*$`,
+    );
 
     return regex.test(message);
   }
 
   isCommand(message) {
     const regex = new RegExp(
-      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
+      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`,
     );
 
     return regex.test(message);
@@ -597,7 +619,7 @@ class StateHandler extends eventHandler {
 
   getCommandData(message) {
     const regex = new RegExp(
-      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`
+      `^(?:(?<username>.+?)${config.minecraft.bot.messageFormat}\\s*)?(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`,
     );
 
     const match = message.match(regex);
@@ -638,7 +660,7 @@ class StateHandler extends eventHandler {
   isAlreadyBlacklistedMessage(message) {
     return (
       message.includes(
-        `You've already ignored that player! /ignore remove Player to unignore them!`
+        `You've already ignored that player! /ignore remove Player to unignore them!`,
       ) && !message.includes(":")
     );
   }
@@ -731,10 +753,10 @@ class StateHandler extends eventHandler {
       (message.includes("You must be the Guild Master to use that command!") ||
         message.includes("You do not have permission to use this command!") ||
         message.includes(
-          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
+          "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.",
         ) ||
         message.includes(
-          "You cannot mute a guild member with a higher guild rank!"
+          "You cannot mute a guild member with a higher guild rank!",
         ) ||
         message.includes("You cannot kick this player!") ||
         message.includes("You can only promote up to your own rank!") ||
@@ -742,7 +764,7 @@ class StateHandler extends eventHandler {
         message.includes("is the guild master so can't be demoted!") ||
         message.includes("is the guild master so can't be promoted anymore!") ||
         message.includes(
-          "You do not have permission to kick people from the guild!"
+          "You do not have permission to kick people from the guild!",
         )) &&
       !message.includes(":")
     );
@@ -764,7 +786,7 @@ class StateHandler extends eventHandler {
     return (
       message.includes("You sent an offline invite to") &&
       message.includes(
-        "They will have 5 minutes to accept once they come online!"
+        "They will have 5 minutes to accept once they come online!",
       ) &&
       !message.includes(":")
     );
@@ -854,7 +876,7 @@ class StateHandler extends eventHandler {
   isTooFast(message) {
     return (
       message.includes(
-        "You are sending commands too fast! Please slow down."
+        "You are sending commands too fast! Please slow down.",
       ) && !message.includes(":")
     );
   }

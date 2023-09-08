@@ -12,9 +12,14 @@ module.exports = {
     const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.adminRole) || config.discord.commands.users.includes(user.id))
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
     ) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     const restartEmbed = new EmbedBuilder()
@@ -22,7 +27,8 @@ module.exports = {
       .setDescription("Le bot redémarre. Cela peut prendre quelques secondes.")
       .setFooter({
         text: `${messages.footerhelp}`,
-        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        iconURL:
+          "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     interaction.followUp({ embeds: [restartEmbed] });
@@ -39,7 +45,8 @@ module.exports = {
       .setDescription("Le bot a été redémarré avec succès.")
       .setFooter({
         text: `${messages.footerhelp}`,
-        iconURL: "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
+        iconURL:
+          "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
 
     interaction.editReply({ embeds: [successfulRestartEmbed] });

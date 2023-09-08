@@ -78,11 +78,11 @@ Le `commandRole` est l'ID de n'importe quel rôle sur le serveur pour lequel le 
 Le `messageMode` peut être soit `bot`, `webhook` ou `minecraft`. Cela sélectionne la façon dont les messages doivent être affichés lorsqu'ils sont envoyés de Minecraft à Discord. Si le mode webhook est sélectionné, le bot a besoin de l'autorisation "Gérer les webhooks" dans le canal dans lequel il s'exécute. Le bot a toujours besoin des autorisations "Envoyer des messages" et "Afficher le canal" dans le canal dans lequel vous l'utilisez.
 
 - Webhook Example
-> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/f53e46d0-fae5-49f5-bdda-c6f6520e1921)
+  > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/f53e46d0-fae5-49f5-bdda-c6f6520e1921)
 - Bot Example
-> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7e693926-1408-4f7c-8da8-5f4984fd6ac2)
+  > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7e693926-1408-4f7c-8da8-5f4984fd6ac2)
 - Minecraft Example
-> ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/5954245a-fc72-49c0-9a33-c3040788225b)
+  > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/5954245a-fc72-49c0-9a33-c3040788225b)
 
 > Remarque - La limite de taux Discord pour les webhooks est de 30 requêtes toutes les 60 secondes, alors que pour les messages de bot normaux, c'est 5 messages toutes les 5 secondes. L'utilisation de webhooks réduit de moitié le nombre de messages que le bot peut envoyer par minute, ce qui peut causer des problèmes dans une guilde active.
 
@@ -115,9 +115,11 @@ L'API Imgur peut être générée [ici](https://api.imgur.com/oauth2/addclient).
 ### Event
 
 Les options d'événement incluent divers événements qui seront notifiés par le robot 30 et 5 minutes avant le début de l'événement. Si vous n'aimez pas l'un des événements, changez simplement la valeur de "true" à "false". Il est également possible de désactiver complètement la notification de bot dans l'option "activé".
+
 > Preview
 
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/0fc99431-3213-40fa-949b-6acca62ef63c)
+
 ### Guild Requirements
 
 Le bot inclut également l'acceptation automatique de la guilde si l'utilisateur répond aux exigences. Les exigences sont définies dans le config.json, si la valeur de l'exigence est de 0 ou inférieure à 0, elle ne sera pas prise en compte.
@@ -166,7 +168,7 @@ La propriété `skyblockVersion` détermine si le bot doit envoyer un message lo
 `Minecraft`
 
 | Command     | Description                                                       | Syntax                           | Example                   | Response                                                                                                                                                                                                                                           |
-|-------------| ----------------------------------------------------------------- | -------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ----------- | ----------------------------------------------------------------- | -------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | accessories | Accessoires de l'utilisateur spécifié.                            | `!accessories [joueur]`          | `!accessories CherchePas` | `Accessoires de Refraction » 98 Recombobulés » 97 Enrichis » 43` & `Accessoires de Refraction » Communs - 0 Inhabituels - 16 Rares - 13 Épiques - 26 Légendaires - 16 Spéciaux - 0 Très Spéciaux - 2`                                              |
 | armor       | Rend l'armure de l'utilisateur spécifié.                          | `!armor [joueur]`                | `!armor CherchePas`       | `L'armure de DeathStreeks » https://i.imgur.com/JdijFmo.png https://i.imgur.com/8uBpRrY.png https://i.imgur.com/oVQl6WV.png https://i.imgur .com/x7wlfnk.png`                                                                                      |
 | auction     | Enchères actives de l'utilisateur spécifié.                       | `!auction [joueur]`              | `!auction CherchePas`     | `Les enchères actives de DuckySoSkilled » https://i.imgur.com/9Jw8zCK.png`                                                                                                                                                                         |
@@ -188,6 +190,7 @@ La propriété `skyblockVersion` détermine si le bot doit envoyer un message lo
 | warpout     | Permet de faire partire quelqu'un de votre lobby si il accepte.   | `!warpout [joueur]`              | `!warpout CherchePas`     |
 
 Bot prend également en charge les commandes Soopy V2, le préfixe est le même que le préfixe du mod.
+
 > ![image](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/assets/75372052/7de05d26-6b2d-4c42-b5d1-1ef0da7edafa)
 
 ### Chat Triggers Module

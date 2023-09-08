@@ -16,15 +16,21 @@ module.exports = {
     const user = interaction.member;
     if (
       config.discord.commands.checkPerms === true &&
-      !(user.roles.cache.has(config.discord.commands.adminRole) || config.discord.commands.users.includes(user.id))
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
     ) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     const terms = new EmbedBuilder()
+      .setDescription("# Termes et conditions")
       .addFields(
         {
-          name: "Termes et conditions",
+          name: "\u200b",
           value:
             "**1)** Dans les 30 minutes suivant l'ouverture d'un ticket, veuillez indiquer votre IGN et le nombre de runs que vous souhaitez.\n**2)** Ne faites pas de ticket de service si vous n'êtes pas prêt à le recevoir.\n**3)** Le paiement est effectué d'avance, sans exception.\n**4)** Une fois que vous entrez dans le kuudra, la classe que vous choisissez dépend du carrier afin qu'il puisse vous proposer un carry plus efficace.\n**5)** Votre carry est considéré comme terminé lorsque le carry se termine et que vous obtenez le score que vous avez commandé.\n**6)** Tout le butin que vous recevez est entièrement à vous.",
         },
@@ -32,7 +38,7 @@ module.exports = {
           name: "__**Remarques**__",
           value:
             "Vous pouvez être averti si vous ouvrez un ticket et n'y envoyez pas de message pendant 30 minutes. Vous pouvez recevoir un avertissement si vous ne donner pas de réponse pendant plus d'un jour. Si vous êtes averti plus de 5 fois vous recevrez une liste noir de tickets.",
-        }
+        },
       )
       .setFooter({
         text: "FrenchLegacy",
@@ -40,10 +46,7 @@ module.exports = {
       });
 
     const kuudra1 = new EmbedBuilder()
-      .setAuthor({
-        name: "Kuudra Basic Tier",
-        iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
-      })
+      .setDescription("# Kuudra Basic Tier")
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({ name: "Runs", value: "- 1 Run: 5m\n- 5 ou plus: 4m/unité" })
       .setFooter({
@@ -52,10 +55,7 @@ module.exports = {
       });
 
     const kuudra2 = new EmbedBuilder()
-      .setAuthor({
-        name: "Kuudra Hot Tier",
-        iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
-      })
+      .setDescription("# Kuudra Hot Tier")
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({ name: "Runs", value: "- 1 Run: 9m\n- 5 ou plus: 7m/unité" })
       .setFooter({
@@ -64,10 +64,7 @@ module.exports = {
       });
 
     const kuudra3 = new EmbedBuilder()
-      .setAuthor({
-        name: "Kuudra Burning Tier",
-        iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
-      })
+      .setDescription("# Kuudra Burning Tier")
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
@@ -79,10 +76,7 @@ module.exports = {
       });
 
     const kuudra4 = new EmbedBuilder()
-      .setAuthor({
-        name: "Kuudra Fiery Tier",
-        iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
-      })
+      .setDescription("# Kuudra Fiery Tier")
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
@@ -94,10 +88,7 @@ module.exports = {
       });
 
     const kuudra5 = new EmbedBuilder()
-      .setAuthor({
-        name: "Kuudra Infernal Tier",
-        iconURL: "https://cdn.discordapp.com/emojis/1049723395740274709.png",
-      })
+      .setDescription("# Kuudra Infernal Tier")
       .setThumbnail("https://cdn.discordapp.com/emojis/1049723395740274709.png")
       .addFields({
         name: "Runs",
@@ -109,12 +100,11 @@ module.exports = {
       });
 
     const conditions = new EmbedBuilder()
-      .setTitle("Conditions d'entrée")
       .setDescription(
-        "Veuillez vous assurer que vous remplissez les conditions d'entrée lors de la création d'un ticket. Les conditions d'entrée sont les suivantes:"
+        "# Conditions d'entrée\nVeuillez vous assurer que vous remplissez les conditions d'entrée lors de la création d'un ticket. Les conditions d'entrée sont les suivantes:",
       )
       .addFields({
-        name: "▬▬▬▬▬▬▬▬",
+        name: "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬",
         value:
           "Kuudra Basic Tier nécessite l'achèvement de la quête\nKuudra Hot Tier nécessite 1,000 de reputation\nKuudra Burning Tier nécessite 3,000 de reputation\nKuudra Fiery Tier nécessite 7,000 de reputation\n\nRemarque : l'achèvement des niveaux précédents est requis pour entrer dans le niveau pour lequel vous achetez un carry.",
         inline: true,
@@ -125,8 +115,9 @@ module.exports = {
       });
 
     const service = new EmbedBuilder()
+      .setDescription("# Services de carry kuudra")
       .addFields({
-        name: "Services de carry kuudra",
+        name: "\u200b",
         value:
           "<:Kuudra:1049723395740274709>: Kuudra Basic Tier\n<:Kuudra:1049723395740274709>: Kuudra Hot Tier\n<:Kuudra:1049723395740274709>: Kuudra Burning Tier\n<:Kuudra:1049723395740274709>: Kuudra Fiery Tier\n<:Kuudra:1049723395740274709>: Kuudra Infernal Tier\n\n(Ce sont les prix des carrys publics, les membres de la guilde auront une réduction de 30% sur le prix de base)",
       })
@@ -172,7 +163,7 @@ module.exports = {
             .setCustomId("carry-k5")
             .setLabel("Infernal")
             .setEmoji("1049723395740274709")
-            .setStyle(ButtonStyle.Primary)
+            .setStyle(ButtonStyle.Primary),
         ),
       ],
     });

@@ -25,18 +25,18 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         }
 
         const minutes = Math.floor(
-          (eventData.events[0].start_timestamp - Date.now()) / 1000 / 60
+          (eventData.events[0].start_timestamp - Date.now()) / 1000 / 60,
         );
 
         let extraInfo = "";
         if (event == "JACOBS_CONTEST") {
           const { data: jacobResponse } = await axios.get(
-            "https://dawjaw.net/jacobs"
+            "https://dawjaw.net/jacobs",
           );
           const jacobCrops = jacobResponse.find(
             (crop) =>
               crop.time >=
-              Math.floor(eventData.events[0].start_timestamp / 1000)
+              Math.floor(eventData.events[0].start_timestamp / 1000),
           );
 
           if (jacobCrops?.crops !== undefined) {
@@ -45,7 +45,9 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         }
         const cTime = getCustomTime(customTime, event);
         if (cTime.length !== 0 && cTime.includes(minutes.toString())) {
-          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`);
+          eventBOT.send(
+            `/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`,
+          );
           await delay(1500);
         }
 

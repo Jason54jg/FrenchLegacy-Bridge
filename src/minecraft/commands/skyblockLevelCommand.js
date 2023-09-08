@@ -32,7 +32,7 @@ class CatacombsCommand extends minecraftCommand {
       this.send(
         `/gc Niveau Skyblock de ${username}: ${
           experience ? experience / 100 : 0
-        }`
+        }`,
       );
     } catch (error) {
       console.log(error);

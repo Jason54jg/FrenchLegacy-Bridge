@@ -52,13 +52,13 @@ module.exports = {
       if (floor) {
         return (
           (Math.floor((number / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
+            rounding.toString().length - 1,
           ) + "K"
         );
       } else {
         return (
           (Math.ceil((number / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
+            rounding.toString().length - 1,
           ) + "K"
         );
       }
@@ -72,13 +72,13 @@ module.exports = {
       if (floor) {
         return (
           (Math.floor((number / 1000 / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
+            rounding.toString().length - 1,
           ) + "M"
         );
       } else {
         return (
           (Math.ceil((number / 1000 / 1000) * rounding) / rounding).toFixed(
-            rounding.toString().length - 1
+            rounding.toString().length - 1,
           ) + "M"
         );
       }

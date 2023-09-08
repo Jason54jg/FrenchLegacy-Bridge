@@ -1,5 +1,10 @@
-const { formatNumber, formatUsername } = require("../../contracts/helperFunctions.js");
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const {
+  formatNumber,
+  formatUsername,
+} = require("../../contracts/helperFunctions.js");
+const {
+  getLatestProfile,
+} = require("../../../API/functions/getLatestProfile.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
 const getDungeons = require("../../../API/stats/dungeons.js");
@@ -44,7 +49,7 @@ class SkyblockCommand extends minecraftCommand {
         ]);
 
       const senitherWeight = Math.floor(
-        weight?.senither?.total || 0
+        weight?.senither?.total || 0,
       ).toLocaleString();
       const lilyWeight = Math.floor(weight?.lily?.total || 0).toLocaleString();
       const skillAverage = (
@@ -73,7 +78,7 @@ class SkyblockCommand extends minecraftCommand {
           data.profile.leveling?.experience
             ? data.profile.leveling.experience / 100
             : 0
-        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`
+        } | Senither Weight: ${senitherWeight} | Lily Weight: ${lilyWeight} | Skill Average: ${skillAverage} | Slayer: ${slayerXp} | Catacombs: ${catacombsLevel} | Class Average: ${classAverage} | Networth: ${networthValue} | Accessories: ${talismanCount} | Recombobulated: ${recombobulatedCount} | Enriched: ${enrichmentCount}`,
       );
     } catch (error) {
       console.log(error);

@@ -48,7 +48,11 @@ class SkillsCommand extends minecraftCommand {
         })
         .join(", ");
 
-      this.send(`/gc Moyenne de skills de ${username}: ${skillAverage ?? 0} (${skillsFormatted})`);
+      this.send(
+        `/gc Moyenne de skills de ${username}: ${
+          skillAverage ?? 0
+        } (${skillsFormatted})`,
+      );
     } catch (error) {
       this.send(`/gc Erreur: ${error}}`);
     }

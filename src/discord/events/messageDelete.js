@@ -11,8 +11,8 @@ module.exports = {
         message.channel
       }\n**→ Temps:** <t:${+toFixed(
         (Date.now() + client.uptime) / 1000,
-        0
-      )}:R>\n**→ message:** ${message.content}`
+        0,
+      )}:R>\n**→ message:** ${message.content}`,
     );
 
     const channel = message.guild.channels.cache.get("1084756237675147304");

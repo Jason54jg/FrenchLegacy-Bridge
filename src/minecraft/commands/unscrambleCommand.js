@@ -38,7 +38,7 @@ class unscrambleCommand extends minecraftCommand {
 
         if (remainingTime > 0) {
           return this.send(
-            `/gc Veuillez patienter jusqu'à la fin de la partie en cours.`
+            `/gc Veuillez patienter jusqu'à la fin de la partie en cours.`,
           );
         }
       }
@@ -50,7 +50,7 @@ class unscrambleCommand extends minecraftCommand {
           this.send(
             `/gc ${username} a bien deviné! Temps écoulé: ${(
               Date.now() - startTime
-            ).toLocaleString()}ms!`
+            ).toLocaleString()}ms!`,
           );
 
           bot.removeListener("chat", listener);

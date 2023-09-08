@@ -50,7 +50,7 @@ module.exports = {
     let roleStaff = interaction.guild.roles.cache.get(roles.staffRole);
 
     let DejaUnChannel = interaction.guild.channels.cache.find(
-      (c) => c.topic == interaction.user.id
+      (c) => c.topic == interaction.user.id,
     );
 
     if (interaction.customId.includes("ticket-close")) {
@@ -63,7 +63,7 @@ module.exports = {
       await interaction.message.edit({ components: [rowPanel] });
 
       const rowDeleteFalse = new ActionRowBuilder().addComponents(
-        disabledButtonCloseTicket
+        disabledButtonCloseTicket,
       );
 
       const rowDeleteTrue = new ActionRowBuilder().addComponents(
@@ -72,14 +72,14 @@ module.exports = {
           .setEmoji("🗑️")
           .setDisabled(false)
           .setCustomId(
-            `ticket-delete${requestId != null ? `-${requestId}` : ""}`
-          )
+            `ticket-delete${requestId != null ? `-${requestId}` : ""}`,
+          ),
       );
 
       const embed = new EmbedBuilder()
         .setTitle("Fermer le ticket!")
         .setDescription(
-          `ticket fermé par <@${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+          `ticket fermé par <@${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`,
         );
 
       interaction
@@ -92,7 +92,7 @@ module.exports = {
               }`,
             });
             interaction.editReply({ components: [rowDeleteTrue] });
-          }, 2000)
+          }, 2000),
         );
 
       if (member == undefined) {
@@ -154,7 +154,7 @@ module.exports = {
       // Vérifie que la personne qui claim possède le role
       if (
         !interaction.member._roles.includes(
-          interaction.message.content.split("&")[1].split(">")[0]
+          interaction.message.content.split("&")[1].split(">")[0],
         )
       ) {
         return interaction.reply({
@@ -186,7 +186,7 @@ module.exports = {
               .setCustomId("claim-end")
               .setLabel(" | Carry effectué")
               .setEmoji("🔒")
-              .setStyle(ButtonStyle.Success)
+              .setStyle(ButtonStyle.Success),
           ),
         ],
       });
@@ -195,7 +195,7 @@ module.exports = {
         components: [
           new ActionRowBuilder().addComponents(
             buttonCloseTicket,
-            buttonClaimTicket.setDisabled(true)
+            buttonClaimTicket.setDisabled(true),
           ),
         ],
       });
@@ -346,7 +346,7 @@ module.exports = {
                   .setCustomId("ticket-close-carrierrequest")
                   .setLabel(" | fermer le ticket")
                   .setEmoji("🔒")
-                  .setStyle(ButtonStyle.Danger)
+                  .setStyle(ButtonStyle.Danger),
               ),
             ],
           });
@@ -384,13 +384,13 @@ async function manageModalInteraction(interaction, client) {
     // Données issue du message principal
     carryAmount = parseInt(carryAmount);
     const nbCarryTotal = parseInt(
-      firstMessage.content.split("/")[1].split("c")[0].trim()
+      firstMessage.content.split("/")[1].split("c")[0].trim(),
     );
     const nbCarryDone = parseInt(
-      firstMessage.content.split("|")[2].split("/")[0].trim()
+      firstMessage.content.split("|")[2].split("/")[0].trim(),
     );
     const pointsTotal = parseInt(
-      firstMessage.content.split("|")[2].split(">")[1].split("p")[0].trim()
+      firstMessage.content.split("|")[2].split(">")[1].split("p")[0].trim(),
     );
     const carryToDo = nbCarryTotal - nbCarryDone;
     const carryRemaining = nbCarryTotal - (nbCarryDone + carryAmount);
@@ -440,7 +440,7 @@ async function manageModalInteraction(interaction, client) {
       components: [
         new ActionRowBuilder().addComponents(
           buttonCloseTicket,
-          buttonClaimTicket.setDisabled(false)
+          buttonClaimTicket.setDisabled(false),
         ),
       ],
     });
@@ -773,7 +773,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4WolfId,
       roles.catégorieslayer,
       "Wolf T4: 50k/unité\nPrix pour (10 ou plus) : 40k/unité",
-      "<:Wolf:1134075444392640573>"
+      "<:Wolf:1134075444392640573>",
     );
   } else if (interaction.customId == "T3Spider") {
     createCarryChannel(
@@ -783,7 +783,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT3SpiderId,
       roles.catégorieslayer,
       "Spider: 70k/unité \nPrix pour (10 ou plus) : 50k/unité",
-      "<:Spider:1081243964755157012>"
+      "<:Spider:1081243964755157012>",
     );
   } else if (interaction.customId == "T4Spider") {
     createCarryChannel(
@@ -793,7 +793,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4SpiderId,
       roles.catégorieslayer,
       "Spider T4: 100k/unité \nPrix pour (10 ou plus) : 90k/unité",
-      "<:Spider:1081243964755157012>"
+      "<:Spider:1081243964755157012>",
     );
   } else if (interaction.customId == "T4REV") {
     createCarryChannel(
@@ -803,7 +803,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4REVId,
       roles.catégorieslayer,
       "Zombie T4: 150k/unité \nPrix pour (10 ou plus) : 80k/unité",
-      "<:Revenant:1039706422465794158>"
+      "<:Revenant:1039706422465794158>",
     );
   } else if (interaction.customId == "T5REV") {
     createCarryChannel(
@@ -813,7 +813,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT5REVId,
       roles.catégorieslayer,
       "Zombie T5: 200k/unité \nPrix pour (10 ou plus) : 150k/unité",
-      "<:Revenant:1039706422465794158>"
+      "<:Revenant:1039706422465794158>",
     );
   } else if (interaction.customId == "T3eman") {
     createCarryChannel(
@@ -823,7 +823,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT3emanId,
       roles.catégorieslayer,
       "Voidgloom Seraph 3: 800k/unité \nPrix pour (10 ou plus) : 600k/unité",
-      "<:Enderman:1039706047214014464>"
+      "<:Enderman:1039706047214014464>",
     );
   } else if (interaction.customId == "T4eman") {
     createCarryChannel(
@@ -833,7 +833,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4emanId,
       roles.catégorieslayer,
       "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
-      "<:Enderman:1039706047214014464>"
+      "<:Enderman:1039706047214014464>",
     );
   } else if (interaction.customId == "T2blaze") {
     createCarryChannel(
@@ -843,7 +843,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT2blazeId,
       roles.catégorieslayer,
       "Inferno Demonlord 2: 1m/unité \nPrix pour (10 ou plus) : 850k/unité",
-      "<:Blaze:1039705790501617745>"
+      "<:Blaze:1039705790501617745>",
     );
   } else if (interaction.customId == "T3blaze") {
     createCarryChannel(
@@ -853,7 +853,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT3blazeId,
       roles.catégorieslayer,
       "Inferno Demonlord 3: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
-      "<:Blaze:1039705790501617745>"
+      "<:Blaze:1039705790501617745>",
     );
   } else if (interaction.customId == "T4blaze") {
     createCarryChannel(
@@ -863,7 +863,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4blazeId,
       roles.catégorieslayer,
       "Inferno Demonlord 4: 6.5m/unité \nPrix pour (10 ou plus) : 6m/unité",
-      "<:Blaze:1039705790501617745>"
+      "<:Blaze:1039705790501617745>",
     );
   }
 
@@ -876,7 +876,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT1kuudraId,
       roles.catégoriekuudra,
       "**Runs**\n- 1 Run: 5m\n- 5 ou plus: 4m unité",
-      "<:Kuudra:1049723520072044614>"
+      "<:Kuudra:1049723520072044614>",
     );
   } else if (interaction.customId == "k2") {
     createCarryChannel(
@@ -886,7 +886,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT2kuudraId,
       roles.catégoriekuudra,
       "**Runs**\n- 1 Run: 9m\n- 5 ou plus: 7m unité",
-      "<:Kuudra:1049723520072044614>"
+      "<:Kuudra:1049723520072044614>",
     );
   } else if (interaction.customId == "k3") {
     createCarryChannel(
@@ -896,7 +896,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT3kuudraId,
       roles.catégoriekuudra,
       "**Runs**\n- 1 Run: 13m\n- 5 ou plus: 10m unité",
-      "<:Kuudra:1049723520072044614>"
+      "<:Kuudra:1049723520072044614>",
     );
   } else if (interaction.customId == "k4") {
     createCarryChannel(
@@ -906,7 +906,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT4kuudraId,
       roles.catégoriekuudra,
       "**Runs**\n- 1 Run: 18m\n- 5 ou plus: 15m unité",
-      "<:Kuudra:1049723520072044614>"
+      "<:Kuudra:1049723520072044614>",
     );
   } else if (interaction.customId == "k5") {
     createCarryChannel(
@@ -916,7 +916,7 @@ async function manageModalInteraction(interaction, client) {
       roles.roleT5kuudraId,
       roles.catégoriekuudra,
       "**Runs**\n- 1 Run: 40m\n- 5 ou plus: 30m unité",
-      "<:Kuudra:1049723520072044614>"
+      "<:Kuudra:1049723520072044614>",
     );
   }
 
@@ -929,7 +929,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef1Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
-      "<:Bonzo:1039705817252909147>"
+      "<:Bonzo:1039705817252909147>",
     );
   } else if (interaction.customId == "f2") {
     createCarryChannel(
@@ -939,7 +939,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef2Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité",
-      "<:Scarf:1039705859518910634>"
+      "<:Scarf:1039705859518910634>",
     );
   } else if (interaction.customId == "f3") {
     createCarryChannel(
@@ -949,7 +949,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef3Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité",
-      "<:Professor:1039705994768425050>"
+      "<:Professor:1039705994768425050>",
     );
   } else if (interaction.customId == "f4") {
     createCarryChannel(
@@ -959,7 +959,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef4Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité",
-      "<:Thorn:1039692699625865276>"
+      "<:Thorn:1039692699625865276>",
     );
   } else if (interaction.customId == "f5") {
     createCarryChannel(
@@ -969,7 +969,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef5Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité",
-      "<:Livid:1039692626665934900>"
+      "<:Livid:1039692626665934900>",
     );
   } else if (interaction.customId == "f6") {
     createCarryChannel(
@@ -979,7 +979,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef6Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité",
-      "<:Sadan:1039692739488534580>"
+      "<:Sadan:1039692739488534580>",
     );
   } else if (interaction.customId == "f7") {
     createCarryChannel(
@@ -989,7 +989,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolef7Id,
       roles.catégoriefloor,
       "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 8m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité",
-      "<:Necron:1040832502417338458>"
+      "<:Necron:1040832502417338458>",
     );
   } else if (interaction.customId == "m1") {
     createCarryChannel(
@@ -999,7 +999,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem1Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité",
-      "<:Bonzo:1039705817252909147>"
+      "<:Bonzo:1039705817252909147>",
     );
   } else if (interaction.customId == "m2") {
     createCarryChannel(
@@ -1009,7 +1009,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem2Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité",
-      "<:Scarf:1039705859518910634>"
+      "<:Scarf:1039705859518910634>",
     );
   } else if (interaction.customId == "m3") {
     createCarryChannel(
@@ -1019,7 +1019,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem3Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité",
-      "<:Professor:1039705994768425050>"
+      "<:Professor:1039705994768425050>",
     );
   } else if (interaction.customId == "m4") {
     createCarryChannel(
@@ -1029,7 +1029,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem4Id,
       roles.catégoriemaster,
       "**Completion**\n- 1 Run: 10m",
-      "<:Thorn:1039692699625865276>"
+      "<:Thorn:1039692699625865276>",
     );
   } else if (interaction.customId == "m5") {
     createCarryChannel(
@@ -1039,7 +1039,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem5Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité",
-      "<:Livid:1039692626665934900>"
+      "<:Livid:1039692626665934900>",
     );
   } else if (interaction.customId == "m6") {
     createCarryChannel(
@@ -1049,7 +1049,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem6Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité",
-      "<:Sadan:1039692739488534580>"
+      "<:Sadan:1039692739488534580>",
     );
   } else if (interaction.customId == "m7") {
     createCarryChannel(
@@ -1059,7 +1059,7 @@ async function manageModalInteraction(interaction, client) {
       roles.rolem7Id,
       roles.catégoriemaster,
       "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
-      "<:Necron:1040832502417338458>"
+      "<:Necron:1040832502417338458>",
     );
   }
 }
@@ -1071,10 +1071,10 @@ function createCarryChannel(
   roleId,
   categorieId,
   priceInfo,
-  emote
+  emote,
 ) {
   const roleStaff = interaction.guild.roles.cache.get(
-    config.discord.commands.staffRole
+    config.discord.commands.staffRole,
   );
   const role = interaction.guild.roles.cache.get(roleId);
 
@@ -1142,7 +1142,7 @@ function createCarryChannel(
         }`,
         embeds: [
           {
-            description: `Informations sur les prix :\n\n${priceInfo}`,
+            description: `## Informations sur les prix :\n\n${priceInfo}`,
             footer: {
               text: "FrenchLegacy",
               iconURL:
@@ -1153,7 +1153,7 @@ function createCarryChannel(
         components: [
           new ActionRowBuilder().addComponents(
             buttonCloseTicket,
-            buttonClaimTicket.setDisabled(false)
+            buttonClaimTicket.setDisabled(false),
           ),
         ],
       });
@@ -1175,12 +1175,12 @@ async function closeTicket(interaction, ticketType = null) {
     case "carry":
     case "carrierrequest":
       transcriptsChannel = interaction.guild.channels.cache.get(
-        logChannelCarrierService
+        logChannelCarrierService,
       );
       break;
     default:
       transcriptsChannel = interaction.guild.channels.cache.get(
-        logChannelDefaultService
+        logChannelDefaultService,
       );
   }
 
@@ -1194,7 +1194,7 @@ async function closeTicket(interaction, ticketType = null) {
             m.author.tag
           }: ${
             m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content
-          }`
+          }`,
       )
       .join("\n");
 
@@ -1203,14 +1203,14 @@ async function closeTicket(interaction, ticketType = null) {
       {
         title: `Transcript: ${channel.name}`,
         description: " ",
-      }
+      },
     );
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setEmoji("📑")
-        .setURL(`${transcript.url}`)
+        .setURL(`${transcript.url}`),
     );
 
     const embed = new EmbedBuilder().setTitle("Ticket Transcript").addFields(
@@ -1229,7 +1229,7 @@ async function closeTicket(interaction, ticketType = null) {
         name: "Direct Transcript",
         value: `[Direct Transcript](${transcript.url})`,
         inline: true,
-      }
+      },
     );
 
     await transcriptsChannel.send({ embeds: [embed], components: [row] });

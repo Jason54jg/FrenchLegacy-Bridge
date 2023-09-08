@@ -1,4 +1,6 @@
-const { getLatestProfile } = require("../../../API/functions/getLatestProfile.js");
+const {
+  getLatestProfile,
+} = require("../../../API/functions/getLatestProfile.js");
 const { formatUsername } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
 const getTalismans = require("../../../API/stats/talismans.js");
@@ -38,7 +40,11 @@ class AccessoriesCommand extends minecraftCommand {
         .join(", ");
 
       this.send(
-        `/gc Accessoires de ${username}: ${talismans?.total ?? 0} (${rarities}), Recombed: ${talismans?.recombed ?? 0}, Enriched: ${talismans?.enriched ?? 0}`
+        `/gc Accessoires de ${username}: ${
+          talismans?.total ?? 0
+        } (${rarities}), Recombed: ${talismans?.recombed ?? 0}, Enriched: ${
+          talismans?.enriched ?? 0
+        }`,
       );
     } catch (error) {
       this.send(`/gc Erreur: ${error}`);
