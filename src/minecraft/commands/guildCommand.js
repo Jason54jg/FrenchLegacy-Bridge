@@ -37,7 +37,12 @@ class GuildInformationCommand extends minecraftCommand {
         )}`,
       );
     } catch (error) {
-      this.send(`/gc ${error.toString().replace("[hypixel-api-reborn] ", "")}`);
+      this.send(
+        `/gc ${error
+          .toString()
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("Pour obtenir de l'aide, rejoignez notre serveur Discord https://discord.gg/Fpm9qvKbbV", "")}`
+      );
     }
   }
 }
