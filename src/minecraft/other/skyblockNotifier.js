@@ -50,7 +50,7 @@ async function checkForIncidents() {
         hypixelIncidents[title].updates ??= [];
         if (bot !== undefined && bot._client.chat !== undefined) {
           hypixelIncidents[title].updates.push(update);
-          updateBOT.send(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
+          bot.send(`/gc [HYPIXEL STATUS UPDATE] ${title} | ${update}`);
           await new Promise((resolve) => setTimeout(resolve, 1500));
         }
       }
