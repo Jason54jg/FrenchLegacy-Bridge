@@ -1,6 +1,4 @@
-// Credits https://github.com/Altpapier/hypixel-discord-guild-bridge/blob/master/helper/messageToImage.js
-// eslint-disable-next-line
-const { createCanvas, registerFont, loadImage } = require("canvas");
+const { registerFont, createCanvas, loadImage } = require("canvas");
 registerFont("src/contracts/Fonts/MinecraftRegular-Bmg3.ttf", {
   family: "Minecraft",
 });
@@ -87,15 +85,26 @@ async function generateMessageImage(message, username) {
     const colorCode = RGBA_COLOR[msg.charAt(0)];
     const currentMessage = msg.substring(1);
     if (
-      width + ctx.measureText(currentMessage).width > 1000 ||
-      msg.charAt(0) === "n"
+      splitMessage.indexOf(msg) !== splitMessage.length - 1 &&
+      (width + ctx.measureText(currentMessage).width > 1000 || msg.charAt(0) === "n")
     ) {
       width = 5;
       height += 40;
     }
+
+    // Credits to https://github.com/Pixelicc for an idea and code
+    if (currentMessage.trim() === "{skin}") {
+      ctx.drawImage(await loadImage(`https://www.mc-heads.net/avatar/${username}/35`), width, height - 35);
+
+      width += 55;
+
+      continue;
+    }
+
     if (colorCode) {
       ctx.fillStyle = colorCode;
     }
+
     ctx.fillText(currentMessage, width, height);
     width += ctx.measureText(currentMessage).width;
   }

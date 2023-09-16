@@ -2,7 +2,7 @@
   "minecraft": {
     "bot": {
       "prefix": "!",
-      "messageFormat": " »",
+      "messageFormat": "{username} » {message}",
       "messageRepeatBypass": true,
       "messageRepeatBypassLength": 24,
       "pseudo1": "",
@@ -82,7 +82,12 @@
       "checkPerms": true,
       "adminRole": "953370681171644506",
       "staffRole": "1084606469732839474",
-      "users": ["177438319590899712", "320690641850073098", "238809504374980618", "323059785966813184"],
+      "users": [
+        "177438319590899712",
+        "320690641850073098",
+        "238809504374980618",
+        "323059785966813184"
+      ],
       "logChannelCarrier": "",
       "logChannelTicket": "",
       "logChannelDefaultService": "",
@@ -125,6 +130,7 @@
     },
     "other": {
       "messageMode": "webhook",
+      "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
       "joinMessage": false
     }
