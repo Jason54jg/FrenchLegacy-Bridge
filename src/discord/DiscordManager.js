@@ -171,7 +171,7 @@ class DiscordManager extends CommunicationBridge {
   async onBroadcast({ fullMessage, chat, chatType, username, rank, guildRank, message, color = 1752220 }) {
     if (
       (chat === undefined && chatType !== "debugChannel") ||
-      ((username === undefined || message === undefined) && chat !== "debugChannel") || (username==config.minecraft.bot.pseudo1 && "»" in fullMessage)
+      ((username === undefined || message === undefined) && chat !== "debugChannel") || (username==config.minecraft.bot.pseudo1 && fullMessage.includes("»"))
     ) {
       return;
     }
