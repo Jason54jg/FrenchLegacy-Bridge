@@ -24,8 +24,8 @@ dependencies:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
   discord-api-types:
-    specifier: ^0.37.56
-    version: 0.37.56
+    specifier: ^0.37.58
+    version: 0.37.58
   discord-emoji-converter:
     specifier: ^1.2.8
     version: 1.2.8
@@ -1006,8 +1006,8 @@ packages:
     resolution: {integrity: sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==}
     dev: false
 
-  /discord-api-types@0.37.56:
-    resolution: {integrity: sha512-Ih3wj0ZTaQxaJRqUEXHMIXfXB86bwMGC0wc2nNsyCJqeo3lC4qnxXtFIsC+IGI46+dSIinuayCAZ6sLEEM02Bw==}
+  /discord-api-types@0.37.58:
+    resolution: {integrity: sha512-LubQHjyrr4nXjotWuao9T5RjzvvDstRztIpf5vamIXreSu75FQD20BJv2FnNc+vqrWLWnQwqg3qPb9P6cE2sUw==}
     dev: false
 
   /discord-emoji-converter@1.2.8:
