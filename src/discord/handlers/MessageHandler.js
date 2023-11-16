@@ -28,6 +28,7 @@ class MessageHandler {
         username: "",
         message: "",
         replyingTo: "",
+        discord: "",
       };
       if (
         message.author.id === config.discord.bot.webhookid &&
@@ -62,6 +63,7 @@ class MessageHandler {
         messageData.username = message.member.displayName;
         messageData.message = content;
         messageData.replyingTo = await this.fetchReply(message);
+        messageData.discord = message;
 
         const images = content
           .split(" ")

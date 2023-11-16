@@ -75,8 +75,8 @@ class RenderCommand extends minecraftCommand {
         );
       }
 
-      const Name = inventoryData[itemNumber - 1]?.tag?.display;
-      const Lore = inventoryData[itemNumber - 1]?.tag?.display;
+      const Name = inventoryData[itemNumber - 1]?.tag?.display?.Name;
+      const Lore = inventoryData[itemNumber - 1]?.tag?.display?.Lore;
 
       const renderedItem = await renderLore(Name, Lore);
 
@@ -86,6 +86,7 @@ class RenderCommand extends minecraftCommand {
         `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`,
       );
     } catch (error) {
+      console.log(error);
       this.send(`/gc Erreur: ${error}`);
     }
   }

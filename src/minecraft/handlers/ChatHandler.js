@@ -561,7 +561,10 @@ class StateHandler extends eventHandler {
     }
 
     if (this.isDiscordMessage(match.groups.message) === false) {
-      const { chatType, rank, username, guildRank = "Member", message } = match.groups;
+      const { chatType, rank, username, guildRank = "[Member]", message } = match.groups;
+      if (message.includes("replying to") && username === this.bot.username) {
+        return;
+      }
 
       this.minecraft.broadcastMessage({
         fullMessage: colouredMessage,
@@ -587,7 +590,7 @@ class StateHandler extends eventHandler {
   }
 
   isDiscordMessage(message) {
-    const isDiscordMessage = /^(?<username>[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+    const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
 
     return isDiscordMessage.test(message);
   }
@@ -596,7 +599,7 @@ class StateHandler extends eventHandler {
     const regex = new RegExp(`^(?<prefix>[${config.minecraft.bot.prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`);
 
     if (regex.test(message) === false) {
-      const getMessage = /^(?<username>[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+      const getMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
 
       const match = message.match(getMessage);
       if (match === null || match.groups.message === undefined) {
@@ -674,7 +677,7 @@ class StateHandler extends eventHandler {
     return message.startsWith("Guild >") && message.includes(":");
   }
 
-  isOfficerChatMessage(message) {
+  isOfficerMessage(message) {
     return message.startsWith("Officer >") && message.includes(":");
   }
 
