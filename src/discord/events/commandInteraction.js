@@ -1,4 +1,5 @@
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
+const config = require("../../../config.json");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require("discord.js");
 const pointLb = require("../fonction_pour_bot/point-leaderboard");
 const DB = require("../../../API/database/database.js");
 
@@ -24,6 +25,29 @@ module.exports = {
             "Pour pouvoir recevoir ta récompense tu devras faire un ticket -> <#999022746619084961> et ping l'host du giveaway",
           ephemeral: true,
         });
+        }
+
+      // Gestion de la fin d'un giveaway
+      if(interaction.customId.includes("giveawayWinManage_")) {
+          const user = interaction.member;
+          if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
+              return await interaction.reply({
+                  content: "Vous n'êtes pas autorisé à utiliser ce bouton",
+                  ephemeral: true,
+              });
+          }
+          return await displayGiveawayEndManagement(interaction);
+          //return await manageEndGiveaway(interaction);
+      }
+
+      // Relancer un giveaway
+      if(interaction.customId.includes("giveawayReroll_")) {
+          return await rerollGiveaway(interaction);
+      }
+        
+      // Terminer un giveaway
+      if(interaction.customId.includes("giveawayEnd_")) {
+          return await endGiveaway(interaction);
       }
     }
   },
@@ -138,4 +162,100 @@ async function manageGiveawayButtons(interaction) {
       ephemeral: true,
     });
   }
+}
+
+async function displayGiveawayEndManagement(interaction) {
+    const id = interaction.customId.split("_");
+    const giveawayId = id[1];
+
+
+    const giveaway = await DB.getGiveaway(giveawayId);
+    if (giveaway == null) {
+        return await interaction.reply({
+            content:
+                "Vous ne pouvez plus intéragir avec ce giveaway car il est terminé !",
+            ephemeral: true,
+        });
+    }
+
+    const embed = new EmbedBuilder()
+        .setTitle(`Gestion de la fin du giveaway **${giveaway.name}**`)
+        .setDescription("Pensez a bien cliquer sur Terminer pour supprimer ce giveaway");
+
+    return await interaction.reply({
+        embeds: [embed],
+        components: [
+            new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`giveawayReroll_${giveawayId}`)
+                    .setLabel(`Relancer un tirage`)
+                    .setStyle(ButtonStyle.Secondary),
+                new ButtonBuilder()
+                    .setCustomId(`giveawayEnd_${giveawayId}`)
+                    .setLabel(`Terminer`)
+                    .setStyle(ButtonStyle.Danger)
+            ),
+        ],
+        ephemeral: true
+    });
+}
+
+async function rerollGiveaway(interaction) {
+    const id = interaction.customId.split("_");
+    const giveawayId = id[1];
+
+    const giveaway = await DB.getGiveaway(giveawayId);
+    if (giveaway == null) {
+        return await interaction.reply({
+            content:
+                "Vous ne pouvez plus intéragir avec ce giveaway car il est terminé !",
+            ephemeral: true,
+        });
+    }
+
+    // Prévenir qu'un reroll va être effectué
+    const giveawayChannel = client.channels.cache.get(
+        giveaway.channel
+    );
+
+    const embed = new EmbedBuilder()
+        .setTitle(`Le giveaway **${giveaway.name}** va être relancé`)
+        .setDescription(
+            `Un administrateur a relancé les résultats du giveaway`
+        );
+
+    giveawayChannel.send({
+        embeds: [embed],
+    });
+
+    // Changer le statut d'attente du giveaway
+    DB.setGiveawayRerollStatus(giveaway._id, false);
+
+    return await interaction.reply({
+        content:
+            "Les nouveaux résultats sont en cours de calcul...",
+        ephemeral: true,
+    });
+}
+async function endGiveaway(interaction) {
+    const id = interaction.customId.split("_");
+    const giveawayId = id[1];
+
+    const giveaway = await DB.getGiveaway(giveawayId);
+    if (giveaway == null) {
+        return await interaction.reply({
+            content:
+                "Vous ne pouvez plus intéragir avec ce giveaway car il est terminé !",
+            ephemeral: true,
+        });
+    }
+
+    // Supprimer le giveaway de la DB
+    DB.deleteGiveaway(giveaway._id);
+
+    return await interaction.reply({
+        content:
+            "Vous avez mis fin à ce giveaway",
+        ephemeral: true,
+    });
 }
