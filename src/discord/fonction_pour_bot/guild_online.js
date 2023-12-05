@@ -49,7 +49,7 @@ async function updateRosterEmbed(guild) {
   const embed = new EmbedBuilder()
     .setTitle(`Membres de la guilde ${guild}`)
     .setDescription(
-      `Nombre de membres de la guilde : **${guildInfo.memberInfo.length}/125**`
+      `Nombre de membres de la guilde : **${guildInfo.memberInfo.length}/125**`,
     )
     .addFields(fields);
   return embed;

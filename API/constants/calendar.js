@@ -255,7 +255,7 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
 
   let currentHour = Math.floor(currentDayOffset / hourMs);
   const currentMinute = Math.floor(
-    ((currentDayOffset - currentHour * hourMs) / hourMs) * 60
+    ((currentDayOffset - currentHour * hourMs) / hourMs) * 60,
   );
 
   const suffix = currentHour >= 12 ? "pm" : "am";
@@ -335,7 +335,7 @@ function buildSkyblockCalendar(events, from, to, years, stopAtYearEnd = true) {
   Object.keys(eventList).forEach((key) => {
     eventList[key].events = getUniqueListBy(
       eventList[key].events,
-      "start_timestamp"
+      "start_timestamp",
     )
       // eslint-disable-next-line
       .filter(({ start_timestamp }) => start_timestamp < toDate)

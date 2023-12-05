@@ -24,8 +24,16 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+    if (
+      config.discord.commands.checkPerms === true &&
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
+    ) {
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     const name = interaction.options.getString("name");
@@ -35,7 +43,9 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: "Setrank" })
-      .setDescription(`Exécuté avec succès \`/g setrank ${name} ${rang}\`\nRegarde dans <#1014148236132483112>`)
+      .setDescription(
+        `Exécuté avec succès \`/g setrank ${name} ${rang}\`\nRegarde dans <#1014148236132483112>`,
+      )
       .setTimestamp()
       .setFooter({
         text: `${messages.footerhelp}`,

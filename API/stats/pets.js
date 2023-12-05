@@ -58,7 +58,7 @@ module.exports = (profile) => {
         rarities[
           Math.min(
             rarities.indexOf(petData.maxTier),
-            rarities.indexOf(pet.rarity) + 1
+            rarities.indexOf(pet.rarity) + 1,
           )
         ];
     }
@@ -98,7 +98,7 @@ module.exports = (profile) => {
     const levelData = getPetLevel(
       pet.exp,
       petData.customLevelExpRarityOffset ?? pet.rarity,
-      petData.maxLevel
+      petData.maxLevel,
     );
 
     pet.name = `[Lvl ${levelData[0]}] ${petName}${petSkin ? " ✦" : ""}`;
@@ -120,7 +120,7 @@ module.exports = (profile) => {
       loreFirstRow.push(
         capitalize(petData.type),
         " ",
-        petData.category ?? "Pet"
+        petData.category ?? "Pet",
       );
 
       if (petData.obtainsExp === "feed") {
@@ -140,7 +140,7 @@ module.exports = (profile) => {
     const petInstance = new constants.petStats[searchName](
       rarity,
       pet.level,
-      pet.extra
+      pet.extra,
     );
     pet.stats = Object.assign({}, petInstance.stats);
     pet.ref = petInstance;
@@ -196,7 +196,7 @@ module.exports = (profile) => {
         "",
         `§6Held Item: §${
           constants.rarityColors[heldItemObj.tier.toLowerCase()]
-        }${heldItemObj.name}`
+        }${heldItemObj.name}`,
       );
 
       if (heldItem in constants.pet_items) {
@@ -227,7 +227,7 @@ module.exports = (profile) => {
     if (petData.passivePerks) {
       lore.push(
         "§8This pet's perks are active even when the pet is not summoned!",
-        ""
+        "",
       );
     }
 
@@ -238,7 +238,7 @@ module.exports = (profile) => {
       if (typeof petData.alwaysGainsExp === "string") {
         lore.push(
           `§8This pet only gains XP on the ${petData.alwaysGainsExp}§8!`,
-          ""
+          "",
         );
       }
     }
@@ -246,8 +246,8 @@ module.exports = (profile) => {
     if (pet.level < petData.maxLevel) {
       lore.push(
         `§7Progress to Level ${pet.level + 1}: §e${(pet.progress * 100).toFixed(
-          1
-        )}%`
+          1,
+        )}%`,
       );
 
       const progress = Math.ceil(pet.progress * 20);
@@ -256,8 +256,8 @@ module.exports = (profile) => {
 
       lore.push(
         `§2${"-".repeat(progress)}§f${"-".repeat(
-          20 - progress
-        )} §e${numerator} §6/ §e${denominator}`
+          20 - progress,
+        )} §e${numerator} §6/ §e${denominator}`,
       );
     } else {
       lore.push("§bMAX LEVEL");
@@ -268,8 +268,8 @@ module.exports = (profile) => {
       `§7Total XP: §e${formatNumber(pet.exp, true, 10)} §6/ §e${formatNumber(
         pet.xpMaxLevel,
         true,
-        10
-      )} §6(${Math.floor((pet.exp / pet.xpMaxLevel) * 100)}%)`
+        10,
+      )} §6(${Math.floor((pet.exp / pet.xpMaxLevel) * 100)}%)`,
     );
 
     if (petData.obtainsExp !== "feed") {
@@ -333,7 +333,7 @@ function getPetLevel(petExp, offsetRarity, maxLevel) {
   const rarityOffset = constants.PET_RARITY_OFFSET[offsetRarity];
   const levels = constants.PET_LEVELS.slice(
     rarityOffset,
-    rarityOffset + maxLevel - 1
+    rarityOffset + maxLevel - 1,
   );
 
   const xpMaxLevel = levels.reduce((a, b) => a + b, 0);

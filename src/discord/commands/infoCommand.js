@@ -28,30 +28,46 @@ module.exports = {
         { name: "\u200B", value: "\u200B" },
         {
           name: "**Minecraft Information**:",
-          value: `Bot Username: \`${bot.username}\`\nPrefix: \`${config.minecraft.bot.prefix}\`\nSkyBlock Events: \`${
-            config.minecraft.skyblockEventsNotifications.enabled ? "enabled" : "disabled"
+          value: `Bot Username: \`${bot.username}\`\nPrefix: \`${
+            config.minecraft.bot.prefix
+          }\`\nSkyBlock Events: \`${
+            config.minecraft.skyblockEventsNotifications.enabled
+              ? "enabled"
+              : "disabled"
           }\`\nGuild Experience Requirement: \`${config.minecraft.guild.guildExp.toLocaleString()}\`\nUptime: Online since <t:${Math.floor(
-            (Date.now() - client.uptime) / 1000
+            (Date.now() - client.uptime) / 1000,
           )}:R>\nVersion: \`${require("../../../package.json").version}\`\n`,
           inline: true,
         },
         {
           name: `**Discord Information**`,
           value: `Guild Channel: ${
-            config.discord.channels.guildChatChannel ? `<#${config.discord.channels.guildChatChannel}>` : "None"
+            config.discord.channels.guildChatChannel
+              ? `<#${config.discord.channels.guildChatChannel}>`
+              : "None"
           }\nOfficer Channel: ${
-            config.discord.channels.officerChannel ? `<#${config.discord.channels.officerChannel}>` : "None"
+            config.discord.channels.officerChannel
+              ? `<#${config.discord.channels.officerChannel}>`
+              : "None"
           }\nGuild Logs Channel: ${
-            config.discord.channels.loggingChannel ? `<#${config.discord.channels.loggingChannel}>` : "None"
+            config.discord.channels.loggingChannel
+              ? `<#${config.discord.channels.loggingChannel}>`
+              : "None"
           }\nDebugging Channel: ${
-            config.discord.channels.debugChannel ? `<#${config.discord.channels.debugChannel}>` : "None"
-          }\nCommand Role: <@&${config.discord.roles.commandRole}>\nMessage Mode: \`${
-            config.discord.other.messageMode ? "enabled" : "disabled"
-          }\`\nFilter: \`${config.discord.other.filterMessages ? "enabled" : "disabled"}\`\nJoin Messages: \`${
+            config.discord.channels.debugChannel
+              ? `<#${config.discord.channels.debugChannel}>`
+              : "None"
+          }\nCommand Role: <@&${
+            config.discord.commands.staffRole
+          }>\nMessage Mode: \`${
+            config.discord.other.messageMode
+          }\`\nFilter: \`${
+            config.discord.other.filterMessages ? "enabled" : "disabled"
+          }\`\nJoin Messages: \`${
             config.discord.other.joinMessage ? "enabled" : "disabled"
           }\``,
           inline: true,
-        }
+        },
       )
       .setFooter({
         text: `${messages.footerhelp}`,
@@ -64,7 +80,9 @@ module.exports = {
 function getCommands(commands) {
   const discordCommands = commands
     .map(({ name, options }) => {
-      const optionsString = options?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`)).join("");
+      const optionsString = options
+        ?.map(({ name, required }) => (required ? ` (${name})` : ` [${name}]`))
+        .join("");
       return `- \`${name}${optionsString ? optionsString : ""}\`\n`;
     })
     .join("");

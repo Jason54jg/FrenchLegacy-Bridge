@@ -21,41 +21,70 @@ class MessageHandler {
         this.react_to_msg(message, emoji[i]);
       }
     }
-    if (
-      message.author.id === client.user.id ||
-      !this.shouldBroadcastMessage(message)
-    ) {
-      return;
-    }
-
-    const content = this.stripDiscordContent(message).trim();
-    if (content.length === 0) return;
-
-    const messageData = {
-      member: message.member.user,
-      channel: message.channel.id,
-      username: message.member.displayName,
-      message: content,
-      replyingTo: await this.fetchReply(message),
-    };
-
-    this.discord.broadcastMessage(messageData);
-
     try {
-      const images = content.split(" ").filter((line) => line.startsWith("http"));
-      for (const attachment of message.attachments.values()) {
-        images.push(attachment.url);
-      }
+      const messageData = {
+        member: "",
+        channel: "",
+        username: "",
+        message: "",
+        replyingTo: "",
+        discord: "",
+      };
+      if (
+        message.author.id === config.discord.bot.webhookid &&
+        message.channel.id === config.discord.channels.guildChatChannel
+      ) {
+        const tag = config.discord.bot.tag2;
+        const webhook = await message.channel.fetchWebhooks();
+        if (webhook.size > 0) {
+          const firstWebhook = webhook.first();
+          const webhookUsername = message.author.username;
+          if (webhookUsername.includes(tag)) {
+            messageData.channel = message.channel.id;
+            messageData.username = webhookUsername.replace(tag, "");
+            messageData.message = message.content;
+          }
+        }
+      } else {
+        if (
+          message.author.id === client.user.id ||
+          !this.shouldBroadcastMessage(message)
+        ) {
+          return;
+        }
 
-      if (images.length === 0) return;
+        const content = this.stripDiscordContent(message).trim();
+        if (content.length === 0) {
+          return;
+        }
 
-      for (const attachment of images) {
-        const imgurLink = await uploadImage(attachment);
+        messageData.member = message.member.user;
+        messageData.channel = message.channel.id;
+        messageData.username = message.member.displayName;
+        messageData.message = content;
+        messageData.replyingTo = await this.fetchReply(message);
+        messageData.discord = message;
 
-        messageData.message = messageData.message.replace(attachment, imgurLink.data.link);
+        const images = content
+          .split(" ")
+          .filter((line) => line.startsWith("http"));
+        for (const attachment of message.attachments.values()) {
+          images.push(attachment.url);
+        }
 
-        if (messageData.message.includes(imgurLink.data.link) === false) {
-          messageData.message += ` ${imgurLink.data.link}`;
+        if (images.length > 0) {
+          for (const attachment of images) {
+            const imgurLink = await uploadImage(attachment);
+
+            messageData.message = messageData.message.replace(
+              attachment,
+              imgurLink.data.link,
+            );
+
+            if (messageData.message.includes(imgurLink.data.link) === false) {
+              messageData.message += ` ${imgurLink.data.link}`;
+            }
+          }
         }
       }
 
@@ -69,32 +98,56 @@ class MessageHandler {
 
   async fetchReply(message) {
     try {
-      if (message.reference === undefined) return null;
-
-      const reference = await message.channel.messages.fetch(
-        message.reference.messageId
-      );
-
-      const mentionedUserName = message?.mentions?.repliedUser?.username;
-      if (config.discord.other.messageMode === "bot") {
-        const embedAuthorName = reference?.embeds?.[0]?.author?.name;
-
-        return embedAuthorName ?? mentionedUserName;
+      if (
+        message.reference?.messageId === undefined ||
+        message.mentions === undefined
+      ) {
+        return null;
       }
 
-      if (config.discord.other.messageMode === "minecraft") {
-        const attachmentName = reference?.attachments?.values()?.next()
-          ?.value?.name;
+      const reference = await message.channel.messages.fetch(
+        message.reference.messageId,
+      );
 
-        return attachmentName
-          ? attachmentName.split(".")[0]
-          : mentionedUserName;
+      const mentionedUserName =
+        message.mentions.repliedUser.globalName ??
+        message.mentions.repliedUser.username;
+
+      if (
+        config.discord.other.messageMode === "bot" &&
+        reference.embed !== null
+      ) {
+        const name = reference.embeds[0]?.author?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
+
+        return name;
+      }
+
+      if (
+        config.discord.other.messageMode === "minecraft" &&
+        reference.attachments !== null
+      ) {
+        const name = reference.attachments.values()?.next()?.value?.name;
+        if (name === undefined) {
+          return mentionedUserName;
+        }
+
+        return name.split(".")[0];
       }
 
       if (config.discord.other.messageMode === "webhook") {
-        return reference.author.username ?? mentionedUserName;
+        if (reference.author.username === undefined) {
+          return mentionedUserName;
+        }
+
+        return reference.author.username;
       }
+
+      return mentionedUserName ?? null;
     } catch (error) {
+      console.log(error);
       return null;
     }
   }

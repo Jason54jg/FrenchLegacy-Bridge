@@ -37,9 +37,7 @@ async function manageGiveaway(client) {
     }
 
     // Afficher le(s) gagnant(s)
-    const giveawayChannel = client.channels.cache.get(
-        giveaway.channel
-    );
+    const giveawayChannel = client.channels.cache.get(giveaway.channel);
 
     const embed = new EmbedBuilder()
       .setTitle(`Fin du giveaway **${giveaway.name}**`)
@@ -50,7 +48,7 @@ async function manageGiveaway(client) {
             : `Félicitation à ${winners} qui remporte${
                 nbWinner > 1 ? "nt" : ""
               } le giveaway !`
-        }`
+        }`,
       );
 
     giveawayChannel.send({

@@ -42,7 +42,7 @@ module.exports = (profile) => {
         total += Object.values(slayers)[i];
         kills[
           Number(
-            Object.keys(slayers)[i].charAt(Object.keys(slayers)[i].length - 1)
+            Object.keys(slayers)[i].charAt(Object.keys(slayers)[i].length - 1),
           ) + 1
         ] = Object.values(slayers)[i];
       }

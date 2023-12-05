@@ -6,10 +6,10 @@ const getSlayer = require("../stats/slayer.js");
 
 module.exports = (profile) => {
   const { skills_levels, skills_experience } = formatLilySkills(
-    getSkills(profile)
+    getSkills(profile),
   );
   const { catacombs_experience, catacombs, master_mode } = formatLilyDungeons(
-    getDungeons(null, profile)
+    getDungeons(null, profile),
   );
   const { slayer_experience } = formatLilySlayer(getSlayer(profile));
 
@@ -19,7 +19,7 @@ module.exports = (profile) => {
     catacombs,
     master_mode,
     catacombs_experience,
-    slayer_experience
+    slayer_experience,
   );
 
   const senither = calculateTotalSenitherWeight(profile);
@@ -311,7 +311,7 @@ function formatLilySkills(skills) {
     "fishing",
   ];
   const whitelistedSkills = Object.keys(skills).filter(
-    (skill) => !["runecrafting", "social", "carpentry"].includes(skill)
+    (skill) => !["runecrafting", "social", "carpentry"].includes(skill),
   );
   const skills_levels = whitelistedSkills
     .sort((a, b) => skillSort.indexOf(a) - skillSort.indexOf(b))
@@ -335,7 +335,7 @@ function formatLilyDungeons(dungeons) {
 
   const master_mode = {};
   for (const floor of Object.keys(
-    dungeons.catacombs?.master_mode_floors || {}
+    dungeons.catacombs?.master_mode_floors || {},
   )) {
     Object.assign(master_mode, {
       [floor.split("_")[1]]:

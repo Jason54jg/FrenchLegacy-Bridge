@@ -14,7 +14,9 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle("Ping!")
-      .setDescription(`Latence client: \`${clientLatency}ms\`\nLatence de l'API: \`${apiLatency}ms\``)
+      .setDescription(
+        `Latence client: \`${clientLatency}ms\`\nLatence de l'API: \`${apiLatency}ms\``,
+      )
       .setFooter({
         text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,

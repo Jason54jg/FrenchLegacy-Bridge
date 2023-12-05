@@ -33,34 +33,40 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const dungeons = getDungeons(data.player, data.profile);
+      const dungeons = getDungeons(data.playerRes, data.profile);
 
       if (dungeons == null) {
         throw `${username} n'a jamais joué aux donjons sur ${data.profileData.cute_name}.`;
       }
 
       const completions = Object.values(dungeons.catacombs)
-        .flatMap((floors) => Object.values(floors))
+        .flatMap((floors) => Object.values(floors || {}))
         .reduce((total, floor) => total + (floor.completions || 0), 0);
 
-      const level = dungeons.catacombs.skill.levelWithProgress.toFixed(1);
-      const classAvrg =
+      const level = (dungeons.catacombs.skill.levelWithProgress || 0).toFixed(
+        1,
+      );
+      const classAvrg = (
         Object.values(dungeons.classes).reduce(
-          (total, { levelWithProgress }) => total + levelWithProgress,
-          0
-        ) / Object.keys(dungeons.classes).length;
+          (total, { levelWithProgress = 0 }) => total + levelWithProgress,
+          0,
+        ) / Object.keys(dungeons.classes).length
+      ).toFixed(1);
+
+      const SRValue = dungeons.secrets_found / completions;
+      const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc Catacombes de ${username}: ${level} | Class Average: ${classAvrg.toFixed(
-          1
-        )} (${dungeons.classes.healer.level}H, ${
-          dungeons.classes.mage.level
-        }M, ${dungeons.classes.berserk.level}B, ${
-          dungeons.classes.archer.level
-        }A, ${dungeons.classes.tank.level}T) | Secrets: ${formatNumber(
+        `/gc Catacombes de ${username}: ${level} | Class Average: ${classAvrg} (${
+          dungeons.classes.healer.level
+        }H, ${dungeons.classes.mage.level}M, ${
+          dungeons.classes.berserk.level
+        }B, ${dungeons.classes.archer.level}A, ${
+          dungeons.classes.tank.level
+        }T) | Secrets: ${formatNumber(
           dungeons.secrets_found ?? 0,
-          1
-        )} (${(dungeons.secrets_found / completions).toFixed(1)} S/R)`
+          1,
+        )} (${SR} S/R)`,
       );
     } catch (error) {
       console.log(error);

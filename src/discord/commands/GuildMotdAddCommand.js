@@ -1,18 +1,19 @@
 const HypixelDiscordChatBridgeError = require("../../contracts/errorHandler.js");
-const { EmbedBuilder } = require("discord.js");
 const config = require("../../../config.json");
+const { EmbedBuilder } = require("discord.js");
+const fs = require("fs");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "gpromote",
-  description: "Promote l'utilisateur donné d'un rang supérieur.",
+  name: "gmotdadd",
+  description: "Ajoute une ligne au MOTD",
   options: [
     {
-      name: "name",
-      description: "Pseudo Minecraft",
+      name: "msg",
+      description: "Message a ajouter",
       type: 3,
-      required: true,
-    },
+      required: false,
+    }
   ],
 
   execute: async (interaction) => {
@@ -29,14 +30,16 @@ module.exports = {
       );
     }
 
-    const name = interaction.options.getString("name");
-    bot.chat(`/g promote ${name}`);
+    const msg = interaction.options.getString("msg");
+
+    bot.chat(`/g motd add ${msg}`);
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: "Promote" })
+      .setAuthor({ name: "MOTD ADD" })
       .setDescription(
-        `Exécuté avec succès \`/g promote ${name}\`\nRegarde dans <#1014148236132483112>`,
+        `Exécuté avec succès \`/g motd add ${msg}\`\nRegarde dans <#1014148236132483112>`,
       )
+      .setTimestamp()
       .setFooter({
         text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,

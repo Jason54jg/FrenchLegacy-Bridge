@@ -23,7 +23,7 @@ async function createPointLeaderboardPage(currentPage) {
       new ButtonBuilder()
         .setCustomId(`lb-points-${currentPage - 1}`)
         .setLabel("◀️")
-        .setStyle(ButtonStyle.Primary)
+        .setStyle(ButtonStyle.Primary),
     );
   }
 
@@ -33,7 +33,7 @@ async function createPointLeaderboardPage(currentPage) {
       new ButtonBuilder()
         .setCustomId(`lb-points-${currentPage + 1}`)
         .setLabel("▶️")
-        .setStyle(ButtonStyle.Primary)
+        .setStyle(ButtonStyle.Primary),
     );
   }
 

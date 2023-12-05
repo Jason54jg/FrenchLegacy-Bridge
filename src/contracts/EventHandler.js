@@ -1,7 +1,7 @@
 class EventHandler {
   registerEvents(bot) {
     throw new Error(
-      "Le gestionnaire d'événements n'est pas encore implémenté!"
+      "Le gestionnaire d'événements n'est pas encore implémenté!",
     );
   }
   send(message) {

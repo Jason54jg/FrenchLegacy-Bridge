@@ -36,7 +36,7 @@ class QuickMathsCommand extends minecraftCommand {
       const headStart = 250;
 
       this.send(
-        `/gc ${username} Qu'est-ce que ${equation}? (Vous avez ${headStart}ms d'avance)`
+        `/gc ${username} Qu'est-ce que ${equation}? (Vous avez ${headStart}ms d'avance)`,
       );
       await delay(headStart);
 
@@ -52,7 +52,7 @@ class QuickMathsCommand extends minecraftCommand {
         this.send(
           `/gc ${userUsername} Correct! Il vous a fallu ${(
             Date.now() - startTime
-          ).toLocaleString()}ms`
+          ).toLocaleString()}ms`,
         );
         bot.removeListener("chat", listener);
       };
@@ -64,13 +64,13 @@ class QuickMathsCommand extends minecraftCommand {
 
         if (!answered) {
           this.send(
-            `/gc ${userUsername} Le temps est écoulé! La réponse était ${answer}`
+            `/gc ${userUsername} Le temps est écoulé! La réponse était ${answer}`,
           );
         }
       }, 10000);
     } catch (error) {
       this.send(
-        `/gc ${username} Erreur: ${error || "Quelque chose a mal tournég.."}`
+        `/gc ${username} Erreur: ${error || "Quelque chose a mal tournég.."}`,
       );
     }
   }

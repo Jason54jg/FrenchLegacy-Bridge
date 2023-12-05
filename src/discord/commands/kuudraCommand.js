@@ -19,7 +19,7 @@ module.exports = {
     const mc_username = (await DB.getLinkedAccounts(interaction.user.id)) || ``;
     const name = interaction.options.getString("name") || mc_username;
     const { data } = await axios.get(
-      `https://playerdb.co/api/player/minecraft/${name}`
+      `https://playerdb.co/api/player/minecraft/${name}`,
     );
     const username = data.data.player.username;
     const uuid2 = data.data.player.raw_id;
@@ -27,7 +27,7 @@ module.exports = {
       await axios.get(`https://sky.shiiyu.moe/api/v2/profile/${uuid2}`)
     ).data;
     const currentProfile = Object.keys(profiles).find(
-      (key) => profiles[key].current
+      (key) => profiles[key].current,
     );
     const { cute_name, raw } = profiles[currentProfile];
     const { kuudra_completed_tiers } = raw.nether_island_player_data;
@@ -63,7 +63,7 @@ module.exports = {
       title: `Données Kuudra pour ${username} sur ${cute_name}`,
       URL: `https://sky.shiiyu.moe/stats/${name}`,
       description: `Message du partie finder: **${pfmess}**\nNiveau pour rejoindre la partie: **${pfreq}**\nTier de la partie en kuudra: **${toLower(
-        pft
+        pft,
       )}**`,
       thumbnail: {
         url: `https://api.mineatar.io/body/full/${name}`,

@@ -11,12 +11,16 @@ module.exports = {
       if (interaction.isChatInputCommand()) {
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
-        const command = interaction.client.commands.get(interaction.commandName);
+        const command = interaction.client.commands.get(
+          interaction.commandName,
+        );
         if (command === undefined) {
           return;
         }
 
-        Logger.discordMessage(`${interaction.user.username} - [${interaction.commandName}]`);
+        Logger.discordMessage(
+          `${interaction.user.username} - [${interaction.commandName}]`,
+        );
         await command.execute(interaction);
       }
     } catch (error) {
@@ -30,8 +34,8 @@ module.exports = {
         .setAuthor({ name: "Une erreur est survenue" })
         .setDescription(`${errrorMessage}\`\`\`${error}\`\`\``)
         .setFooter({
-            text: `${messages.footerhelp}`,
-            iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
+          text: `${messages.footerhelp}`,
+          iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
         });
 
       await interaction.editReply({ embeds: [errorEmbed] });
@@ -40,21 +44,25 @@ module.exports = {
         const errorLog = new EmbedBuilder()
           .setTitle("Erreur")
           .setDescription(
-            `Commande: \`${interaction.commandName}\`\nOptions: \`${JSON.stringify(
-              interaction.options.data
+            `Commande: \`${
+              interaction.commandName
+            }\`\nOptions: \`${JSON.stringify(
+              interaction.options.data,
             )}\`\nUser ID: \`${interaction.user.id}\`\nUser: \`${
               interaction.user.username ?? interaction.user.tag
-            }\`\n\`\`\`${error.stack}\`\`\``
+            }\`\n\`\`\`${error.stack}\`\`\``,
           )
           .setFooter({
             text: `${messages.footerhelp}`,
             iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
           });
 
-        interaction.client.channels.cache.get(config.discord.channels.loggingChannel).send({
-          content: `<@&${config.discord.roles.commandRole}>`,
-          embeds: [errorLog],
-        });
+        interaction.client.channels.cache
+          .get(config.discord.channels.loggingChannel)
+          .send({
+            content: `<@&${config.discord.commands.adminRole}>`,
+            embeds: [errorLog],
+          });
       }
     }
   },

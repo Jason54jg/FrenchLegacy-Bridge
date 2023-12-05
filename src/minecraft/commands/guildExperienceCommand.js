@@ -35,13 +35,14 @@ class GuildExperienceCommand extends minecraftCommand {
       }
 
       this.send(
-        `/gc Expérience de guilde hebdomadaire de ${username}: ${player.weeklyExperience.toLocaleString()}.`
+        `/gc Expérience de guilde hebdomadaire de ${username}: ${player.weeklyExperience.toLocaleString()}.`,
       );
     } catch (error) {
       this.send(
         `/gc ${error
           .toString()
-          .replace("[hypixel-api-reborn] ", "")}`
+          .replace("[hypixel-api-reborn] ", "")
+          .replace("Pour obtenir de l'aide, rejoignez notre serveur Discord https://discord.gg/Fpm9qvKbbV", "")}`
       );
     }
   }

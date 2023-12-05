@@ -36,7 +36,7 @@ class RenderCommand extends minecraftCommand {
       const arg = this.getArgs(message);
       if (!arg[0]) {
         this.send(
-          "/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]"
+          "/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]",
         );
       }
       if (!isNaN(Number(arg[0]))) {
@@ -48,7 +48,7 @@ class RenderCommand extends minecraftCommand {
           itemNumber = arg[1];
         } else {
           this.send(
-            "/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]"
+            "/msg ${username} Mauvaise utilisation: !render [name] [slot] | !render [slot]",
           );
           return;
         }
@@ -63,7 +63,7 @@ class RenderCommand extends minecraftCommand {
       }
 
       const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inv_contents.data, "base64")
+        Buffer.from(profile.profile.inv_contents.data, "base64"),
       );
 
       if (
@@ -71,21 +71,22 @@ class RenderCommand extends minecraftCommand {
         Object.keys(inventoryData[itemNumber - 1] || {}).length === 0
       ) {
         return this.send(
-          `/gc Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`
+          `/gc Le joueur n'a pas d'objet à l'emplacement ${itemNumber}.`,
         );
       }
 
-      const Name = inventoryData[itemNumber - 1]?.tag?.display;
-      const Lore = inventoryData[itemNumber - 1]?.tag?.display;
+      const Name = inventoryData[itemNumber - 1]?.tag?.display?.Name;
+      const Lore = inventoryData[itemNumber - 1]?.tag?.display?.Lore;
 
       const renderedItem = await renderLore(Name, Lore);
 
       const upload = await uploadImage(renderedItem);
 
       this.send(
-        `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`
+        `/gc Objet de ${username} à l'emplacement ${itemNumber}: ${upload.data.link}`,
       );
     } catch (error) {
+      console.log(error);
       this.send(`/gc Erreur: ${error}`);
     }
   }

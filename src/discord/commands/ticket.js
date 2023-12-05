@@ -9,16 +9,23 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+    if (
+      config.discord.commands.checkPerms === true &&
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
+    ) {
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     interaction.channel.send({
       embeds: [
         {
-          title: "Crée un ticket",
           description:
-            "Réagissez avec <:PencilOof:1040865260267122759> pour créer un ticket\n\nTicket support (à utiliser seulement en cas de problème)",
+            "## Crée un ticket\nRéagissez avec <:PencilOof:1040865260267122759> pour créer un ticket\n\nTicket support (à utiliser seulement en cas de problème)",
           footer: {
             text: "FrenchLegacy",
             icon_url: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
@@ -30,7 +37,7 @@ module.exports = {
           new ButtonBuilder()
             .setCustomId("ticket")
             .setEmoji("1040865260267122759")
-            .setStyle(ButtonStyle.Primary)
+            .setStyle(ButtonStyle.Primary),
         ),
       ],
     });

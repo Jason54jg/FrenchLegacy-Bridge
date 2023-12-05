@@ -6,17 +6,17 @@ async function discordMessage(message) {
   return console.log(
     (await chalk()).bgMagenta.black(`[${await getCurrentTime()}] Discord >`) +
       " " +
-      (await chalk()).magenta(message)
+      (await chalk()).magenta(message),
   );
 }
 
 async function minecraftMessage(message) {
   return console.log(
     (await chalk()).bgGreenBright.black(
-      `[${await getCurrentTime()}] Minecraft >`
+      `[${await getCurrentTime()}] Minecraft >`,
     ) +
       " " +
-      (await chalk()).greenBright(message)
+      (await chalk()).greenBright(message),
   );
 }
 
@@ -24,7 +24,7 @@ async function warnMessage(message) {
   return console.log(
     (await chalk()).bgYellow.black(`[${await getCurrentTime()}] Warning >`) +
       " " +
-      (await chalk()).yellow(message)
+      (await chalk()).yellow(message),
   );
 }
 
@@ -32,17 +32,17 @@ async function errorMessage(message) {
   return console.log(
     (await chalk()).bgRedBright.black(`[${await getCurrentTime()}] Error >`) +
       " " +
-      (await chalk()).redBright(message)
+      (await chalk()).redBright(message),
   );
 }
 
 async function broadcastMessage(message, location) {
   return console.log(
     (await chalk()).inverse(
-      `[${await getCurrentTime()}] ${location} Broadcast >`
+      `[${await getCurrentTime()}] ${location} Broadcast >`,
     ) +
       " " +
-      message
+      message,
   );
 }
 
@@ -54,25 +54,6 @@ async function getCurrentTime() {
   });
 }
 
-async function configUpdateMessage(message) {
-  const columns = process.stdout.columns;
-  const warning = "IMPORTANT!";
-  const message2 = "Veuillez mettre à jour votre fichier de configuration";
-  const padding = " ".repeat(Math.floor((columns - warning.length + 1) / 2));
-  const padding2 = " ".repeat(Math.floor((columns - message2.length + 1) / 2));
-
-  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
-  console.log(chalk.bgRed.black(padding + warning + padding));
-  console.log(chalk.bgRed.black(padding2 + message2 + padding2));
-  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
-  console.log();
-  console.log(
-    `${chalk.bgRedBright.black(`[${await getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
-      message
-    )} ${chalk.redBright("to config.json")}`
-  );
-}
-
 module.exports = {
   discordMessage,
   minecraftMessage,
@@ -80,5 +61,4 @@ module.exports = {
   errorMessage,
   broadcastMessage,
   getCurrentTime,
-  configUpdateMessage,
 };

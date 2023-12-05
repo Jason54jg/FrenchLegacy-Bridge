@@ -12,7 +12,7 @@ async function delay(ms) {
 async function guild_list(guild) {
   // Récuperer la guilde renseignée
   const rep = await requete.get_page(
-    `${hypixel_api}/guild?key=${api_key}&name=${guild}`
+    `${hypixel_api}/guild?key=${api_key}&name=${guild}`,
   );
   if (!rep.success) {
     return "L'interaction avec l'api à échoué";
@@ -37,7 +37,7 @@ async function guild_list(guild) {
 
     // Vérifier si le joueur est en ligne
     const player = await requete.get_page(
-      `${hypixel_api}/status?key=${api_key}&uuid=${member.uuid}`
+      `${hypixel_api}/status?key=${api_key}&uuid=${member.uuid}`,
     );
     player.success
       ? (playerInfo.online = player.session.online)

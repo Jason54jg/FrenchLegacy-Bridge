@@ -30,7 +30,9 @@ module.exports = {
     const message = await messages;
 
     const onlineMembers = message.find((m) => m.startsWith("Online Members: "));
-    const totalMembers = message.find((message) => message.startsWith("Total Members: "));
+    const totalMembers = message.find((message) =>
+      message.startsWith("Total Members: "),
+    );
 
     const onlineMembersList = message;
     const online = onlineMembersList
@@ -47,12 +49,16 @@ module.exports = {
 
           if (rank === undefined || players === undefined) return;
 
-          return `**${rank}**\n${players.map((item) => `\`${item}\``).join(", ")}`;
+          return `**${rank}**\n${players
+            .map((item) => `\`${item}\``)
+            .join(", ")}`;
         }
       })
       .filter((item) => item);
 
-    const description = `${totalMembers}\n${onlineMembers}\n\n${online.join("\n")}`;
+    const description = `${totalMembers}\n${onlineMembers}\n\n${online.join(
+      "\n",
+    )}`;
     const embed = new EmbedBuilder()
       .setColor("#2ECC71")
       .setTitle("Online Members")

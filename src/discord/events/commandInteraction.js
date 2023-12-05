@@ -89,23 +89,27 @@ async function manageGiveawayButtons(interaction) {
     let description = "";
     let isFull = false;
     for (let i = 0; i < participants.length && !isFull; i++) {
-        const user = participants[i];
+      const user = participants[i];
 
-        const currentUserFormatted = `<@${user}> `;
-        const fillerMessage = `\net ${participants.length - (i + 1)} autres...`;
+      const currentUserFormatted = `<@${user}> `;
+      const fillerMessage = `\net ${participants.length - (i + 1)} autres...`;
 
-        description += currentUserFormatted;
-        if (description.length > 4070 - fillerMessage.length) { // max description length = 4096 - default description message - filler message
-            description = description.substring(0, description.length - 1 - currentUserFormatted.length)
-            description += fillerMessage;
-            isFull = true;
-        }
+      description += currentUserFormatted;
+      if (description.length > 4070 - fillerMessage.length) {
+        // max description length = 4096 - default description message - filler message
+        description = description.substring(
+          0,
+          description.length - 1 - currentUserFormatted.length,
+        );
+        description += fillerMessage;
+        isFull = true;
+      }
     }
 
     const embed = new EmbedBuilder()
       .setTitle(`Participants au giveaway **${giveaway.name}**`)
       .setDescription(
-        `Total: ${participants.length} participants \n${description}`
+        `Total: ${participants.length} participants \n${description}`,
       );
 
     return interaction.reply({
@@ -124,11 +128,14 @@ async function manageGiveawayButtons(interaction) {
       });
     }
     // Vérifier que l'utilisateur peut participer au giveaway
-    if(giveaway.roleRequired != null && interaction.member.roles.cache.has(giveaway.roleRequired)){
-        return await interaction.reply({
-            content: `Vous ne pouvez pas participer à ce giveaway car il vous manque le rôle <@&${giveaway.roleRequired}>`,
-            ephemeral: true,
-        });
+    if (
+      giveaway.roleRequired != null &&
+      !interaction.member.roles.cache.has(giveaway.roleRequired)
+    ) {
+      return await interaction.reply({
+        content: `Vous ne pouvez pas participer à ce giveaway car il vous manque le rôle <@&${giveaway.roleRequired}>`,
+        ephemeral: true,
+      });
     }
 
     // Ajouter l'utilisateur au giveaway
@@ -145,14 +152,14 @@ async function manageGiveawayButtons(interaction) {
               newButton.setLabel(
                 `${participants.length + 1} Participant${
                   participants.length != 1 ? "s" : ""
-                }`
+                }`,
               );
             }
             return newButton;
-          })
+          }),
         );
         return updatedActionRow;
-      }
+      },
     );
     await interaction.update({ components: newActionRowEmbeds });
 

@@ -9,8 +9,8 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "floorcarry",
-  description: `Commande pour les embeds de floor`,
+  name: "floorcarryderpy",
+  description: `Commande pour les embeds de floor pour derpy`,
 
   execute: async (interaction) => {
     const user = interaction.member;
@@ -51,12 +51,12 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 90k\n- 5 ou plus: 70k/unité",
+          value: "- 1 Run: 135k\n- 5 ou plus: 105k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 120k\n- 5 ou plus: 100k/unité",
+          value: "- 1 Run: 180k\n- 5 ou plus: 150k/unité",
           inline: true,
         },
       )
@@ -71,12 +71,12 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 170k\n- 5 ou plus: 150k/unité",
+          value: "- 1 Run: 255k\n- 5 ou plus: 225k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 250k\n- 5 ou plus: 210k/unité",
+          value: "- 1 Run: 375k\n- 5 ou plus: 315k/unité",
           inline: true,
         },
       )
@@ -91,12 +91,12 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 280k\n- 5 ou plus: 260k/unité",
+          value: "- 1 Run: 420k\n- 5 ou plus: 390k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 350k\n- 5 ou plus: 300k/unité",
+          value: "- 1 Run: 525k\n- 5 ou plus: 450k/unité",
           inline: true,
         },
       )
@@ -111,12 +111,12 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 400k\n- 5 ou plus: 340k/unité",
+          value: "- 1 Run: 600k\n- 5 ou plus: 510k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 600k\n- 5 ou plus: 510k/unité",
+          value: "- 1 Run: 900k\n- 5 ou plus: 765k/unité",
           inline: true,
         },
       )
@@ -131,17 +131,17 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 350k\n- 5 ou plus: 300k/unité",
+          value: "- 1 Run: 525k\n- 5 ou plus: 450k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 500k\n- 5 or more Runs: 425k/unité",
+          value: "- 1 Run: 750k\n- 5 or more Runs: 637k/unité",
           inline: true,
         },
         {
           name: "S+ Runs",
-          value: "- 1 Run: 800k\n- 5 ou plus: 680k/unité",
+          value: "- 1 Run: 4.2m\n- 5 ou plus: 1m/unité",
           inline: true,
         },
       )
@@ -156,17 +156,17 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 600k\n- 5 ou plus: 510k/unité",
+          value: "- 1 Run: 900k\n- 5 ou plus: 765k/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 850k\n- 5 ou plus: 725k/unité",
+          value: "- 1 Run: 1.2m\n- 5 ou plus: 1m/unité",
           inline: true,
         },
         {
           name: "S+ Runs",
-          value: "- 1 Run: 1.1m\n- 5 ou plus: 850k/unité",
+          value: "- 1 Run: 1.6m\n- 5 ou plus: 1.2m/unité",
           inline: true,
         },
       )
@@ -181,17 +181,17 @@ module.exports = {
       .addFields(
         {
           name: "Completion",
-          value: "- 1 Run: 4m\n- 5 ou plus: 3.4m/unité",
+          value: "- 1 Run: 6m\n- 5 ou plus: 5.1m/unité",
           inline: true,
         },
         {
           name: "S Runs",
-          value: "- 1 Run: 8m\n- 5 ou plus: 6.8m/unité",
+          value: "- 1 Run: 12m\n- 5 ou plus: 10.2m/unité",
           inline: true,
         },
         {
           name: "S+ Runs",
-          value: "- 1 Run: 10m\n- 5 ou plus: 8.5m/unité",
+          value: "- 1 Run: 15m\n- 5 ou plus: 12.7m/unité",
           inline: true,
         },
       )

@@ -9,8 +9,8 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "mastercarry",
-  description: `Commande pour les embeds de master`,
+  name: "mastercarryderpy",
+  description: `Commande pour les embeds de master pour derpy`,
 
   execute: async (interaction) => {
     const user = interaction.member;
@@ -50,7 +50,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/839241812672512021.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 1m\n- 5 ou plus: 850k/unité",
+        value: "- 1 Run: 1.5m\n- 5 ou plus: 1.2/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -62,7 +62,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/839242380066291772.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 2m\n- 5 ou plus: 1.7m/unité",
+        value: "- 1 Run: 3m\n- 5 ou plus: 2.5m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -74,7 +74,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/839242407614087240.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 3m\n- 5 ou plus: 2m/unité",
+        value: "- 1 Run: 4.5m\n- 5 ou plus: 3m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -84,7 +84,7 @@ module.exports = {
     const master4 = new EmbedBuilder()
       .setDescription("# Master 4")
       .setThumbnail("https://cdn.discordapp.com/emojis/759298333608378388.png")
-      .addFields({ name: "Completion", value: "- 1 Run: 10m" })
+      .addFields({ name: "Completion", value: "- 1 Run: 15m" })
       .setFooter({
         text: "FrenchLegacy",
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,
@@ -95,7 +95,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/759298251068801044.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 4m\n- 5 ou plus: 3.6m/unité",
+        value: "- 1 Run: 6m\n- 5 ou plus: 5.4m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -107,7 +107,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/761951536829825035.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 6m\n- 5 ou plus: 5.1m/unité",
+        value: "- 1 Run: 9m\n- 5 ou plus: 7.6m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -119,7 +119,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/833916984886427678.png")
       .addFields({
         name: "S Runs",
-        value: "- 1 Run: 25m\n- 5 ou plus: 21m unité",
+        value: "- 1 Run: 37.5m\n- 5 ou plus: 31.5m unité",
       })
       .setFooter({
         text: "FrenchLegacy",

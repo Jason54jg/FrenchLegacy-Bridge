@@ -17,8 +17,16 @@ module.exports = {
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.staffRole) === false) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+    if (
+      config.discord.commands.checkPerms === true &&
+      !(
+        user.roles.cache.has(config.discord.commands.staffRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
+    ) {
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
 
     const name = interaction.options.getString("name");
@@ -27,7 +35,9 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor(5763719)
       .setAuthor({ name: "Unmute" })
-      .setDescription(`Exécuté avec succès \`/g unmute ${name}\`\nRegarde dans <#1014148236132483112>`)
+      .setDescription(
+        `Exécuté avec succès \`/g unmute ${name}\`\nRegarde dans <#1014148236132483112>`,
+      )
       .setFooter({
         text: `${messages.footerhelp}`,
         iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,

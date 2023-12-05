@@ -46,18 +46,26 @@ module.exports = {
     },
     {
       name: "require",
-      description: "Seul les personnes ayant le role renseigné pourrons participer au giveaway",
+      description:
+        "Seul les personnes ayant le role renseigné pourrons participer au giveaway",
       type: 8,
-      required: false
-    }
+      required: true,
+    },
   ],
 
   execute: async (interaction) => {
     const user = interaction.member;
-    if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
-      throw new HypixelDiscordChatBridgeError("Vous n'êtes pas autorisé à utiliser cette commande.");
+    if (
+      config.discord.commands.checkPerms === true &&
+      !(
+        user.roles.cache.has(config.discord.commands.adminRole) ||
+        config.discord.commands.users.includes(user.id)
+      )
+    ) {
+      throw new HypixelDiscordChatBridgeError(
+        "Vous n'êtes pas autorisé à utiliser cette commande.",
+      );
     }
-
 
     const name = interaction.options.get("nom").value;
     const channel = interaction.options.get("channel").value;
@@ -82,7 +90,7 @@ module.exports = {
     const d = date.split("/");
     const h = d[2].split(":");
     const dateFormatted = new Date(
-      Date.UTC(h[0], d[1] - 1, d[0], h[1] - 1, h[2])
+      Date.UTC(h[0], d[1] - 1, d[0], h[1] - 1, h[2]),
     );
 
     // Préparation du giveaway
@@ -92,7 +100,7 @@ module.exports = {
       dateFormatted,
       host,
       winners,
-      roleRequired
+      roleRequired,
     );
 
     if (giveawayId == null) {
@@ -111,15 +119,19 @@ module.exports = {
     const giveawayEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
       .setTitle(
-        `Giveaway - ${name} - ${winners} Gagnant${winners > 1 ? "s" : ""}`
+        `Giveaway - ${name} - ${winners} Gagnant${winners > 1 ? "s" : ""}`,
       )
       .setDescription(
         `Merci à <@${host}> qui organise ce giveaway !\n\n` +
-          `${roleRequired != null ? `Ce giveaway est reservé aux personnes qui possède le role <@&${roleRequired}>\n` : ``}` +
+          `${
+            roleRequired != null
+              ? `Doit avoir le rôle: <@&${roleRequired}>\n`
+              : ``
+          }` +
           `Vous avez jusqu'au <t:${
             dateFormatted.valueOf() / 1000
           }> pour y participer\n` +
-          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>`
+          `Fin <t:${+toFixed(dateFormatted / 1000, 0)}:R>`,
       )
       .setFooter({
         text: "FrenchLegacy",
@@ -137,7 +149,7 @@ module.exports = {
           new ButtonBuilder()
             .setCustomId(`giveaway_${giveawayId}_list`)
             .setLabel("Liste des participants")
-            .setStyle(ButtonStyle.Secondary)
+            .setStyle(ButtonStyle.Secondary),
         ),
       ],
     });

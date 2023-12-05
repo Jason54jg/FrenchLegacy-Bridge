@@ -20,7 +20,7 @@ class StateHandler extends eventHandler {
 
     if (this.isConnectionRefusedError(error)) {
       return Logger.errorMessage(
-        "Connexion refusée lors de la tentative de connexion via le client Minecraft"
+        "Connexion refusée lors de la tentative de connexion via le client Minecraft",
       );
     }
 

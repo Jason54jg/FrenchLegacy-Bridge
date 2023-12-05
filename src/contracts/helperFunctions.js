@@ -291,6 +291,10 @@ function formatNumber(number, decimals = 2) {
   return `${isNegative ? "-" : ""}${shortNumber}${abbrev[abbrevIndex]}`;
 }
 
+function replaceVariables(template, variables) {
+  return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
+}
+
 module.exports = {
   replaceAllRanks,
   addNotation,
@@ -307,4 +311,5 @@ module.exports = {
   parseTimestamp,
   formatUsername,
   formatNumber,
+  replaceVariables,
 };

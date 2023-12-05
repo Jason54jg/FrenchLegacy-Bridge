@@ -35,23 +35,23 @@ class NetWorthCommand extends minecraftCommand {
       const profile = await getNetworth(
         data.profile,
         data.profileData?.banking?.balance || 0,
-        { cache: true, onlyNetworth: true, museumData: data.museum }
+        { cache: true, onlyNetworth: true, museumData: data.museum },
       );
 
       if (profile.noInventory === true) {
-        return this.send(
-          `/gc ${username} a une API d'inventaire désactivée!`
-        );
+        return this.send(`/gc ${username} a une API d'inventaire désactivée!`);
       }
 
       const networth = formatNumber(profile.networth);
       const unsoulboundNetworth = formatNumber(profile.unsoulboundNetworth);
       const purse = formatNumber(profile.purse);
       const bank = profile.bank ? formatNumber(profile.bank) : "N/A";
-      const museum = data.museum ? formatNumber(profile.types.museum?.total ?? 0) : "N/A";
+      const museum = data.museum
+        ? formatNumber(profile.types.museum?.total ?? 0)
+        : "N/A";
 
       this.send(
-        `/gc Le Networth de ${username} est ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`
+        `/gc Le Networth de ${username} est ${networth} | Unsoulbound Networth: ${unsoulboundNetworth} | Purse: ${purse} | Bank: ${bank} | Museum: ${museum}`,
       );
     } catch (error) {
       console.log(error);

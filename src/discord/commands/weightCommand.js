@@ -62,7 +62,7 @@ module.exports = {
                 profileweight.senither.skills.foraging.total +
                 profileweight.senither.skills.mining.total +
                 profileweight.senither.skills.taming.total) *
-                100
+                100,
             ) / 100
           }`,
           inline: true,

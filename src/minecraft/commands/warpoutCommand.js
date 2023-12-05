@@ -29,7 +29,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (
           message.includes(
-            "You cannot invite that player since they're not online."
+            "You cannot invite that player since they're not online.",
           )
         ) {
           this.send(`/gc ${user} n'est pas en ligne!`);
@@ -45,14 +45,12 @@ class warpoutCommand extends minecraftCommand {
           message.includes("invited") &&
           message.includes("to the party! They have 60 seconds to accept.")
         ) {
-          this.send(
-            `/gc ${user} a été invité avec succès à la partie!`
-          );
+          this.send(`/gc ${user} a été invité avec succès à la partie!`);
         }
 
         if (message.includes(" joined the party.")) {
           this.send(
-            `/gc ${user} rejoint la partie ! Je le fait quitter le lobby..`
+            `/gc ${user} rejoint la partie ! Je le fait quitter le lobby..`,
           );
           await delay(1100);
 
@@ -61,7 +59,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes(" is not allowed on your server!")) {
           this.send(
-            `/gc ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`
+            `/gc ${user} n'est pas autorisé sur le serveur! Suppression de la partie..`,
           );
           this.isOnCooldown = false;
 
@@ -73,7 +71,7 @@ class warpoutCommand extends minecraftCommand {
           bot.removeListener("message", warpoutListener);
           this.isOnCooldown = false;
           this.send(
-            `/gc ${user} a été warp du lobby! Suppression de la partie..`
+            `/gc ${user} a été warp du lobby! Suppression de la partie..`,
           );
 
           await delay(1000);
@@ -82,7 +80,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes("You are not allowed to invite players.")) {
           this.send(
-            `/msg D'une manière ou d'une autre, je ne suis pas autorisé à inviter des joueurs?`
+            `/msg D'une manière ou d'une autre, je ne suis pas autorisé à inviter des joueurs?`,
           );
           this.isOnCooldown = false;
 
@@ -92,7 +90,7 @@ class warpoutCommand extends minecraftCommand {
 
         if (message.includes("You are not allowed to disband this party.")) {
           this.send(
-            `/msg D'une manière ou d'une autre, je n'ai pas le droit de dissoudre ce parti?`
+            `/msg D'une manière ou d'une autre, je n'ai pas le droit de dissoudre ce parti?`,
           );
           this.isOnCooldown = false;
 
@@ -108,9 +106,7 @@ class warpoutCommand extends minecraftCommand {
         bot.removeListener("message", warpoutListener);
 
         if (this.isOnCooldown === true) {
-          this.send(
-            `/gc Délai de l'invitation à la partie à expiré.`
-          );
+          this.send(`/gc Délai de l'invitation à la partie à expiré.`);
           await delay(1000);
           bot.chat("/p disband");
 
@@ -118,9 +114,7 @@ class warpoutCommand extends minecraftCommand {
         }
       }, 30000);
     } catch (error) {
-      this.send(
-        `/gc Erreur: ${error || "Quelque chose s'est mal passé.."}`
-      );
+      this.send(`/gc Erreur: ${error || "Quelque chose s'est mal passé.."}`);
 
       this.isOnCooldown = false;
     }

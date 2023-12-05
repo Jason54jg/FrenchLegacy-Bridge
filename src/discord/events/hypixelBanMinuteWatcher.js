@@ -10,7 +10,7 @@ setInterval(banTracker, 30000);
 async function banTracker() {
   try {
     const data = await axios.get(
-      `https://api.hypixel.net/punishmentstats?key=${config.minecraft.API.hypixelAPIkey}`
+      `https://api.hypixel.net/punishmentstats?key=${config.minecraft.API.hypixelAPIkey}`,
     );
 
     const channel = client.channels.cache.get(`1135185694906667140`);

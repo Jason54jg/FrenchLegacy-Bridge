@@ -25,7 +25,7 @@ module.exports = (player) => {
     player.rank,
     player.packageRank,
     player.newPackageRank,
-    player.monthlyPackageRank
+    player.monthlyPackageRank,
   );
   const plusColor = `§${colorToCode[player.rankPlusColor || "RED"]}`;
   const plusPlusColor = `§${colorToCode[player.monthlyRankColor || "GOLD"]}`;

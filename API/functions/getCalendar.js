@@ -8,7 +8,7 @@ function getSkyblockCalendar() {
       Date.now(),
       Date.now() + 10710000000,
       1,
-      false
+      false,
     );
 
     return { status: 200, data: calendar };

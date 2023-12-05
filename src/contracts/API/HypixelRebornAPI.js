@@ -6,7 +6,7 @@ const hypixel = new HypixelAPIReborn.Client(
   config.minecraft.API.hypixelAPIkey,
   {
     cache: true,
-  }
+  },
 );
 
 module.exports = hypixel;

@@ -14,7 +14,7 @@ const Logger = require("../.././Logger.js");
 const sourcebin = require("sourcebin_js");
 const DB = require("../../../API/database/database.js");
 
-const roles = config.discord.roles;
+const roles = config.discord.commands;
 const disabledButtonCloseTicket = new ButtonBuilder()
   .setCustomId("ticket-close")
   .setLabel(" | fermer le ticket")
@@ -47,10 +47,10 @@ module.exports = {
     let catégoriecarry = roles.catégoriecarry;
     let catégorieticket = roles.catégorieticket;
 
-    let roleStaff = interaction.guild.roles.cache.get(roles.commandRole);
+    let roleStaff = interaction.guild.roles.cache.get(roles.staffRole);
 
     let DejaUnChannel = interaction.guild.channels.cache.find(
-      (c) => c.topic == interaction.user.id
+      (c) => c.topic == interaction.user.id,
     );
 
     if (interaction.customId.includes("ticket-close")) {
@@ -63,7 +63,7 @@ module.exports = {
       await interaction.message.edit({ components: [rowPanel] });
 
       const rowDeleteFalse = new ActionRowBuilder().addComponents(
-        disabledButtonCloseTicket
+        disabledButtonCloseTicket,
       );
 
       const rowDeleteTrue = new ActionRowBuilder().addComponents(
@@ -72,14 +72,14 @@ module.exports = {
           .setEmoji("🗑️")
           .setDisabled(false)
           .setCustomId(
-            `ticket-delete${requestId != null ? `-${requestId}` : ""}`
-          )
+            `ticket-delete${requestId != null ? `-${requestId}` : ""}`,
+          ),
       );
 
       const embed = new EmbedBuilder()
         .setTitle("Fermer le ticket!")
         .setDescription(
-          `ticket fermé par <@${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`
+          `ticket fermé par <@${interaction.user.id}>!\n\n**Appuyez sur le bouton 🗑️ pour supprimer le ticket!**`,
         );
 
       interaction
@@ -92,7 +92,7 @@ module.exports = {
               }`,
             });
             interaction.editReply({ components: [rowDeleteTrue] });
-          }, 2000)
+          }, 2000),
         );
 
       if (member == undefined) {
@@ -154,7 +154,7 @@ module.exports = {
       // Vérifie que la personne qui claim possède le role
       if (
         !interaction.member._roles.includes(
-          interaction.message.content.split("&")[1].split(">")[0]
+          interaction.message.content.split("&")[1].split(">")[0],
         )
       ) {
         return interaction.reply({
@@ -186,7 +186,7 @@ module.exports = {
               .setCustomId("claim-end")
               .setLabel(" | Carry effectué")
               .setEmoji("🔒")
-              .setStyle(ButtonStyle.Success)
+              .setStyle(ButtonStyle.Success),
           ),
         ],
       });
@@ -195,7 +195,7 @@ module.exports = {
         components: [
           new ActionRowBuilder().addComponents(
             buttonCloseTicket,
-            buttonClaimTicket.setDisabled(true)
+            buttonClaimTicket.setDisabled(true),
           ),
         ],
       });
@@ -346,7 +346,7 @@ module.exports = {
                   .setCustomId("ticket-close-carrierrequest")
                   .setLabel(" | fermer le ticket")
                   .setEmoji("🔒")
-                  .setStyle(ButtonStyle.Danger)
+                  .setStyle(ButtonStyle.Danger),
               ),
             ],
           });
@@ -384,13 +384,13 @@ async function manageModalInteraction(interaction, client) {
     // Données issue du message principal
     carryAmount = parseInt(carryAmount);
     const nbCarryTotal = parseInt(
-      firstMessage.content.split("/")[1].split("c")[0].trim()
+      firstMessage.content.split("/")[1].split("c")[0].trim(),
     );
     const nbCarryDone = parseInt(
-      firstMessage.content.split("|")[2].split("/")[0].trim()
+      firstMessage.content.split("|")[2].split("/")[0].trim(),
     );
     const pointsTotal = parseInt(
-      firstMessage.content.split("|")[2].split(">")[1].split("p")[0].trim()
+      firstMessage.content.split("|")[2].split(">")[1].split("p")[0].trim(),
     );
     const carryToDo = nbCarryTotal - nbCarryDone;
     const carryRemaining = nbCarryTotal - (nbCarryDone + carryAmount);
@@ -440,7 +440,7 @@ async function manageModalInteraction(interaction, client) {
       components: [
         new ActionRowBuilder().addComponents(
           buttonCloseTicket,
-          buttonClaimTicket.setDisabled(false)
+          buttonClaimTicket.setDisabled(false),
         ),
       ],
     });
@@ -464,16 +464,26 @@ async function manageModalInteraction(interaction, client) {
     }
     closeTicket(interaction, "carry");
   }
-
+  /*
   // Slayer interactions
-  else if (interaction.customId == "T3Spider") {
+  else if (interaction.customId == "T4Wolf") {
+    createCarryChannel(
+      interaction,
+      "T4Wolf",
+      2,
+      roles.roleT4WolfId,
+      roles.catégorieslayer,
+      "Wolf T4: 75k/unité\nPrix pour (10 ou plus) : 60k/unité",
+      "<:Wolf:1134075444392640573>"
+    );
+  } else if (interaction.customId == "T3Spider") {
     createCarryChannel(
       interaction,
       "T3Spider",
       1,
       roles.roleT3SpiderId,
       roles.catégorieslayer,
-      "Spider: 70k/unité \nPrix pour (10 ou plus) : 50k/unité",
+      "Spider T3: 105k/unité\nPrix pour (10 ou plus) : 75k/unité",
       "<:Spider:1081243964755157012>"
     );
   } else if (interaction.customId == "T4Spider") {
@@ -483,7 +493,7 @@ async function manageModalInteraction(interaction, client) {
       3,
       roles.roleT4SpiderId,
       roles.catégorieslayer,
-      "Spider T4: 100k/unité \nPrix pour (10 ou plus) : 90k/unité",
+      "Spider T4: 150k/unité\nPrix pour (10 ou plus) : 135k/unité",
       "<:Spider:1081243964755157012>"
     );
   } else if (interaction.customId == "T4REV") {
@@ -493,7 +503,7 @@ async function manageModalInteraction(interaction, client) {
       1,
       roles.roleT4REVId,
       roles.catégorieslayer,
-      "Zombie T4: 150k/unité \nPrix pour (10 ou plus) : 80k/unité",
+      "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité",
       "<:Revenant:1039706422465794158>"
     );
   } else if (interaction.customId == "T5REV") {
@@ -503,7 +513,7 @@ async function manageModalInteraction(interaction, client) {
       2,
       roles.roleT5REVId,
       roles.catégorieslayer,
-      "Atoned Horror: 200k/unité \nPrix pour (10 ou plus) : 150k/unité",
+      "Zombie T5: 300k/unité\nPrix pour (10 ou plus) : 225k/unité",
       "<:Revenant:1039706422465794158>"
     );
   } else if (interaction.customId == "T3eman") {
@@ -513,7 +523,7 @@ async function manageModalInteraction(interaction, client) {
       6,
       roles.roleT3emanId,
       roles.catégorieslayer,
-      "Voidgloom Seraph 3: 800k/unité \nPrix pour (10 ou plus) : 600k/unité",
+      "Voidgloom Seraph 3: 1.2m/unité\nPrix pour (10 ou plus) : 900k/unité",
       "<:Enderman:1039706047214014464>"
     );
   } else if (interaction.customId == "T4eman") {
@@ -523,7 +533,7 @@ async function manageModalInteraction(interaction, client) {
       10,
       roles.roleT4emanId,
       roles.catégorieslayer,
-      "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
+      "Voidgloom Seraph 4: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
       "<:Enderman:1039706047214014464>"
     );
   } else if (interaction.customId == "T2blaze") {
@@ -533,7 +543,7 @@ async function manageModalInteraction(interaction, client) {
       7,
       roles.roleT2blazeId,
       roles.catégorieslayer,
-      "Inferno Demonlord 2: 1m/unité \nPrix pour (10 ou plus) : 850k/unité",
+      "Inferno Demonlord 2: 1.5m/unité\nPrix pour (10 ou plus) : 1.2m/unité",
       "<:Blaze:1039705790501617745>"
     );
   } else if (interaction.customId == "T3blaze") {
@@ -543,7 +553,7 @@ async function manageModalInteraction(interaction, client) {
       15,
       roles.roleT3blazeId,
       roles.catégorieslayer,
-      "Inferno Demonlord 3: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
+      "Inferno Demonlord 3: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
       "<:Blaze:1039705790501617745>"
     );
   } else if (interaction.customId == "T4blaze") {
@@ -553,7 +563,7 @@ async function manageModalInteraction(interaction, client) {
       18,
       roles.roleT4blazeId,
       roles.catégorieslayer,
-      "Inferno Demonlord 4: 6.5m/unité \nPrix pour (10 ou plus) : 6m/unité",
+      "Inferno Demonlord 4: 9.7m/unité\nPrix pour (10 ou plus) : 9m/unité",
       "<:Blaze:1039705790501617745>"
     );
   }
@@ -566,7 +576,7 @@ async function manageModalInteraction(interaction, client) {
       5,
       roles.roleT1kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 6m\n- 5 ou plus: 5m unité",
+      "**Runs**\n- 1 Run: 7.5m\n- 5 ou plus: 6m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k2") {
@@ -576,7 +586,7 @@ async function manageModalInteraction(interaction, client) {
       8,
       roles.roleT2kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 10m\n- 5 ou plus: 8m unité",
+      "**Runs**\n- 1 Run: 13.5m\n- 5 ou plus: 10.5m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k3") {
@@ -586,7 +596,7 @@ async function manageModalInteraction(interaction, client) {
       15,
       roles.roleT3kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.5m unité",
+      "**Runs**\n- 1 Run: 20.5m\n- 5 ou plus: 15m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k4") {
@@ -596,7 +606,7 @@ async function manageModalInteraction(interaction, client) {
       20,
       roles.roleT4kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 20m\n- 5 ou plus: 17m unité",
+      "**Runs**\n- 1 Run: 27m\n- 5 ou plus: 22.5m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   } else if (interaction.customId == "k5") {
@@ -606,7 +616,7 @@ async function manageModalInteraction(interaction, client) {
       40,
       roles.roleT5kuudraId,
       roles.catégoriekuudra,
-      "**Runs**\n- 1 Run: 60m\n- 5 ou plus: 50m unité",
+      "**Runs**\n- 1 Run: 60m\n- 5 ou plus: 45m/unité",
       "<:Kuudra:1049723520072044614>"
     );
   }
@@ -619,7 +629,7 @@ async function manageModalInteraction(interaction, client) {
       1,
       roles.rolef1Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
+      "**Completion**\n- 1 Run: 135k\n- 5 ou plus: 105k/unité\n\n**S Runs**\n- 1 Run: 180k\n- 5 ou plus: 150k/unité",
       "<:Bonzo:1039705817252909147>"
     );
   } else if (interaction.customId == "f2") {
@@ -629,7 +639,7 @@ async function manageModalInteraction(interaction, client) {
       1,
       roles.rolef2Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité",
+      "**Completion**\n- 1 Run: 255k\n- 5 ou plus: 225k/unité\n\n**S Runs**\n- 1 Run: 375k\n- 5 ou plus: 315k/unité",
       "<:Scarf:1039705859518910634>"
     );
   } else if (interaction.customId == "f3") {
@@ -639,7 +649,7 @@ async function manageModalInteraction(interaction, client) {
       1,
       roles.rolef3Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité",
+      "**Completion**\n- 1 Run: 420k\n- 5 ou plus: 390k/unité\n\n**S Runs**\n- 1 Run: 525k\n- 5 ou plus: 450k/unité",
       "<:Professor:1039705994768425050>"
     );
   } else if (interaction.customId == "f4") {
@@ -649,7 +659,7 @@ async function manageModalInteraction(interaction, client) {
       2,
       roles.rolef4Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité",
+      "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k/unité\n\n**S Runs**\n- 1 Run: 900k\n- 5 ou plus: 765k/unité",
       "<:Thorn:1039692699625865276>"
     );
   } else if (interaction.customId == "f5") {
@@ -659,7 +669,7 @@ async function manageModalInteraction(interaction, client) {
       1,
       roles.rolef5Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité",
+      "**Completion**\n- 1 Run: 525k\n- 5 ou plus: 450k/unité\n\n**S Runs**\n- 1 Run: 750k\n- 5 or more Runs: 637k/unité\n\n**S+ Runs**\n- 1 Run: 4.2m\n- 5 ou plus: 1m/unité",
       "<:Livid:1039692626665934900>"
     );
   } else if (interaction.customId == "f6") {
@@ -669,7 +679,7 @@ async function manageModalInteraction(interaction, client) {
       3,
       roles.rolef6Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité",
+      "**Completion**\n- 1 Run: 900k\n- 5 ou plus: 765k/unité\n\n**S Runs**\n- 1 Run: 1.2m\n- 5 ou plus: 1m/unité\n\n**S+ Runs**\n- 1 Run: 1.6m\n- 5 ou plus: 1.2m/unité",
       "<:Sadan:1039692739488534580>"
     );
   } else if (interaction.customId == "f7") {
@@ -679,7 +689,7 @@ async function manageModalInteraction(interaction, client) {
       5,
       roles.rolef7Id,
       roles.catégoriefloor,
-      "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 8m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité",
+      "**Completion**\n- 1 Run: 6m\n- 5 ou plus: 5.1m/unité\n\n**S Runs**\n- 1 Run: 12m\n- 5 ou plus: 10.2m/unité\n\n**S+ Runs**\n- 1 Run: 15m\n- 5 ou plus: 12.7m/unité",
       "<:Necron:1040832502417338458>"
     );
   } else if (interaction.customId == "m1") {
@@ -689,7 +699,7 @@ async function manageModalInteraction(interaction, client) {
       4,
       roles.rolem1Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité",
+      "**S Runs**\n- 1 Run: 1.5m\n- 5 ou plus: 1.2/unité",
       "<:Bonzo:1039705817252909147>"
     );
   } else if (interaction.customId == "m2") {
@@ -699,7 +709,7 @@ async function manageModalInteraction(interaction, client) {
       8,
       roles.rolem2Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité",
+      "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2.5m/unité",
       "<:Scarf:1039705859518910634>"
     );
   } else if (interaction.customId == "m3") {
@@ -709,7 +719,7 @@ async function manageModalInteraction(interaction, client) {
       7,
       roles.rolem3Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité",
+      "**S Runs**\n- 1 Run: 4.5m\n- 5 ou plus: 3m/unité",
       "<:Professor:1039705994768425050>"
     );
   } else if (interaction.customId == "m4") {
@@ -719,7 +729,7 @@ async function manageModalInteraction(interaction, client) {
       15,
       roles.rolem4Id,
       roles.catégoriemaster,
-      "**Completion**\n- 1 Run: 10m",
+      "**Completion**\n- 1 Run: 15m",
       "<:Thorn:1039692699625865276>"
     );
   } else if (interaction.customId == "m5") {
@@ -729,7 +739,7 @@ async function manageModalInteraction(interaction, client) {
       10,
       roles.rolem5Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité",
+      "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.4m/unité",
       "<:Livid:1039692626665934900>"
     );
   } else if (interaction.customId == "m6") {
@@ -739,7 +749,7 @@ async function manageModalInteraction(interaction, client) {
       13,
       roles.rolem6Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité",
+      "**S Runs**\n- 1 Run: 9m\n- 5 ou plus: 7.6m/unité",
       "<:Sadan:1039692739488534580>"
     );
   } else if (interaction.customId == "m7") {
@@ -749,8 +759,307 @@ async function manageModalInteraction(interaction, client) {
       20,
       roles.rolem7Id,
       roles.catégoriemaster,
-      "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
+      "**S Runs**\n- 1 Run: 37.5m\n- 5 ou plus: 31.5m unité",
       "<:Necron:1040832502417338458>"
+    );
+  }*/
+
+  // Slayer interactions
+  else if (interaction.customId == "T4Wolf") {
+    createCarryChannel(
+      interaction,
+      "T4Wolf",
+      2,
+      roles.roleT4WolfId,
+      roles.catégorieslayer,
+      "Wolf T4: 50k/unité\nPrix pour (10 ou plus) : 40k/unité",
+      "<:Wolf:1134075444392640573>",
+    );
+  } else if (interaction.customId == "T3Spider") {
+    createCarryChannel(
+      interaction,
+      "T3Spider",
+      1,
+      roles.roleT3SpiderId,
+      roles.catégorieslayer,
+      "Spider: 70k/unité \nPrix pour (10 ou plus) : 50k/unité",
+      "<:Spider:1081243964755157012>",
+    );
+  } else if (interaction.customId == "T4Spider") {
+    createCarryChannel(
+      interaction,
+      "T4Spider",
+      3,
+      roles.roleT4SpiderId,
+      roles.catégorieslayer,
+      "Spider T4: 100k/unité \nPrix pour (10 ou plus) : 90k/unité",
+      "<:Spider:1081243964755157012>",
+    );
+  } else if (interaction.customId == "T4REV") {
+    createCarryChannel(
+      interaction,
+      "T4Revenant",
+      1,
+      roles.roleT4REVId,
+      roles.catégorieslayer,
+      "Zombie T4: 150k/unité \nPrix pour (10 ou plus) : 80k/unité",
+      "<:Revenant:1039706422465794158>",
+    );
+  } else if (interaction.customId == "T5REV") {
+    createCarryChannel(
+      interaction,
+      "T5Revenant",
+      2,
+      roles.roleT5REVId,
+      roles.catégorieslayer,
+      "Zombie T5: 200k/unité \nPrix pour (10 ou plus) : 150k/unité",
+      "<:Revenant:1039706422465794158>",
+    );
+  } else if (interaction.customId == "T3eman") {
+    createCarryChannel(
+      interaction,
+      "T3Voidgloom",
+      6,
+      roles.roleT3emanId,
+      roles.catégorieslayer,
+      "Voidgloom Seraph 3: 800k/unité \nPrix pour (10 ou plus) : 600k/unité",
+      "<:Enderman:1039706047214014464>",
+    );
+  } else if (interaction.customId == "T4eman") {
+    createCarryChannel(
+      interaction,
+      "T4Voidgloom",
+      10,
+      roles.roleT4emanId,
+      roles.catégorieslayer,
+      "Voidgloom Seraph 4: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
+      "<:Enderman:1039706047214014464>",
+    );
+  } else if (interaction.customId == "T2blaze") {
+    createCarryChannel(
+      interaction,
+      "T2Inferno",
+      7,
+      roles.roleT2blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 2: 1m/unité \nPrix pour (10 ou plus) : 850k/unité",
+      "<:Blaze:1039705790501617745>",
+    );
+  } else if (interaction.customId == "T3blaze") {
+    createCarryChannel(
+      interaction,
+      "T3Inferno",
+      15,
+      roles.roleT3blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 3: 2.5m/unité \nPrix pour (10 ou plus) : 2m/unité",
+      "<:Blaze:1039705790501617745>",
+    );
+  } else if (interaction.customId == "T4blaze") {
+    createCarryChannel(
+      interaction,
+      "T4Inferno",
+      18,
+      roles.roleT4blazeId,
+      roles.catégorieslayer,
+      "Inferno Demonlord 4: 6.5m/unité \nPrix pour (10 ou plus) : 6m/unité",
+      "<:Blaze:1039705790501617745>",
+    );
+  }
+
+  // Kuudra interactions
+  else if (interaction.customId == "k1") {
+    createCarryChannel(
+      interaction,
+      "T1Kuudra",
+      5,
+      roles.roleT1kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 5m\n- 5 ou plus: 4m unité",
+      "<:Kuudra:1049723520072044614>",
+    );
+  } else if (interaction.customId == "k2") {
+    createCarryChannel(
+      interaction,
+      "T2Kuudra",
+      8,
+      roles.roleT2kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 9m\n- 5 ou plus: 7m unité",
+      "<:Kuudra:1049723520072044614>",
+    );
+  } else if (interaction.customId == "k3") {
+    createCarryChannel(
+      interaction,
+      "T3Kuudra",
+      15,
+      roles.roleT3kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 13m\n- 5 ou plus: 10m unité",
+      "<:Kuudra:1049723520072044614>",
+    );
+  } else if (interaction.customId == "k4") {
+    createCarryChannel(
+      interaction,
+      "T4Kuudra",
+      20,
+      roles.roleT4kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 18m\n- 5 ou plus: 15m unité",
+      "<:Kuudra:1049723520072044614>",
+    );
+  } else if (interaction.customId == "k5") {
+    createCarryChannel(
+      interaction,
+      "T5Kuudra",
+      40,
+      roles.roleT5kuudraId,
+      roles.catégoriekuudra,
+      "**Runs**\n- 1 Run: 40m\n- 5 ou plus: 30m unité",
+      "<:Kuudra:1049723520072044614>",
+    );
+  }
+
+  // Dungeon interactions
+  else if (interaction.customId == "f1") {
+    createCarryChannel(
+      interaction,
+      "f1",
+      1,
+      roles.rolef1Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 90k\n- 5 ou plus: 70k unité\n\n**S Runs**\n- 1 Run: 120k\n- 5 ou plus: 100k unité",
+      "<:Bonzo:1039705817252909147>",
+    );
+  } else if (interaction.customId == "f2") {
+    createCarryChannel(
+      interaction,
+      "f2",
+      1,
+      roles.rolef2Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 170k\n- 5 ou plus: 150k unité\n\n**S Runs**\n- 1 Run: 250k\n- 5 ou plus: 210k unité",
+      "<:Scarf:1039705859518910634>",
+    );
+  } else if (interaction.customId == "f3") {
+    createCarryChannel(
+      interaction,
+      "f3",
+      1,
+      roles.rolef3Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 280k\n- 5 ou plus: 260k unité\n\n**S Runs**\n- 1 Run: 350k\n- 5 ou plus: 300k unité",
+      "<:Professor:1039705994768425050>",
+    );
+  } else if (interaction.customId == "f4") {
+    createCarryChannel(
+      interaction,
+      "f4",
+      2,
+      roles.rolef4Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 400k\n- 5 ou plus: 340k unité\n\n**S Runs**\n- 1 Run: 600k\n- 5 ou plus: 510k unité",
+      "<:Thorn:1039692699625865276>",
+    );
+  } else if (interaction.customId == "f5") {
+    createCarryChannel(
+      interaction,
+      "f5",
+      1,
+      roles.rolef5Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 350k\n- 5 ou plus: 300k unité\n\n**S Runs**\n- 1 Run: 500k\n- 5 ou plus: 425k unité\n\n**S+ Runs**\n- 1 Run: 800k\n- 5 ou plus: 680k unité",
+      "<:Livid:1039692626665934900>",
+    );
+  } else if (interaction.customId == "f6") {
+    createCarryChannel(
+      interaction,
+      "f6",
+      3,
+      roles.rolef6Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 600k\n- 5 ou plus: 510k unité\n\n**S Runs**\n- 1 Run: 850k\n- 5 ou plus: 725k unité\n\n**S+ Runs**\n- 1 Run: 1.1m\n- 5 ou plus: 850k unité",
+      "<:Sadan:1039692739488534580>",
+    );
+  } else if (interaction.customId == "f7") {
+    createCarryChannel(
+      interaction,
+      "f7",
+      5,
+      roles.rolef7Id,
+      roles.catégoriefloor,
+      "**Completion**\n- 1 Run: 4m\n- 5 ou plus: 3.4m unité\n\n**S Runs**\n- 1 Run: 8m\n- 5 ou plus: 6.8m unité\n\n**S+ Runs**\n- 1 Run: 10m\n- 5 ou plus: 8.5m unité",
+      "<:Necron:1040832502417338458>",
+    );
+  } else if (interaction.customId == "m1") {
+    createCarryChannel(
+      interaction,
+      "m1",
+      4,
+      roles.rolem1Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 1m\n- 5 ou plus: 850k unité",
+      "<:Bonzo:1039705817252909147>",
+    );
+  } else if (interaction.customId == "m2") {
+    createCarryChannel(
+      interaction,
+      "m2",
+      8,
+      roles.rolem2Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 2m\n- 5 ou plus: 1.7m unité",
+      "<:Scarf:1039705859518910634>",
+    );
+  } else if (interaction.customId == "m3") {
+    createCarryChannel(
+      interaction,
+      "m3",
+      7,
+      roles.rolem3Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 3m\n- 5 ou plus: 2m unité",
+      "<:Professor:1039705994768425050>",
+    );
+  } else if (interaction.customId == "m4") {
+    createCarryChannel(
+      interaction,
+      "m4",
+      15,
+      roles.rolem4Id,
+      roles.catégoriemaster,
+      "**Completion**\n- 1 Run: 10m",
+      "<:Thorn:1039692699625865276>",
+    );
+  } else if (interaction.customId == "m5") {
+    createCarryChannel(
+      interaction,
+      "m5",
+      10,
+      roles.rolem5Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 4m\n- 5 ou plus: 3.6m unité",
+      "<:Livid:1039692626665934900>",
+    );
+  } else if (interaction.customId == "m6") {
+    createCarryChannel(
+      interaction,
+      "m6",
+      13,
+      roles.rolem6Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 6m\n- 5 ou plus: 5.1m unité",
+      "<:Sadan:1039692739488534580>",
+    );
+  } else if (interaction.customId == "m7") {
+    createCarryChannel(
+      interaction,
+      "m7",
+      20,
+      roles.rolem7Id,
+      roles.catégoriemaster,
+      "**S Runs**\n- 1 Run: 25m\n- 5 ou plus: 21m unité",
+      "<:Necron:1040832502417338458>",
     );
   }
 }
@@ -762,10 +1071,10 @@ function createCarryChannel(
   roleId,
   categorieId,
   priceInfo,
-  emote
+  emote,
 ) {
   const roleStaff = interaction.guild.roles.cache.get(
-    config.discord.roles.commandRole
+    config.discord.commands.staffRole,
   );
   const role = interaction.guild.roles.cache.get(roleId);
 
@@ -833,7 +1142,7 @@ function createCarryChannel(
         }`,
         embeds: [
           {
-            description: `Informations sur les prix :\n\n${priceInfo}`,
+            description: `## Informations sur les prix :\n\n${priceInfo}`,
             footer: {
               text: "FrenchLegacy",
               iconURL:
@@ -844,7 +1153,7 @@ function createCarryChannel(
         components: [
           new ActionRowBuilder().addComponents(
             buttonCloseTicket,
-            buttonClaimTicket.setDisabled(false)
+            buttonClaimTicket.setDisabled(false),
           ),
         ],
       });
@@ -866,12 +1175,12 @@ async function closeTicket(interaction, ticketType = null) {
     case "carry":
     case "carrierrequest":
       transcriptsChannel = interaction.guild.channels.cache.get(
-        logChannelCarrierService
+        logChannelCarrierService,
       );
       break;
     default:
       transcriptsChannel = interaction.guild.channels.cache.get(
-        logChannelDefaultService
+        logChannelDefaultService,
       );
   }
 
@@ -885,7 +1194,7 @@ async function closeTicket(interaction, ticketType = null) {
             m.author.tag
           }: ${
             m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content
-          }`
+          }`,
       )
       .join("\n");
 
@@ -894,14 +1203,14 @@ async function closeTicket(interaction, ticketType = null) {
       {
         title: `Transcript: ${channel.name}`,
         description: " ",
-      }
+      },
     );
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setEmoji("📑")
-        .setURL(`${transcript.url}`)
+        .setURL(`${transcript.url}`),
     );
 
     const embed = new EmbedBuilder().setTitle("Ticket Transcript").addFields(
@@ -920,7 +1229,7 @@ async function closeTicket(interaction, ticketType = null) {
         name: "Direct Transcript",
         value: `[Direct Transcript](${transcript.url})`,
         inline: true,
-      }
+      },
     );
 
     await transcriptsChannel.send({ embeds: [embed], components: [row] });

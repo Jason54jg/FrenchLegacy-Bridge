@@ -9,8 +9,8 @@ const config = require("../../../config.json");
 const messages = require("../../../messages.json");
 
 module.exports = {
-  name: "slayercarry",
-  description: `Commande pour les embeds de slayer`,
+  name: "slayercarryderpy",
+  description: `Commande pour les embeds de slayer pour derpy`,
 
   execute: async (interaction) => {
     const user = interaction.member;
@@ -32,7 +32,7 @@ module.exports = {
       .addFields({
         name: "\u200b",
         value:
-          "Zombie T4: 150k/unité\nPrix pour (10 ou plus) : 80k/unité\n\nZombie T5: 200k/unité\nPrix pour (10 ou plus) : 150k/unité",
+          "Zombie T4: 225k/unité\nPrix pour (10 ou plus) : 120k/unité\n\nZombie T5: 300k/unité\nPrix pour (10 ou plus) : 225k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -44,7 +44,7 @@ module.exports = {
       .setThumbnail("https://cdn.discordapp.com/emojis/1134075444392640573.png")
       .addFields({
         name: "\u200b",
-        value: "Wolf T4: 50k/unité\nPrix pour (10 ou plus) : 40k/unité",
+        value: "Wolf T4: 75k/unité\nPrix pour (10 ou plus) : 60k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -57,7 +57,7 @@ module.exports = {
       .addFields({
         name: "\u200b",
         value:
-          "Spider T3: 70k/unité\nPrix pour (10 ou plus) : 50k/unité\n\nSpider T4: 100k/unité\nPrix pour (10 ou plus) : 90k/unité",
+          "Spider T3: 105k/unité\nPrix pour (10 ou plus) : 75k/unité\n\nSpider T4: 150k/unité\nPrix pour (10 ou plus) : 135k/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -70,7 +70,7 @@ module.exports = {
       .addFields({
         name: "\u200b",
         value:
-          "Voidgloom Seraph 3: 800k/unité\nPrix pour (10 ou plus) : 600k/unité\n\nVoidgloom Seraph 4: 2.5m/unité\nPrix pour (10 ou plus) : 2m/unité",
+          "Voidgloom Seraph 3: 1.2m/unité\nPrix pour (10 ou plus) : 900k/unité\n\nVoidgloom Seraph 4: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
@@ -83,7 +83,7 @@ module.exports = {
       .addFields({
         name: "\u200b",
         value:
-          "Inferno Demonlord 2: 1m/unité\nPrix pour (10 ou plus) : 850k/unité\n\nInferno Demonlord 3: 2.5m/unité\nPrix pour (10 ou plus) : 2m/unité\n\nInferno Demonlord 4: 6.5m/unité\nPrix pour (10 ou plus) : 6m/unité",
+          "Inferno Demonlord 2: 1.5m/unité\nPrix pour (10 ou plus) : 1.2m/unité\n\nInferno Demonlord 3: 3.7m/unité\nPrix pour (10 ou plus) : 3m/unité\n\nInferno Demonlord 4: 9.7m/unité\nPrix pour (10 ou plus) : 9m/unité",
       })
       .setFooter({
         text: "FrenchLegacy",
