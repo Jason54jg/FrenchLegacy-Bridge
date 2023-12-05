@@ -226,14 +226,14 @@ class DB {
   // Récuperer un giveaway
   async getGiveaway(id) {
     return await this.clientDb
-      .db("dev")
+        .db("dev")
       .collection("giveaway")
       .findOne({ _id: new ObjectId(id) });
   }
 
   async getGiveaways() {
     return await this.clientDb
-      .db("dev")
+        .db("dev")
       .collection("giveaway")
       .find()
       .toArray();
@@ -241,7 +241,7 @@ class DB {
 
   // Créer un giveaway
   async createGiveaway(name, channel, endDate, host, winners, roleRequired) {
-    const db = this.clientDb.db("dev");
+      const db = this.clientDb.db("dev");
     const newGiveaway = {
       name: name,
       channel: channel,
@@ -249,6 +249,7 @@ class DB {
       winners: winners,
       roleRequired: roleRequired,
       endDate: endDate,
+      isWaitingForReroll: false,
       participants: [],
     };
     return await db.collection("giveaway").insertOne(newGiveaway);
@@ -268,7 +269,7 @@ class DB {
     };
 
     await this.clientDb
-      .db("dev")
+        .db("dev")
       .collection("giveaway")
       .updateOne({ _id: new ObjectId(id) }, updatedGiveaway);
   }
@@ -276,16 +277,33 @@ class DB {
   // Verifier si le joueur participe au giveaway
   async isUserParticipatingToGiveaway(id, discordId) {
     const res = await this.clientDb
-      .db("dev")
+        .db("dev")
       .collection("giveaway")
       .findOne({ _id: new ObjectId(id), participants: discordId });
     return res != null;
   }
 
+  // Mettre le giveaway en attente de reroll
+  async setGiveawayRerollStatus(id, status) {
+      const giveaway = await this.getGiveaway(id);
+      if (giveaway == null) {
+          return;
+      }
+      const updatedGiveaway = {
+          $set: {
+              isWaitingForReroll: status,
+          },
+      };
+      await this.clientDb
+          .db("dev")
+          .collection("giveaway")
+          .updateOne({ _id: new ObjectId(id) }, updatedGiveaway);
+  }
+
   // Supprimer un giveaway
   deleteGiveaway(id) {
     this.clientDb
-      .db("dev")
+        .db("dev")
       .collection("giveaway")
       .findOneAndDelete({ _id: id });
   }

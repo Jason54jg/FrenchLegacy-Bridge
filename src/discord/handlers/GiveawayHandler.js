@@ -12,11 +12,12 @@ async function manageGiveaway(client) {
   const giveaways = await DB.getGiveaways();
 
   giveaways.forEach((giveaway) => {
-    if (new Date(giveaway.endDate).getTime() > Date.now()) {
+    if (new Date(giveaway.endDate).getTime() > Date.now() || giveaway.isWaitingForReroll) {
       return;
     }
-    // Supprimer le giveaway de la DB
-    DB.deleteGiveaway(giveaway._id);
+
+    // Passer le giveaway en attente de reroll
+    DB.setGiveawayRerollStatus(giveaway._id, true);
 
     // Réaliser le tirage
     let participants = giveaway.participants;
@@ -58,11 +59,15 @@ async function manageGiveaway(client) {
       embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents(
-          new ButtonBuilder()
-            .setCustomId(`giveawayWinInfo`)
-            .setLabel(`Que faire si j'ai gagné ?`)
-            .setStyle(ButtonStyle.Secondary),
-        ),
+            new ButtonBuilder()
+                .setCustomId(`giveawayWinInfo`)
+                .setLabel(`Que faire si j'ai gagné ?`)
+                .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
+                .setCustomId(`giveawayWinManage_${giveaway._id}`)
+                .setLabel(`Gérer le giveaway`)
+                .setStyle(ButtonStyle.Danger)
+          ),
       ],
     });
   });

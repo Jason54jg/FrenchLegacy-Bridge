@@ -26,6 +26,12 @@ module.exports = {
       required: true,
     },
     {
+      name: "channel",
+      description: "Le channel où se déroule le giveaway",
+      type: 7,
+      required: true,
+    },
+    {
       name: "gagnant",
       description: "Nombre de personnes pouvant gagner le giveaway",
       type: 4,
@@ -62,11 +68,15 @@ module.exports = {
     }
 
     const name = interaction.options.get("nom").value;
-    const channel = interaction.channelId;
+    const channel = interaction.options.get("channel").value;
     const host = interaction.options.get("host").value;
     const winners = interaction.options.get("gagnant").value;
     const date = interaction.options.get("date_de_fin").value;
-    const roleRequired = interaction.options.get("require").value;
+
+    let roleRequired = interaction.options.get("require");
+    if(roleRequired != null){
+        roleRequired = roleRequired.value;
+    }
 
     // Vérifier si la date renseignée est valide
     if (date.match(/(\d{2}\/){2}\d{4}(:\d{2}){2}/g).length == 0) {
@@ -102,6 +112,9 @@ module.exports = {
     }
     giveawayId = giveawayId.insertedId.toHexString();
 
+    const giveawayChannel = client.channels.cache.get(
+        channel
+    );
     // Préparation de l'embed du giveaway
     const giveawayEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
@@ -125,7 +138,7 @@ module.exports = {
         iconURL:
           "https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png",
       });
-    interaction.followUp({
+    giveawayChannel.send({
       embeds: [giveawayEmbed],
       components: [
         new ActionRowBuilder().addComponents(
@@ -140,5 +153,9 @@ module.exports = {
         ),
       ],
     });
+    interaction.followUp({
+        content: `Le giveaway a bien été crée dans le channel <#${channel}>`,
+        ephemeral: true
+    })
   },
 };
