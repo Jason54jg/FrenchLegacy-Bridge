@@ -30,7 +30,7 @@ module.exports = {
       // Gestion de la fin d'un giveaway
       if(interaction.customId.includes("giveawayWinManage_")) {
           const user = interaction.member;
-          if (user.roles.cache.has(config.discord.roles.adminRole) === false) {
+          if (user.roles.cache.has(config.discord.commands.adminRole) === false) {
               return await interaction.reply({
                   content: "Vous n'êtes pas autorisé à utiliser ce bouton",
                   ephemeral: true,
@@ -138,8 +138,21 @@ async function manageGiveawayButtons(interaction) {
       });
     }
 
+    // Calculer le nombre d'entrée a donner à l'utilisateur pour sa participation
+    const entryBoost = config.discord.giveaway.entryBoost;
+    const roles = Object.keys(entryBoost);
+    const entries = Object.values(entryBoost);
+
+    let userEntry = 1;
+    for(int i = 0 ; i < roles.length; i++) {
+        if(interaction.member.roles.cache.has(roles[i]) && entries[i] > userEntry){
+            userEntry = entries[i];
+        }
+    }
     // Ajouter l'utilisateur au giveaway
-    DB.registerUserToGiveaway(giveawayId, user);
+    for(int i = 0; i < userEntry; i++){
+        DB.registerUserToGiveaway(giveawayId, user);
+    }
 
     // Update des boutons
     let newActionRowEmbeds = interaction.message.components.map(
