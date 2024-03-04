@@ -72,8 +72,8 @@ dependencies:
     specifier: ^2.29.4
     version: 2.29.4
   moment-timezone:
-    specifier: ^0.5.43
-    version: 0.5.43
+    specifier: ^0.5.45
+    version: 0.5.45
   mongodb:
     specifier: ^6.4.0
     version: 6.4.0
@@ -2461,8 +2461,8 @@ packages:
       nearley: 2.20.1
     dev: false
 
-  /moment-timezone@0.5.43:
-    resolution: {integrity: sha512-72j3aNyuIsDxdF1i7CEgV2FfxM1r6aaqJyLB2vwb33mXYyoyLly+F1zbWqhA3/bVIoJ4szlUoMbUnVdid32NUQ==}
+  /moment-timezone@0.5.45:
+    resolution: {integrity: sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ==}
     dependencies:
       moment: 2.29.4
     dev: false
