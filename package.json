@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Jason54jg/FrenchLegacy-Bridge#readme",
   "dependencies": {
-    "@discordjs/rest": "^2.1.0",
+    "@discordjs/rest": "^2.2.0",
     "axios": "1.6.2",
     "bad-words": "^3.0.4",
     "canvas": "^2.11.2",
