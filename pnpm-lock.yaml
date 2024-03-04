@@ -51,8 +51,8 @@ dependencies:
     specifier: ^13.0.0
     version: 13.0.0
   hypixel-api-reborn:
-    specifier: ^11.0.1
-    version: 11.0.1
+    specifier: ^11.1.0
+    version: 11.1.0
   imgur:
     specifier: ^2.3.0
     version: 2.3.0
@@ -1862,8 +1862,8 @@ packages:
       - supports-color
     dev: false
 
-  /hypixel-api-reborn@11.0.1:
-    resolution: {integrity: sha512-ZwsogQVCQqpVldjQESgh1mGhCixDLpPzeifvxqV79D1DvvkIqAXs8bXFZUxlO1xBU5AZNsQTAISawWqCK/iQ1A==}
+  /hypixel-api-reborn@11.1.0:
+    resolution: {integrity: sha512-Gc6y/M0QaWN1qOkwCvy2eMQw0La+fr22UkfVYew5wBIYTuResQ4SXfdxpP+bl8m1sIalGIqCCoyqYQwZ/zZ0Qg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       node-fetch: 2.6.7
