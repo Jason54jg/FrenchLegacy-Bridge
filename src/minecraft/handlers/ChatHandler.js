@@ -218,7 +218,14 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
+      this.minecraft.broadcastMessage({ 
+        fullMessage:replaceVariables(messages.leaveMessage, { username }),
+        username:config.minecraft.bot.pseudo1,
+        message:replaceVariables(messages.leaveMessage, { username }),
+        guildRank:"GM",
+        chat:"Guild",
 
+      })
       return this.minecraft.broadcastHeadedEmbed({
         message: replaceVariables(messages.leaveMessage, { username }),
         title: `Membre à quitter`,
@@ -233,7 +240,14 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[0];
-
+        this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.kickMessage, { username }),
+          username:config.minecraft.bot.pseudo1,
+          message:replaceVariables(messages.kickMessage, { username }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastHeadedEmbed({
         message: replaceVariables(messages.kickMessage, { username }),
         title: `Membre expulsé`,
@@ -254,6 +268,20 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+      this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.promotionMessage, {
+            username,
+            rank,
+          }),
+          username:config.minecraft.bot.pseudo1,
+          message:replaceVariables(messages.promotionMessage, {
+            username,
+            rank,
+          }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastCleanEmbed({
         message: replaceVariables(messages.promotionMessage, {
           username,
@@ -275,6 +303,20 @@ class StateHandler extends eventHandler {
         .split(" to ")
         .pop()
         .trim();
+        this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.demotionMessage, {
+            username,
+            rank,
+          }),
+          username:config.minecraft.bot.pseudo1,
+          message: replaceVariables(messages.demotionMessage, {
+            username,
+            rank,
+          }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastCleanEmbed({
         message: replaceVariables(messages.demotionMessage, {
           username,
@@ -437,6 +479,20 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[5];
+      this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.userMuteMessage, {
+            username,
+            time,
+          }),
+          username:config.minecraft.bot.pseudo1,
+          message: replaceVariables(messages.userMuteMessage, {
+            username,
+            time,
+          }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastCleanEmbed({
         message: replaceVariables(messages.userMuteMessage, {
           username,
@@ -452,6 +508,18 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[3];
+      this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.userUnmuteMessage, {
+            username,
+          }),
+          username:config.minecraft.bot.pseudo1,
+          message: replaceVariables(messages.userUnmuteMessage, {
+            username,
+          }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastCleanEmbed({
         message: replaceVariables(messages.userUnmuteMessage, {
           username,
@@ -476,6 +544,14 @@ class StateHandler extends eventHandler {
         color: 15844367,
         channel: "Guild",
       });
+      this.minecraft.broadcastMessage({ 
+        fullMessage:message,
+        username:config.minecraft.bot.pseudo1,
+        message: message,
+        guildRank:"GM",
+        chat:"Guild",
+
+      })
     }
 
     if (this.isAlreadyMuted(message)) {
@@ -542,6 +618,14 @@ class StateHandler extends eventHandler {
         .replace(/\[(.*?)\]/g, "")
         .trim()
         .split(/ +/g)[5];
+      this.minecraft.broadcastMessage({ 
+          fullMessage:replaceVariables(messages.guildLevelUpMessage, { level }),
+          username:config.minecraft.bot.pseudo1,
+          message: replaceVariables(messages.guildLevelUpMessage, { level }),
+          guildRank:"GM",
+          chat:"Guild",
+  
+        })
       return this.minecraft.broadcastCleanEmbed({
         message: replaceVariables(messages.guildLevelUpMessage, { level }),
         color: 16766720,
