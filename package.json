@@ -44,7 +44,7 @@
     "express-rate-limit": "^7.1.4",
     "fs": "^0.0.1-security",
     "fs-promise": "^2.0.3",
-    "got": "^13.0.0",
+    "got": "^14.2.1",
     "hypixel-api-reborn": "^11.1.0",
     "imgur": "^2.3.0",
     "lilyweight": "^2.7.2",
