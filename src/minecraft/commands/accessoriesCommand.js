@@ -10,7 +10,7 @@ class AccessoriesCommand extends minecraftCommand {
     super(minecraft);
 
     this.name = "accessories";
-    this.aliases = ["acc", "talismans", "talisman"];
+    this.aliases = ["acc", "talismans", "talisman", "mp", "magicpower"];
     this.description = "Accessoires de l'utilisateur spécifié.";
     this.options = [
       {
@@ -27,12 +27,20 @@ class AccessoriesCommand extends minecraftCommand {
 
       const data = await getLatestProfile(username);
 
+      if (
+          data.profile.inventory?.bag_contents?.talisman_bag.data == undefined &&
+          data.profile.inventory?.inv_contents?.data == null
+      ) {
+        // eslint-disable-next-line no-throw-literal
+        throw `${username} l'API d'inventaire est désactivée.`;
+      }
+
       username = formatUsername(username, data.profileData?.game_mode);
 
       const talismans = await getTalismans(data.profile);
       const rarities = Object.keys(talismans)
         .map((key) => {
-          if (["recombed", "enriched", "total"].includes(key)) return;
+          if (["recombed", "enriched", "total", "magicPower", "power", "names"].includes(key)) return;
 
           return [`${talismans[key]}${key[0].toUpperCase()}`];
         })
@@ -42,9 +50,8 @@ class AccessoriesCommand extends minecraftCommand {
       this.send(
         `/gc Accessoires de ${username}: ${
           talismans?.total ?? 0
-        } (${rarities}), Recombed: ${talismans?.recombed ?? 0}, Enriched: ${
-          talismans?.enriched ?? 0
-        }`,
+        } (${rarities}), Recombed: ${talismans?.recombed ?? 0
+        }, Enriched: ${talismans?.enriched ?? 0} | Reforge: ${talismans.power} | Magic Power: ${talismans.magicPower}`,
       );
     } catch (error) {
       this.send(`/gc Erreur: ${error}`);

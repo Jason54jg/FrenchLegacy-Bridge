@@ -58,12 +58,13 @@ class RenderCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (profile.profile?.inv_contents?.data === undefined) {
-        return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
+      if (profile.profile.inventory?.inv_contents?.data === undefined) {
+        // eslint-disable-next-line no-throw-literal
+        throw `${username} l'API d'inventaire est désactivée.`;
       }
 
       const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inv_contents.data, "base64"),
+          Buffer.from(profile.profile.inventory?.inv_contents?.data, "base64"),
       );
 
       if (

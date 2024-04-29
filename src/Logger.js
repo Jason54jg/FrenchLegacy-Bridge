@@ -1,64 +1,75 @@
-async function chalk() {
-  return (await import("chalk")).default;
-}
+const chalk = require("chalk");
 
 async function discordMessage(message) {
-  return console.log(
-    (await chalk()).bgMagenta.black(`[${await getCurrentTime()}] Discord >`) +
-      " " +
-      (await chalk()).magenta(message),
-  );
+  return console.log(chalk.bgMagenta.black(`[${await getCurrentTime()}] Discord >`) + " " + chalk.magenta(message));
 }
 
 async function minecraftMessage(message) {
   return console.log(
-    (await chalk()).bgGreenBright.black(
-      `[${await getCurrentTime()}] Minecraft >`,
-    ) +
-      " " +
-      (await chalk()).greenBright(message),
+      chalk.bgGreenBright.black(`[${await getCurrentTime()}] Minecraft >`) + " " + chalk.greenBright(message),
   );
+}
+
+async function webMessage(message) {
+  return console.log(chalk.bgCyan.black(`[${await getCurrentTime()}] Web >`) + " " + chalk.cyan(message));
 }
 
 async function warnMessage(message) {
-  return console.log(
-    (await chalk()).bgYellow.black(`[${await getCurrentTime()}] Warning >`) +
-      " " +
-      (await chalk()).yellow(message),
-  );
+  return console.log(chalk.bgYellow.black(`[${await getCurrentTime()}] Warning >`) + " " + chalk.yellow(message));
 }
 
 async function errorMessage(message) {
-  return console.log(
-    (await chalk()).bgRedBright.black(`[${await getCurrentTime()}] Error >`) +
-      " " +
-      (await chalk()).redBright(message),
-  );
+  return console.log(chalk.bgRedBright.black(`[${await getCurrentTime()}] Error >`) + " " + chalk.redBright(message));
 }
 
 async function broadcastMessage(message, location) {
-  return console.log(
-    (await chalk()).inverse(
-      `[${await getCurrentTime()}] ${location} Broadcast >`,
-    ) +
-      " " +
-      message,
-  );
+  return console.log(chalk.inverse(`[${await getCurrentTime()}] ${location} Broadcast >`) + " " + message);
 }
 
 async function getCurrentTime() {
-  return new Date().toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+async function configUpdateMessage(message) {
+  const columns = process.stdout.columns;
+  const warning = "IMPORTANT!";
+  const message2 = "Veuillez mettre à jour votre fichier de configuration!";
+  const padding = " ".repeat(Math.floor((columns - warning.length + 1) / 2));
+  const padding2 = " ".repeat(Math.floor((columns - message2.length + 1) / 2));
+
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
+  console.log(chalk.bgRed.black(padding + warning + padding));
+  console.log(chalk.bgRed.black(padding2 + message2 + padding2));
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
+  console.log();
+  console.log(
+      `${chalk.bgRedBright.black(`[${await getCurrentTime()}] Config Update >`)} ${chalk.redBright("Added")} ${chalk.gray(
+          message,
+      )} ${chalk.redBright("to config.json")}`,
+  );
+}
+
+async function updateMessage() {
+  const columns = process.stdout.columns;
+  const warning = "IMPORTANT!";
+  const message2 = "Le bot a été mis à jour, veuillez redémarrer le bot pour appliquer les modifications!";
+  const padding = " ".repeat(Math.floor((columns - warning.length + 1) / 2));
+  const padding2 = " ".repeat(Math.floor((columns - message2.length + 1) / 2));
+
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
+  console.log(chalk.bgRed.black(padding + warning + padding));
+  console.log(chalk.bgRed.black(padding2 + message2 + padding2));
+  console.log(chalk.bgRed.black(" ".repeat(columns).repeat(3)));
 }
 
 module.exports = {
   discordMessage,
   minecraftMessage,
+  webMessage,
   warnMessage,
   errorMessage,
   broadcastMessage,
   getCurrentTime,
+  configUpdateMessage,
+  updateMessage,
 };

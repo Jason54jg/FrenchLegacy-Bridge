@@ -15,7 +15,7 @@ module.exports = {
   execute: async (interaction, client, InteractionCreate) => {
     let key = interaction.options.getString("key");
 
-    const response = await axios.get(`https://api.hypixel.net/key?key=${key}`);
+    const response = await axios.get(`https://api.hypixel.net/v2/key?key=${key}`);
     const data = response.data.record;
     const keye = data.key;
     const owner = data.owner;

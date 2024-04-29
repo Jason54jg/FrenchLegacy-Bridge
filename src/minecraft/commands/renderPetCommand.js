@@ -37,6 +37,10 @@ class RenderCommand extends minecraftCommand {
 
       const profile = getPets(data.profile);
 
+      if (profile.length === 0) {
+        return this.send(`/gc ${username} n'a pas d'animaux de compagnie.`);
+      }
+
       const pet = profile.pets.find((pet) => pet.active === true);
 
       if (pet === undefined) {

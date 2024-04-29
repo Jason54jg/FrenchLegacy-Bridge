@@ -34,7 +34,7 @@
     "axios": "1.6.2",
     "bad-words": "^3.0.4",
     "canvas": "^2.11.2",
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.0",
     "cheerio": "1.0.0-rc.12",
     "discord-api-types": "^0.37.82",
     "discord-emoji-converter": "^1.2.8",
@@ -58,9 +58,10 @@
     "node-schedule": "^2.1.1",
     "prismarine-nbt": "^2.2.1",
     "request": "^2.88.2",
-    "skyhelper-networth": "1.17.5",
+    "skyhelper-networth": "1.18.7",
     "sourcebin_js": "^0.0.3-ignore",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

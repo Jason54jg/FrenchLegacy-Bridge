@@ -132,7 +132,9 @@
       "messageMode": "webhook",
       "messageFormat": "{chatType} > {skin} {rank} {username} {guildRank}§f: {message}",
       "filterMessages": true,
-      "joinMessage": false
+      "filterWords": ["dox", "doxx", "doxed", "doxxed", "doxing", "doxxing", "doxes", "doxxes"],
+      "joinMessage": false,
+      "logToFiles": true
     }
   },
   "database": {

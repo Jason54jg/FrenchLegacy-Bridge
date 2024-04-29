@@ -33,12 +33,12 @@ class EquipmentCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (profile.profile?.equippment_contents?.data === undefined) {
+      if (profile.profile.inventory?.equipment_contents?.data === undefined) {
         return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
       }
 
       const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.equippment_contents.data, "base64"),
+          Buffer.from(profile.profile.inventory?.equipment_contents?.data, "base64"),
       );
 
       let response = "";

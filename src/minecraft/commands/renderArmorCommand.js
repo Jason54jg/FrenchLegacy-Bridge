@@ -35,13 +35,11 @@ class ArmorCommand extends minecraftCommand {
 
       username = formatUsername(username, profile.profileData?.game_mode);
 
-      if (profile.profile.inv_armor?.data === undefined) {
+      if (profile.profile.inventory?.inv_armor?.data === undefined) {
         return this.send(`/gc Ce joueur a une API d'inventaire désactivée.`);
       }
 
-      const { i: inventoryData } = await decodeData(
-        Buffer.from(profile.profile.inv_armor.data, "base64"),
-      );
+      const { i: inventoryData } = await decodeData(Buffer.from(profile.profile.inventory.inv_armor.data, "base64"));
 
       if (
         inventoryData === undefined ||

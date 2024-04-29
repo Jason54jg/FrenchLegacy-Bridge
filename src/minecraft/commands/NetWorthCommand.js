@@ -35,7 +35,12 @@ class NetWorthCommand extends minecraftCommand {
       const profile = await getNetworth(
         data.profile,
         data.profileData?.banking?.balance || 0,
-        { cache: true, onlyNetworth: true, museumData: data.museum },
+        {
+          museumData: data.museum,
+          onlyNetworth: true,
+          v2Endpoint: true,
+          cache: true,
+        },
       );
 
       if (profile.noInventory === true) {

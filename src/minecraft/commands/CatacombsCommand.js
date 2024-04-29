@@ -33,7 +33,7 @@ class CatacombsCommand extends minecraftCommand {
 
       username = formatUsername(username, data.profileData?.game_mode);
 
-      const dungeons = getDungeons(data.playerRes, data.profile);
+      const dungeons = getDungeons(data.profile);
 
       if (dungeons == null) {
         throw `${username} n'a jamais joué aux donjons sur ${data.profileData.cute_name}.`;
@@ -57,9 +57,7 @@ class CatacombsCommand extends minecraftCommand {
       const SR = isNaN(SRValue) || SRValue === Infinity ? 0 : SRValue.toFixed(2);
 
       this.send(
-        `/gc Catacombes de ${username}: ${level} | Class Average: ${classAvrg} (${
-          dungeons.classes.healer.level
-        }H, ${dungeons.classes.mage.level}M, ${
+          `/gc Catacombes de ${username}: ${level} | Selected Class: ${dungeons.selected_class} | Class Average: ${classAvrg} (${dungeons.classes.healer.level}H, ${dungeons.classes.mage.level}M, ${
           dungeons.classes.berserk.level
         }B, ${dungeons.classes.archer.level}A, ${
           dungeons.classes.tank.level

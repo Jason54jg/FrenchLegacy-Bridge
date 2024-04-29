@@ -76,7 +76,7 @@ module.exports = {
       .catch((error) => {
         const errorEmbed = new EmbedBuilder()
           .setAuthor({ name: "Une erreur est survenue" })
-          .setDescription(`\`${error}\``)
+          .setDescription(error)
           .setFooter({
             text: `${messages.footerhelp}`,
             iconURL: `https://media.discordapp.net/attachments/1073744026454466600/1076983462403264642/icon_FL_finale.png`,

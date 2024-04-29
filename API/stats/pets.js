@@ -1,11 +1,5 @@
 // CREDIT: https://github.com/SkyCryptWebsite/SkyCrypt/ (Modified)
-const {
-  titleCase,
-  capitalize,
-  renderLore,
-  formatNumber,
-} = require("../constants/functions.js");
-// eslint-disable-next-line
+const { titleCase, capitalize, renderLore, formatNumber } = require("../constants/functions.js");
 const { pet_skins } = require("../constants/skins.js");
 const constants = require("../constants/pets.js");
 
@@ -25,9 +19,10 @@ const rarities = [
 module.exports = (profile) => {
   let output = [];
 
-  if (!("pets" in profile)) return output;
+  if (!("pets_data" in profile)) return output;
+  if (!("pets" in profile.pets_data)) return output;
 
-  for (const pet of profile.pets) {
+  for (const pet of profile.pets_data.pets) {
     if (!("tier" in pet)) {
       continue;
     }
@@ -46,31 +41,19 @@ module.exports = (profile) => {
     pet.ignoresTierBoost = petData.ignoresTierBoost;
     const lore = [];
     const petName =
-      petData.hatching?.level > pet.level
-        ? petData.hatching.name
-        : petData.name
-        ? petData.name[pet.rarity] ?? petData.name.default
-        : titleCase(pet.type.replaceAll("_", " "));
+        petData.hatching?.level > pet.level
+            ? petData.hatching.name
+            : petData.name
+                ? petData.name[pet.rarity] ?? petData.name.default
+                : titleCase(pet.type.replaceAll("_", " "));
 
     // Rarity upgrades
     if (pet.heldItem == "PET_ITEM_TIER_BOOST" && !pet.ignoresTierBoost) {
-      pet.rarity =
-        rarities[
-          Math.min(
-            rarities.indexOf(petData.maxTier),
-            rarities.indexOf(pet.rarity) + 1,
-          )
-        ];
+      pet.rarity = rarities[Math.min(rarities.indexOf(petData.maxTier), rarities.indexOf(pet.rarity) + 1)];
     }
 
-    if (
-      pet.heldItem == "PET_ITEM_VAMPIRE_FANG" ||
-      pet.heldItem == "PET_ITEM_TOY_JERRY"
-    ) {
-      if (
-        rarities.indexOf(pet.rarity) ===
-        rarities.indexOf(petData.maxTier) - 1
-      ) {
+    if (pet.heldItem == "PET_ITEM_VAMPIRE_FANG" || pet.heldItem == "PET_ITEM_TOY_JERRY") {
+      if (rarities.indexOf(pet.rarity) === rarities.indexOf(petData.maxTier) - 1) {
         pet.rarity = petData.maxTier;
       }
     }
@@ -78,8 +61,7 @@ module.exports = (profile) => {
     // Get texture
     if (typeof petData.head === "object") {
       pet.texture_path =
-        `https://sky.shiiyu.moe${petData.head[pet.rarity]}` ??
-        `https://sky.shiiyu.moe${petData.head.default}`;
+          `https://sky.shiiyu.moe${petData.head[pet.rarity]}` ?? `https://sky.shiiyu.moe${petData.head.default}`;
     } else {
       pet.texture_path = `https://sky.shiiyu.moe${petData.head}`;
     }
@@ -90,16 +72,10 @@ module.exports = (profile) => {
 
     let petSkin = null;
     if (pet.skin && pet_skins?.[`PET_SKIN_${pet.skin}`]) {
-      pet.texture_path = `https://sky.shiiyu.moe${
-        pet_skins[`PET_SKIN_${pet.skin}`].texture
-      }`;
+      pet.texture_path = `https://sky.shiiyu.moe${pet_skins[`PET_SKIN_${pet.skin}`].texture}`;
       petSkin = pet_skins[`PET_SKIN_${pet.skin}`].name;
     }
-    const levelData = getPetLevel(
-      pet.exp,
-      petData.customLevelExpRarityOffset ?? pet.rarity,
-      petData.maxLevel,
-    );
+    const levelData = getPetLevel(pet.exp, petData.customLevelExpRarityOffset ?? pet.rarity, petData.maxLevel);
 
     pet.name = `[Lvl ${levelData[0]}] ${petName}${petSkin ? " ✦" : ""}`;
 
@@ -117,11 +93,7 @@ module.exports = (profile) => {
     if (petData.type === "all") {
       loreFirstRow.push("All Skills");
     } else {
-      loreFirstRow.push(
-        capitalize(petData.type),
-        " ",
-        petData.category ?? "Pet",
-      );
+      loreFirstRow.push(capitalize(petData.type), " ", petData.category ?? "Pet");
 
       if (petData.obtainsExp === "feed") {
         loreFirstRow.push(", feed to gain XP");
@@ -137,11 +109,7 @@ module.exports = (profile) => {
     const rarity = rarities.indexOf(pet.rarity);
 
     const searchName = pet.type in constants.petStats ? pet.type : "???";
-    const petInstance = new constants.petStats[searchName](
-      rarity,
-      pet.level,
-      pet.extra,
-    );
+    const petInstance = new constants.petStats[searchName](rarity, pet.level, pet.extra);
     pet.stats = Object.assign({}, petInstance.stats);
     pet.ref = petInstance;
 
@@ -151,19 +119,14 @@ module.exports = (profile) => {
 
       if (heldItem in constants.pet_items) {
         for (const stat in constants.pet_items[heldItem]?.stats) {
-          pet.stats[stat] =
-            (pet.stats[stat] || 0) + constants.pet_items[heldItem].stats[stat];
+          pet.stats[stat] = (pet.stats[stat] || 0) + constants.pet_items[heldItem].stats[stat];
         }
         for (const stat in constants.pet_items[heldItem]?.statsPerLevel) {
-          pet.stats[stat] =
-            (pet.stats[stat] || 0) +
-            constants.pet_items[heldItem].statsPerLevel[stat] * pet.level;
+          pet.stats[stat] = (pet.stats[stat] || 0) + constants.pet_items[heldItem].statsPerLevel[stat] * pet.level;
         }
         for (const stat in constants.pet_items[heldItem]?.multStats) {
           if (pet.stats[stat]) {
-            pet.stats[stat] =
-              (pet.stats[stat] || 0) *
-              constants.pet_items[heldItem].multStats[stat];
+            pet.stats[stat] = (pet.stats[stat] || 0) * constants.pet_items[heldItem].multStats[stat];
           }
         }
         if ("multAllStats" in constants.pet_items[heldItem]) {
@@ -192,12 +155,7 @@ module.exports = (profile) => {
       if (!heldItemObj) {
         heldItemObj = constants.pet_items[heldItem];
       }
-      lore.push(
-        "",
-        `§6Held Item: §${
-          constants.rarityColors[heldItemObj.tier.toLowerCase()]
-        }${heldItemObj.name}`,
-      );
+      lore.push("", `§6Held Item: §${constants.rarityColors[heldItemObj.tier.toLowerCase()]}${heldItemObj.name}`);
 
       if (heldItem in constants.pet_items) {
         lore.push(constants.pet_items[heldItem].description);
@@ -225,10 +183,7 @@ module.exports = (profile) => {
 
     // passive perks text
     if (petData.passivePerks) {
-      lore.push(
-        "§8This pet's perks are active even when the pet is not summoned!",
-        "",
-      );
+      lore.push("§8This pet's perks are active even when the pet is not summoned!", "");
     }
 
     // always gains exp text
@@ -236,40 +191,27 @@ module.exports = (profile) => {
       lore.push("§8This pet gains XP even when not summoned!", "");
 
       if (typeof petData.alwaysGainsExp === "string") {
-        lore.push(
-          `§8This pet only gains XP on the ${petData.alwaysGainsExp}§8!`,
-          "",
-        );
+        lore.push(`§8This pet only gains XP on the ${petData.alwaysGainsExp}§8!`, "");
       }
     }
 
     if (pet.level < petData.maxLevel) {
-      lore.push(
-        `§7Progress to Level ${pet.level + 1}: §e${(pet.progress * 100).toFixed(
-          1,
-        )}%`,
-      );
+      lore.push(`§7Progress to Level ${pet.level + 1}: §e${(pet.progress * 100).toFixed(1)}%`);
 
       const progress = Math.ceil(pet.progress * 20);
       const numerator = pet.xpCurrent.toLocaleString();
       const denominator = formatNumber(pet.xpForNext, false, 10);
 
-      lore.push(
-        `§2${"-".repeat(progress)}§f${"-".repeat(
-          20 - progress,
-        )} §e${numerator} §6/ §e${denominator}`,
-      );
+      lore.push(`§2${"-".repeat(progress)}§f${"-".repeat(20 - progress)} §e${numerator} §6/ §e${denominator}`);
     } else {
       lore.push("§bMAX LEVEL");
     }
 
     lore.push(
-      "",
-      `§7Total XP: §e${formatNumber(pet.exp, true, 10)} §6/ §e${formatNumber(
-        pet.xpMaxLevel,
-        true,
-        10,
-      )} §6(${Math.floor((pet.exp / pet.xpMaxLevel) * 100)}%)`,
+        "",
+        `§7Total XP: §e${formatNumber(pet.exp, true, 10)} §6/ §e${formatNumber(pet.xpMaxLevel, true, 10)} §6(${Math.floor(
+            (pet.exp / pet.xpMaxLevel) * 100,
+        )}%)`,
     );
 
     if (petData.obtainsExp !== "feed") {
@@ -298,14 +240,14 @@ module.exports = (profile) => {
           return a.level.level > b.level.level ? -1 : 1;
         } else {
           let maxPetA = output
-            .filter((x) => x.type == a.type && x.rarity == a.rarity)
-            .sort((x, y) => y.level.level - x.level.level);
+              .filter((x) => x.type == a.type && x.rarity == a.rarity)
+              .sort((x, y) => y.level.level - x.level.level);
 
           maxPetA = maxPetA.length > 0 ? maxPetA[0].level.level : null;
 
           let maxPetB = output
-            .filter((x) => x.type == b.type && x.rarity == b.rarity)
-            .sort((x, y) => y.level.level - x.level.level);
+              .filter((x) => x.type == b.type && x.rarity == b.rarity)
+              .sort((x, y) => y.level.level - x.level.level);
 
           maxPetB = maxPetB.length > 0 ? maxPetB[0].level.level : null;
 
@@ -331,10 +273,7 @@ module.exports = (profile) => {
 
 function getPetLevel(petExp, offsetRarity, maxLevel) {
   const rarityOffset = constants.PET_RARITY_OFFSET[offsetRarity];
-  const levels = constants.PET_LEVELS.slice(
-    rarityOffset,
-    rarityOffset + maxLevel - 1,
-  );
+  const levels = constants.PET_LEVELS.slice(rarityOffset, rarityOffset + maxLevel - 1);
 
   const xpMaxLevel = levels.reduce((a, b) => a + b, 0);
   let xpTotal = 0;

@@ -1,11 +1,11 @@
-const config = require("../../../config.json");
 const { addCommas, timeSince } = require("../../contracts/helperFunctions.js");
 const minecraftCommand = require("../../contracts/minecraftCommand.js");
+const { uploadImage } = require("../../contracts/API/imgurAPI.js");
+const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
 const { renderLore } = require("../../contracts/renderItem.js");
 const getRank = require("../../../API/stats/rank.js");
+const config = require("../../../config.json");
 const axios = require("axios");
-const { getUUID } = require("../../contracts/API/PlayerDBAPI.js");
-const { uploadImage } = require("../../contracts/API/imgurAPI.js");
 
 class AuctionHouseCommand extends minecraftCommand {
   constructor(minecraft) {
@@ -32,12 +32,8 @@ class AuctionHouseCommand extends minecraftCommand {
 
       const { hypixelAPIkey } = config.minecraft.API;
       const [auctionResponse, playerResponse] = await Promise.all([
-        axios.get(
-          `https://api.hypixel.net/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`,
-        ),
-        axios.get(
-          `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${uuid}`,
-        ),
+        axios.get(`https://api.hypixel.net/v2/skyblock/auction?key=${hypixelAPIkey}&player=${uuid}`),
+        axios.get(`https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${uuid}`),
       ]);
 
       const auctions = auctionResponse.data?.auctions || [];
@@ -69,7 +65,7 @@ class AuctionHouseCommand extends minecraftCommand {
             const bidderUUID = auction.bids[auction.bids.length - 1].bidder;
 
             const bidderResponse = await axios.get(
-              `https://api.hypixel.net/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`,
+                `https://api.hypixel.net/v2/player?key=${hypixelAPIkey}&uuid=${bidderUUID}`,
             );
 
             const bidder = bidderResponse.data?.player || {};
