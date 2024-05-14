@@ -241,7 +241,7 @@ Si vous pensez que ce format de message est ennuyeux, vous pouvez consulter mon 
 - [DawJaw](https://dawjaw.net/jacobs)
 - [Hypixel API Reborn](https://hypixel.stavzdev.me/#/)
 - [Hypixel Network API](http://api.hypixel.net/)
-- [PlayerDB API](https://playerdb.co/)
+- [Mowojang API](https://mowojang.matdoes.dev/)
 - [SkyHelper API](https://github.com/Altpapier/SkyHelperAPI)
 - [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt)
 - [Senither](https://github.com/Senither)

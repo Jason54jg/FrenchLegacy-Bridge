@@ -61,8 +61,8 @@
       "usernameBot": "",
       "clientID": "238809504374980618",
       "serverID": "1084606312257683497",
-      "tag": "flv1",
-      "tag2": "flv2",
+      "tag": "[FLV1]",
+      "tag2": "[FLV2]",
       "webhookid": "1074341327216574514"
     },
     "channels": {
@@ -136,6 +136,9 @@
       "joinMessage": false,
       "logToFiles": true
     }
+  },
+  "other": {
+    "logToFiles": true
   },
   "database": {
     "uri": ""
