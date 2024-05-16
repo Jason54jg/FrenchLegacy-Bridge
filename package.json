@@ -36,7 +36,7 @@
     "canvas": "^2.11.2",
     "chalk": "^4.1.0",
     "cheerio": "1.0.0-rc.12",
-    "discord-api-types": "^0.37.82",
+    "discord-api-types": "^0.37.84",
     "discord-emoji-converter": "^1.2.8",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
