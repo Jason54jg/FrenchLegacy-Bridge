@@ -11,9 +11,9 @@ function getSkyblockCalendar() {
       false,
     );
 
-    return { status: 200, data: calendar };
+    return calendar;
   } catch (error) {
-    return { status: 404, reason: error };
+    return null;
   }
 }
 

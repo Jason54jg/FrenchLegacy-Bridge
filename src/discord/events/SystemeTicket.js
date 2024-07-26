@@ -102,12 +102,6 @@ module.exports = {
         ViewChannel: false,
       });
     } else if (interaction.customId.includes("carry")) {
-      if (DejaUnChannel)
-        return interaction.reply({
-          content: "Vous avez déja un ticket d'ouvert sur le serveur.",
-          ephemeral: true,
-        });
-
       const modal = new ModalBuilder()
         .setCustomId(interaction.customId.split("-")[1])
         .setTitle("Combien de carry devez-vous effectuer ?");

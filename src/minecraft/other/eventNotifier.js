@@ -14,8 +14,9 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
     try {
       const eventBOT = new minecraftCommand(bot);
       const EVENTS = getSkyblockCalendar();
-      for (const event in EVENTS.data.events) {
-        const eventData = EVENTS.data.events[event];
+
+      for (const event in EVENTS.events) {
+        const eventData = EVENTS.events[event];
         if (notifiers[event] === false) {
           continue;
         }
@@ -34,9 +35,7 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
             "https://dawjaw.net/jacobs",
           );
           const jacobCrops = jacobResponse.find(
-            (crop) =>
-              crop.time >=
-              Math.floor(eventData.events[0].start_timestamp / 1000),
+            (crop) => crop.time >= Math.floor(eventData.events[0].start_timestamp / 1000)
           );
 
           if (jacobCrops?.crops !== undefined) {
@@ -45,14 +44,12 @@ if (config.minecraft.skyblockEventsNotifications.enabled) {
         }
         const cTime = getCustomTime(customTime, event);
         if (cTime.length !== 0 && cTime.includes(minutes.toString())) {
-          eventBOT.send(
-            `/gc [EVENT] ${eventData.name}${extraInfo}: ${minutes}m`,
-          );
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: à partir de ${minutes}m!`);
           await delay(1500);
         }
 
         if (minutes == 0) {
-          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: NOW`);
+          eventBOT.send(`/gc [EVENT] ${eventData.name}${extraInfo}: à partir de maintenant!`);
           await delay(1500);
         }
       }

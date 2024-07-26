@@ -42,7 +42,8 @@
         "NEW_YEAR_CELEBRATION": true,
         "SEASON_OF_JERRY": true,
         "SPOOKY_FESTIVAL": true,
-        "TRAVELING_ZOO": true
+        "TRAVELING_ZOO": true,
+        "HOPPITY_HUNT": true
       },
       "customTime": {
         "2": ["BANK_INTEREST", "DARK_AUCTION", "JACOBS_CONTEST"]
@@ -92,6 +93,7 @@
       "logChannelTicket": "",
       "logChannelDefaultService": "",
       "logChannelCarrierService": "",
+      "logChannelCandidatureService": "",
       "catégorieslayer": "",
       "catégoriefloor": "",
       "catégoriemaster": "",
@@ -138,7 +140,8 @@
     }
   },
   "other": {
-    "logToFiles": true
+    "logToFiles": true,
+    "autoLimbo": true
   },
   "database": {
     "uri": ""
